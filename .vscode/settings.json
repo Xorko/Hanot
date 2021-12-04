@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
