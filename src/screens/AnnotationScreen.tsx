@@ -8,7 +8,7 @@ function AnnotationScreen({navigation}: AnnotationScreenProps) {
   return (
     <View style={styles.center}>
       <Button
-        onPress={() => navigation.navigate({key: 'FileSelection'})}
+        onPress={() => navigation.navigate('File Selection')}
         title="Go to file selection"
       />
     </View>
