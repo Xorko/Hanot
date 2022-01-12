@@ -1,4 +1,4 @@
-const path = import('path');
+const path = require('path');
 
 module.exports = {
   process: (_, filename) =>
