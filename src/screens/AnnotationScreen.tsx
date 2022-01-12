@@ -1,26 +1,20 @@
-import {DrawerScreenProps} from '@react-navigation/drawer';
-import {Button, StyleSheet, View} from 'react-native';
-import {DrawerParamList} from '../App';
+import {StyleSheet, View} from 'react-native';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
-type AnnotationScreenProps = DrawerScreenProps<DrawerParamList, 'Annotation'>;
-
-function AnnotationScreen({navigation}: AnnotationScreenProps) {
+function AnnotationScreen() {
   return (
-    <View style={styles.center}>
-      <Button
-        onPress={() => navigation.navigate('File Selection')}
-        title="Go to file selection"
-      />
+    <View style={styles.annotation}>
+      <Header />
+      <Footer />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
+  annotation: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
 });
-
 export default AnnotationScreen;

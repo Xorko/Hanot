@@ -1,26 +1,31 @@
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-} from '@react-navigation/native';
-import React from 'react';
-import {useColorScheme} from 'react-native';
+/*
+  background: #141A32
+  blue: #3E65FB
+  whity-grey: #D2D2D7
+  light-blue: #809CF5
+  primary: #5A6583
+  card: #212B4E
+*/
+
+import {StyleSheet, View} from 'react-native';
 import AnnotationScreen from './screens/AnnotationScreen';
-import FileSelectionScreen from './screens/FileSelectionScreen';
 
 export type DrawerParamList = {
   Annotation: undefined;
   'File Selection': undefined;
 };
 
-const Drawer = createDrawerNavigator<DrawerParamList>();
+//const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  //const isDarkMode = useColorScheme();
 
   return (
-    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
+    <View style={styles.view}>
+      <AnnotationScreen />
+    </View>
+
+    /*<NavigationContainer theme={isDarkMode ? MyTheme : DefaultTheme}>
       <Drawer.Navigator initialRouteName="Annotation">
         <Drawer.Screen
           name="Annotation"
@@ -33,8 +38,28 @@ function App() {
           component={FileSelectionScreen}
         />
       </Drawer.Navigator>
-    </NavigationContainer>
+    </NavigationContainer>*/
   );
 }
+
+/*const MyTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: '#141A32',
+    primary: '#809CF5',
+    card: '#212B4E',
+    text: '#D2D2D7',
+    border: '#3E65FB',
+  },
+};*/
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    backgroundColor: '#141A32',
+    color: '#D2D2D7',
+  },
+});
 
 export default App;
