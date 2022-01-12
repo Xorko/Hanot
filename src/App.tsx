@@ -26,6 +26,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {NavigationContainer} from '@react-navigation/native';
+import {Column} from './App2';
 
 // *****************************************************************************************************
 // This pasted directly in from this file upstream
@@ -77,6 +78,9 @@ const App = () => {
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
+        <Section title="Test">
+          <Column />
+        </Section>
         <Section title="Step One">
           Edit <Text style={styles.highlight}>App.tsx</Text> to change this
           screen and then come back to see your edits.
