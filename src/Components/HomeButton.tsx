@@ -12,8 +12,8 @@ function HomeButton() {
 
 const styles = StyleSheet.create({
   button: {
-    marginBottom: '1%',
-    marginTop: '1%',
+    marginBottom: '0.7%',
+    marginTop: '0.7%',
     marginRight: '2%',
     alignSelf: 'flex-end',
     backgroundColor: '#3E65FB',

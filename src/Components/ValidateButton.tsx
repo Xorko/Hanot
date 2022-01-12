@@ -1,14 +1,45 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Animated, StyleSheet, Text} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 function ValidateButton() {
+  const animatedButtonScale = new Animated.Value(1);
+
+  const onPressIn = () => {
+    Animated.spring(animatedButtonScale, {
+      toValue: 1.3,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(animatedButtonScale, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const animatedScaleStyle = {
+    transform: [{scale: animatedButtonScale}],
+  };
+
   return (
-    <TouchableOpacity style={styles.button}>
-      <Text style={styles.text}> ✅ VALIDER </Text>
-    </TouchableOpacity>
+    <TouchableWithoutFeedback
+      onPress={() => {}}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
+      /* style={styles.test} */
+    >
+      <Animated.View style={[styles.button, animatedScaleStyle]}>
+        <Text style={styles.text}> ✅ VALIDER </Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  /* test: {
+    backgroundColor: 'white',
+  }, */
   button: {
     marginBottom: '2%',
     marginRight: '2%',
