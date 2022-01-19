@@ -11,7 +11,10 @@ function Header() {
 
 const styles = StyleSheet.create({
   view: {
-    backgroundColor: '#212B4E',
+    backgroundColor: '#c7ecee',
+    borderRadius: 15,
+    marginTop: '20px',
+    marginHorizontal: '20px',
   },
 });
 
