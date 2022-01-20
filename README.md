@@ -35,4 +35,6 @@ Use the app `npx serve -s build/`
 ## Development Tools
 
 1. Check your code style with `yarn lint:all` (runs eslint, prettier, and tsc)
-1. Check your code correctness with `yarn test:all` (runs jest)
+2. Check your code correctness with `yarn test:all` (runs jest)
+
+**Be sure to use the lastest LTS version of NodeJS which is v16.13.2**
