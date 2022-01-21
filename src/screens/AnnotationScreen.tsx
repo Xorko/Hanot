@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   annotation: {
     flex: 1,
     justifyContent: 'space-between',
+    alignContent: 'flex-start',
   },
 });
 export default AnnotationScreen;

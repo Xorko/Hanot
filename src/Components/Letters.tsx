@@ -1,19 +1,28 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import OneLetter from './OneLetter';
 
 function Letters() {
   return (
     <View style={styles.box}>
-      <Text>Letters</Text>
+      <ScrollView horizontal={true}>
+        <OneLetter />
+        <OneLetter />
+        <OneLetter />
+        <OneLetter />
+        <OneLetter />
+      </ScrollView>
     </View>
   );
 }
 const styles = StyleSheet.create({
   box: {
+    flex: 6,
+    padding: 7,
+    width: '50%',
     alignSelf: 'center',
-    marginBottom: '5%',
-    paddingHorizontal: '1%',
-    paddingVertical: '0.6%',
-    backgroundColor: '#212B4E',
+    flexDirection: 'row',
+    backgroundColor: '#686de0',
+    borderRadius: 15,
   },
 });
 export default Letters;

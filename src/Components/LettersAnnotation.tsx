@@ -13,7 +13,12 @@ function LettersAnnotation() {
 
 const styles = StyleSheet.create({
   box: {
-    alignContent: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignContent: 'flex-start',
+    backgroundColor: 'black',
+    marginBottom: '2%',
+    marginTop: '1%',
   },
 });
 export default LettersAnnotation;

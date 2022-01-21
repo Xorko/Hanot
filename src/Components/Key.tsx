@@ -1,6 +1,7 @@
 import {faCheckCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {StyleSheet, Text, View} from 'react-native';
+import {RFPercentage} from 'react-native-responsive-fontsize';
 
 function Key() {
   return (
@@ -24,6 +25,7 @@ function Key() {
 const styles = StyleSheet.create({
   box: {
     flex: 1,
+    width: '50%',
     flexDirection: 'row',
     alignSelf: 'center',
     marginBottom: '0.5%',
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#dff9fb',
-    fontSize: 20,
+    fontSize: RFPercentage(1.2),
     fontWeight: '500',
     paddingHorizontal: 8,
   },

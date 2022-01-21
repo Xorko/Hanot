@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
   view: {
     backgroundColor: '#c7ecee',
     borderRadius: 15,
-    marginTop: '20px',
-    marginHorizontal: '20px',
+    marginTop: 20,
+    marginHorizontal: 20,
   },
 });
 
