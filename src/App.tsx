@@ -57,8 +57,7 @@ function App() {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: '#dff9fb',
-    color: '#D2D2D7',
+    backgroundColor: '#e1e2e1',
   },
 });
 
