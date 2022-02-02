@@ -63,3 +63,4 @@ buck-out/
 build/
 coverage/
 .eslintcache
+/email.sh
