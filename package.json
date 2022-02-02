@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator=\"iPad Pro (11-inch) (3rd generation)\"",
+    "ios": "react-native run-ios",
     "ios:pods": "pod-install",
     "start": "react-native start",
     "web": "craco start",
@@ -39,8 +39,7 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "^0.17.5",
-    "web-vitals": "^2.1.2",
-    "fast-xml-parser": "^3.21.1"
+    "web-vitals": "^2.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

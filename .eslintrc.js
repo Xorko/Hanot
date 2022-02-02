@@ -40,6 +40,5 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
-    '@typescript-eslint/no-unused-vars': 1,
   },
 };
