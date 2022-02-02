@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator=\"iPad Pro (11-inch) (3rd generation)\"",
     "ios:pods": "pod-install",
     "start": "react-native start",
     "web": "craco start",
