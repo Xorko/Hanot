@@ -7,6 +7,7 @@ import {
   ST_TraceGroup,
 } from './starter';
 import {randomUUID} from 'crypto';
+import assert from 'assert';
 
 interface Noise {
   readonly type: 'Noise';
@@ -21,18 +22,18 @@ interface Letter {
   readonly value: string;
 }
 
-const constructLetter = (l: string) =>
+export const constructLetter = (l: string) =>
   ({
     type: 'Letter',
     value: l,
   } as Letter);
 
-const isLetterOrNoise = (c: Char) => {
+export const isLetterOrNoise = (c: Char) => {
   return c.type === 'Letter' || c.type === 'Noise';
 };
 
-const noise = {type: 'Noise'} as Noise;
-const pendingChar = {type: 'PendingCharacter'} as Pending;
+export const noise = {type: 'Noise'} as Noise;
+export const pendingChar = {type: 'PendingCharacter'} as Pending;
 
 type Char = Noise | Letter | Pending;
 
@@ -117,7 +118,7 @@ class Traces {
   }
 }
 
-class Ink {
+export class Ink {
   annotations: Map<string, string> = new Map<string, string>();
   // traces: Traces
   traceGroup: Traces;
@@ -134,86 +135,145 @@ class Ink {
 
   /* API goes here */
 
-  // Get all uuids for use of reference
-  uuids(): string[] {
+  /**
+   * Get all uuids for use of reference
+   */
+  public uuids(): string[] {
     return this.traceGroup.traceGroups.flatMap(e => e.traces);
   }
 
-  // Get all traces for rendering
-  traces(): Dot[][] {
+  /**
+   * Get all traces for rendering
+   */
+  public traces(): Dot[][] {
     return this.traceGroup.dots.map(e => e.elements);
   }
 
-  // Get all annotations for rendering
-  annotas(): string[] {
+  /**
+   * Get all annotations for rendering
+   */
+  public annotas(): string[] {
     return this.traceGroup.traceGroups
       .filter(e => e.position !== undefined)
       .sort(e => e.position ?? -1)
       .map(e => getChar(e.anno)) as string[];
   }
 
-  // Get current rightmost index
-  rightmost(): number {
+  /**
+   * Get current rightmost index
+   */
+  public rightmost(): number {
     return this.traceGroup.rightmostIndex;
   }
 
-  // Get annotation info from given index
-  getAnnotation(index: number): AnnoUnit {
+  /**
+   * Get annotation info from given index
+   * @param index : int the position of requested annotation
+   */
+  public getAnnotation(index: number): AnnoUnit {
+    assert(
+      Number.isInteger(index),
+      'Ink::getAnnotation Error: the index passed is supposed to be an int',
+    );
     const r = this.traceGroup.traceGroups.find(e => e.position === index);
     if (r === undefined) {
       throw new Error(
-        'Error: index out of range or unknown index for annotation',
+        'Ink::getAnnotation Error: index out of range or unknown index for annotation',
       );
     }
     return r;
   }
 
-  // Get trace by uuid
-  getTrace(uuid: string): Dot[] | undefined {
+  /**
+   * Get trace by uuid, the trace is a collection of Dot data type
+   * @param uuid the unique id that is associated with this trace
+   */
+  public getTrace(uuid: string): Dot[] | undefined {
     return this.traceGroup.dots.find(e => e.uuid === uuid)?.elements;
   }
 
-  // Split a trace into two traces
-  split(at: number, uuid: string) {
+  /**
+   * Split a trace into two traces
+   * @param at the position of the trace where it should be split by two. This position is inclusive for the remaining
+   * and exclusive for the first part.
+   * @param uuid the unique id that is associated with this trace
+   * @return [uuid, uuid] a pair of two new generated uuids for new traces
+   * @throws Error if the uuid could not be found, the uuid is not associated by any annotation group, or the position is
+   * out of range
+   */
+  public split(at: number, uuid: string): [string, string] {
     // Check if in range
     // Check if uuid exists
 
     const t = this.traceGroup.dots.find(e => e.uuid === uuid);
-    if (t !== undefined) {
-      const t1 = new DotList(t.elements.slice(0, at));
-      const t2 = new DotList(t.elements.slice(at));
-      this.traceGroup.dots.splice(this.traceGroup.dots.indexOf(t));
-      this.traceGroup.dots.push(t1, t2);
-      const u = this.traceGroup.traceGroups.find(e =>
-        e.traces.includes(uuid),
-      )?.traces;
-      if (u !== undefined) {
+    if (t === undefined) {
+      throw new Error('Ink::split Error: unknown uuid, no trace matched');
+    } else {
+      // prettier-ignore
+      const u = this.traceGroup.traceGroups.find(e => e.traces.includes(uuid))?.traces;
+      if (u === undefined) {
+        throw new Error(
+          'Ink::split Error: wrong internal state, attempt to split a trace which belongs to no annotation unit',
+        );
+      } else {
+        if (!Number.isInteger(at)) {
+          throw new Error('Ink::split Error: passed index should be an int');
+        } else if (at < 0 || at >= t.elements.length) {
+          throw new Error('Ink::split Error: supplied index is out of range');
+        }
+        const t1 = new DotList(t.elements.slice(0, at));
+        const t2 = new DotList(t.elements.slice(at));
+        this.traceGroup.dots.splice(this.traceGroup.dots.indexOf(t));
+        this.traceGroup.dots.push(t1, t2);
         u.splice(u.indexOf(uuid));
         u.push(t1.uuid, t2.uuid);
+        return [t1.uuid, t2.uuid];
       }
     }
   }
 
-  // Test if an annotation unit contains a trace
-  containsTrace(uuid: string, index: number): boolean {
+  /**
+   * Test if an annotation unit contains a trace
+   * @param uuid the uuid of the trace to be tested
+   * @param index the index of the annotation unit to be tested
+   * @return true if the trace is part of the annotation unit, otherwise false
+   */
+  public containsTrace(uuid: string, index: number): boolean {
     return !!this.traceGroup.traceGroups
       .find(e => e.position === index)
       ?.traces.includes(uuid);
   }
 
-  // Append a trace into an annotation unit
-  append(uuid: string, index: number) {
+  /**
+   * Append a trace into an annotation unit
+   * @param uuid the uuid of the trace to be append
+   * @param index the index of the annotation unit to be append
+   */
+  public append(uuid: string, index: number) {
     // Check if uuid exists
+    if (this.traceGroup.dots.find(e => e.uuid === uuid) === undefined) {
+      throw new Error('Ink::append Error: unknown uuid');
+    }
     // If trace belongs to another unit, remove it
+    if (this.containsTrace(uuid, index)) {
+      this.remove(uuid, index);
+    }
 
     this.traceGroup.traceGroups
       .find(e => e.position === index)
       ?.traces.push(uuid);
   }
 
-  // Remove a trace from an annotation unit
-  remove(uuid: string, index: number) {
+  /**
+   * Remove a trace from an annotation unit
+   * @param uuid the uuid of the trace to be removed
+   * @param index the index of annotation unit to remove
+   */
+  public remove(uuid: string, index: number) {
     // Check if uuid exists
+    if (this.traceGroup.dots.find(e => e.uuid === uuid) === undefined) {
+      throw new Error('Ink::remove Error: unknown uuid');
+    }
 
     const t = this.traceGroup.traceGroups.find(
       e => e.position === index,
@@ -221,31 +281,52 @@ class Ink {
     t?.splice(t?.indexOf(uuid));
   }
 
-  // Update the annotation with a char
-  annotate(chr: string, at: number) {
+  /**
+   * Update the annotation with a char
+   * @param chr the annotation to be annotated
+   * @param at the index of annotation
+   * @return the generated annotation unit
+   */
+  public annotate(chr: string, at: number): AnnoUnit {
     const au = this.traceGroup.traceGroups.find(e => e.position === at);
     if (au !== undefined) {
       au.anno = constructLetter(chr);
+      return au;
+    } else {
+      throw new Error('Ink::annotate Error: unknown index');
     }
   }
 
-  // Define an annotation unit as noise
-  makeNoise(at: number) {
+  /**
+   * Define an annotation unit as noise
+   * @param at the position of annotation
+   * @return the generated annotation unit
+   */
+  public makeNoise(at: number): AnnoUnit {
     const au = this.traceGroup.traceGroups.find(e => e.position === at);
     if (au !== undefined) {
       au.anno = noise;
+      return au;
+    } else {
+      throw new Error('Ink::makeNoise Error: unknown index');
     }
   }
 
-  // Remove annotation (back to pending status)
-  removeAnnotation(at: number) {
+  /**
+   * Remove annotation (back to pending status)
+   * @param at the position of annotation to be removed, i.e. change to pending status
+   * Notice that we never "really remove" something
+   */
+  public removeAnnotation(at: number) {
     const au = this.traceGroup.traceGroups.find(e => e.position === at);
     if (au !== undefined) {
       au.anno = pendingChar;
+    } else {
+      throw new Error('Ink::removeAnnotation Error: unknown index');
     }
   }
 
-  /* Integrity checks */
+  /* TODO Integrity checks, private methods.. */
 
   // Indices span from 0 to number of nonnull annotations
 
@@ -315,7 +396,7 @@ export const constructData = (ink: ST_Ink): Ink => {
   return new Ink(ink);
 };
 
-// TODO convert back to inkml
+/* API for convert back to inkml entrypoint */
 
 export const exportInk = (ink: Ink): ST => {
   const t = exportTraceGroup(ink.traceGroup);
