@@ -36,3 +36,7 @@ Use the app `npx serve -s build/`
 
 1. Check your code style with `yarn lint:all` (runs eslint, prettier, and tsc)
 1. Check your code correctness with `yarn test:all` (runs jest)
+
+## Requirements
+
+Node 17 is currently unsupported by React Native, be sure to use lts/gallium (16.13)
