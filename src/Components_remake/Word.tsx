@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: 'white',
     alignSelf: 'center',
-    height: windowHeight / 3.4,
-    width: windowWidth / 1.7,
+    height: windowHeight / 3.0,
+    width: windowWidth / 1.5,
     borderRadius: 35,
     borderWidth: 20,
     borderColor: '#0071ac',
