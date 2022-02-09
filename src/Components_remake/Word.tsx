@@ -1,5 +1,6 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
+import {AnnotationArea} from '../utils/AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -9,7 +10,7 @@ function Word() {
     <View style={styles.main}>
       <Shadow>
         <View style={styles.box}>
-          <Text>This is where the word should go!</Text>
+          <AnnotationArea />
         </View>
       </Shadow>
     </View>
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     borderWidth: 20,
     borderColor: '#0071ac',
+    overflow: 'hidden',
   },
 });
 export default Word;
