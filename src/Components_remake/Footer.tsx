@@ -1,11 +1,11 @@
 import {Text, View} from 'react-native';
 
-function Word() {
+function Footer() {
   return (
     <View>
-      <Text>Word</Text>
+      <Text>This is the footer</Text>
     </View>
   );
 }
 
-export default Word;
+export default Footer;
