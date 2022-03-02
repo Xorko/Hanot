@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: 'white',
     alignSelf: 'center',
-    height: windowHeight / 3.0,
+    height: windowHeight / 2.5,
     width: windowWidth / 1.5,
-    borderRadius: 35,
-    borderWidth: 20,
+    borderRadius: 15,
+    borderWidth: 10,
     borderColor: '#0071ac',
     overflow: 'hidden',
   },

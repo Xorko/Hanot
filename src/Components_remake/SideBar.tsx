@@ -1,18 +1,9 @@
-import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
 function SideBar() {
-  return (
-    <View style={styles.box}>
-      <Button title="home">
-        <Text>Home</Text>
-      </Button>
-      <Button title="validate">
-        <Text>Validate</Text>
-      </Button>
-    </View>
-  );
+  return <View style={styles.box} />;
 }
 
 const styles = StyleSheet.create({
