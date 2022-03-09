@@ -19,6 +19,14 @@ function AnnotationScreen() {
       </Shadow>
     </View>
   );
+  /*return (
+    <View style={styles.annotation}>
+      <Header />
+      <LettersAnnotation />
+      <Word />
+      <Footer />
+    </View>
+  );*/
 }
 
 const styles = StyleSheet.create({

@@ -10,6 +10,7 @@ function Files() {
         data={a}
         renderItem={renderItem}
         numColumns={2}
+        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{
           justifyContent: 'center',
           alignItems: 'center',
