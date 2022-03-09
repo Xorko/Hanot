@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import LettersMenu from '../Components_remake/LettersMenu';
 import SideBar from '../Components_remake/SideBar';
