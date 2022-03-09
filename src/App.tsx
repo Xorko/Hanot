@@ -8,7 +8,7 @@
 */
 
 import {StyleSheet, View} from 'react-native';
-import FileSelectionScreen from './screens/FileSelectionScreen';
+import AnnotationScreen from './screens/AnnotationScreen';
 
 export type DrawerParamList = {
   Annotation: undefined;
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <View style={styles.view}>
-      <FileSelectionScreen />
+      <AnnotationScreen />
     </View>
 
     /*<NavigationContainer theme={isDarkMode ? MyTheme : DefaultTheme}>

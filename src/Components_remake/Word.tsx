@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: 'white',
     alignSelf: 'center',
-    height: windowHeight / 2.5,
+    height: windowHeight / 2.6,
     width: windowWidth / 1.5,
     borderRadius: 15,
     borderWidth: 10,
