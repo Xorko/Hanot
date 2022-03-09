@@ -1,16 +1,26 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
+import { Button, Dimensions, StyleSheet, View } from 'react-native';
+import { Shadow } from 'react-native-shadow-2';
 import Files from '../Components_remake/Files';
 import SideBar from '../Components_remake/SideBar';
 
 const windowWidth = Dimensions.get('window').width;
 
-function FileSelectionScreen() {
+interface FileSelectionScreenProps {
+  navigation: any;
+}
+
+function FileSelectionScreen(props: FileSelectionScreenProps) {
+
+  const annotationScreen = () => props.navigation.navigate('AnnotationScreen');
+
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={{alignSelf: 'flex-end'}}>
+      <Shadow containerViewStyle={{ alignSelf: 'flex-end' }}>
         <View style={styles.annotation}>
+          <Button title="Tout sélectionner"
+            onPress={() => annotationScreen()}>
+          </Button>
           <Files />
         </View>
       </Shadow>

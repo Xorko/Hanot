@@ -7,8 +7,11 @@
   card: #212B4E
 */
 
-import {StyleSheet, View} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet } from 'react-native';
 import AnnotationScreen from './screens/AnnotationScreen';
+import FileSelectionScreen from './screens/FileSelectionScreen';
 
 export type DrawerParamList = {
   Annotation: undefined;
@@ -17,13 +20,31 @@ export type DrawerParamList = {
 
 //const Drawer = createDrawerNavigator<DrawerParamList>();
 
+//const Stack = createStackNavigator();
+
+const { Navigator, Screen } = createStackNavigator();
+
+
 function App() {
   //const isDarkMode = useColorScheme();
 
   return (
-    <View style={styles.view}>
+
+    <NavigationContainer>
+      <Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+        initialRouteName="AnnotationScreen">
+        <Screen name="AnnotationScreen" component={AnnotationScreen} />
+        <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
+      </Navigator>
+    </NavigationContainer>
+
+
+    /*<View style={styles.view}>
       <AnnotationScreen />
-    </View>
+    </View>*/
 
     /*<NavigationContainer theme={isDarkMode ? MyTheme : DefaultTheme}>
       <Drawer.Navigator initialRouteName="Annotation">
