@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import LettersMenu from '../Components_remake/LettersMenu';
 import SideBar from '../Components_remake/SideBar';
@@ -7,12 +7,24 @@ import Word from '../Components_remake/Word';
 
 const windowWidth = Dimensions.get('window').width;
 
-function AnnotationScreen() {
+interface AnnotationScreenProps {
+  navigation: any;
+}
+
+function AnnotationScreen(props: AnnotationScreenProps) {
+  const fileScreen = () => {
+    console.log('yes');
+    props.navigation.navigate('FileSelectionScreen');
+  };
+
   return (
     <View style={styles.screen}>
       <SideBar />
       <Shadow containerViewStyle={{alignSelf: 'flex-end'}}>
         <View style={styles.annotation}>
+          <View style={styles.home}>
+            <Button title="Menu" onPress={() => fileScreen()} />
+          </View>
           <LettersMenu />
           <Word />
         </View>
@@ -46,6 +58,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  home: {
+    position: 'absolute',
+    right: 30,
+    top: 30,
   },
 });
 export default AnnotationScreen;
