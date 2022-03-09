@@ -3,6 +3,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Letters from './Letters';
 
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 function LettersMenu() {
   return (
@@ -19,19 +20,15 @@ function LettersMenu() {
     </View>
   );
 }
-/*<Shadow distance={1} offset={[-30, 0]}>
-        <View style={styles.buttons}>
-          <Text>hello</Text>
-        </View>
-      </Shadow>*/
 
 const styles = StyleSheet.create({
   box: {
     flex: 1,
     flexDirection: 'row',
-    height: '30%',
-    width: '60%',
+    height: windowHeight / 2.5,
+    width: windowWidth / 1.5,
     alignItems: 'center',
+    marginRight: '2.7%',
   },
   scroll: {
     backgroundColor: '#e1e2e1',
