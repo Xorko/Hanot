@@ -1,18 +1,24 @@
-import {Button, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import AddLetterButton from './AddLetterButton';
+import RemoveLetterButton from './RemoveLetterButton';
+import ValidateLetterButton from './ValidateLetterButton';
+
+const windowHeight = Dimensions.get('window').height;
 
 function LettersButtons() {
   return (
     <View style={styles.box}>
-      <Button title="1" />
-      <Button title="2" />
-      <Button title="3" onPress={() => console.log('hello')} />
+      <ValidateLetterButton />
+      <AddLetterButton />
+      <RemoveLetterButton />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   box: {
-    paddingLeft: 10,
+    height: windowHeight / 2.5,
+    padding: 17,
     justifyContent: 'space-between',
   },
 });

@@ -1,6 +1,6 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import Letters from './Letters';
+import Letter from './Letter';
 import LettersButtons from './LettersButtons';
 
 const windowHeight = Dimensions.get('window').height;
@@ -10,13 +10,13 @@ function LettersMenu() {
   return (
     <View style={styles.box}>
       <ScrollView horizontal contentContainerStyle={styles.scroll}>
-        <Letters />
-        <Letters />
-        <Letters />
-        <Letters />
-        <Letters />
-        <Letters />
-        <Letters />
+        <Letter />
+        <Letter />
+        <Letter />
+        <Letter />
+        <Letter />
+        <Letter />
+        <Letter />
       </ScrollView>
       <LettersButtons />
     </View>

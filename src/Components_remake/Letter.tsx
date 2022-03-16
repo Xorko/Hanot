@@ -4,7 +4,7 @@ import {Shadow} from 'react-native-shadow-2';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-function Letters() {
+function Letter() {
   return (
     <Shadow distance={15} viewStyle={{marginRight: 20}}>
       <View style={styles.box}>
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 60,
   },
 });
-export default Letters;
+export default Letter;
