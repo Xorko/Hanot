@@ -1,9 +1,9 @@
-import {XMLParser} from 'fast-xml-parser';
-import {Platform} from 'react-native';
+import { XMLParser } from 'fast-xml-parser';
+import { Platform } from 'react-native';
 import DocumentPicker, {
   DocumentPickerResponse,
 } from 'react-native-document-picker';
-import {xmlToJsOptions} from '../shared/lib/fast-xml-parser-config';
+import { xmlToJsOptions } from '../shared/lib/fast-xml-parser-config';
 
 const parser = new XMLParser();
 
@@ -57,9 +57,16 @@ export const handleOpenFiles = async () => {
       Platform.OS === 'web' ? readTextFileWeb(file) : readTextFileMobile(file),
     );
     const filesAsXML = Promise.all(readFiles).then((filesAsText: string[]) =>
-      filesAsText.map((fileAsText: string) => parseXML(fileAsText)),
+      filesAsText.map((fileAsText, i) => {
+        const parsed = parseXML(fileAsText);
+        return {
+          ...parsed,
+          fileName: pickedFiles[i].name,
+          filePath: pickedFiles[i].uri,
+        };
+      }),
     );
-    filesAsXML.then(res => console.log(res));
+
     return filesAsXML;
   }
   return [];
