@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
