@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
@@ -67,7 +68,9 @@ const makeSingleWord = (
   };
 };
 
-const makeAnnotations = (annos?: Data.AnnoData[]): SerializableMap<string> => {
+const makeAnnotations = (
+  annos?: Data.AnnoData[],
+): SerializableMap<string> | undefined => {
   const ret: SerializableMap<string> = {};
 
   for (const anno of annos ?? []) {
@@ -76,7 +79,7 @@ const makeAnnotations = (annos?: Data.AnnoData[]): SerializableMap<string> => {
     }
   }
 
-  return ret;
+  return _.isEmpty(ret) ? undefined : ret;
 };
 
 const constructTraceGroups = (
@@ -169,6 +172,7 @@ const constructTrace = (tr: string): Trace.Type => {
           .map(e => parseFloat(e)),
       )
       .map(constructDot),
+    oldTrace: 0, // FIXME: to be changed by the user
   };
 };
 
