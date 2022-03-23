@@ -4,7 +4,7 @@ import {Shadow} from 'react-native-shadow-2';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-function File() {
+function FileList() {
   return (
     <Shadow distance={12} viewStyle={{marginRight: 20, marginBottom: 20}}>
       <View style={styles.file}>
@@ -21,21 +21,20 @@ const styles = StyleSheet.create({
   file: {
     flexDirection: 'row',
     alignContent: 'center',
-    height: windowHeight / 6,
+    height: windowHeight / 10,
     width: windowWidth / 3,
     backgroundColor: '#005b9f',
     borderRadius: 20,
     padding: 20,
   },
   wordPreview: {
-    width: '40%',
+    width: '15%',
     height: '100%',
     backgroundColor: 'white',
-    borderRadius: 15,
   },
   fileName: {
     height: '15%',
     justifyContent: 'center',
   },
 });
-export default File;
+export default FileList;

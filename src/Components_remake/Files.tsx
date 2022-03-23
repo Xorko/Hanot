@@ -1,27 +1,77 @@
+import {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import File from './File';
+import uuid from 'react-native-uuid';
+import {ModeContext} from '../Context/ModeContext';
+import FileBloc from './FileBloc';
+import FileList from './FileList';
 
 function Files() {
-  const renderItem = () => <File />;
-  return (
-    <View style={styles.files}>
-      <FlatList
-        data={a}
-        renderItem={renderItem}
-        numColumns={2}
-        // eslint-disable-next-line react-native/no-inline-styles
-        contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 20,
-        }}
-      />
-    </View>
-  );
+  const {mode} = useContext(ModeContext);
+
+  if (mode === 'list') {
+    const renderItem = () => <FileList />;
+    return (
+      <View style={styles.files}>
+        <FlatList
+          data={a}
+          renderItem={renderItem}
+          numColumns={2}
+          key={'list'}
+          keyExtractor={() => uuid.v4() as string}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+          }}
+        />
+      </View>
+    );
+  } else if (mode === 'block') {
+    const renderItem = () => <FileBloc />;
+    return (
+      <View style={styles.files}>
+        <FlatList
+          data={b}
+          renderItem={renderItem}
+          numColumns={3}
+          key={'block'}
+          keyExtractor={() => uuid.v4() as string}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+          }}
+        />
+      </View>
+    );
+  } else {
+    return <>;</>;
+  }
 }
 
-const a = [File, File, File, File, File, File, File, File, File];
+const a = [
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+  FileList,
+];
+const b = [
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+  FileBloc,
+];
 const styles = StyleSheet.create({
   files: {
     flex: 1,
