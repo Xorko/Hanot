@@ -1,8 +1,8 @@
 interface Dot {
-  readonly x: string;
-  readonly y: string;
-  readonly p: string;
-  readonly t: string;
+  readonly x: number;
+  readonly y: number;
+  readonly f: number;
+  readonly t: number;
 }
 
 export type Type = Dot;
