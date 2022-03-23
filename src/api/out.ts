@@ -1,7 +1,7 @@
 import * as InkML from '../core/inkml';
 import * as Word from '../core/word';
 import { AnnoData, Data, InkData, TraceGroupData, Chan } from '../core/data';
-import { getChar, isLetter, isNoise } from '../core/char';
+import { getChar, isLetter, isNoise, isPending } from '../core/char';
 
 export const exportInk = (ink?: InkML.Type): Data | undefined => {
   if (ink !== undefined) {
@@ -40,7 +40,18 @@ export const exportInk = (ink?: InkML.Type): Data | undefined => {
 };
 
 const exportWord = (tg: Word.Type): TraceGroupData => {
-  const uncommented = tg.defaultTraceGroup;
+  const uncommented = [
+    ...tg.tracegroups.filter(a => isPending(a.label)).flatMap(e => e.traces),
+    ...tg.defaultTraceGroup,
+  ].sort((a, b) => {
+    if (a.dots[0].t < b.dots[0].t) {
+      return -1;
+    }
+    if (a.dots[0].t > b.dots[0].t) {
+      return 1;
+    }
+    return 0;
+  });
 
   const traces: TraceGroupData[] = tg.tracegroups
     .filter(a => isLetter(a.label) || isNoise(a.label))
@@ -84,6 +95,17 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
         }
         return r;
       }
+    })
+    .sort((a, b) => {
+      const ax = a.attr?.positionInGroundTruthValue ?? -1;
+      const bx = b.attr?.positionInGroundTruthValue ?? -1;
+      if (ax < bx) {
+        return -1;
+      }
+      if (ax > bx) {
+        return 1;
+      }
+      return 0;
     });
   const annotationXML: AnnoData[] = [];
   const annotationAttr: AnnoData[] = [];

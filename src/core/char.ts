@@ -26,6 +26,10 @@ export const isLetter = (c: Char) => {
   return c.type === 'Letter';
 };
 
+export const isPending = (c: Char) => {
+  return c.type === 'PendingCharacter';
+};
+
 export const isNoise = (c: Char) => {
   return c.type === 'Noise';
 };
