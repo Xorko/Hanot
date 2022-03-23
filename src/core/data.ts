@@ -11,7 +11,7 @@ export interface AnnoData {
 }
 
 export interface TraceGroupData {
-  attr: {
+  attr?: {
     'xml:id'?: string;
     noise?: string;
     positionInGroundTruthValue?: number;
@@ -22,8 +22,8 @@ export interface TraceGroupData {
     annotation: AnnoData[];
   };
   annotation?: AnnoData[];
-  traceGroup: TraceGroupData | TraceGroupData[] | undefined;
-  trace: string | string[] | undefined;
+  traceGroup?: TraceGroupData | TraceGroupData[];
+  trace?: string | string[];
 }
 
 export interface InkData {

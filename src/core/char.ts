@@ -11,11 +11,16 @@ interface Letter {
   readonly value: string;
 }
 
-export const constructLetter = (l: string) =>
-  ({
-    type: 'Letter',
-    value: l,
-  } as Letter);
+export const constructLetter = (l: string) => {
+  if (l !== '#noise') {
+    return {
+      type: 'Letter',
+      value: l,
+    } as Letter;
+  } else {
+    return noise;
+  }
+};
 
 export const isLetter = (c: Char) => {
   return c.type === 'Letter';

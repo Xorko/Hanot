@@ -32,11 +32,13 @@ const makeSingleWord = (
   tg: TraceGroupData,
   anno?: Map<string, string>,
 ): Word.Type => {
-  const predicted = tg.attr['xml:id'];
+  const predicted = tg.attr?.['xml:id'];
   const attrs = new Map<string, any>();
-  for (const [k, v] of Object.entries(tg.attr)) {
-    if (!['xml:id', 'positionInGroundTruthValue', 'noise'].includes(k)) {
-      attrs.set(k, v);
+  if (tg.attr !== undefined) {
+    for (const [k, v] of Object.entries(tg.attr)) {
+      if (!['xml:id', 'positionInGroundTruthValue', 'noise'].includes(k)) {
+        attrs.set(k, v);
+      }
     }
   }
   let annoXML;
@@ -110,9 +112,9 @@ const constructTraceGroupFromTraceGroupArray = (
 const constructTraceGroupFromTraceGroup = (
   tg: TraceGroupData,
 ): [TraceGroup.Type[], number[], Trace.Type[]] => {
-  const xmlid = tg.attr['xml:id'];
-  const pos = tg.attr.positionInGroundTruthValue;
-  const noise_ = tg.attr.noise;
+  const xmlid = tg.attr?.['xml:id'];
+  const pos = tg.attr?.positionInGroundTruthValue;
+  const noise_ = tg.attr?.noise;
   let trace: Trace.Type[] = [];
   if (Array.isArray(tg.trace)) {
     trace = tg.trace.map(constructTrace);
