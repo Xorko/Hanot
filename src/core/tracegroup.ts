@@ -3,7 +3,7 @@ import { Char } from './char';
 
 interface TraceGroup {
   readonly traces: Trace.Type[];
-  readonly label: Char;
+  label: Char;
 }
 
 export type Type = TraceGroup;

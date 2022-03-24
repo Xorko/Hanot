@@ -195,9 +195,11 @@ const reconstructTracesInOrder = (
   return orderedTraceGroups;
 };
 
-export const createEmptyTraceGroup = (): TraceGroup.Type => {
+export const createEmptyTraceGroup = (
+  traces?: Trace.Type[],
+): TraceGroup.Type => {
   return {
-    traces: [],
+    traces: traces ?? [],
     label: pendingChar,
   };
 };
