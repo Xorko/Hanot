@@ -2,7 +2,7 @@ import * as Trace from './trace';
 import { Char } from './char';
 
 interface TraceGroup {
-  readonly traces: Trace.Type[];
+  traces: Trace.Type[];
   label: Char;
 }
 
