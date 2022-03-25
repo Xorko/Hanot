@@ -3,6 +3,11 @@ import * as Word from '../core/word';
 import { AnnoData, Data, InkData, TraceGroupData, Chan } from '../core/data';
 import { getChar, isLetter, isNoise, isPending } from '../core/char';
 
+/**
+ * Generate a json object of Data to reflect inkml, that's compatible with xml-parser, to be used to convert it back to
+ * xml.
+ * @param ink the InkML type to be converted.
+ */
 export const exportInk = (ink?: InkML.Type): Data | undefined => {
   if (ink !== undefined) {
     const t = ink.words.map(exportWord);
@@ -87,6 +92,15 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
           },
           trace: tx,
         };
+        if (r.attr?.noise === undefined) {
+          delete r.attr?.noise;
+        }
+        if (r.attr?.positionInGroundTruthValue === undefined) {
+          delete r.attr?.positionInGroundTruthValue;
+        }
+        if (r.attr?.['xml:id'] === undefined) {
+          delete r.attr?.['xml:id'];
+        }
         if (
           r.attr !== undefined &&
           Object.values(r.attr).every(item => item === undefined)

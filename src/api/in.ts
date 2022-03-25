@@ -6,6 +6,10 @@ import * as Word from '../core/word';
 import { AnnoData, InkData, TraceGroupData } from '../core/data';
 import { constructLetter, noise, pendingChar } from '../core/char';
 
+/**
+ * Construct an InkML type from the raw json data converted from an inkml file.
+ * @param ink the InkData json object to be converted, do nothing if it's undefined.
+ */
 export const constructData = (ink?: InkData): InkML.Type | undefined => {
   if (ink !== undefined) {
     const anno = makeAnnotations(ink.annotation);
@@ -101,11 +105,11 @@ const constructTraceGroupFromTraceGroupArray = (
     constructTraceGroupFromTraceGroup(c),
   );
   const availableTraceGroups = nullableTraceGroupWithIndex.filter(
-    e => e[1] !== undefined,
+    e => e[1].length !== 0,
   );
   const danglingTraces = nullableTraceGroupWithIndex
-    .filter(e => e[2] !== undefined)
-    .map(e => e[2][0]);
+    .filter(e => e[2].length !== 0)
+    .flatMap(e => e[2]);
   return [reconstructTracesInOrder(availableTraceGroups), danglingTraces];
 };
 
@@ -168,8 +172,8 @@ const constructDot = (nx: number[]): Dot.Type => {
   return {
     x: nx[0],
     y: nx[1],
-    f: nx[1],
-    t: nx[2],
+    f: nx[2],
+    t: nx[3],
   };
 };
 
@@ -184,17 +188,23 @@ const reconstructTracesInOrder = (
     e => [e[0][0], e[1][0]],
   );
   const orderedTraceGroups: TraceGroup.Type[] = [];
-  for (const i of Array.from(Array(rightmost).keys())) {
-    const curr = traceGroupForms.find(e => e[1] === i);
-    if (curr !== undefined) {
-      orderedTraceGroups.push(curr[0]);
-    } else {
-      orderedTraceGroups.push(createEmptyTraceGroup());
+  if (rightmost !== undefined) {
+    for (const i of Array.from(Array(rightmost + 1).keys())) {
+      const curr = traceGroupForms.find(e => e[1] === i);
+      if (curr !== undefined) {
+        orderedTraceGroups.push(curr[0]);
+      } else {
+        orderedTraceGroups.push(createEmptyTraceGroup());
+      }
     }
   }
   return orderedTraceGroups;
 };
 
+/**
+ * Creates an empty trace group with possibly a given list of traces, set to pending char label.
+ * @param traces list of traces to be added in the new generated trace group, if omitted then an empty list will be supplied.
+ */
 export const createEmptyTraceGroup = (
   traces?: Trace.Type[],
 ): TraceGroup.Type => {
@@ -204,7 +214,10 @@ export const createEmptyTraceGroup = (
   };
 };
 
-const max = (a: number[]): number => {
+const max = (a: number[]): number | undefined => {
+  if (a.length === 0) {
+    return undefined;
+  }
   let maxValue = a[0];
   for (const x of a) {
     if (x > maxValue) {
