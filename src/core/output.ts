@@ -1,7 +1,7 @@
-import * as InkML from '../core/inkml';
-import * as Word from '../core/word';
-import { AnnoData, Data, InkData, TraceGroupData, Chan } from '../core/data';
-import { getChar, isLetter, isNoise, isPending } from '../core/char';
+import { getChar, isLetter, isNoise, isPending } from './char';
+import { AnnoData, Chan, Data, InkData, TraceGroupData } from './data';
+import * as InkML from './inkml';
+import * as Word from './word';
 
 /**
  * Generate a json object of Data to reflect inkml, that's compatible with xml-parser, to be used to convert it back to

@@ -1,6 +1,3 @@
-import * as Trace from '../core/trace';
-import * as TraceGroup from '../core/tracegroup';
-import * as Word from '../core/word';
 import {
   constructLetter,
   getChar,
@@ -9,7 +6,10 @@ import {
   noise,
   pendingChar,
 } from '../core/char';
-import { createEmptyTraceGroup } from './in';
+import * as Trace from '../core/trace';
+import * as TraceGroup from '../core/tracegroup';
+import * as Word from '../core/word';
+import { createEmptyTraceGroup } from './input';
 
 /**
  * Get all annotations for rendering.

@@ -1,10 +1,10 @@
-import * as Dot from '../core/dot';
-import * as InkML from '../core/inkml';
-import * as Trace from '../core/trace';
-import * as TraceGroup from '../core/tracegroup';
-import * as Word from '../core/word';
-import { AnnoData, InkData, TraceGroupData } from '../core/data';
-import { constructLetter, noise, pendingChar } from '../core/char';
+import { constructLetter, noise, pendingChar } from './char';
+import { AnnoData, InkData, TraceGroupData } from './data';
+import * as Dot from './dot';
+import * as InkML from './inkml';
+import * as Trace from './trace';
+import * as TraceGroup from './tracegroup';
+import * as Word from './word';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
