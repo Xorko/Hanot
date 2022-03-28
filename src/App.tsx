@@ -7,9 +7,8 @@
   card: #212B4E
 */
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import AnnotationScreen from './screens/AnnotationScreen';
 import FileSelectionScreen from './screens/FileSelectionScreen';
 
@@ -22,25 +21,22 @@ export type DrawerParamList = {
 
 //const Stack = createStackNavigator();
 
-const { Navigator, Screen } = createStackNavigator();
-
+const {Navigator, Screen} = createStackNavigator();
 
 function App() {
   //const isDarkMode = useColorScheme();
 
   return (
-
     <NavigationContainer>
       <Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
-        initialRouteName="AnnotationScreen">
+        initialRouteName="FileSelectionScreen">
         <Screen name="AnnotationScreen" component={AnnotationScreen} />
         <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
       </Navigator>
     </NavigationContainer>
-
 
     /*<View style={styles.view}>
       <AnnotationScreen />
@@ -73,7 +69,7 @@ function App() {
     text: '#D2D2D7',
     border: '#3E65FB',
   },
-};*/
+};
 
 const styles = StyleSheet.create({
   view: {
@@ -81,5 +77,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#0071ac',
   },
 });
-
+*/
 export default App;

@@ -1,19 +1,20 @@
 import {useState} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import Files from '../Components_remake/Files';
 import HeaderFiles from '../Components_remake/HeaderFiles';
 import SideBar from '../Components_remake/SideBar';
 import {DisplayMode, ModeContext} from '../Context/ModeContext';
+import {handleOpenFiles} from '../utils/file-utils';
 
 const windowWidth = Dimensions.get('window').width;
 
 function FileSelectionScreen() {
   const [mode, setMode] = useState<DisplayMode>('block');
+  const [filesInfo, setFilesInfo] = useState<Array<any>>(Array);
 
+  const changeFilesInfo = (data: any) => setFilesInfo(filesInfo.concat(data));
   const changeDisplayMode = (newMode: DisplayMode) => setMode(newMode);
-
-  console.log(mode);
 
   return (
     <View style={styles.screen}>
@@ -21,9 +22,24 @@ function FileSelectionScreen() {
       <Shadow containerViewStyle={{alignSelf: 'flex-end'}}>
         <View style={styles.annotation}>
           <ModeContext.Provider
-            value={{mode: mode, changeMode: changeDisplayMode}}>
+            value={{
+              mode: mode,
+              changeMode: changeDisplayMode,
+            }}>
             <HeaderFiles />
-            <Files />
+            <Files props={filesInfo} />
+            <Button
+              title="pick files"
+              onPress={() => {
+                handleOpenFiles()
+                  .then(data => changeFilesInfo(data))
+                  .catch(err => console.log(err));
+              }}
+            />
+            <Button
+              title="show files"
+              onPress={() => filesInfo.map((s: any) => console.log(s.fileName))}
+            />
           </ModeContext.Provider>
         </View>
       </Shadow>

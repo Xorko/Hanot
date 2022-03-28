@@ -5,13 +5,13 @@ import { Shadow } from 'react-native-shadow-2';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-function FileBloc() {
+function FileBloc(props: {props: any}) {
   return (
     <Shadow distance={12} viewStyle={{ marginRight: 20, marginBottom: 20 }}>
       <View style={styles.file}>
         <View style={styles.wordPreview} />
         <View style={styles.fileName}>
-          <Text>File Name</Text>
+          <Text>{props.props}</Text>
         </View>
       </View>
     </Shadow>
