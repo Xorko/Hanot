@@ -27,7 +27,7 @@ function FileSelectionScreen() {
               changeMode: changeDisplayMode,
             }}>
             <HeaderFiles />
-            <Files props={filesInfo} />
+            <Files files={filesInfo} />
             <Button
               title="pick files"
               onPress={() => {
