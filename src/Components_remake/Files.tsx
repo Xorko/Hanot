@@ -6,10 +6,13 @@ import {ModeContext} from '../Context/ModeContext';
 import FileBloc from './FileBloc';
 import FileList from './FileList';
 
-function Files(props: {props: Array<any>}) {
+type FilesProps = {
+  files: any[];
+};
+
+function Files({files}: FilesProps) {
   const {mode} = useContext(ModeContext);
-  console.log(props.props);
-  props.props.map(data => {
+  files.map(data => {
     if (a.indexOf(data.fileName) === -1) {
       a.push(data.fileName);
       console.log('im in if ' + data.fileName);
