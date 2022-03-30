@@ -1,3 +1,5 @@
+import { XMLBuilder, XMLParser } from 'fast-xml-parser';
+
 const xmlToJsOptions = {
   attributeNamePrefix: '',
   attrNodeName: 'attr', //default is 'false'
@@ -34,4 +36,8 @@ const jsToXmlOptions = {
   rootNodeName: 'element',
 };
 
-export {xmlToJsOptions, jsToXmlOptions};
+const parser = new XMLParser(xmlToJsOptions);
+
+const builder = new XMLBuilder(jsToXmlOptions);
+
+export { parser, builder, xmlToJsOptions, jsToXmlOptions };
