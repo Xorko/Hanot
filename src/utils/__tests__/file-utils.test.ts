@@ -1,4 +1,4 @@
-import {handleOpenFiles} from '../file-utils';
+import { handleOpenInkmlFiles } from '../file-utils';
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -12,7 +12,7 @@ describe('handleOpenFiles', () => {
       };
     });
 
-    const result = await handleOpenFiles();
+    const result = await handleOpenInkmlFiles();
     expect(result).toEqual([]);
   });
 });
