@@ -1,6 +1,6 @@
 interface XMLAnnotation {
-  readonly key: string;
-  readonly value: any;
+  readonly type: string;
+  readonly values: Map<string, string>;
 }
 
 export type Type = XMLAnnotation;

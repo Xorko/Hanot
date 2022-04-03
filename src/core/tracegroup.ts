@@ -1,8 +1,9 @@
+import * as Char from './char';
 import * as Trace from './trace';
 
 interface TraceGroup {
-  readonly traces: Trace.Type[];
-  readonly label: string;
+  traces: Trace.Type[];
+  label: Char.Type;
 }
 
 export type Type = TraceGroup;
