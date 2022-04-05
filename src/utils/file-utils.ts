@@ -1,11 +1,9 @@
-import {XMLParser} from 'fast-xml-parser';
 import {Platform} from 'react-native';
 import DocumentPicker, {
   DocumentPickerResponse,
+  types,
 } from 'react-native-document-picker';
-import {xmlToJsOptions} from '../shared/lib/fast-xml-parser-config';
-
-const parser = new XMLParser();
+import {parser} from '../lib/fast-xml-parser';
 
 /**
  * Opens the file picker and returns selected files
@@ -13,7 +11,7 @@ const parser = new XMLParser();
  */
 export const pickFiles = (): Promise<DocumentPickerResponse[]> | undefined => {
   try {
-    return DocumentPicker.pickMultiple();
+    return DocumentPicker.pickMultiple({type: 'application/octet-stream'});
   } catch (err) {
     console.error(err);
   }
@@ -42,14 +40,14 @@ export const readTextFileWeb = async (file: any) => file.text();
  * @returns An object containing the parsed XML
  */
 export const parseXML = (xml: string) => {
-  return parser.parse(xml, xmlToJsOptions);
+  return parser.parse(xml);
 };
 
 /**
  * Handles the file selection
  * @returns The content of the files as JSON
  */
-export const handleOpenFiles = async () => {
+export const handleOpenInkmlFiles = async () => {
   const pickedFiles = await pickFiles();
 
   if (pickedFiles) {
@@ -68,6 +66,42 @@ export const handleOpenFiles = async () => {
     );
 
     return filesAsXML;
+  }
+  return [];
+};
+
+const pickImage = (): Promise<DocumentPickerResponse[]> | undefined => {
+  try {
+    return DocumentPicker.pickMultiple({type: [types.images]});
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const readImageFile = async (file: DocumentPickerResponse) => {
+  const RNFS = require('react-native-fs'); // RNFS can't be imported on web so we can't use `import`
+  return RNFS.readFile(file.uri, 'base64');
+};
+
+export const handleOpenImageFiles = async () => {
+  const pickedFiles = await pickImage();
+
+  if (pickedFiles) {
+    const readFiles = pickedFiles.map((file: DocumentPickerResponse) =>
+      readImageFile(file),
+    );
+
+    const files = Promise.all(readFiles).then((res: string[]) =>
+      res.map((_, i) => {
+        const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
+        return {
+          image,
+          fileName: pickedFiles[i].name,
+          filePath: pickedFiles[i].uri,
+        };
+      }),
+    );
+    return files;
   }
   return [];
 };

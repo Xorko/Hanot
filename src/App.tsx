@@ -9,6 +9,8 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
+import {store} from './app/store';
 import AnnotationScreen from './screens/AnnotationScreen';
 import FileSelectionScreen from './screens/FileSelectionScreen';
 
@@ -27,16 +29,18 @@ function App() {
   //const isDarkMode = useColorScheme();
 
   return (
-    <NavigationContainer>
-      <Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="FileSelectionScreen">
-        <Screen name="AnnotationScreen" component={AnnotationScreen} />
-        <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
-      </Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="AnnotationScreen">
+          <Screen name="AnnotationScreen" component={AnnotationScreen} />
+          <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
+        </Navigator>
+      </NavigationContainer>
+    </Provider>
 
     /*<View style={styles.view}>
       <AnnotationScreen />

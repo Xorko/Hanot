@@ -1,33 +1,34 @@
 import {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import uuid from 'react-native-uuid';
+import {useAppSelector} from '../app/hooks';
 import {ModeContext} from '../Context/ModeContext';
+import {FileType} from '../screens/FileSelectionScreen';
 import FileBloc from './FileBloc';
 import FileList from './FileList';
 
-type FilesProps = {
-  files: any[];
-};
+interface FilesPropsType {
+  type: FileType;
+}
 
-function Files({files}: FilesProps) {
+function Files({type}: FilesPropsType) {
   const {mode} = useContext(ModeContext);
-  files.map(data => {
-    if (a.indexOf(data.fileName) === -1) {
-      a.push(data.fileName);
-      console.log('im in if ' + data.fileName);
-    }
-  });
+
+  const files = useAppSelector(state =>
+    type === 'inkml'
+      ? state.loadedFiles.textFileInfo
+      : state.loadedFiles.imageFileInfo,
+  );
+
   if (mode === 'list') {
     const renderItem = () => <FileList />;
     return (
       <View style={styles.files}>
         <FlatList
-          data={a}
+          data={files.map(data => data.fileName)}
           renderItem={renderItem}
           numColumns={2}
           key={'list'}
-          keyExtractor={() => uuid.v4() as string}
           contentContainerStyle={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -41,11 +42,10 @@ function Files({files}: FilesProps) {
     return (
       <View style={styles.files}>
         <FlatList
-          data={a}
+          data={files.map(data => data.fileName)}
           renderItem={renderItem}
           numColumns={3}
           key={'block'}
-          keyExtractor={() => uuid.v4() as string}
           contentContainerStyle={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -58,8 +58,6 @@ function Files({files}: FilesProps) {
     return <>;</>;
   }
 }
-
-let a: any = [];
 
 const styles = StyleSheet.create({
   files: {
