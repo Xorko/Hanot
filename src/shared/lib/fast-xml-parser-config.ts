@@ -1,6 +1,6 @@
 const xmlToJsOptions = {
   attributeNamePrefix: '',
-  attrNodeName: 'attr', //default is 'false'
+  attributesGroupName: 'attr', //default is 'false'
   textNodeName: '#text',
   ignoreAttributes: false,
   ignoreNameSpace: false,
@@ -23,14 +23,14 @@ const xmlToJsOptions = {
 
 const jsToXmlOptions = {
   attributeNamePrefix: '',
-  attrNodeName: 'attr', //default is false
+  attributesGroupName: 'attr', //default is false
   textNodeName: '#text',
   ignoreAttributes: false,
   cdataTagName: '__cdata', //default is false
   cdataPositionChar: '\\c',
   format: true,
-  indentBy: '  ',
-  supressEmptyNode: true,
+  indentBy: '    ',
+  suppressEmptyNode: true,
   rootNodeName: 'element',
 };
 

@@ -5,7 +5,7 @@ import {
   isPending,
   noise,
   pendingChar,
-} from '../core/char';
+} from './char';
 import * as Trace from '../core/trace';
 import * as TraceGroup from '../core/tracegroup';
 import * as Word from '../core/word';
@@ -307,7 +307,7 @@ export const addAnnotationUnit = (word: Word.Type, at?: number): void => {
     if (at === undefined) {
       at = word.tracegroups.length - 1;
     }
-    word.tracegroups.splice(at, 0, createEmptyTraceGroup());
+    word.tracegroups.push(createEmptyTraceGroup());
   }
 };
 
