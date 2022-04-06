@@ -1,3 +1,8 @@
+/* Data type definitions for the usage of convert an inkml file (string) into a json object or convert it back
+ * `Chan`, `AnnoData`, `TraceGroupData` and `InkData` for internal usage
+ * `Data` for usage with xml-parser
+ */
+
 export const enum Chan {
   X = 'X',
   Y = 'Y',
