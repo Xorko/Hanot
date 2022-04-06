@@ -14,7 +14,7 @@ const windowWidth = Dimensions.get('window').width;
 
 function TextFileSelectionScreen() {
   const [mode, setMode] = useState<DisplayMode>('block');
-  const [type, setType] = useState<FileType>('inkml'); // TODO : store in redux or context to go back to the right screen
+  const [type, setType] = useState<FileType>('inkml');
 
   const textFiles = useAppSelector(state =>
     type === 'inkml'
