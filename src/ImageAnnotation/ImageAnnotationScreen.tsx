@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Button, StyleSheet, Dimensions, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Shadow} from 'react-native-shadow-2';
 import SideBar from '../Components_remake/SideBar';
 import ImageAnnotationContainer from './ImageAnnotationContainer';
 import ImageLettersMenu from './ImageLettersMenu';
+import {ImageSourceContext} from '../Context/ImageSourceContext';
 
 const windowWidth = Dimensions.get('window').width;
 
-const ImageAnnotationScreen = () => {
+const ImageAnnotationScreen = ({route}) => {
   const navigation = useNavigation();
+  const {file} = route.params;
 
   const shadowStyle: ViewStyle = {alignSelf: 'flex-end'};
+
+  const [imageSource, setImageSource] = useState<string>(file.image);
+
+  const changeSource = (newSrc: string) => {
+    setImageSource(newSrc);
+  };
 
   return (
     <View style={styles.screen}>
@@ -26,8 +34,14 @@ const ImageAnnotationScreen = () => {
               }
             />
           </View>
-          <ImageLettersMenu />
-          <ImageAnnotationContainer />
+          <ImageSourceContext.Provider
+            value={{
+              imageSource: imageSource,
+              changeSource: changeSource,
+            }}>
+            <ImageLettersMenu />
+            {!!imageSource && <ImageAnnotationContainer />}
+          </ImageSourceContext.Provider>
         </View>
       </Shadow>
     </View>
