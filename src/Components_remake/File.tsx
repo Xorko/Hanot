@@ -23,7 +23,10 @@ const File = ({file}: FileProps) => {
 
   const handlePress = () => {
     if (type === 'image') {
-      navigation.navigate('ImageAnnotationScreen' as never);
+      navigation.navigate(
+        'ImageAnnotationScreen' as never,
+        {file: file} as never,
+      );
     }
   };
 
