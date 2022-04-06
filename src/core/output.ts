@@ -71,11 +71,23 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
         r = {
           attr: {
             'xml:id': getChar(a.label),
-            positionInGroundTruthValue: i,
             noise: isNoise(a.label) ? 'noise' : undefined,
+            positionInGroundTruthValue: i,
           },
           trace: tx[0],
         };
+        if (r.attr?.noise === undefined) {
+          delete r.attr?.noise;
+        }
+        if (r.attr?.positionInGroundTruthValue === undefined) {
+          delete r.attr?.positionInGroundTruthValue;
+        }
+        if (
+          r.attr?.['xml:id'] === undefined ||
+          r.attr?.['xml:id'] === '#noise'
+        ) {
+          delete r.attr?.['xml:id'];
+        }
         if (
           r.attr !== undefined &&
           Object.values(r.attr).every(item => item === undefined)
@@ -87,8 +99,8 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
         r = {
           attr: {
             'xml:id': getChar(a.label),
-            positionInGroundTruthValue: i,
             noise: isNoise(a.label) ? 'noise' : undefined,
+            positionInGroundTruthValue: i,
           },
           trace: tx,
         };
@@ -98,7 +110,10 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
         if (r.attr?.positionInGroundTruthValue === undefined) {
           delete r.attr?.positionInGroundTruthValue;
         }
-        if (r.attr?.['xml:id'] === undefined) {
+        if (
+          r.attr?.['xml:id'] === undefined ||
+          r.attr?.['xml:id'] === '#noise'
+        ) {
           delete r.attr?.['xml:id'];
         }
         if (
