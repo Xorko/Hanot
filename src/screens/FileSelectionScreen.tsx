@@ -16,7 +16,7 @@ function TextFileSelectionScreen() {
   const [mode, setMode] = useState<DisplayMode>('block');
   const [type, setType] = useState<FileType>('inkml');
 
-  const textFiles = useAppSelector(state =>
+  const textFiles = useAppSelector((state: any) =>
     type === 'inkml'
       ? state.loadedFiles.textFileInfo
       : state.loadedFiles.imageFileInfo,

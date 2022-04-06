@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {StyleSheet, View, ViewStyle} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAppSelector} from '../app/hooks';
 import {FileTypeContext} from '../Context/FileTypeContext';
@@ -10,17 +10,11 @@ function Files() {
   const {mode} = useContext(ModeContext);
   const {type} = useContext(FileTypeContext);
 
-  const files = useAppSelector(state =>
+  const files = useAppSelector((state: any) =>
     type === 'inkml'
       ? state.loadedFiles.textFileInfo
       : state.loadedFiles.imageFileInfo,
   );
-
-  const containerStyle: ViewStyle = {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  };
 
   return (
     <View style={styles.files}>
@@ -29,13 +23,18 @@ function Files() {
         renderItem={({item}) => <File file={item} />}
         numColumns={mode === 'block' ? 3 : 2}
         key={mode}
-        contentContainerStyle={containerStyle}
+        contentContainerStyle={styles.container}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
   files: {
     flex: 1,
     height: '100%',

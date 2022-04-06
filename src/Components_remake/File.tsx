@@ -5,6 +5,8 @@ import {Shadow} from 'react-native-shadow-2';
 import {FileTypeContext} from '../Context/FileTypeContext';
 import {ModeContext} from '../Context/ModeContext';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../types/NavigationTypes';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,22 +19,17 @@ const File = ({file}: FileProps) => {
   const {mode} = useContext(ModeContext);
   const {type} = useContext(FileTypeContext);
 
-  const navigation = useNavigation();
-
-  const shadowStyle = {marginRight: 20, marginBottom: 20};
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const handlePress = () => {
     if (type === 'image') {
-      navigation.navigate(
-        'ImageAnnotationScreen' as never,
-        {file: file} as never,
-      );
+      navigation.navigate('ImageAnnotationScreen', {file: file});
     }
   };
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <Shadow distance={12} viewStyle={shadowStyle}>
+      <Shadow distance={12} viewStyle={styles.shadow}>
         <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
           <View
             style={
@@ -83,6 +80,10 @@ const styles = StyleSheet.create({
   fileName: {
     height: '15%',
     justifyContent: 'center',
+  },
+  shadow: {
+    marginRight: 20,
+    marginBottom: 20,
   },
 });
 

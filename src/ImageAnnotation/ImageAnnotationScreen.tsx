@@ -6,11 +6,19 @@ import SideBar from '../Components_remake/SideBar';
 import ImageAnnotationContainer from './ImageAnnotationContainer';
 import ImageLettersMenu from './ImageLettersMenu';
 import {ImageSourceContext} from '../Context/ImageSourceContext';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../types/NavigationTypes';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const windowWidth = Dimensions.get('window').width;
 
-const ImageAnnotationScreen = ({route}) => {
-  const navigation = useNavigation();
+type ImageAnnotationScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'ImageAnnotationScreen'
+>;
+
+const ImageAnnotationScreen = ({route}: ImageAnnotationScreenProps) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {file} = route.params;
 
   const shadowStyle: ViewStyle = {alignSelf: 'flex-end'};
@@ -29,9 +37,7 @@ const ImageAnnotationScreen = ({route}) => {
           <View style={styles.home}>
             <Button
               title="Menu"
-              onPress={() =>
-                navigation.navigate('FileSelectionScreen' as never)
-              }
+              onPress={() => navigation.navigate('FileSelectionScreen', {})}
             />
           </View>
           <ImageSourceContext.Provider

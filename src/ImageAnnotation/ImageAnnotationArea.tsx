@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Canvas, {Image as CanvasImage} from 'react-native-canvas';
 import {ImageSourceContext} from '../Context/ImageSourceContext';
-import {Size} from '../utils/Types';
+import {Size} from './types/Types';
 
 const ImageAnnotationArea = () => {
   const {imageSource} = useContext(ImageSourceContext);
