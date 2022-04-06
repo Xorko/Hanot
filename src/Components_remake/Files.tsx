@@ -2,15 +2,13 @@ import {useContext} from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAppSelector} from '../app/hooks';
+import {FileTypeContext} from '../Context/FileTypeContext';
 import {ModeContext} from '../Context/ModeContext';
-import {FileType} from '../screens/FileSelectionScreen';
 import File from './File';
-interface FilesPropsType {
-  type: FileType;
-}
 
-function Files({type}: FilesPropsType) {
+function Files() {
   const {mode} = useContext(ModeContext);
+  const {type} = useContext(FileTypeContext);
 
   const files = useAppSelector(state =>
     type === 'inkml'
@@ -27,8 +25,8 @@ function Files({type}: FilesPropsType) {
   return (
     <View style={styles.files}>
       <FlatList
-        data={files.map(data => data.fileName)}
-        renderItem={({item}) => <File fileName={item} />}
+        data={files}
+        renderItem={({item}) => <File file={item} />}
         numColumns={mode === 'block' ? 3 : 2}
         key={mode}
         contentContainerStyle={containerStyle}

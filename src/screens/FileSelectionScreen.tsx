@@ -1,21 +1,20 @@
 import {useState} from 'react';
-import {Button, Dimensions, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, View, ViewStyle} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import Files from '../Components_remake/Files';
 import HeaderFiles from '../Components_remake/HeaderFiles';
 import SideBar from '../Components_remake/SideBar';
+import {FileType, FileTypeContext} from '../Context/FileTypeContext';
 import {DisplayMode, ModeContext} from '../Context/ModeContext';
 import {addImageFile, addTextFile} from '../features/files/loaded-files-slice';
 import {handleOpenImageFiles, handleOpenInkmlFiles} from '../utils/file-utils';
 
 const windowWidth = Dimensions.get('window').width;
 
-export type FileType = 'image' | 'inkml';
-
 function TextFileSelectionScreen() {
   const [mode, setMode] = useState<DisplayMode>('block');
-  const [type, setType] = useState<FileType>('inkml');
+  const [type, setType] = useState<FileType>('inkml'); // TODO : store in redux or context to go back to the right screen
 
   const textFiles = useAppSelector(state =>
     type === 'inkml'
@@ -25,6 +24,14 @@ function TextFileSelectionScreen() {
   const dispatch = useAppDispatch();
 
   const changeDisplayMode = (newMode: DisplayMode) => setMode(newMode);
+
+  const changeType = () => {
+    if (type === 'inkml') {
+      setType('image');
+    } else {
+      setType('inkml');
+    }
+  };
 
   const addFiles = (fileInfo: any[]) => {
     switch (type) {
@@ -62,24 +69,31 @@ function TextFileSelectionScreen() {
   const buttonTitle: string =
     type === 'inkml' ? 'Change to Image' : 'Change to InkML';
 
+  const containerViewStyle: ViewStyle = {alignSelf: 'flex-end'};
+
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={{alignSelf: 'flex-end'}}>
+      <Shadow containerViewStyle={containerViewStyle}>
         <View style={styles.annotation}>
           <ModeContext.Provider
             value={{
               mode: mode,
               changeMode: changeDisplayMode,
             }}>
-            <HeaderFiles />
-            <Files type={type} />
-            <Button title="pick files" onPress={handleFileSelection} />
-            <Button
-              title="show files"
-              onPress={() => textFiles.map((s: any) => console.log(s.fileName))}
-            />
-            <Button title={buttonTitle} onPress={handleFileTypeChange} />
+            <FileTypeContext.Provider
+              value={{type: type, changeType: changeType}}>
+              <HeaderFiles />
+              <Files />
+              <Button title="pick files" onPress={handleFileSelection} />
+              <Button
+                title="show files"
+                onPress={() =>
+                  textFiles.map((s: any) => console.log(s.fileName))
+                }
+              />
+              <Button title={buttonTitle} onPress={handleFileTypeChange} />
+            </FileTypeContext.Provider>
           </ModeContext.Provider>
         </View>
       </Shadow>

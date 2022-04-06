@@ -1,33 +1,49 @@
 import {useContext} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Shadow} from 'react-native-shadow-2';
+import {FileTypeContext} from '../Context/FileTypeContext';
 import {ModeContext} from '../Context/ModeContext';
+import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 interface FileProps {
-  fileName: string;
+  file: any;
 }
 
-const File = ({fileName}: FileProps) => {
+const File = ({file}: FileProps) => {
   const {mode} = useContext(ModeContext);
+  const {type} = useContext(FileTypeContext);
+
+  const navigation = useNavigation();
 
   const shadowStyle = {marginRight: 20, marginBottom: 20};
 
+  const handlePress = () => {
+    if (type === 'image') {
+      navigation.navigate('ImageAnnotationScreen' as never);
+    }
+  };
+
   return (
-    <Shadow distance={12} viewStyle={shadowStyle}>
-      <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
-        <View
-          style={
-            mode === 'block' ? styles.wordPreviewBlock : styles.wordPreviewList
-          }
-        />
-        <View style={styles.fileName}>
-          <Text>{fileName}</Text>
+    <TouchableOpacity onPress={handlePress}>
+      <Shadow distance={12} viewStyle={shadowStyle}>
+        <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
+          <View
+            style={
+              mode === 'block'
+                ? styles.wordPreviewBlock
+                : styles.wordPreviewList
+            }
+          />
+          <View style={styles.fileName}>
+            <Text>{file.fileName}</Text>
+          </View>
         </View>
-      </View>
-    </Shadow>
+      </Shadow>
+    </TouchableOpacity>
   );
 };
 
