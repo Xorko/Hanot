@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
+import ImageAnnotationScreen from './ImageAnnotation/ImageAnnotationScreen';
 import AnnotationScreen from './screens/AnnotationScreen';
 import FileSelectionScreen from './screens/FileSelectionScreen';
 
@@ -35,8 +36,12 @@ function App() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="AnnotationScreen">
+          initialRouteName="FileSelectionScreen">
           <Screen name="AnnotationScreen" component={AnnotationScreen} />
+          <Screen
+            name="ImageAnnotationScreen"
+            component={ImageAnnotationScreen}
+          />
           <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
         </Navigator>
       </NavigationContainer>
