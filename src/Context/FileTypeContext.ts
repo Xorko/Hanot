@@ -9,5 +9,5 @@ type FileTypeContextValue = {
 
 export const FileTypeContext = createContext<FileTypeContextValue>({
   type: 'inkml',
-  changeType: () => {}, // TODO Find a cleaner way to do this
+  changeType: () => {},
 });
