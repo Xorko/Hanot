@@ -30,11 +30,7 @@ function TextFileSelectionScreen() {
   const changeDisplayMode = (newMode: DisplayMode) => setMode(newMode);
 
   const changeType = () => {
-    if (type === 'inkml') {
-      setType('image');
-    } else {
-      setType('inkml');
-    }
+    type === 'inkml' ? setType('image') : setType('inkml');
   };
 
   const addFiles = (fileInfo: any[]) => {
