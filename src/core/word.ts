@@ -5,11 +5,11 @@ import * as XMLAnnotation from './xml-annotation';
 
 interface Word {
   tracegroups: TraceGroup.Type[];
-  annotationsXML?: XMLAnnotation.Type;
-  annotations: SerializableMap<string>;
-  attributes: SerializableMap<any>;
+  readonly annotationsXML?: XMLAnnotation.Type;
+  readonly annotations: SerializableMap<string>;
+  readonly attributes: SerializableMap<any>;
 
-  predicted: string | undefined;
+  readonly  predicted: string | undefined;
 
   defaultTraceGroup: Trace.Type[];
 }
