@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import Files from '../Components_remake/Files';
 import HeaderFiles from '../Components_remake/HeaderFiles';
@@ -72,29 +71,25 @@ function TextFileSelectionScreen() {
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={styles.container}>
-        <View style={styles.annotation}>
-          <ModeContext.Provider
-            value={{
-              mode: mode,
-              changeMode: changeDisplayMode,
-            }}>
-            <FileTypeContext.Provider
-              value={{type: type, changeType: changeType}}>
-              <HeaderFiles />
-              <Files />
-              <Button title="pick files" onPress={handleFileSelection} />
-              <Button
-                title="show files"
-                onPress={() =>
-                  textFiles.map((s: any) => console.log(s.fileName))
-                }
-              />
-              <Button title={buttonTitle} onPress={handleFileTypeChange} />
-            </FileTypeContext.Provider>
-          </ModeContext.Provider>
-        </View>
-      </Shadow>
+      <View style={styles.annotation}>
+        <ModeContext.Provider
+          value={{
+            mode: mode,
+            changeMode: changeDisplayMode,
+          }}>
+          <FileTypeContext.Provider
+            value={{type: type, changeType: changeType}}>
+            <HeaderFiles />
+            <Files />
+            <Button title="pick files" onPress={handleFileSelection} />
+            <Button
+              title="show files"
+              onPress={() => textFiles.map((s: any) => console.log(s.fileName))}
+            />
+            <Button title={buttonTitle} onPress={handleFileTypeChange} />
+          </FileTypeContext.Provider>
+        </ModeContext.Provider>
+      </View>
     </View>
   );
 }

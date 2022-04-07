@@ -1,11 +1,10 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {useContext} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Shadow} from 'react-native-shadow-2';
 import {FileTypeContext} from '../Context/FileTypeContext';
 import {ModeContext} from '../Context/ModeContext';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/NavigationTypes';
 import {ImageFile, InkmlFile} from '../utils/types/Types';
 
@@ -30,20 +29,16 @@ const File = ({file}: FileProps) => {
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <Shadow distance={12} viewStyle={styles.shadow}>
-        <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
-          <View
-            style={
-              mode === 'block'
-                ? styles.wordPreviewBlock
-                : styles.wordPreviewList
-            }
-          />
-          <View style={styles.fileName}>
-            <Text>{file.fileName}</Text>
-          </View>
+      <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
+        <View
+          style={
+            mode === 'block' ? styles.wordPreviewBlock : styles.wordPreviewList
+          }
+        />
+        <View style={styles.fileName}>
+          <Text>{file.fileName}</Text>
         </View>
-      </Shadow>
+      </View>
     </TouchableOpacity>
   );
 };

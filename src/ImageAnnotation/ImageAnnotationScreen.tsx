@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import {View, Button, StyleSheet, Dimensions, ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Shadow} from 'react-native-shadow-2';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useState} from 'react';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import SideBar from '../Components_remake/SideBar';
+import {ImageSourceContext} from '../Context/ImageSourceContext';
+import {RootStackParamList} from '../types/NavigationTypes';
 import ImageAnnotationContainer from './ImageAnnotationContainer';
 import ImageLettersMenu from './ImageLettersMenu';
-import {ImageSourceContext} from '../Context/ImageSourceContext';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/NavigationTypes';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,8 +20,6 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenProps) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {file} = route.params;
 
-  const shadowStyle: ViewStyle = {alignSelf: 'flex-end'};
-
   const [imageSource, setImageSource] = useState<string>(file.image);
 
   const changeSource = (newSrc: string) => {
@@ -32,24 +29,22 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenProps) => {
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={shadowStyle}>
-        <View style={styles.annotation}>
-          <View style={styles.home}>
-            <Button
-              title="Menu"
-              onPress={() => navigation.navigate('FileSelectionScreen', {})}
-            />
-          </View>
-          <ImageSourceContext.Provider
-            value={{
-              imageSource: imageSource,
-              changeSource: changeSource,
-            }}>
-            <ImageLettersMenu />
-            {!!imageSource && <ImageAnnotationContainer />}
-          </ImageSourceContext.Provider>
+      <View style={styles.annotation}>
+        <View style={styles.home}>
+          <Button
+            title="Menu"
+            onPress={() => navigation.navigate('FileSelectionScreen', {})}
+          />
         </View>
-      </Shadow>
+        <ImageSourceContext.Provider
+          value={{
+            imageSource: imageSource,
+            changeSource: changeSource,
+          }}>
+          <ImageLettersMenu />
+          {!!imageSource && <ImageAnnotationContainer />}
+        </ImageSourceContext.Provider>
+      </View>
     </View>
   );
 };

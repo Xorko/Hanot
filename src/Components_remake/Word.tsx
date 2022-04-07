@@ -1,5 +1,4 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 import {AnnotationArea} from '../utils/AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
@@ -8,11 +7,9 @@ const windowHeight = Dimensions.get('window').height;
 function Word() {
   return (
     <View style={styles.main}>
-      <Shadow>
-        <View style={styles.box}>
-          <AnnotationArea />
-        </View>
-      </Shadow>
+      <View style={styles.box}>
+        <AnnotationArea />
+      </View>
     </View>
   );
 }

@@ -1,17 +1,14 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function Letter() {
   return (
-    <Shadow distance={15} viewStyle={{marginRight: 20}}>
-      <View style={styles.box}>
-        <View style={styles.letterWriting} />
-        <View style={styles.letterTitle} />
-      </View>
-    </Shadow>
+    <View style={styles.box}>
+      <View style={styles.letterWriting} />
+      <View style={styles.letterTitle} />
+    </View>
   );
 }
 

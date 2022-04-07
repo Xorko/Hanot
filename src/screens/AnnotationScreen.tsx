@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 import LettersMenu from '../Components_remake/LettersMenu';
 import SideBar from '../Components_remake/SideBar';
 import Word from '../Components_remake/Word';
@@ -20,15 +19,13 @@ function AnnotationScreen(props: AnnotationScreenProps) {
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={{alignSelf: 'flex-end'}}>
-        <View style={styles.annotation}>
-          <View style={styles.home}>
-            <Button title="Menu" onPress={() => fileScreen()} />
-          </View>
-          <LettersMenu />
-          <Word />
+      <View style={styles.annotation}>
+        <View style={styles.home}>
+          <Button title="Menu" onPress={() => fileScreen()} />
         </View>
-      </Shadow>
+        <LettersMenu />
+        <Word />
+      </View>
     </View>
   );
   /*return (

@@ -1,5 +1,4 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 import ImageAnnotationArea from './ImageAnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
@@ -8,11 +7,9 @@ const windowHeight = Dimensions.get('window').height;
 const ImageAnnotationContainer = () => {
   return (
     <View style={styles.main}>
-      <Shadow>
-        <View style={styles.box}>
-          <ImageAnnotationArea />
-        </View>
-      </Shadow>
+      <View style={styles.box}>
+        <ImageAnnotationArea />
+      </View>
     </View>
   );
 };
