@@ -5,7 +5,7 @@ import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as Word from './word';
-import type {StringMap, AnyMap} from '../types/types';
+import type {SerializableMap} from '../types/types';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
@@ -24,7 +24,7 @@ export const constructData = (ink?: InkData): InkML.Type | undefined => {
 
 const makeWords = (
   tg: TraceGroupData | TraceGroupData[],
-  anno?: StringMap,
+  anno?: SerializableMap<string>,
 ): Word.Type[] => {
   if (Array.isArray(tg)) {
     return tg.map(e => makeSingleWord(e, anno));
@@ -33,9 +33,9 @@ const makeWords = (
   }
 };
 
-const makeSingleWord = (tg: TraceGroupData, anno?: StringMap): Word.Type => {
+const makeSingleWord = (tg: TraceGroupData, anno?: SerializableMap<string>): Word.Type => {
   const predicted = tg.attr?.['xml:id'];
-  const attrs = {} as AnyMap;
+  const attrs = {} as SerializableMap<any>;
   if (tg.attr !== undefined) {
     for (const [k, v] of Object.entries(tg.attr)) {
       if (!['xml:id', 'positionInGroundTruthValue', 'noise'].includes(k)) {
@@ -47,22 +47,22 @@ const makeSingleWord = (tg: TraceGroupData, anno?: StringMap): Word.Type => {
   if (tg.annotationXML !== undefined) {
     annoXML = {
       type: tg.annotationXML.attr.type,
-      values: makeAnnotations(tg.annotationXML.annotation) ?? ({} as StringMap),
+      values: makeAnnotations(tg.annotationXML.annotation) ?? ({} as SerializableMap<string>),
     };
   }
   const [traceGroups, danglingTraces] = constructTraceGroups(tg);
   return {
     tracegroups: traceGroups,
     annotationsXML: annoXML,
-    annotations: anno ?? makeAnnotations(tg.annotation) ?? ({} as StringMap),
+    annotations: anno ?? makeAnnotations(tg.annotation) ?? ({} as SerializableMap<string>),
     attributes: attrs,
     predicted: predicted,
     defaultTraceGroup: [...danglingTraces, ...constructDefaultTraceGroup(tg)],
   };
 };
 
-const makeAnnotations = (annos?: AnnoData[]): StringMap => {
-  const ret: StringMap = {};
+const makeAnnotations = (annos?: AnnoData[]): SerializableMap<string> => {
+  const ret: SerializableMap<string> = {};
 
   for (const anno of annos ?? []) {
     if (anno.attr !== undefined) {

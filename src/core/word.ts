@@ -1,4 +1,4 @@
-import type {AnyMap, StringMap} from '../types/types';
+import type {SerializableMap} from '../types/types';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as XMLAnnotation from './xml-annotation';
@@ -6,8 +6,8 @@ import * as XMLAnnotation from './xml-annotation';
 interface Word {
   tracegroups: TraceGroup.Type[];
   annotationsXML?: XMLAnnotation.Type;
-  annotations: StringMap;
-  attributes: AnyMap;
+  annotations: SerializableMap<string>;
+  attributes: SerializableMap<any>;
 
   predicted: string | undefined;
 

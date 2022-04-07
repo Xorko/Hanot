@@ -12,10 +12,6 @@ export type ImageFile = {
   image: string;
 };
 
-export type AnyMap = {
-  [key: string]: any;
-};
-
-export type StringMap = {
-  [key: string]: string;
-};
+export type SerializableMap<V> = {
+  [key: string]: V;
+}
