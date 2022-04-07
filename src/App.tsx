@@ -13,7 +13,7 @@ import {Provider} from 'react-redux';
 import {store} from './app/store';
 import ImageAnnotationScreen from './ImageAnnotation/ImageAnnotationScreen';
 import AnnotationScreen from './screens/AnnotationScreen';
-import FileSelectionScreen from './screens/FileSelectionScreen';
+import FileSelectionScreen from './screens/FileSelectionScreen/FileSelectionScreen';
 
 export type DrawerParamList = {
   Annotation: undefined;
