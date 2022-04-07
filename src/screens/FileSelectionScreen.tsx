@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Button, Dimensions, StyleSheet, View, ViewStyle} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import Files from '../Components_remake/Files';
@@ -73,12 +73,10 @@ function TextFileSelectionScreen() {
   const buttonTitle: string =
     type === 'inkml' ? 'Change to Image' : 'Change to InkML';
 
-  const containerViewStyle: ViewStyle = {alignSelf: 'flex-end'};
-
   return (
     <View style={styles.screen}>
       <SideBar />
-      <Shadow containerViewStyle={containerViewStyle}>
+      <Shadow containerViewStyle={styles.container}>
         <View style={styles.annotation}>
           <ModeContext.Provider
             value={{
@@ -106,6 +104,9 @@ function TextFileSelectionScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignSelf: 'flex-end',
+  },
   screen: {
     height: '100%',
     width: '100%',
