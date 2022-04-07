@@ -1,8 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ImageFile, InkmlFile} from '../../utils/types/Types';
 
-interface LoadedFilesState {
-  textFileInfo: any[];
-  imageFileInfo: any[];
+export interface LoadedFilesState {
+  textFileInfo: InkmlFile[];
+  imageFileInfo: ImageFile[];
 }
 
 const initialState: LoadedFilesState = {

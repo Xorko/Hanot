@@ -7,7 +7,11 @@ import HeaderFiles from '../Components_remake/HeaderFiles';
 import SideBar from '../Components_remake/SideBar';
 import {FileType, FileTypeContext} from '../Context/FileTypeContext';
 import {DisplayMode, ModeContext} from '../Context/ModeContext';
-import {addImageFile, addTextFile} from '../features/files/loaded-files-slice';
+import {
+  addImageFile,
+  addTextFile,
+  LoadedFilesState,
+} from '../features/files/loaded-files-slice';
 import {handleOpenImageFiles, handleOpenInkmlFiles} from '../utils/file-utils';
 
 const windowWidth = Dimensions.get('window').width;
@@ -16,7 +20,7 @@ function TextFileSelectionScreen() {
   const [mode, setMode] = useState<DisplayMode>('block');
   const [type, setType] = useState<FileType>('inkml');
 
-  const textFiles = useAppSelector((state: any) =>
+  const textFiles = useAppSelector((state: {loadedFiles: LoadedFilesState}) =>
     type === 'inkml'
       ? state.loadedFiles.textFileInfo
       : state.loadedFiles.imageFileInfo,

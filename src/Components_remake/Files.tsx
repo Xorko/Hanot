@@ -4,13 +4,14 @@ import {FlatList} from 'react-native-gesture-handler';
 import {useAppSelector} from '../app/hooks';
 import {FileTypeContext} from '../Context/FileTypeContext';
 import {ModeContext} from '../Context/ModeContext';
+import {LoadedFilesState} from '../features/files/loaded-files-slice';
 import File from './File';
 
 function Files() {
   const {mode} = useContext(ModeContext);
   const {type} = useContext(FileTypeContext);
 
-  const files = useAppSelector((state: any) =>
+  const files = useAppSelector((state: {loadedFiles: LoadedFilesState}) =>
     type === 'inkml'
       ? state.loadedFiles.textFileInfo
       : state.loadedFiles.imageFileInfo,

@@ -7,12 +7,13 @@ import {ModeContext} from '../Context/ModeContext';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/NavigationTypes';
+import {ImageFile, InkmlFile} from '../utils/types/Types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 interface FileProps {
-  file: any;
+  file: InkmlFile | ImageFile;
 }
 
 const File = ({file}: FileProps) => {

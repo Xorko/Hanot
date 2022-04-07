@@ -4,6 +4,7 @@ import DocumentPicker, {
   types,
 } from 'react-native-document-picker';
 import {parser} from '../lib/fast-xml-parser';
+import {ImageFile, InkmlFile} from './types/Types';
 
 /**
  * Opens the file picker and returns selected files
@@ -54,15 +55,16 @@ export const handleOpenInkmlFiles = async () => {
     const readFiles = pickedFiles.map((file: DocumentPickerResponse) =>
       Platform.OS === 'web' ? readTextFileWeb(file) : readTextFileMobile(file),
     );
-    const filesAsXML = Promise.all(readFiles).then((filesAsText: string[]) =>
-      filesAsText.map((fileAsText, i) => {
-        const parsed = parseXML(fileAsText);
-        return {
-          ...parsed,
-          fileName: pickedFiles[i].name,
-          filePath: pickedFiles[i].uri,
-        };
-      }),
+    const filesAsXML: Promise<InkmlFile[]> = Promise.all(readFiles).then(
+      (filesAsText: string[]) =>
+        filesAsText.map((fileAsText, i) => {
+          const parsed = parseXML(fileAsText);
+          return {
+            ...parsed,
+            fileName: pickedFiles[i].name,
+            filePath: pickedFiles[i].uri,
+          };
+        }),
     );
 
     return filesAsXML;
@@ -91,15 +93,16 @@ export const handleOpenImageFiles = async () => {
       readImageFile(file),
     );
 
-    const files = Promise.all(readFiles).then((res: string[]) =>
-      res.map((_, i) => {
-        const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
-        return {
-          image,
-          fileName: pickedFiles[i].name,
-          filePath: pickedFiles[i].uri,
-        };
-      }),
+    const files: Promise<ImageFile[]> = Promise.all(readFiles).then(
+      (res: string[]) =>
+        res.map((_, i) => {
+          const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
+          return {
+            image,
+            fileName: pickedFiles[i].name,
+            filePath: pickedFiles[i].uri,
+          };
+        }),
     );
     return files;
   }
