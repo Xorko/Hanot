@@ -3,8 +3,9 @@ import DocumentPicker, {
   DocumentPickerResponse,
   types,
 } from 'react-native-document-picker';
+import {constructData} from '../core/input';
 import {parser} from '../lib/fast-xml-parser';
-import {ImageFile, InkmlFile} from './types/Types';
+import {ImageFile, InkMLFile} from '../types/types';
 
 /**
  * Opens the file picker and returns selected files
@@ -48,23 +49,22 @@ export const parseXML = (xml: string) => {
  * Handles the file selection
  * @returns The content of the files as JSON
  */
-export const handleOpenInkmlFiles = async () => {
+export const handleOpenInkmlFiles = async (): Promise<InkMLFile[]> => {
   const pickedFiles = await pickFiles();
 
   if (pickedFiles) {
     const readFiles = pickedFiles.map((file: DocumentPickerResponse) =>
       Platform.OS === 'web' ? readTextFileWeb(file) : readTextFileMobile(file),
     );
-    const filesAsXML: Promise<InkmlFile[]> = Promise.all(readFiles).then(
-      (filesAsText: string[]) =>
-        filesAsText.map((fileAsText, i) => {
-          const parsed = parseXML(fileAsText);
-          return {
-            ...parsed,
-            fileName: pickedFiles[i].name,
-            filePath: pickedFiles[i].uri,
-          };
-        }),
+    const filesAsXML = Promise.all(readFiles).then((filesAsText: string[]) =>
+      filesAsText.map((fileAsText, i) => {
+        const parsed = constructData(parseXML(fileAsText).ink);
+        return {
+          content: parsed,
+          fileName: pickedFiles[i].name,
+          filePath: pickedFiles[i].uri,
+        };
+      }),
     );
 
     return filesAsXML;
@@ -85,7 +85,7 @@ const readImageFile = async (file: DocumentPickerResponse) => {
   return RNFS.readFile(file.uri, 'base64');
 };
 
-export const handleOpenImageFiles = async () => {
+export const handleOpenImageFiles = async (): Promise<ImageFile[]> => {
   const pickedFiles = await pickImage();
 
   if (pickedFiles) {
@@ -93,16 +93,15 @@ export const handleOpenImageFiles = async () => {
       readImageFile(file),
     );
 
-    const files: Promise<ImageFile[]> = Promise.all(readFiles).then(
-      (res: string[]) =>
-        res.map((_, i) => {
-          const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
-          return {
-            image,
-            fileName: pickedFiles[i].name,
-            filePath: pickedFiles[i].uri,
-          };
-        }),
+    const files = Promise.all(readFiles).then((res: string[]) =>
+      res.map((_, i) => {
+        const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
+        return {
+          image,
+          fileName: pickedFiles[i].name,
+          filePath: pickedFiles[i].uri,
+        };
+      }),
     );
     return files;
   }

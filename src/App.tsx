@@ -11,9 +11,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
-import ImageAnnotationScreen from './ImageAnnotation/ImageAnnotationScreen';
-import AnnotationScreen from './screens/AnnotationScreen';
-import FileSelectionScreen from './screens/FileSelectionScreen/FileSelectionScreen';
+import ImageAnnotationScreen from './screens/annotation/image-annotation-screen/ImageAnnotationScreen';
+import InkmlAnnotationScreen from './screens/annotation/inkml-annotation-screen/InkmlAnnotationScreen';
+import FileSelectionScreen from './screens/file-selection-screen/FileSelectionScreen';
 
 export type DrawerParamList = {
   Annotation: undefined;
@@ -37,7 +37,10 @@ function App() {
             headerShown: false,
           }}
           initialRouteName="FileSelectionScreen">
-          <Screen name="AnnotationScreen" component={AnnotationScreen} />
+          <Screen
+            name="InkMLAnnotationScreen"
+            component={InkmlAnnotationScreen}
+          />
           <Screen
             name="ImageAnnotationScreen"
             component={ImageAnnotationScreen}
