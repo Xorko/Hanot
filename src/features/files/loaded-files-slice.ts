@@ -30,9 +30,15 @@ const loadedFilesSlice = createSlice({
       state.textFileInfo.splice(action.payload, 1);
     },
     addImageFile: (state, action: PayloadAction<any[]>) => {
-      action.payload.forEach(file => {
-        state.imageFileInfo.push(file);
-      });
+      if (
+        !state.imageFileInfo.some(
+          file => file.filePath === action.payload[0].filePath,
+        )
+      ) {
+        action.payload.forEach(file => {
+          state.imageFileInfo.push(file);
+        });
+      }
     },
     removeImageFile: (state, action: PayloadAction<any>) => {
       state.imageFileInfo.splice(action.payload, 1);
