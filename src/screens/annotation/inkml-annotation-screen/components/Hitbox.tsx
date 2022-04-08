@@ -1,6 +1,6 @@
 import React from 'react';
 import {Circle} from 'react-native-svg';
-import * as Dot from '../core/dot';
+import * as Dot from '../../../../core/dot';
 
 interface HitBoxProps {
   dot: Dot.Type; // the dot to associate to the hitbox
