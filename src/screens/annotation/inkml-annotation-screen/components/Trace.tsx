@@ -1,7 +1,7 @@
 import React from 'react';
 import {GestureResponderEvent, View} from 'react-native';
 import {Polyline} from 'react-native-svg';
-import * as TraceData from '../core/trace';
+import * as TraceData from '../../../../core/trace';
 
 interface TraceProps {
   parsedDots: TraceData.Type[]; // the traces to draw on the SVG
