@@ -5,8 +5,8 @@ import {useState} from 'react';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import {ImageSourceContext} from '../../../context/ImageSourceContext';
 import {RootStackParamList} from '../../../types/navigation-types';
-import ImageAnnotationContainer from './component/ImageAnnotationContainer';
-import ImageLettersMenu from './component/ImageLettersMenu';
+import ImageAnnotationContainer from './components/ImageAnnotationContainer';
+import ImageLettersMenu from './components/ImageLettersMenu';
 
 const windowWidth = Dimensions.get('window').width;
 

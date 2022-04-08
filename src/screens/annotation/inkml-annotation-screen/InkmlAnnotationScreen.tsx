@@ -1,13 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
-import Word from './component/Word';
+import Word from './components/Word';
 import {RootStackParamList} from '../../../types/navigation-types';
 import {TraceContext} from '../../../context/TraceContext';
 import {useEffect, useState} from 'react';
 import * as Trace from '../../../core/trace';
 import * as WordData from '../../../core/word';
-import LettersMenu from './component/LettersMenu';
+import LettersMenu from './components/LettersMenu';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<

@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
-import Files from './component/Files';
-import Buttons from './component/Buttons';
+import Files from './components/Files';
+import Buttons from './components/Buttons';
 import {FileType, FileTypeContext} from '../../context/FileTypeContext';
 import {DisplayMode, ModeContext} from '../../context/ModeContext';
 
