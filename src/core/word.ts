@@ -1,4 +1,4 @@
-import type {SerializableMap} from '../types/types';
+import type {SerializableMap} from '../types/file-import-types';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as XMLAnnotation from './xml-annotation';
@@ -9,7 +9,7 @@ interface Word {
   readonly annotations: SerializableMap<string>;
   readonly attributes: SerializableMap<any>;
 
-  readonly  predicted: string | undefined;
+  readonly predicted: string | undefined;
 
   defaultTraceGroup: Trace.Type[];
 }

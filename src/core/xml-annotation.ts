@@ -1,4 +1,4 @@
-import type {SerializableMap} from '../types/types';
+import type {SerializableMap} from '../types/file-import-types';
 
 interface XMLAnnotation {
   readonly type: string;

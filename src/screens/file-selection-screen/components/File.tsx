@@ -6,7 +6,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {FileTypeContext} from '../../../context/FileTypeContext';
 import {ModeContext} from '../../../context/ModeContext';
 import {RootStackParamList} from '../../../types/navigation-types';
-import {ImageFile, InkMLFile} from '../../../types/types';
+import {ImageFile, InkMLFile} from '../../../types/file-import-types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

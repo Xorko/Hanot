@@ -5,7 +5,7 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import {constructData} from '../core/input';
 import {parser} from '../lib/fast-xml-parser';
-import {ImageFile, InkMLFile} from '../types/types';
+import {ImageFile, InkMLFile} from '../types/file-import-types';
 
 /**
  * Opens the file picker and returns selected files

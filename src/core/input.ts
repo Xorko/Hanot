@@ -5,7 +5,7 @@ import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as Word from './word';
-import type {SerializableMap} from '../types/types';
+import type {SerializableMap} from '../types/file-import-types';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
@@ -33,7 +33,10 @@ const makeWords = (
   }
 };
 
-const makeSingleWord = (tg: TraceGroupData, anno?: SerializableMap<string>): Word.Type => {
+const makeSingleWord = (
+  tg: TraceGroupData,
+  anno?: SerializableMap<string>,
+): Word.Type => {
   const predicted = tg.attr?.['xml:id'];
   const attrs = {} as SerializableMap<any>;
   if (tg.attr !== undefined) {
@@ -47,14 +50,17 @@ const makeSingleWord = (tg: TraceGroupData, anno?: SerializableMap<string>): Wor
   if (tg.annotationXML !== undefined) {
     annoXML = {
       type: tg.annotationXML.attr.type,
-      values: makeAnnotations(tg.annotationXML.annotation) ?? ({} as SerializableMap<string>),
+      values:
+        makeAnnotations(tg.annotationXML.annotation) ??
+        ({} as SerializableMap<string>),
     };
   }
   const [traceGroups, danglingTraces] = constructTraceGroups(tg);
   return {
     tracegroups: traceGroups,
     annotationsXML: annoXML,
-    annotations: anno ?? makeAnnotations(tg.annotation) ?? ({} as SerializableMap<string>),
+    annotations:
+      anno ?? makeAnnotations(tg.annotation) ?? ({} as SerializableMap<string>),
     attributes: attrs,
     predicted: predicted,
     defaultTraceGroup: [...danglingTraces, ...constructDefaultTraceGroup(tg)],
