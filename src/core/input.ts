@@ -5,7 +5,7 @@ import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as Word from './word';
-import type {SerializableMap} from '../types/file-import-types';
+import type {SerializableMap} from '../screens/file-selection-screen/types/file-import-types';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.

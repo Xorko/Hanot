@@ -1,4 +1,4 @@
-import * as InkML from '../core/inkml';
+import * as InkML from '../../../core/inkml';
 
 export type InkMLFile = {
   fileName: string;
