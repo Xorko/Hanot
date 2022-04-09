@@ -2,8 +2,8 @@ import {useState} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import Files from './components/Files';
 import Buttons from './components/Buttons';
-import {FileType, FileTypeContext} from '../../context/FileTypeContext';
-import {DisplayMode, ModeContext} from '../../context/ModeContext';
+import {FileType, FileTypeContext} from './context/FileTypeContext';
+import {DisplayMode, ModeContext} from './context/ModeContext';
 
 const windowWidth = Dimensions.get('window').width;
 

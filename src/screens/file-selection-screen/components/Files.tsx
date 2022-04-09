@@ -2,9 +2,9 @@ import {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAppSelector} from '../../../app/hooks';
-import {FileTypeContext} from '../../../context/FileTypeContext';
-import {ModeContext} from '../../../context/ModeContext';
 import {LoadedFilesState} from '../../../features/files/loaded-files-slice';
+import {FileTypeContext} from '../context/FileTypeContext';
+import {ModeContext} from '../context/ModeContext';
 import File from './File';
 
 function Files() {

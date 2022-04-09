@@ -3,7 +3,7 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useState} from 'react';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
-import {ImageSourceContext} from '../../../context/ImageSourceContext';
+import {ImageSourceContext} from './context/ImageSourceContext';
 import {RootStackParamList} from '../../../types/navigation-types';
 import ImageAnnotationContainer from './components/ImageAnnotationContainer';
 import ImageLettersMenu from './components/ImageLettersMenu';

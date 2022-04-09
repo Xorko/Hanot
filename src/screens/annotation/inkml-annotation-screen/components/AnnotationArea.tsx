@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Dimensions, GestureResponderEvent, View} from 'react-native';
 import Svg from 'react-native-svg';
-import {TraceContext} from '../../../../context/TraceContext';
+import {TraceContext} from '../context/TraceContext';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import {Hitbox} from './Hitbox';

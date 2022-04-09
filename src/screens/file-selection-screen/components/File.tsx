@@ -3,8 +3,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useContext} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {FileTypeContext} from '../../../context/FileTypeContext';
-import {ModeContext} from '../../../context/ModeContext';
+import {FileTypeContext} from '../context/FileTypeContext';
+import {ModeContext} from '../context/ModeContext';
 import {RootStackParamList} from '../../../types/navigation-types';
 import {ImageFile, InkMLFile} from '../../../types/file-import-types';
 

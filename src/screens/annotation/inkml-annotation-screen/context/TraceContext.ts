@@ -1,5 +1,5 @@
 import {createContext} from 'react';
-import * as Word from '../core/word';
+import * as Word from '../../../../core/word';
 
 type TraceContextValue = {
   currentWord?: Word.Type;

@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useAppDispatch} from '../../../app/hooks';
-import {FileTypeContext} from '../../../context/FileTypeContext';
+import {FileTypeContext} from '../context/FileTypeContext';
 import {
   addImageFile,
   addTextFile,

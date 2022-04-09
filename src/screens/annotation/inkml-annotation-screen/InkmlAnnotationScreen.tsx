@@ -3,7 +3,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import Word from './components/Word';
 import {RootStackParamList} from '../../../types/navigation-types';
-import {TraceContext} from '../../../context/TraceContext';
+import {TraceContext} from './context/TraceContext';
 import {useEffect, useState} from 'react';
 import * as Trace from '../../../core/trace';
 import * as WordData from '../../../core/word';
