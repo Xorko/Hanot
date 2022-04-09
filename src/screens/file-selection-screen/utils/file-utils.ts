@@ -3,8 +3,8 @@ import DocumentPicker, {
   DocumentPickerResponse,
   types,
 } from 'react-native-document-picker';
-import {constructData} from '../core/input';
-import {parser} from '../lib/fast-xml-parser';
+import {constructData} from '../../../core/input';
+import {parser} from '../../../lib/fast-xml-parser';
 import {ImageFile, InkMLFile} from '../types/file-import-types';
 
 /**

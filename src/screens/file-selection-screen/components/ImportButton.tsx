@@ -4,10 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useAppDispatch} from '../../../app/hooks';
 import {FileTypeContext} from '../context/FileTypeContext';
 import {addImageFile, addTextFile} from '../loaded-files-slice';
-import {
-  handleOpenImageFiles,
-  handleOpenInkmlFiles,
-} from '../../../utils/file-utils';
+import {handleOpenImageFiles, handleOpenInkmlFiles} from '../utils/file-utils';
 
 const ImportButton = () => {
   const {type} = useContext(FileTypeContext);
