@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import loadedFilesReducer from '../features/files/loaded-files-slice';
+import loadedFilesReducer from '../screens/file-selection-screen/loaded-files-slice';
 
 export const store = configureStore({
   reducer: {loadedFiles: loadedFilesReducer},

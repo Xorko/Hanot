@@ -3,10 +3,7 @@ import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useAppDispatch} from '../../../app/hooks';
 import {FileTypeContext} from '../context/FileTypeContext';
-import {
-  addImageFile,
-  addTextFile,
-} from '../../../features/files/loaded-files-slice';
+import {addImageFile, addTextFile} from '../loaded-files-slice';
 import {
   handleOpenImageFiles,
   handleOpenInkmlFiles,
