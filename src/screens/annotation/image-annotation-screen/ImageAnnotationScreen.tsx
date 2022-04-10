@@ -3,18 +3,21 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useEffect, useState} from 'react';
 import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
+import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {RootStackParamList} from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
-import ImageLettersMenu from './components/ImageLettersMenu';
+import CropScrollView from './components/CropScrollView';
 import {CurrentSelectedIndexCropContext} from './context/CurrentSelectedCropContext';
 import {DisplayedImageSizeContext} from './context/DisplayedImageSizeContext';
 import {TrueImageSizeContext} from './context/TrueImageSizeContext';
 import {
   CurrentAnnotatedImageState,
+  setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageSrc,
 } from './current-annotated-image';
 import {Size} from './types/image-annotation-types';
+import {getWebviewScript} from './utils/pixels-utils';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -40,6 +43,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
   );
   const [currentSelectedCropIndex, setCurrentSelectedCropIndex] =
     useState<number>();
+  const [webViewScript, setWebviewScript] = useState<string>('');
   const [trueImageSize, setTrueImageSize] = useState<Size>();
 
   const changeDisplayedImageSize = (size: Size): void => {
@@ -60,9 +64,19 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
       Image.getSize(file.image, (width, height) => {
         const size = {width, height};
         setTrueImageSize(size);
+        if (currentImagePixels.length === 0) {
+          setWebviewScript(getWebviewScript(file.image, size));
+        }
       });
     }
   }, [currentImagePixels, dispatch, file.image]);
+
+  const handleWebviewMessages = (event: WebViewMessageEvent) => {
+    const pixelMap = event.nativeEvent.data.split(',').map((pixel: string) => {
+      return {color: pixel, annotation: undefined};
+    });
+    dispatch(setCurrentAnnotatedImagePixels(pixelMap));
+  };
 
   return (
     <View style={styles.screen}>
@@ -71,6 +85,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
           <Button
             title="Menu"
             onPress={() => {
+              setWebviewScript('');
               navigation.navigate('FileSelectionScreen', {});
             }}
           />
@@ -87,11 +102,23 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
             }}>
             <TrueImageSizeContext.Provider
               value={{trueImageSize, changeTrueImageSize}}>
-              <ImageLettersMenu />
+              <CropScrollView />
               <AnnotationContainer />
             </TrueImageSizeContext.Provider>
           </CurrentSelectedIndexCropContext.Provider>
         </DisplayedImageSizeContext.Provider>
+      </View>
+      <View style={styles.backgroundCanvas}>
+        {webViewScript.length > 0 && trueImageSize && (
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html: `<canvas id="real-image" width="${trueImageSize.width}" height="${trueImageSize.height}" />`,
+            }}
+            onMessage={handleWebviewMessages}
+            injectedJavaScript={webViewScript}
+          />
+        )}
       </View>
     </View>
   );
@@ -119,6 +146,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 30,
     top: 30,
+  },
+  backgroundCanvas: {
+    display: 'none',
   },
 });
 
