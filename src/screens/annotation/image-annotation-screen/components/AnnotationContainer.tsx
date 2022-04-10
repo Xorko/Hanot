@@ -1,14 +1,14 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import ImageAnnotationArea from './ImageAnnotationArea';
+import AnnotationArea from './AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const ImageAnnotationContainer = () => {
+const AnnotationContainer = () => {
   return (
     <View style={styles.main}>
       <View style={styles.box}>
-        <ImageAnnotationArea />
+        <AnnotationArea />
       </View>
     </View>
   );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 });
-export default ImageAnnotationContainer;
+export default AnnotationContainer;
