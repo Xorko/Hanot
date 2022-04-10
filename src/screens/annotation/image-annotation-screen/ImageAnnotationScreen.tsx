@@ -1,12 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useState} from 'react';
-import {Button, Dimensions, StyleSheet, View} from 'react-native';
-import {ImageSourceContext} from './context/ImageSourceContext';
+import {useEffect, useState} from 'react';
+import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {RootStackParamList} from '../../../types/navigation-types';
-import ImageAnnotationContainer from './components/ImageAnnotationContainer';
+import AnnotationContainer from './components/AnnotationContainer';
 import ImageLettersMenu from './components/ImageLettersMenu';
+import {CurrentSelectedIndexCropContext} from './context/CurrentSelectedCropContext';
+import {DisplayedImageSizeContext} from './context/DisplayedImageSizeContext';
+import {TrueImageSizeContext} from './context/TrueImageSizeContext';
+import {
+  CurrentAnnotatedImageState,
+  setCurrentAnnotatedImageSrc,
+} from './current-annotated-image';
+import {Size} from './types/image-annotation-types';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -17,13 +25,44 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
 
 const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const dispatch = useAppDispatch();
+
+  const currentImagePixels = useAppSelector(
+    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) => {
+      return state.currentAnnotatedImage.annotatedImage.imagePixels;
+    },
+  );
+
   const {file} = route.params;
 
-  const [imageSource, setImageSource] = useState<string>(file.image);
+  const [displayedImageSize, setDisplayedImageSize] = useState<Size>(
+    {} as Size,
+  );
+  const [currentSelectedCropIndex, setCurrentSelectedCropIndex] =
+    useState<number>();
+  const [trueImageSize, setTrueImageSize] = useState<Size>();
 
-  const changeSource = (newSrc: string) => {
-    setImageSource(newSrc);
+  const changeDisplayedImageSize = (size: Size): void => {
+    setDisplayedImageSize(size);
   };
+
+  const changeCurrentSelectedCropIndex = (index?: number): void => {
+    setCurrentSelectedCropIndex(index);
+  };
+
+  const changeTrueImageSize = (size: Size): void => {
+    setTrueImageSize(size);
+  };
+
+  useEffect(() => {
+    if (file.image) {
+      dispatch(setCurrentAnnotatedImageSrc(file.image));
+      Image.getSize(file.image, (width, height) => {
+        const size = {width, height};
+        setTrueImageSize(size);
+      });
+    }
+  }, [currentImagePixels, dispatch, file.image]);
 
   return (
     <View style={styles.screen}>
@@ -31,17 +70,28 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
         <View style={styles.home}>
           <Button
             title="Menu"
-            onPress={() => navigation.navigate('FileSelectionScreen', {})}
+            onPress={() => {
+              navigation.navigate('FileSelectionScreen', {});
+            }}
           />
         </View>
-        <ImageSourceContext.Provider
+        <DisplayedImageSizeContext.Provider
           value={{
-            imageSource: imageSource,
-            changeSource: changeSource,
+            displayedImageSize: displayedImageSize,
+            changeDisplayedImageSize,
           }}>
-          <ImageLettersMenu />
-          {!!imageSource && <ImageAnnotationContainer />}
-        </ImageSourceContext.Provider>
+          <CurrentSelectedIndexCropContext.Provider
+            value={{
+              currentSelectedCropIndex,
+              changeCurrentSelectedCropIndex,
+            }}>
+            <TrueImageSizeContext.Provider
+              value={{trueImageSize, changeTrueImageSize}}>
+              <ImageLettersMenu />
+              <AnnotationContainer />
+            </TrueImageSizeContext.Provider>
+          </CurrentSelectedIndexCropContext.Provider>
+        </DisplayedImageSizeContext.Provider>
       </View>
     </View>
   );
