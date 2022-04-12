@@ -9,7 +9,7 @@ import {
   CurrentAnnotatedImageState,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import {Crop, Point} from '../types/image-annotation-types';
+import {Crop, Pixel, Point} from '../types/image-annotation-types';
 import {getAllPointsInPath} from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
 import CropContainerButtons from './CropContainerButtons';
@@ -61,14 +61,15 @@ const CropScrollView = () => {
   const annotate = () => {
     changeCurrentSelectedCropIndex(undefined);
     const truePaths = getTruePaths();
-    const pixelsCopy = cloneDeep(pixels);
+    const pixelsCopy: Pixel[] = cloneDeep(pixels);
     if (truePaths && trueImageSize) {
       truePaths.forEach((path: Point[], idx: number) => {
         const annotation = crops[idx].cropAnnotation;
         getAllPointsInPath(path, trueImageSize.width).forEach(
           (index: number) => {
-            const pixel = pixelsCopy[index];
+            const pixel: Pixel = pixelsCopy[index];
             if (pixel.color !== 'ffffff') {
+              // TODO: add map to count the occurence of letters
               pixel.annotation = annotation;
             }
           },

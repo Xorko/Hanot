@@ -11,13 +11,14 @@ import Svg from 'react-native-svg';
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
 import {CurrentSelectedIndexCropContext} from '../context/CurrentSelectedCropContext';
 import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
+import {TrueImageSizeContext} from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageAddCrop,
   CurrentAnnotatedImageState,
   setCurrentAnnotatedImageCropAtIndex,
+  setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import type {Size} from '../types/image-annotation-types';
-import {Point} from '../types/image-annotation-types';
+import {Pixel, Point, Size} from '../types/image-annotation-types';
 import {
   getPolygonPoints,
   getPolylinePoints,
@@ -28,14 +29,14 @@ import SvgPolygon from './SvgPolygon';
 import SvgPolyline from './SvgPolyline';
 
 const AnnotationArea = () => {
-  const imageSize: Size = {width: 100, height: 100};
-
-  const {changeDisplayedImageSize: changeImageDisplayedSize} = useContext(
+  const {displayedImageSize, changeDisplayedImageSize} = useContext(
     DisplayedImageSizeContext,
   );
   const {currentSelectedCropIndex, changeCurrentSelectedCropIndex} = useContext(
     CurrentSelectedIndexCropContext,
   );
+  const {trueImageSize} = useContext(TrueImageSizeContext);
+
   const currentSelectedCrop = useAppSelector(
     (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) => {
       if (currentSelectedCropIndex !== undefined) {
@@ -51,12 +52,29 @@ const AnnotationArea = () => {
   const [closedPath, setClosedPath] = useState<boolean>(false);
   const [inCropCreation, setInCropCreation] = useState<boolean>(false);
   const [path, setPath] = useState<Point[]>([]);
-  const [containerSize, setContainerSize] = useState<Size>();
+  const [size, setSize] = useState<Size>();
+  const [trueSizeDisplayed, setTrueSizeDisplayed] = useState<boolean>(false);
 
   const getContainerSize = (event: LayoutChangeEvent) => {
-    const {width, height} = event.nativeEvent.layout;
-    setContainerSize({width, height});
-    changeImageDisplayedSize(imageSize);
+    if (trueImageSize) {
+      setSize(trueImageSize);
+      setTrueSizeDisplayed(true);
+      const {width, height} = event.nativeEvent.layout;
+      const dif = Math.max(
+        trueImageSize.width - width,
+        trueImageSize.height - height,
+      );
+
+      if (dif > 0) {
+        const newSize = {
+          width: trueImageSize.width - dif,
+          height: trueImageSize.height - dif,
+        };
+        changeDisplayedImageSize(newSize);
+      }
+
+      changeDisplayedImageSize(trueImageSize);
+    }
   };
 
   const currentAnnotatedImage = useAppSelector(
@@ -80,14 +98,37 @@ const AnnotationArea = () => {
    * @param {Canvas} canvas - The canvas element to draw the image on.
    */
   const handleCanvas = (canvas: Canvas) => {
-    if (canvas) {
+    if (canvas && displayedImageSize && size) {
       const context = canvas.getContext('2d');
       const image = new CanvasImage(canvas);
 
       image.addEventListener('load', async () => {
-        canvas.width = imageSize.width;
-        canvas.height = imageSize.height;
+        canvas.width = size.width;
+        canvas.height = size.height;
         context.drawImage(image, 0, 0, canvas.width, canvas.height); // TODO: adjust the image size and add border around
+        setTrueSizeDisplayed(false);
+        if (trueSizeDisplayed) {
+          setSize(displayedImageSize);
+          const data = await context.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
+
+          let res: Pixel[] = [];
+
+          for (let i = 0; i < data.height * data.width * 4; i += 4) {
+            const red = data.data[i];
+            const green = data.data[i + 1];
+            const blue = data.data[i + 2];
+            const hex =
+              red.toString(16) + green.toString(16) + blue.toString(16);
+            res.push({color: hex, annotation: undefined});
+          }
+
+          dispatch(setCurrentAnnotatedImagePixels(res));
+        }
       });
 
       image.src = currentAnnotatedImage.imageSource;
@@ -146,9 +187,7 @@ const AnnotationArea = () => {
 
   const updatePointAtIndex = (idx: number, newPoint: Point) => {
     const newPath = [...path];
-    console.log(newPath);
     newPath[idx] = newPoint;
-    console.log(newPath);
     setPath(newPath);
   };
 
@@ -177,18 +216,18 @@ const AnnotationArea = () => {
       <View style={styles.canvas}>
         <Canvas ref={handleCanvas} />
       </View>
-      {containerSize && (
+      {displayedImageSize && (
         <TouchableWithoutFeedback onPress={handlePress}>
           <Svg
             style={{
               ...styles.pressableArea,
-              width: imageSize.width,
-              height: imageSize.height,
+              width: displayedImageSize.width,
+              height: displayedImageSize.height,
             }}>
             {inCropCreation && !!path.length && (
               <Fragment>
                 <SvgPolygon
-                  path={getPolygonPoints(containerSize, path, closedPath)}
+                  path={getPolygonPoints(displayedImageSize, path, closedPath)}
                 />
                 <SvgPolyline
                   path={getPolylinePoints(path, closedPath)}
@@ -221,7 +260,6 @@ const AnnotationArea = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   canvas: {
