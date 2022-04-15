@@ -18,12 +18,16 @@ const cloneDeep = require('clone-deep');
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
+/* Scroll view that will contain all the crops created */
 const CropScrollView = () => {
+  //===========================================================================
+  // Redux
+  //===========================================================================
+
   const crops = useAppSelector(
     (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) =>
       state.currentAnnotatedImage.annotatedImage.imageCrops,
   );
-  const paths = crops ? crops.map((crop: Crop) => crop.cropPath) : [];
   const pixels = useAppSelector(
     (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) =>
       state.currentAnnotatedImage.annotatedImage.imagePixels,
@@ -31,18 +35,41 @@ const CropScrollView = () => {
 
   const dispatch = useAppDispatch();
 
-  const {currentSelectedCropIndex, changeCurrentSelectedCropIndex} = useContext(
-    CurrentSelectedIndexCropContext,
-  );
+  //===========================================================================
+  // Contexts
+  //===========================================================================
 
   const {trueImageSize} = useContext(TrueImageSizeContext);
   const {displayedImageSize} = useContext(DisplayedImageSizeContext);
 
+  const {currentSelectedCropIndex, changeCurrentSelectedCropIndex} = useContext(
+    CurrentSelectedIndexCropContext,
+  );
+
+  //===========================================================================
+  // Variables
+  //===========================================================================
+
+  // Varible that will contain all the paths of all the crops to display
+  const paths = crops ? crops.map((crop: Crop) => crop.cropPath) : [];
+
+  //===========================================================================
+  // Functions
+  //===========================================================================
+
+  /**
+   * Changes the current selected crop index with the new index
+   * @param index The index of the crop that is selected
+   */
   const selectCrop = (index: number) => {
     changeCurrentSelectedCropIndex(index);
   };
 
-  const getTruePaths = () => {
+  /**
+   * Calculates the paths adjusted to the real image size
+   * @returns The paths adjusted to the real image size
+   */
+  const getAdjustedPaths = () => {
     if (trueImageSize && displayedImageSize) {
       const widthRatio = trueImageSize.width / displayedImageSize.width;
       const heightRatio = trueImageSize.height / displayedImageSize.height;
@@ -58,15 +85,27 @@ const CropScrollView = () => {
     }
   };
 
+  /**
+   * Gives every pixel of the image its annotation corresponding to the crop it is part of
+   */
   const annotate = () => {
+    // Unselects crops if one is selected
     changeCurrentSelectedCropIndex(undefined);
-    const truePaths = getTruePaths();
+
+    const truePaths = getAdjustedPaths();
+
+    // Copies the pixels to a new array to be able to modify it
     const pixelsCopy: Pixel[] = cloneDeep(pixels);
+
     if (truePaths && trueImageSize) {
       truePaths.forEach((path: Point[], idx: number) => {
+        // For every crop, gets the crop annotation
         const annotation = crops[idx].cropAnnotation;
+
+        // Then gets all points that are on and in the path
         getAllPointsInPath(path, trueImageSize.width).forEach(
           (index: number) => {
+            // For every point, sets the annotation of the corresponding pixel to the one of the crop, if the pixel is not white (background)
             const pixel: Pixel = pixelsCopy[index];
             if (pixel.color !== 'ffffff') {
               // TODO: add map to count the occurence of letters
@@ -75,9 +114,15 @@ const CropScrollView = () => {
           },
         );
       });
+
+      // Updates the pixels of the image in the redux store
       dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
     }
   };
+
+  //===========================================================================
+  // Render
+  //===========================================================================
 
   return (
     <View style={styles.box}>

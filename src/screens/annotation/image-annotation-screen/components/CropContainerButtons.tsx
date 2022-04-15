@@ -6,31 +6,51 @@ import {currentAnnotatedImageRemoveCrop} from '../current-annotated-image';
 import DeleteButton from './DeleteButton';
 import ValidateButton from './ValidateButton';
 
-interface CropContainerButtonsPropsType {
+type CropContainerButtonsPropsType = {
   currentSelectedCrop?: number;
   annotate: () => void;
-}
+};
 
 const CropContainerButtons = ({
   currentSelectedCrop,
   annotate,
 }: CropContainerButtonsPropsType) => {
+  //===========================================================================
+  // Redux
+  //===========================================================================
+
   const dispatch = useAppDispatch();
+
+  //===========================================================================
+  // Contexts
+  //===========================================================================
 
   const {changeCurrentSelectedCropIndex} = useContext(
     CurrentSelectedIndexCropContext,
   );
 
+  //===========================================================================
+  // Functions
+  //===========================================================================
+
+  // TODO : See what this button must do
   const validateCrop = () => {
     annotate();
   };
 
+  /**
+   * Removes the crop from the redux store
+   */
   const deleteCrop = () => {
     if (currentSelectedCrop !== undefined) {
       dispatch(currentAnnotatedImageRemoveCrop(currentSelectedCrop));
       changeCurrentSelectedCropIndex(undefined);
     }
   };
+
+  //===========================================================================
+  // Render
+  //===========================================================================
 
   return (
     <View>

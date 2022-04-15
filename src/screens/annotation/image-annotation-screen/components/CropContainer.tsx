@@ -35,21 +35,44 @@ const CropContainer = ({
   selected,
   index,
 }: CropContainerPropsType) => {
+  //===========================================================================
+  // Redux
+  //===========================================================================
+
   const dispatch = useAppDispatch();
+
+  //===========================================================================
+  // Contexts
+  //===========================================================================
 
   const {displayedImageSize} = useContext(DisplayedImageSizeContext);
 
+  //===========================================================================
+  // State
+  //===========================================================================
+
+  // The path of the crop adjusted to the size of the container
   const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
+  console.log('currentPath', pathToDisplay);
+
+  // The size of the crop adjusted to the size of the container
   const [sizeOfCrop, setSizeOfCrop] = useState<Size>();
 
   const [containerSize, setContainerSize] = useState<Size>();
 
+  //===========================================================================
+  // Functions
+  //===========================================================================
   const handleLayout = (event: LayoutChangeEvent) => {
     const {width, height} = event.nativeEvent.layout;
     setContainerSize({width, height});
   };
 
   const handleTextSubmit = (
+    /**
+     * Sets the annotation of the crop being annotated to the submitted text
+     * @param e The event that triggered the function
+     */
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
   ) => {
     dispatch(
@@ -93,6 +116,10 @@ const CropContainer = ({
     }
   }, [containerSize, displayedImageSize, path]);
   return (
+    //===========================================================================
+    // Render
+    //===========================================================================
+
     <TouchableOpacity activeOpacity={0.8} onPress={selectCrop}>
       <View
         style={selected ? {...styles.box, ...styles.seletedBox} : styles.box}>

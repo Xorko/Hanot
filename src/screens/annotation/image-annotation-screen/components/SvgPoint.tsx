@@ -21,38 +21,67 @@ const SvgPoint = ({
   updatePointAtIndex,
   updateCrop,
 }: SvgPointPropsType) => {
+  //===========================================================================
+  // State
+  //===========================================================================
+
+  // The previous position of the point
+  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
+
+  //===========================================================================
+  // Variables
+  //===========================================================================
+
+  // Coordinates of the point
   const {x, y} = point;
+
+  // Size of the point, that depends on if it is the first point or not
   const {width, height} =
     idx === 0 ? {width: 15, height: 15} : {width: 10, height: 10};
 
-  const [lastDragPosition, setLastDragPosition] = useState<Point>();
+  //===========================================================================
+  // Functions
+  //===========================================================================
 
+  /**
+   * Allow or deny the dragging of the point
+   * @param e The event that is triggered when the user tries to drag the point
+   * @returns True if the point can be dragged, false otherwise
+   */
   const handleStartShouldSetResponder = (e: GestureResponderEvent) => {
-    setLastDragPosition({
+    setPreviousDragPosition({
       x: e.nativeEvent.locationX,
       y: e.nativeEvent.locationY,
     });
     return true;
   };
 
+  /**
+   * Called if the drag is allowed
+   */
   const handleResponderGrant = () => {
     if (!closedPath) {
+      // If the path is not closed, the point is not dragged but pressed
       onPress(idx);
     }
   };
 
+  /**
+   * Handle the dragging of the point
+   * @param e The event that is triggered when the user drags the point
+   */
   const handleResponderMove = (e: GestureResponderEvent) => {
-    if (lastDragPosition) {
-      const {x: lastX, y: lastY} = lastDragPosition;
+    if (previousDragPosition) {
+      const {x: prevX, y: prevY} = previousDragPosition;
       const {x: newX, y: newY} = {
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
       };
 
-      const deltaX = newX - lastX;
-      const deltaY = newY - lastY;
+      const deltaX = newX - prevX;
+      const deltaY = newY - prevY;
 
-      setLastDragPosition({x: newX, y: newY});
+      setPreviousDragPosition({x: newX, y: newY});
       updatePointAtIndex(roundPointCoordinates({x: x + deltaX, y: y + deltaY}));
     }
   };

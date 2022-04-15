@@ -59,7 +59,12 @@ export const getPolylinePoints = (path: Point[], closed: Boolean) => {
   return path.concat(closed ? path[0] : []);
 };
 
-export const getExtemityOfPath = (path: Point[]) => {
+/**
+ * Retrieves the extreme points of a path
+ * @param path The path to get the extreme points from
+ * @returns The extreme points of the path as an object with minx, minY and maxX and maxY properties
+ */
+export const getExtremePointsOfPath = (path: Point[]) => {
   const xAxis = path.map(({x}) => x);
   const yAxis = path.map(({y}) => y);
   const [minX, minY] = [

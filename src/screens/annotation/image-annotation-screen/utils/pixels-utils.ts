@@ -1,5 +1,5 @@
-import {getExtemityOfPath} from './crop-utils';
 import {Point} from '../types/image-annotation-types';
+import {getExtremePointsOfPath} from './crop-utils';
 
 /**
  * Returns the orientation of three points.
@@ -152,15 +152,26 @@ const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
   return count % 2 === 1;
 };
 
+/**
+ * Retrieves all indexes of point that belong in a path
+ * @param path The path to get the points from
+ * @param width The width of the image
+ * @returns The indexex of the points that are in and on the path
+ */
 export const getAllPointsInPath = (path: Point[], width: number) => {
-  const {maxX, maxY, minX, minY} = getExtemityOfPath(path);
+  const {maxX, maxY, minX, minY} = getExtremePointsOfPath(path);
 
   let indexes: number[] = [];
 
+  /*
+   Double loop because the points position are not stored in a grid in the store
+   So we need to recalculate the indexes based on their position
+   */
   for (let i = minY; i <= maxY; i++) {
     for (let j = minX; j <= maxX; j++) {
       const point = {x: j, y: i};
       if (pointInPolygon(point, path)) {
+        // We check every points in the square defined by the extreme points and add them to the indexes is they are in the path
         indexes.push(j + i * width);
       }
     }
