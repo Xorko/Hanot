@@ -9,10 +9,7 @@ import HomeButton from './components/HomeButton';
 import {CurrentSelectedIndexCropContext} from './context/CurrentSelectedCropContext';
 import {DisplayedImageSizeContext} from './context/DisplayedImageSizeContext';
 import {TrueImageSizeContext} from './context/TrueImageSizeContext';
-import {
-  CurrentAnnotatedImageState,
-  setCurrentAnnotatedImageSrc,
-} from './current-annotated-image';
+import {setCurrentAnnotatedImageSrc} from './current-annotated-image';
 import {Size} from './types/image-annotation-types';
 
 const windowWidth = Dimensions.get('window').width;
@@ -24,12 +21,6 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
 
 const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
   const dispatch = useAppDispatch();
-
-  const currentImagePixels = useAppSelector(
-    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) => {
-      return state.currentAnnotatedImage.annotatedImage.imagePixels;
-    },
-  );
 
   const {file} = route.params;
 
@@ -58,7 +49,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
         setTrueImageSize(size);
       });
     }
-  }, [currentImagePixels, dispatch, file.image]);
+  }, [dispatch, file.image]);
 
   return (
     <View style={styles.screen}>
