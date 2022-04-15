@@ -19,7 +19,13 @@ const SvgPolyline = ({
 }: SvgPolylinePropsType) => {
   const [lastDragPosition, setLastDragPosition] = useState<Point>();
 
+  /**
+   * Allow or deny the dragging of the polyline
+   * @param e The event that is triggered when the user tries to drag the point
+   * @returns True if the point can be dragged, false otherwise
+   */
   const handleStartShouldSetResponder = (e: GestureResponderEvent) => {
+    // A polyline can only be dragged if it is not closed
     if (closedPath) {
       setLastDragPosition({
         x: e.nativeEvent.locationX,
@@ -31,6 +37,10 @@ const SvgPolyline = ({
     }
   };
 
+  /**
+   * Handle the dragging of the polyline
+   * @param e The event that is triggered when the user drags the point
+   */
   const handleResponderMove = (e: GestureResponderEvent) => {
     if (lastDragPosition) {
       const {x: lastX, y: lastY} = lastDragPosition;

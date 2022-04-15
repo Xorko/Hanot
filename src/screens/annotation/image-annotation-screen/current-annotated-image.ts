@@ -46,6 +46,7 @@ const currentAnnotatedImageSlice = createSlice({
         crop: Crop;
       }>,
     ) => {
+      console.log(JSON.stringify(action.payload));
       state.annotatedImage.imageCrops[action.payload.index] =
         action.payload.crop;
     },
@@ -58,6 +59,9 @@ const currentAnnotatedImageSlice = createSlice({
     ) => {
       state.annotatedImage.imageCrops[action.payload.index].cropAnnotation =
         action.payload.annotation;
+    },
+    reset: state => {
+      state.annotatedImage = initialState.annotatedImage;
     },
     // TODO: Add reducers for modifying the pixels of the image ?
   },
@@ -72,6 +76,7 @@ export const {
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImageCropAtIndex,
   setCurrentAnnotatedImageCropAnnotationAtIndex,
+  reset,
 } = currentAnnotatedImageSlice.actions;
 
 export default currentAnnotatedImageSlice.reducer;

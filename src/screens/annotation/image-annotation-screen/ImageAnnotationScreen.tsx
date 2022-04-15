@@ -20,32 +20,64 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
 >;
 
 const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
-  const dispatch = useAppDispatch();
+  //===========================================================================
+  // Navigation
+  //===========================================================================
 
+  // Gets the props from the navigation params
   const {file} = route.params;
 
+  //===========================================================================
+  // Redux functions
+  //===========================================================================
+
+  const dispatch = useAppDispatch();
+
+  //===========================================================================
+  // Setup of the values for the contexts
+  //===========================================================================
+
+  // The size of the image as it is displayed on the screen
   const [displayedImageSize, setDisplayedImageSize] = useState<Size>();
+  // The real size of the image
+  const [trueImageSize, setTrueImageSize] = useState<Size>();
+  // The index of the crop that is currently selected
   const [currentSelectedCropIndex, setCurrentSelectedCropIndex] =
     useState<number>();
-  const [trueImageSize, setTrueImageSize] = useState<Size>();
 
+  /**
+   * Updates the displayed image size with the new size
+   * @param size The new size of the image
+   */
   const changeDisplayedImageSize = (size: Size): void => {
     setDisplayedImageSize(size);
   };
 
+  /**
+   * Updates the current selected crop index with the new index
+   * @param index The index of the new crop that is selected
+   */
   const changeCurrentSelectedCropIndex = (index?: number): void => {
     setCurrentSelectedCropIndex(index);
   };
 
+  /* Setting the image source in the store and the true image size. */
   useEffect(() => {
     if (file.image) {
+      // Sets the image source in the store
       dispatch(setCurrentAnnotatedImageSrc(file.image));
+
+      // Retrieves the image size and sets it in the state
       Image.getSize(file.image, (width, height) => {
         const size = {width, height};
         setTrueImageSize(size);
       });
     }
   }, [dispatch, file.image]);
+
+  //===========================================================================
+  // Render
+  //===========================================================================
 
   return (
     <View style={styles.screen}>
