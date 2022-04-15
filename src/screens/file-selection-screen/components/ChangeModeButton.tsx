@@ -1,21 +1,18 @@
-import {useContext} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {ModeContext} from '../context/ModeContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconButton from '../../../components/IconButton';
+import { useDisplayMode } from '../context/DisplayModeContext';
 
 function ChangeModeButton() {
-  const {mode, changeMode} = useContext(ModeContext);
+  const { displayMode, setDisplayMode } = useDisplayMode();
 
   const handlePress = () => {
-    mode === 'block' ? changeMode('list') : changeMode('block');
+    displayMode === 'block' ? setDisplayMode('list') : setDisplayMode('block');
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
-      <View>
-        <Icon name={mode === 'block' ? 'th' : 'list'} size={40} />
-      </View>
-    </TouchableOpacity>
+    <IconButton
+      iconName={displayMode === 'block' ? 'th' : 'list'}
+      onPress={handlePress}
+    />
   );
 }
 

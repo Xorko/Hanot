@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import type {ImageFile, InkMLFile} from './types/file-import-types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { ImageFile, InkMLFile } from './types/file-import-types';
 
 export interface LoadedFilesState {
   textFileInfo: InkMLFile[];
@@ -46,7 +46,7 @@ const loadedFilesSlice = createSlice({
   },
 });
 
-export const {addTextFile, addImageFile, removeImageFile, removeTextFile} =
+export const { addTextFile, addImageFile, removeImageFile, removeTextFile } =
   loadedFilesSlice.actions;
 
 export default loadedFilesSlice.reducer;

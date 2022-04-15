@@ -1,11 +1,11 @@
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ChangeModeButton from './ChangeModeButton';
 import FileTypeChangeButton from './FileTypeChangeButton';
 import ImportButton from './ImportButton';
 
 function Buttons() {
   return (
-    <View style={styles.head}>
+    <View style={styles.container}>
       <ImportButton />
       <View style={styles.ml}>
         <FileTypeChangeButton />
@@ -18,12 +18,9 @@ function Buttons() {
 }
 
 const styles = StyleSheet.create({
-  head: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 30,
-    top: 30,
   },
   ml: {
     marginLeft: 10,

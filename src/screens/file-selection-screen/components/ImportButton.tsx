@@ -1,18 +1,20 @@
-import {useContext} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {useAppDispatch} from '../../../app/hooks';
-import {FileTypeContext} from '../context/FileTypeContext';
-import {addImageFile, addTextFile} from '../loaded-files-slice';
-import {handleOpenImageFiles, handleOpenInkmlFiles} from '../utils/file-utils';
+import { useAppDispatch } from '../../../app/hooks';
+import { useFileType } from '../context/FileTypeContext';
+import { addImageFile, addTextFile } from '../loaded-files-slice';
+import {
+  handleOpenImageFiles,
+  handleOpenInkmlFiles,
+} from '../utils/file-utils';
 
 const ImportButton = () => {
-  const {type} = useContext(FileTypeContext);
+  const { fileType } = useFileType();
 
   const dispatch = useAppDispatch();
 
   const addFiles = (fileInfo: any[]) => {
-    switch (type) {
+    switch (fileType) {
       case 'image':
         dispatch(addImageFile(fileInfo));
         break;
@@ -25,7 +27,7 @@ const ImportButton = () => {
   };
 
   const handlePress = () => {
-    switch (type) {
+    switch (fileType) {
       case 'image':
         handleOpenImageFiles().then(addFiles);
         break;

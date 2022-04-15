@@ -1,53 +1,58 @@
-import {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
-import {useAppSelector} from '../../../app/hooks';
-import {FileTypeContext} from '../context/FileTypeContext';
-import {ModeContext} from '../context/ModeContext';
-import {LoadedFilesState} from '../loaded-files-slice';
+import { StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { useAppSelector } from '../../../app/hooks';
+import Text from '../../../components/Text';
+import { useDisplayMode } from '../context/DisplayModeContext';
+import { useFileType } from '../context/FileTypeContext';
+import { LoadedFilesState } from '../loaded-files-slice';
 import File from './File';
 
 function Files() {
-  const {mode} = useContext(ModeContext);
-  const {type} = useContext(FileTypeContext);
+  const { displayMode } = useDisplayMode();
+  const { fileType } = useFileType();
 
-  const files = useAppSelector((state: {loadedFiles: LoadedFilesState}) =>
-    type === 'inkml'
+  const files = useAppSelector((state: { loadedFiles: LoadedFilesState }) =>
+    fileType === 'inkml'
       ? state.loadedFiles.textFileInfo
       : state.loadedFiles.imageFileInfo,
   );
 
   return (
-    <View style={styles.files}>
-      <FlatList
-        data={files}
-        renderItem={({item}) => <File file={item} />}
-        numColumns={mode === 'block' ? 3 : 2}
-        key={mode}
-        contentContainerStyle={styles.container}
-      />
-    </View>
+    <FlatList
+      data={files}
+      renderItem={({ item }) => (
+        <View style={displayMode === 'list' && styles.mb}>
+          <File file={item} />
+        </View>
+      )}
+      numColumns={displayMode === 'block' ? 3 : 1}
+      key={displayMode}
+      contentContainerStyle={styles.contentContainer}
+      columnWrapperStyle={
+        displayMode === 'block' ? styles.columnWrapper : undefined
+      }
+      ListEmptyComponent={
+        <Text variant="primary" style={styles.emptyListMessage}>
+          No files loaded
+        </Text>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+  contentContainer: {
+    paddingBottom: 20,
   },
-  files: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
-    padding: 30,
+  columnWrapper: {
+    justifyContent: 'space-between',
   },
-  scroll: {
-    backgroundColor: '#e1e2e1',
-    flexGrow: 1,
-    padding: 17,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+  emptyListMessage: {
+    fontSize: 35,
+    fontWeight: '500',
+  },
+  mb: {
+    marginBottom: 10,
   },
 });
 export default Files;
