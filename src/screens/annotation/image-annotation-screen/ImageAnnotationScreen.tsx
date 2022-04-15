@@ -37,10 +37,6 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
     setCurrentSelectedCropIndex(index);
   };
 
-  const changeTrueImageSize = (size: Size): void => {
-    setTrueImageSize(size);
-  };
-
   useEffect(() => {
     if (file.image) {
       dispatch(setCurrentAnnotatedImageSrc(file.image));
@@ -67,8 +63,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
               currentSelectedCropIndex,
               changeCurrentSelectedCropIndex,
             }}>
-            <TrueImageSizeContext.Provider
-              value={{trueImageSize, changeTrueImageSize}}>
+            <TrueImageSizeContext.Provider value={{trueImageSize}}>
               <CropScrollView />
               <AnnotationContainer />
             </TrueImageSizeContext.Provider>
