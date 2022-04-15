@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
   LayoutChangeEvent,
@@ -13,7 +13,10 @@ import {useAppDispatch} from '../../../../app/hooks';
 import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
 import {setCurrentAnnotatedImageCropAnnotationAtIndex} from '../current-annotated-image';
 import {Point, Size} from '../types/image-annotation-types';
-import {getExtemityOfPath, roundPointCoordinates} from '../utils/crop-utils';
+import {
+  getExtremePointsOfPath,
+  roundPointCoordinates,
+} from '../utils/crop-utils';
 import Crop from './Crop';
 
 const windowWidth = Dimensions.get('window').width;
@@ -39,32 +42,11 @@ const CropContainer = ({
   const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
   const [sizeOfCrop, setSizeOfCrop] = useState<Size>();
 
-  const getPathToDisplay = (event: LayoutChangeEvent) => {
-    const {width: containerWidth, height: containerHeight} =
-      event.nativeEvent.layout;
-    const {minX, minY, maxX, maxY} = getExtemityOfPath(path);
-    const [cropWidth, cropHeight] = [maxX - minX, maxY - minY];
+  const [containerSize, setContainerSize] = useState<Size>();
 
-    const dif = Math.min(
-      containerWidth / cropWidth,
-      containerHeight / cropHeight,
-    );
-
-    const newPath = path.map((point: Point) => {
-      return roundPointCoordinates({
-        x: point.x * (dif < 1 ? dif : 1),
-        y: point.y * (dif < 1 ? dif : 1),
-      });
-    });
-    setPathToDisplay(newPath);
-
-    if (displayedImageSize) {
-      const newSize = {
-        width: displayedImageSize.width * (dif < 1 ? dif : 1),
-        height: displayedImageSize.height * (dif < 1 ? dif : 1),
-      };
-      setSizeOfCrop(newSize);
-    }
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const {width, height} = event.nativeEvent.layout;
+    setContainerSize({width, height});
   };
 
   const handleTextSubmit = (
@@ -78,11 +60,43 @@ const CropContainer = ({
     );
   };
 
+  /* Calcuates the path for the crop, in order to have the crop to fit in the container */
+  useEffect(() => {
+    if (containerSize) {
+      // Get the size of the crop
+      const {minX, minY, maxX, maxY} = getExtremePointsOfPath(path);
+      const [cropWidth, cropHeight] = [maxX - minX, maxY - minY];
+
+      // The size scale between the container and the crop
+      const scale = Math.min(
+        containerSize.width / cropWidth,
+        containerSize.height / cropHeight,
+      );
+
+      // For all points in the path if the crop is larger than the container (scale < 1), the points needs to be scaled
+      const newPath = path.map((point: Point) => {
+        return roundPointCoordinates({
+          x: point.x * (scale < 1 ? scale : 1),
+          y: point.y * (scale < 1 ? scale : 1),
+        });
+      });
+      setPathToDisplay(newPath);
+
+      // Same for the size of the crop, if the crop is larger than the container (scale < 1), the size needs to be scaled
+      if (displayedImageSize) {
+        const newSize = {
+          width: displayedImageSize.width * (scale < 1 ? scale : 1),
+          height: displayedImageSize.height * (scale < 1 ? scale : 1),
+        };
+        setSizeOfCrop(newSize);
+      }
+    }
+  }, [containerSize, displayedImageSize, path]);
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={selectCrop}>
       <View
         style={selected ? {...styles.box, ...styles.seletedBox} : styles.box}>
-        <View style={styles.letterWriting} onLayout={getPathToDisplay}>
+        <View style={styles.letterWriting} onLayout={handleLayout}>
           {pathToDisplay && sizeOfCrop && (
             <Crop path={pathToDisplay} size={sizeOfCrop} />
           )}
