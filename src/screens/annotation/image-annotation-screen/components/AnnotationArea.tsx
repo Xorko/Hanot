@@ -60,20 +60,16 @@ const AnnotationArea = () => {
       setSize(trueImageSize);
       setTrueSizeDisplayed(true);
       const {width, height} = event.nativeEvent.layout;
-      const dif = Math.max(
-        trueImageSize.width - width,
-        trueImageSize.height - height,
+      const dif = Math.min(
+        width / trueImageSize.width,
+        height / trueImageSize.height,
       );
 
-      if (dif > 0) {
-        const newSize = {
-          width: trueImageSize.width - dif,
-          height: trueImageSize.height - dif,
-        };
-        changeDisplayedImageSize(newSize);
-      }
-
-      changeDisplayedImageSize(trueImageSize);
+      const newSize = {
+        width: trueImageSize.width * (dif < 1 ? dif : 1),
+        height: trueImageSize.height * (dif < 1 ? dif : 1),
+      };
+      changeDisplayedImageSize(newSize);
     }
   };
 
