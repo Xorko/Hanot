@@ -14,7 +14,6 @@ import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
 import {TrueImageSizeContext} from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageAddCrop,
-  CurrentAnnotatedImageState,
   setCurrentAnnotatedImageCropAtIndex,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
@@ -36,16 +35,6 @@ const AnnotationArea = () => {
     CurrentSelectedIndexCropContext,
   );
   const {trueImageSize} = useContext(TrueImageSizeContext);
-
-  const currentSelectedCrop = useAppSelector(
-    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) => {
-      if (currentSelectedCropIndex !== undefined) {
-        return state.currentAnnotatedImage.annotatedImage.imageCrops[
-          currentSelectedCropIndex
-        ];
-      }
-    },
-  );
 
   const dispatch = useAppDispatch();
 
@@ -78,16 +67,23 @@ const AnnotationArea = () => {
   );
 
   useEffect(() => {
-    if (currentSelectedCrop) {
-      setPath(currentSelectedCrop.cropPath);
-      setInCropCreation(true);
-      setClosedPath(true);
-    } else {
-      setPath([]);
-      setInCropCreation(false);
-      setClosedPath(false);
+    if (currentSelectedCropIndex !== undefined) {
+      const currentSelectedCrop =
+        currentAnnotatedImage.imageCrops[currentSelectedCropIndex];
+
+      if (currentSelectedCrop) {
+        // If a crop is selected, the path is set to its points, the crop is set to be in creation, and the path needs to be closed
+        setPath(currentSelectedCrop.cropPath);
+        setInCropCreation(true);
+        setClosedPath(true);
+      } else {
+        // If no crop is selected, the states are reset
+        setPath([]);
+        setInCropCreation(false);
+        setClosedPath(false);
+      }
     }
-  }, [currentSelectedCrop]);
+  }, [currentAnnotatedImage, currentSelectedCropIndex]);
 
   /**
    * Creates a canvas element and draws the image on it with the size adjusted.
