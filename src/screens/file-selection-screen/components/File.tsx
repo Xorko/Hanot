@@ -1,33 +1,35 @@
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {useContext} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {FileTypeContext} from '../context/FileTypeContext';
-import {ModeContext} from '../context/ModeContext';
-import {RootStackParamList} from '../../../types/navigation-types';
-import {ImageFile, InkMLFile} from '../types/file-import-types';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StyleSheet, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Text from '../../../components/Text';
+import colors from '../../../style/colors';
+import { RootStackParamList } from '../../../types/navigation-types';
+import { useDisplayMode } from '../context/DisplayModeContext';
+import { useFileType } from '../context/FileTypeContext';
+import { ImageFile, InkMLFile } from '../types/file-import-types';
 
 interface FileProps {
   file: InkMLFile | ImageFile;
 }
 
-const File = ({file}: FileProps) => {
-  const {mode} = useContext(ModeContext);
-  const {type} = useContext(FileTypeContext);
+const File = ({ file }: FileProps) => {
+  const { displayMode } = useDisplayMode();
+  const { fileType } = useFileType();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const handlePress = () => {
-    switch (type) {
+    switch (fileType) {
       case 'image':
-        navigation.navigate('ImageAnnotationScreen', {file: file as ImageFile});
+        navigation.navigate('ImageAnnotationScreen', {
+          file: file as ImageFile,
+        });
         break;
       case 'inkml':
-        navigation.navigate('InkMLAnnotationScreen', {file: file as InkMLFile});
+        navigation.navigate('InkMLAnnotationScreen', {
+          file: file as InkMLFile,
+        });
         break;
       default:
         break;
@@ -36,57 +38,73 @@ const File = ({file}: FileProps) => {
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <View style={mode === 'block' ? styles.fileBlock : styles.fileList}>
-        <View
-          style={
-            mode === 'block' ? styles.wordPreviewBlock : styles.wordPreviewList
-          }
-        />
-        <View style={styles.fileName}>
-          <Text>{file.fileName}</Text>
-        </View>
-      </View>
+      {displayMode === 'list' && <ListItem file={file} />}
+      {displayMode === 'block' && <BlockItem file={file} />}
     </TouchableOpacity>
   );
 };
 
+function ListItem({ file }: FileProps) {
+  return (
+    <View style={listStyles.container}>
+      <Text variant="light" style={styles.filename}>
+        {file.fileName}
+      </Text>
+    </View>
+  );
+}
+
+function BlockItem({ file }: FileProps) {
+  return (
+    <View style={blockStyles.container}>
+      <View style={blockStyles.preview}>
+        <Text variant="secondary">Preview</Text>
+      </View>
+      <View style={blockStyles.filenameContainer}>
+        <Text variant="light" style={styles.filename}>
+          {file.fileName}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  fileList: {
-    flexDirection: 'row',
+  filename: {
+    fontWeight: 'bold',
+  },
+});
+
+const listStyles = StyleSheet.create({
+  container: {
     alignContent: 'center',
-    height: windowHeight / 10,
-    width: windowWidth / 3,
-    backgroundColor: '#005b9f',
-    borderRadius: 20,
-    padding: 20,
+    backgroundColor: colors.primary,
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 150,
   },
-  wordPreviewList: {
-    width: '15%',
-    height: '100%',
-    backgroundColor: 'white',
-  },
-  fileBlock: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    height: windowHeight / 6,
-    width: windowWidth / 3,
-    backgroundColor: '#005b9f',
-    borderRadius: 20,
-    padding: 20,
-  },
-  wordPreviewBlock: {
-    width: '40%',
-    height: '100%',
-    backgroundColor: 'white',
-    borderRadius: 15,
-  },
-  fileName: {
-    height: '15%',
+});
+
+const blockStyles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.primary,
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    padding: 20,
+    width: '97%', // Modify this to increase or decrease the gap between the items
   },
-  shadow: {
-    marginRight: 20,
-    marginBottom: 20,
+  preview: {
+    width: 200,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: colors.light,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filenameContainer: {
+    marginTop: 10,
   },
 });
 

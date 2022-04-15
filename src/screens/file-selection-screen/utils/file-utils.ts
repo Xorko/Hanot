@@ -1,11 +1,11 @@
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import DocumentPicker, {
   DocumentPickerResponse,
   types,
 } from 'react-native-document-picker';
-import {constructData} from '../../../core/input';
-import {parser} from '../../../lib/fast-xml-parser';
-import {ImageFile, InkMLFile} from '../types/file-import-types';
+import { constructData } from '../../../core/input';
+import { parser } from '../../../lib/fast-xml-parser';
+import { ImageFile, InkMLFile } from '../types/file-import-types';
 
 /**
  * Opens the file picker and returns selected files
@@ -13,9 +13,11 @@ import {ImageFile, InkMLFile} from '../types/file-import-types';
  */
 export const pickFiles = (): Promise<DocumentPickerResponse[]> | undefined => {
   try {
-    return DocumentPicker.pickMultiple({type: 'application/octet-stream'});
+    return DocumentPicker.pickMultiple({ type: 'application/octet-stream' });
   } catch (err) {
-    console.error(err);
+    if (!DocumentPicker.isCancel(err)) {
+      console.error(err);
+    }
   }
 };
 
@@ -24,9 +26,9 @@ export const pickFiles = (): Promise<DocumentPickerResponse[]> | undefined => {
  * @param file The file to read
  * @returns The content of the file as text
  */
-export const readTextFileMobile = async (file: DocumentPickerResponse) => {
+export const readTextFileMobile = (file: DocumentPickerResponse) => {
   const RNFS = require('react-native-fs'); // RNFS can't be imported on web so we can't use `import`
-  return RNFS.readFile(file.uri, 'utf8');
+  return RNFS.readFile(file.uri, 'utf8') as string;
 };
 
 /**
@@ -50,7 +52,15 @@ export const parseXML = (xml: string) => {
  * @returns The content of the files as JSON
  */
 export const handleOpenInkmlFiles = async (): Promise<InkMLFile[]> => {
-  const pickedFiles = await pickFiles();
+  let pickedFiles: DocumentPickerResponse[] | undefined;
+
+  try {
+    pickedFiles = await pickFiles();
+  } catch (err) {
+    if (!DocumentPicker.isCancel(err)) {
+      console.error(err);
+    }
+  }
 
   if (pickedFiles) {
     const readFiles = pickedFiles.map((file: DocumentPickerResponse) =>
@@ -61,8 +71,8 @@ export const handleOpenInkmlFiles = async (): Promise<InkMLFile[]> => {
         const parsed = constructData(parseXML(fileAsText).ink);
         return {
           content: parsed,
-          fileName: pickedFiles[i].name,
-          filePath: pickedFiles[i].uri,
+          fileName: pickedFiles![i].name,
+          filePath: pickedFiles![i].uri,
         };
       }),
     );
@@ -74,9 +84,11 @@ export const handleOpenInkmlFiles = async (): Promise<InkMLFile[]> => {
 
 const pickImage = (): Promise<DocumentPickerResponse[]> | undefined => {
   try {
-    return DocumentPicker.pickMultiple({type: [types.images]});
+    return DocumentPicker.pickMultiple({ type: [types.images] });
   } catch (err) {
-    console.error(err);
+    if (!DocumentPicker.isCancel(err)) {
+      console.error(err);
+    }
   }
 };
 
@@ -86,7 +98,15 @@ const readImageFile = async (file: DocumentPickerResponse) => {
 };
 
 export const handleOpenImageFiles = async (): Promise<ImageFile[]> => {
-  const pickedFiles = await pickImage();
+  let pickedFiles: DocumentPickerResponse[] | undefined;
+
+  try {
+    pickedFiles = await pickImage();
+  } catch (err) {
+    if (!DocumentPicker.isCancel(err)) {
+      console.error(err);
+    }
+  }
 
   if (pickedFiles) {
     const readFiles = pickedFiles.map((file: DocumentPickerResponse) =>
@@ -95,11 +115,11 @@ export const handleOpenImageFiles = async (): Promise<ImageFile[]> => {
 
     const files = Promise.all(readFiles).then((res: string[]) =>
       res.map((_, i) => {
-        const image = 'data:' + pickedFiles[i].type + ';base64,' + res;
+        const image = 'data:' + pickedFiles![i].type + ';base64,' + res;
         return {
           image,
-          fileName: pickedFiles[i].name,
-          filePath: pickedFiles[i].uri,
+          fileName: pickedFiles![i].name,
+          filePath: pickedFiles![i].uri,
         };
       }),
     );
