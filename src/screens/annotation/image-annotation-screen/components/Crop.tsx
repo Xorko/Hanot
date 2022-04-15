@@ -29,7 +29,7 @@ const Crop = ({path}: CropPropsType) => {
 
   const handleCanvas = (canvas: Canvas) => {
     // TODO : find a way to calculate only on first render
-    if (canvas && (path !== currentPath || firstRender)) {
+    if (canvas && (path !== currentPath || firstRender) && imageDisplayedSize) {
       const {minX, minY, maxX, maxY} = getExtemityOfPath(path);
       const [width, height] = [maxX - minX, maxY - minY];
       canvas.width = width;
