@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Dimensions,
+  LayoutChangeEvent,
   NativeSyntheticEvent,
   StyleSheet,
   TextInput,
@@ -9,8 +10,10 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useAppDispatch} from '../../../../app/hooks';
+import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
 import {setCurrentAnnotatedImageCropAnnotationAtIndex} from '../current-annotated-image';
-import {Point} from '../types/image-annotation-types';
+import {Point, Size} from '../types/image-annotation-types';
+import {getExtemityOfPath, roundPointCoordinates} from '../utils/crop-utils';
 import Crop from './Crop';
 
 const windowWidth = Dimensions.get('window').width;
@@ -31,6 +34,39 @@ const CropContainer = ({
 }: CropContainerPropsType) => {
   const dispatch = useAppDispatch();
 
+  const {displayedImageSize} = useContext(DisplayedImageSizeContext);
+
+  const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
+  const [sizeOfCrop, setSizeOfCrop] = useState<Size>();
+
+  const getPathToDisplay = (event: LayoutChangeEvent) => {
+    const {width: containerWidth, height: containerHeight} =
+      event.nativeEvent.layout;
+    const {minX, minY, maxX, maxY} = getExtemityOfPath(path);
+    const [cropWidth, cropHeight] = [maxX - minX, maxY - minY];
+
+    const dif = Math.min(
+      containerWidth / cropWidth,
+      containerHeight / cropHeight,
+    );
+
+    const newPath = path.map((point: Point) => {
+      return roundPointCoordinates({
+        x: point.x * (dif < 1 ? dif : 1),
+        y: point.y * (dif < 1 ? dif : 1),
+      });
+    });
+    setPathToDisplay(newPath);
+
+    if (displayedImageSize) {
+      const newSize = {
+        width: displayedImageSize.width * (dif < 1 ? dif : 1),
+        height: displayedImageSize.height * (dif < 1 ? dif : 1),
+      };
+      setSizeOfCrop(newSize);
+    }
+  };
+
   const handleTextSubmit = (
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
   ) => {
@@ -46,8 +82,10 @@ const CropContainer = ({
     <TouchableOpacity activeOpacity={0.8} onPress={selectCrop}>
       <View
         style={selected ? {...styles.box, ...styles.seletedBox} : styles.box}>
-        <View style={styles.letterWriting}>
-          <Crop path={path} />
+        <View style={styles.letterWriting} onLayout={getPathToDisplay}>
+          {pathToDisplay && sizeOfCrop && (
+            <Crop path={pathToDisplay} size={sizeOfCrop} />
+          )}
         </View>
         <View style={styles.letterTitle}>
           <TextInput
