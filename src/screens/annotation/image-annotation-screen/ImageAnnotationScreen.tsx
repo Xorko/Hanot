@@ -1,18 +1,16 @@
-import {useNavigation} from '@react-navigation/native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {useEffect, useState} from 'react';
-import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
-import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import {useAppDispatch} from '../../../app/hooks';
 import {RootStackParamList} from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';
+import HomeButton from './components/HomeButton';
 import {CurrentSelectedIndexCropContext} from './context/CurrentSelectedCropContext';
 import {DisplayedImageSizeContext} from './context/DisplayedImageSizeContext';
 import {TrueImageSizeContext} from './context/TrueImageSizeContext';
 import {
   CurrentAnnotatedImageState,
-  setCurrentAnnotatedImage,
   setCurrentAnnotatedImageSrc,
 } from './current-annotated-image';
 import {Size} from './types/image-annotation-types';
@@ -25,7 +23,6 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
 >;
 
 const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useAppDispatch();
 
   const currentImagePixels = useAppSelector(
@@ -67,19 +64,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
     <View style={styles.screen}>
       <View style={styles.annotation}>
         <View style={styles.home}>
-          <Button
-            title="Menu"
-            onPress={() => {
-              dispatch(
-                setCurrentAnnotatedImage({
-                  imageSource: '',
-                  imagePixels: [],
-                  imageCrops: [],
-                }),
-              );
-              navigation.navigate('FileSelectionScreen', {});
-            }}
-          />
+          <HomeButton />
         </View>
         <DisplayedImageSizeContext.Provider
           value={{
