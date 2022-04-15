@@ -1,50 +1,5 @@
-import {Point, Size} from '../types/image-annotation-types';
 import {getExtemityOfPath} from './crop-utils';
-
-/**
- * Script to injetc in a WebView in order to get the pixels of an image
- * @param imgSrc The image to get pixels from
- * @returns
- */
-export const getWebviewScript = (imageSrc: string, imageSize: Size): string => {
-  if (imageSrc.length > 0) {
-    if (imageSize) {
-      return `
-      const canvas = document.querySelector('#real-image');
-      const ctx = canvas.getContext('2d');
-      
-      const image = new Image();
-      image.crossOrigin = 'Anonymous';
-
-      image.onload = () => { 
-        ctx.drawImage(image, 0, 0, ${imageSize.width}, ${imageSize.height});
-
-        const imgData = ctx.getImageData(0, 0, ${imageSize.width}, ${imageSize.height});
-
-        let res = [];
-
-        for (let i = 0; i < imgData.height * imgData.width * 4; i += 4) {
-            const red = imgData.data[i];
-            const green = imgData.data[i + 1];
-            const blue = imgData.data[i + 2];
-            const hex = red.toString(16) + green.toString(16) + blue.toString(16);
-            res.push(hex);
-        }
-
-        const a = res.join(',');
-
-        window.ReactNativeWebView.postMessage(a.toString());
-      }
-      
-      image.src = "${imageSrc}";
-      true; // note: this is required, or you'll sometimes get silent failures
-    `;
-    }
-    return '';
-  }
-
-  return '';
-};
+import {Point} from '../types/image-annotation-types';
 
 /**
  * Returns the orientation of three points.
