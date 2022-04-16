@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {GestureResponderEvent} from 'react-native';
 import {Rect} from 'react-native-svg';
-import {Point} from '../types/image-annotation-types';
+import {Point, Size} from '../types/image-annotation-types';
 import {roundPointCoordinates} from '../utils/crop-utils';
 
 interface SvgPointPropsType {
@@ -11,6 +11,7 @@ interface SvgPointPropsType {
   closedPath: boolean;
   updatePointAtIndex: (newPoint: Point) => void;
   updateCrop: () => void;
+  containerSize: Size;
 }
 
 const SvgPoint = ({
@@ -20,6 +21,7 @@ const SvgPoint = ({
   closedPath,
   updatePointAtIndex,
   updateCrop,
+  containerSize,
 }: SvgPointPropsType) => {
   //===========================================================================
   // State
@@ -77,6 +79,16 @@ const SvgPoint = ({
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
       };
+
+      if (
+        newX < 0 ||
+        newY < 0 ||
+        newX > containerSize.width ||
+        newY > containerSize.height
+      ) {
+        // If the point is dragged outside the container, it is not dragged
+        return;
+      }
 
       const deltaX = newX - prevX;
       const deltaY = newY - prevY;
