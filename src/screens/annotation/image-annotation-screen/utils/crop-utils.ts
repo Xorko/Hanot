@@ -1,5 +1,4 @@
-import {Point} from '../types/image-annotation-types';
-import {Size} from '../types/image-annotation-types';
+import {Point, Size} from '../types/image-annotation-types';
 
 /**
  * Rounds x and y coordinates of given point to the nearest integer
