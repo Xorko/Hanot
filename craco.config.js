@@ -6,8 +6,9 @@ const {
   whenProd,
   whenTest,
   ESLINT_MODES,
-  POSTCSS_MODES
+  POSTCSS_MODES,
 } = require('@craco/craco');
+const {DefinePlugin} = require('webpack');
 
 module.exports = {
   // reactScriptsVersion: 'react-scripts' /* (default value) */,
@@ -73,7 +74,10 @@ module.exports = {
   babel: {
     presets: [
       // The 'metro-react-native-babel-preset' preset is recommended to match React Native's packager
-      ['module:metro-react-native-babel-preset', {useTransformReactJSXExperimental: true}]
+      [
+        'module:metro-react-native-babel-preset',
+        {useTransformReactJSXExperimental: true},
+      ],
     ],
 
     plugins: [
@@ -83,13 +87,13 @@ module.exports = {
         // Enable new JSX Transform from React
         '@babel/plugin-transform-react-jsx',
         {
-          runtime: 'automatic'
-        }
-      ]
+          runtime: 'automatic',
+        },
+      ],
     ],
     loaderOptions: {
       /* Any babel-loader configuration options: https://github.com/babel/babel-loader. */
-    }
+    },
     // loaderOptions: (babelLoaderOptions, {env, paths}) => {
     //   return babelLoaderOptions;
     // }
@@ -105,8 +109,15 @@ module.exports = {
         // plugin1,
         // [plugin2, 'append'],
         // [plugin3, 'prepend'] /* Specify if plugin should be appended or prepended */
+        new DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify(
+            process.env.NODE_ENV || 'development',
+          ),
+          __DEV__: process.env.NODE_ENV !== 'production' || true,
+        }),
       ] /* An array of plugins */,
-      remove: [] /* An array of plugin constructor's names (i.e. "StyleLintPlugin", "ESLintWebpackPlugin" ) */
+      remove:
+        [] /* An array of plugin constructor's names (i.e. "StyleLintPlugin", "ESLintWebpackPlugin" ) */,
     },
     configure: {
       /* Any webpack configuration options: https://webpack.js.org/configuration */
@@ -118,15 +129,15 @@ module.exports = {
           loader: 'url-loader',
           options: {
             name: '[name].[ext]',
-            esModule: false
-          }
-        }
+            esModule: false,
+          },
+        },
       };
 
       addBeforeLoader(webpackConfig, loaderByName('url-loader'), imageLoader);
 
       return webpackConfig;
-    }
+    },
   },
   // jest: {
   //   babel: {
@@ -152,9 +163,14 @@ module.exports = {
         // overrideCracoConfig: ({cracoConfig, pluginOptions, context: {env, paths}}) => {
         //   return cracoConfig;
         // },
-        overrideWebpackConfig: ({webpackConfig, cracoConfig, pluginOptions, context: {env, paths}}) => {
+        overrideWebpackConfig: ({
+          webpackConfig,
+          cracoConfig,
+          pluginOptions,
+          context: {env, paths},
+        }) => {
           return webpackConfig;
-        }
+        },
         // overrideDevServerConfig: ({
         //   devServerConfig,
         //   cracoConfig,
@@ -171,8 +187,8 @@ module.exports = {
         // }) => {
         //   return jestConfig;
         // }
-      }
+      },
       // options: {}
-    }
-  ]
+    },
+  ],
 };

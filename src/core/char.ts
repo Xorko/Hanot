@@ -11,13 +11,6 @@ interface Letter {
   readonly value: string;
 }
 
-type Char = Noise | Letter | Pending;
-
-export type Type = Char;
-
-export const noise = { type: 'Noise' } as Noise;
-export const pendingChar = { type: 'PendingCharacter' } as Pending;
-
 export const constructLetter = (l: string) => {
   if (l !== '#noise') {
     return {
@@ -41,6 +34,9 @@ export const isNoise = (c: Char) => {
   return c.type === 'Noise';
 };
 
+export const noise = {type: 'Noise'} as Noise;
+export const pendingChar = {type: 'PendingCharacter'} as Pending;
+
 export const getChar = (x: Char): string | undefined => {
   if (x.type === 'Letter') {
     return x.value;
@@ -50,3 +46,5 @@ export const getChar = (x: Char): string | undefined => {
     return undefined;
   }
 };
+
+export type Char = Noise | Letter | Pending;

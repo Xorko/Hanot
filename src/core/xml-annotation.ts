@@ -1,6 +1,8 @@
+import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
+
 interface XMLAnnotation {
   readonly type: string;
-  readonly values: Map<string, string>;
+  readonly values: SerializableMap<string>;
 }
 
 export type Type = XMLAnnotation;

@@ -1,46 +1,93 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+/*
+  background: #141A32
+  blue: #3E65FB
+  whity-grey: #D2D2D7
+  light-blue: #809CF5
+  primary: #5A6583
+  card: #212B4E
+*/
 
-import React, { useState } from 'react';
-import { Button, Text, View } from 'react-native';
-import { handleOpenFiles } from './utils/file-utils';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import ImageAnnotationScreen from './screens/annotation/image-annotation-screen/ImageAnnotationScreen';
+import InkmlAnnotationScreen from './screens/annotation/inkml-annotation-screen/InkmlAnnotationScreen';
+import FileSelectionScreen from './screens/file-selection-screen/FileSelectionScreen';
+
+export type DrawerParamList = {
+  Annotation: undefined;
+  'File Selection': undefined;
+};
+
+//const Drawer = createDrawerNavigator<DrawerParamList>();
+
+//const Stack = createStackNavigator();
+
+const { Navigator, Screen } = createStackNavigator();
 
 function App() {
-  const [state, setState] = useState(Array);
+  //const isDarkMode = useColorScheme();
 
   return (
-    <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-      <Button
-        title="Select files"
-        onPress={() => {
-          handleOpenFiles()
-            .then(data => setState(data))
-            .catch(err => console.error(err));
-        }}
-      />
-      {state.map(s => (
-        <Text>{s.fileName}</Text>
-      ))}
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="FileSelectionScreen">
+          <Screen
+            name="InkMLAnnotationScreen"
+            component={InkmlAnnotationScreen}
+          />
+          <Screen
+            name="ImageAnnotationScreen"
+            component={ImageAnnotationScreen}
+          />
+          <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
+        </Navigator>
+      </NavigationContainer>
+    </Provider>
+
+    /*<View style={styles.view}>
+      <AnnotationScreen />
+    </View>*/
+
+    /*<NavigationContainer theme={isDarkMode ? MyTheme : DefaultTheme}>
+      <Drawer.Navigator initialRouteName="Annotation">
+        <Drawer.Screen
+          name="Annotation"
+          key="Annotation"
+          component={AnnotationScreen}
+        />
+        <Drawer.Screen
+          name="File Selection"
+          key="FileSelection"
+          component={FileSelectionScreen}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>*/
   );
 }
 
+/*const MyTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: '#141A32',
+    primary: '#809CF5',
+    card: '#212B4E',
+    text: '#D2D2D7',
+    border: '#3E65FB',
+  },
+};
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    backgroundColor: '#0071ac',
+  },
+});
+*/
 export default App;
-/*
-      <Button
-        title="show save"
-        onPress={() => {
-          for (const s in state) {
-            console.log(s);
-            <Text style={{ fontSize: 100 }}>{s}</Text>;
-          }
-        }}
-      />
-      */

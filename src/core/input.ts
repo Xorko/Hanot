@@ -1,3 +1,4 @@
+import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
 import { constructLetter, noise, pendingChar } from './char';
 import { AnnoData, InkData, TraceGroupData } from './data';
 import * as Dot from './dot';
@@ -23,7 +24,7 @@ export const constructData = (ink?: InkData): InkML.Type | undefined => {
 
 const makeWords = (
   tg: TraceGroupData | TraceGroupData[],
-  anno?: Map<string, string>,
+  anno?: SerializableMap<string>,
 ): Word.Type[] => {
   if (Array.isArray(tg)) {
     return tg.map(e => makeSingleWord(e, anno));
@@ -34,14 +35,14 @@ const makeWords = (
 
 const makeSingleWord = (
   tg: TraceGroupData,
-  anno?: Map<string, string>,
+  anno?: SerializableMap<string>,
 ): Word.Type => {
   const predicted = tg.attr?.['xml:id'];
-  const attrs = new Map<string, any>();
+  const attrs = {} as SerializableMap<any>;
   if (tg.attr !== undefined) {
     for (const [k, v] of Object.entries(tg.attr)) {
       if (!['xml:id', 'positionInGroundTruthValue', 'noise'].includes(k)) {
-        attrs.set(k, v);
+        attrs[k] = v;
       }
     }
   }
@@ -51,7 +52,7 @@ const makeSingleWord = (
       type: tg.annotationXML.attr.type,
       values:
         makeAnnotations(tg.annotationXML.annotation) ??
-        new Map<string, string>(),
+        ({} as SerializableMap<string>),
     };
   }
   const [traceGroups, danglingTraces] = constructTraceGroups(tg);
@@ -59,20 +60,23 @@ const makeSingleWord = (
     tracegroups: traceGroups,
     annotationsXML: annoXML,
     annotations:
-      anno ?? makeAnnotations(tg.annotation) ?? new Map<string, string>(),
+      anno ?? makeAnnotations(tg.annotation) ?? ({} as SerializableMap<string>),
     attributes: attrs,
     predicted: predicted,
     defaultTraceGroup: [...danglingTraces, ...constructDefaultTraceGroup(tg)],
   };
 };
 
-const makeAnnotations = (
-  annos?: AnnoData[],
-): Map<string, string> | undefined => {
-  return annos?.reduce(
-    (map, e) => map.set(e.attr.type, e['#text']),
-    new Map<string, string>(),
-  );
+const makeAnnotations = (annos?: AnnoData[]): SerializableMap<string> => {
+  const ret: SerializableMap<string> = {};
+
+  for (const anno of annos ?? []) {
+    if (anno.attr !== undefined) {
+      ret[anno.attr.type] = anno['#text'];
+    }
+  }
+
+  return ret;
 };
 
 const constructTraceGroups = (

@@ -6,14 +6,17 @@ import Entypo_ttf from 'react-native-vector-icons/Fonts/Entypo.ttf';
 import EvilIcons_ttf from 'react-native-vector-icons/Fonts/EvilIcons.ttf';
 import Feather_ttf from 'react-native-vector-icons/Fonts/Feather.ttf';
 import FontAwesome_ttf from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
+import FontAwesome5_brands_ttf from 'react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf';
+import FontAwesome5_regular_ttf from 'react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf';
+import FontAwesome5_solid_ttf from 'react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf';
 import Fontisto_ttf from 'react-native-vector-icons/Fonts/Fontisto.ttf';
 import Foundation_ttf from 'react-native-vector-icons/Fonts/Foundation.ttf';
 import Ionicons_ttf from 'react-native-vector-icons/Fonts/Ionicons.ttf';
-import MaterialIcons_ttf from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
 import MaterialCommunityIcons_ttf from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
+import MaterialIcons_ttf from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
 import Octicons_ttf from 'react-native-vector-icons/Fonts/Octicons.ttf';
-import Zocial_ttf from 'react-native-vector-icons/Fonts/Zocial.ttf';
 import SimpleLineIcons_ttf from 'react-native-vector-icons/Fonts/SimpleLineIcons.ttf';
+import Zocial_ttf from 'react-native-vector-icons/Fonts/Zocial.ttf';
 
 // Generate required css
 const IconsCSS = `
@@ -36,6 +39,18 @@ const IconsCSS = `
 @font-face {
   src: url(${FontAwesome_ttf});
   font-family: FontAwesome;
+}
+@font-face {
+  src: url(${FontAwesome5_brands_ttf});
+  font-family: FontAwesome5_Brands;
+}
+@font-face {
+  src: url(${FontAwesome5_regular_ttf});
+  font-family: FontAwesome5_Regular;
+}
+@font-face {
+  src: url(${FontAwesome5_solid_ttf});
+  font-family: FontAwesome5_Solid;
 }
 @font-face {
   src: url(${Fontisto_ttf});
