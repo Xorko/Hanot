@@ -13,7 +13,7 @@ interface FileProps {
   file: InkMLFile | ImageFile;
 }
 
-const File = ({ file }: FileProps) => {
+function File({ file }: FileProps) {
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
 
