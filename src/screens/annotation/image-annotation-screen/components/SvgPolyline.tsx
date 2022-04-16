@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
 import {GestureResponderEvent} from 'react-native';
 import {Polyline} from 'react-native-svg';
-import {Point} from '../types/image-annotation-types';
-import {roundPointCoordinates} from '../utils/crop-utils';
+import {Point, Size} from '../types/image-annotation-types';
+import {
+  getExtremePointsOfPath,
+  roundPointCoordinates,
+} from '../utils/crop-utils';
 
 interface SvgPolylinePropsType {
   path: Point[];
   closedPath: boolean;
   updatePath: (newPath: Point[]) => void;
   updateCrop: () => void;
+  containerSize: Size;
 }
 
 const SvgPolyline = ({
@@ -16,6 +20,7 @@ const SvgPolyline = ({
   closedPath,
   updatePath,
   updateCrop,
+  containerSize,
 }: SvgPolylinePropsType) => {
   const [lastDragPosition, setLastDragPosition] = useState<Point>();
 
@@ -52,17 +57,28 @@ const SvgPolyline = ({
       const deltaX = newX - lastX;
       const deltaY = newY - lastY;
 
-      setLastDragPosition({x: newX, y: newY});
-
-      path.pop();
-      updatePath(
-        path.map(point =>
-          roundPointCoordinates({
-            x: point.x + deltaX,
-            y: point.y + deltaY,
-          }),
-        ),
+      const newPath = path.map(point =>
+        roundPointCoordinates({
+          x: point.x + deltaX,
+          y: point.y + deltaY,
+        }),
       );
+      const {minX, minY, maxX, maxY} = getExtremePointsOfPath(newPath);
+
+      if (
+        minX < 0 ||
+        minY < 0 ||
+        maxX > containerSize.width ||
+        maxY > containerSize.height
+      ) {
+        path.pop();
+        updatePath(path);
+      } else {
+        setLastDragPosition({x: newX, y: newY});
+
+        newPath.pop();
+        updatePath(newPath);
+      }
     }
   };
 

@@ -316,6 +316,7 @@ const AnnotationArea = () => {
                   closedPath={closedPath}
                   updatePath={updatePath}
                   updateCrop={updateCrop}
+                  containerSize={displayedImageSize}
                 />
                 {path.map(({x, y}, idx) => (
                   <SvgPoint
@@ -328,6 +329,7 @@ const AnnotationArea = () => {
                       updatePointAtIndex(idx, point)
                     }
                     updateCrop={() => updateCrop()}
+                    containerSize={displayedImageSize}
                   />
                 ))}
               </Fragment>
