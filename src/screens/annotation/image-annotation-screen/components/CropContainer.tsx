@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   LayoutChangeEvent,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useAppDispatch} from '../../../../app/hooks';
-import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
+import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
 import {setCurrentAnnotatedImageCropAnnotationAtIndex} from '../current-annotated-image';
 import {Point, Size} from '../types/image-annotation-types';
 import {
@@ -45,7 +45,7 @@ const CropContainer = ({
   // Contexts
   //===========================================================================
 
-  const {displayedImageSize} = useContext(DisplayedImageSizeContext);
+  const {displayedImageSize} = useDisplayedImageSizeContext();
 
   //===========================================================================
   // State
@@ -53,7 +53,6 @@ const CropContainer = ({
 
   // The path of the crop adjusted to the size of the container
   const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
-  console.log('currentPath', pathToDisplay);
 
   // The size of the crop adjusted to the size of the container
   const [sizeOfCrop, setSizeOfCrop] = useState<Size>();

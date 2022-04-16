@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   GestureResponderEvent,
   LayoutChangeEvent,
@@ -9,9 +9,9 @@ import {
 import Canvas, {Image as CanvasImage} from 'react-native-canvas';
 import Svg from 'react-native-svg';
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
-import {CurrentSelectedIndexCropContext} from '../context/CurrentSelectedCropContext';
-import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
-import {TrueImageSizeContext} from '../context/TrueImageSizeContext';
+import {useCurrentSelectedCropContext} from '../context/CurrentSelectedCropContext';
+import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
+import {useTrueImageSizeContext} from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
@@ -43,15 +43,13 @@ const AnnotationArea = () => {
   // Contexts
   //===========================================================================
 
-  const {displayedImageSize, changeDisplayedImageSize} = useContext(
-    DisplayedImageSizeContext,
-  );
+  const {displayedImageSize, setDisplayedImageSize} =
+    useDisplayedImageSizeContext();
 
-  const {currentSelectedCropIndex, changeCurrentSelectedCropIndex} = useContext(
-    CurrentSelectedIndexCropContext,
-  );
+  const {currentSelectedCrop, setCurrentSelectedCrop} =
+    useCurrentSelectedCropContext();
 
-  const {trueImageSize} = useContext(TrueImageSizeContext);
+  const {trueImageSize} = useTrueImageSizeContext();
 
   //===========================================================================
   // State
@@ -106,7 +104,7 @@ const AnnotationArea = () => {
         width: trueImageSize.width * (scale < 1 ? scale : 1),
         height: trueImageSize.height * (scale < 1 ? scale : 1),
       };
-      changeDisplayedImageSize(newSize);
+      setDisplayedImageSize(newSize);
     }
   };
 
@@ -168,7 +166,7 @@ const AnnotationArea = () => {
     setPath([]);
     setClosedPath(false);
     setInCropCreation(false);
-    changeCurrentSelectedCropIndex();
+    setCurrentSelectedCrop();
   };
 
   /**
@@ -248,7 +246,7 @@ const AnnotationArea = () => {
    * Updates the current selected crop path to the current path
    */
   const updateCrop = () => {
-    if (currentSelectedCropIndex !== undefined) {
+    if (currentSelectedCrop !== undefined) {
       // Creates the new crop object
       const newCrop = {
         cropPath: [...path],
@@ -258,7 +256,7 @@ const AnnotationArea = () => {
       // Updates the current image annotation with the new crop in the store
       dispatch(
         setCurrentAnnotatedImageCropAtIndex({
-          index: currentSelectedCropIndex,
+          index: currentSelectedCrop,
           crop: newCrop,
         }),
       );
@@ -269,13 +267,13 @@ const AnnotationArea = () => {
    * Checks if a crop is selected and if so, sets the states to its values
    */
   useEffect(() => {
-    if (currentSelectedCropIndex !== undefined) {
-      const currentSelectedCrop =
-        currentAnnotatedImage.imageCrops[currentSelectedCropIndex];
+    if (currentSelectedCrop !== undefined) {
+      const selectedCrop =
+        currentAnnotatedImage.imageCrops[currentSelectedCrop];
 
-      if (currentSelectedCrop) {
+      if (selectedCrop) {
         // If a crop is selected, the path is set to its points, the crop is set to be in creation, and the path needs to be closed
-        setPath(currentSelectedCrop.cropPath);
+        setPath(selectedCrop.cropPath);
         setInCropCreation(true);
         setClosedPath(true);
       } else {
@@ -289,7 +287,7 @@ const AnnotationArea = () => {
       setInCropCreation(false);
       setClosedPath(false);
     }
-  }, [currentAnnotatedImage, currentSelectedCropIndex]);
+  }, [currentAnnotatedImage, currentSelectedCrop]);
 
   //================================================================================
   // Render

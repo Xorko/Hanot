@@ -6,9 +6,9 @@ import {RootStackParamList} from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';
 import HomeButton from './components/HomeButton';
-import {CurrentSelectedIndexCropContext} from './context/CurrentSelectedCropContext';
-import {DisplayedImageSizeContext} from './context/DisplayedImageSizeContext';
-import {TrueImageSizeContext} from './context/TrueImageSizeContext';
+import {CurrentSelectedCropProvider} from './context/CurrentSelectedCropContext';
+import {DisplayedImageSizeContextProvider} from './context/DisplayedImageSizeContext';
+import {TrueImageSizeContextProvider} from './context/TrueImageSizeContext';
 import {setCurrentAnnotatedImageSrc} from './current-annotated-image';
 import {Size} from './types/image-annotation-types';
 
@@ -34,32 +34,10 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
   const dispatch = useAppDispatch();
 
   //===========================================================================
-  // Setup of the values for the contexts
+  // Contexts
   //===========================================================================
 
-  // The size of the image as it is displayed on the screen
-  const [displayedImageSize, setDisplayedImageSize] = useState<Size>();
-  // The real size of the image
   const [trueImageSize, setTrueImageSize] = useState<Size>();
-  // The index of the crop that is currently selected
-  const [currentSelectedCropIndex, setCurrentSelectedCropIndex] =
-    useState<number>();
-
-  /**
-   * Updates the displayed image size with the new size
-   * @param size The new size of the image
-   */
-  const changeDisplayedImageSize = (size: Size): void => {
-    setDisplayedImageSize(size);
-  };
-
-  /**
-   * Updates the current selected crop index with the new index
-   * @param index The index of the new crop that is selected
-   */
-  const changeCurrentSelectedCropIndex = (index?: number): void => {
-    setCurrentSelectedCropIndex(index);
-  };
 
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
@@ -85,22 +63,17 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
         <View style={styles.home}>
           <HomeButton />
         </View>
-        <DisplayedImageSizeContext.Provider
-          value={{
-            displayedImageSize,
-            changeDisplayedImageSize,
-          }}>
-          <CurrentSelectedIndexCropContext.Provider
-            value={{
-              currentSelectedCropIndex,
-              changeCurrentSelectedCropIndex,
-            }}>
-            <TrueImageSizeContext.Provider value={{trueImageSize}}>
-              <CropScrollView />
-              <AnnotationContainer />
-            </TrueImageSizeContext.Provider>
-          </CurrentSelectedIndexCropContext.Provider>
-        </DisplayedImageSizeContext.Provider>
+        <DisplayedImageSizeContextProvider>
+          <CurrentSelectedCropProvider>
+            {trueImageSize && (
+              <TrueImageSizeContextProvider
+                initialTrueImageSize={trueImageSize}>
+                <CropScrollView />
+                <AnnotationContainer />
+              </TrueImageSizeContextProvider>
+            )}
+          </CurrentSelectedCropProvider>
+        </DisplayedImageSizeContextProvider>
       </View>
     </View>
   );
