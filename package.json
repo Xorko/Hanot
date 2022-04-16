@@ -16,8 +16,8 @@
     "lint:all": "yarn lint:eslint && yarn lint:prettier && yarn lint:types",
     "lint:eslint": "eslint src/",
     "lint:eslint:fix": "eslint --fix src/",
-    "lint:prettier": "prettier --check \"src/**/*.+(js|jsx|json|css|md)\"",
-    "lint:prettier:fix": "prettier --write \"src/**/*.+(js|jsx|json|css|md)\"",
+    "lint:prettier": "prettier --check \"src/**/*.+(js|jsx|ts|tsx|json|css|md)\"",
+    "lint:prettier:fix": "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json|css|md)\"",
     "lint:types": "tsc",
     "postinstall": "patch-package",
     "prepare": "husky install"
