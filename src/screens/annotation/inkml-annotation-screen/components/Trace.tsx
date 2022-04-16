@@ -1,11 +1,15 @@
 import React from 'react';
-import {GestureResponderEvent, View} from 'react-native';
-import {Polyline} from 'react-native-svg';
+import { GestureResponderEvent, View } from 'react-native';
+import { Polyline } from 'react-native-svg';
 import * as TraceData from '../../../../core/trace';
 
 interface TraceProps {
   parsedDots: TraceData.Type[]; // the traces to draw on the SVG
-  dimensions: {factorSize: number; posHorizontal: number; posVertical: number};
+  dimensions: {
+    factorSize: number;
+    posHorizontal: number;
+    posVertical: number;
+  };
   annotated: boolean;
   handlePress: (e: GestureResponderEvent, idxTrac: number) => void;
   editLetterTraces: (traces: TraceData.Type[]) => void;
@@ -25,7 +29,7 @@ export const Trace = ({
           key={parsedDots.indexOf(trace)}
           points={trace.dots
             .map(
-              ({x, y}) =>
+              ({ x, y }) =>
                 `${x * dimensions.factorSize + dimensions.posHorizontal},${
                   y * dimensions.factorSize + dimensions.posVertical
                 }`,

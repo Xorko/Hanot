@@ -1,4 +1,4 @@
-import type {Pixel, Crop} from './image-annotation-types';
+import type { Pixel, Crop } from './image-annotation-types';
 
 export type annotatedImage = {
   imageSource: string;

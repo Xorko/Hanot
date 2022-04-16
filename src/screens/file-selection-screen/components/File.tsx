@@ -42,7 +42,7 @@ function File({ file }: FileProps) {
       {displayMode === 'block' && <BlockItem file={file} />}
     </TouchableOpacity>
   );
-};
+}
 
 function ListItem({ file }: FileProps) {
   return (

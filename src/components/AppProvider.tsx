@@ -9,9 +9,7 @@ interface AppProvidersProps {
 function AppProviders({ children }: AppProvidersProps) {
   return (
     <ReduxProvider store={store}>
-      <NavigationContainer>
-        {children}
-      </NavigationContainer>
+      <NavigationContainer>{children}</NavigationContainer>
     </ReduxProvider>
   );
 }

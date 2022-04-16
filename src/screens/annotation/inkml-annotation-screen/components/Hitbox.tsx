@@ -1,10 +1,14 @@
 import React from 'react';
-import {Circle} from 'react-native-svg';
+import { Circle } from 'react-native-svg';
 import * as Dot from '../../../../core/dot';
 
 interface HitBoxProps {
   dot: Dot.Type; // the dot to associate to the hitbox
-  dimensions: {factorSize: number; posHorizontal: number; posVertical: number};
+  dimensions: {
+    factorSize: number;
+    posHorizontal: number;
+    posVertical: number;
+  };
   handlePressHitBox: (indexOfTrace: number) => void;
   indexOfTrace: number;
 }

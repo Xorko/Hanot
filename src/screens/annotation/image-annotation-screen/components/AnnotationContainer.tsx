@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import AnnotationArea from './AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;

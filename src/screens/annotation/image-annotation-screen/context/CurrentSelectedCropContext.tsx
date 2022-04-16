@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 
 type CurrentSelectedCropContextValue = {
   currentSelectedCrop?: number;
@@ -24,7 +24,7 @@ export const CurrentSelectedCropProvider = ({
 
   return (
     <CurrentSelectedCropContext.Provider
-      value={{currentSelectedCrop, setCurrentSelectedCrop}}>
+      value={{ currentSelectedCrop, setCurrentSelectedCrop }}>
       {children}
     </CurrentSelectedCropContext.Provider>
   );

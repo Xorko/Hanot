@@ -1,4 +1,10 @@
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 function ValidateButton() {
   const animatedButtonScale = new Animated.Value(1);
@@ -18,7 +24,7 @@ function ValidateButton() {
   };
 
   const animatedScaleStyle = {
-    transform: [{scale: animatedButtonScale}],
+    transform: [{ scale: animatedButtonScale }],
   };
 
   return (

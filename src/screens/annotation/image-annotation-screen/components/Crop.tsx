@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import Canvas, {Image as CanvasImage} from 'react-native-canvas';
-import {useAppSelector} from '../../../../app/hooks';
-import {CurrentAnnotatedImageState} from '../current-annotated-image';
-import {Point, Size} from '../types/image-annotation-types';
-import {getExtremePointsOfPath} from '../utils/crop-utils';
+import React, { useEffect, useState } from 'react';
+import Canvas, { Image as CanvasImage } from 'react-native-canvas';
+import { useAppSelector } from '../../../../app/hooks';
+import { CurrentAnnotatedImageState } from '../current-annotated-image';
+import { Point, Size } from '../types/image-annotation-types';
+import { getExtremePointsOfPath } from '../utils/crop-utils';
 
 interface CropPropsType {
   path: Point[];
@@ -11,14 +11,14 @@ interface CropPropsType {
 }
 
 /* A crop of the image */
-const Crop = ({path, size}: CropPropsType) => {
+const Crop = ({ path, size }: CropPropsType) => {
   //===========================================================================
   // Redux
   //===========================================================================
 
   // Retrieves the image source from the redux store
   const imageSrc = useAppSelector(
-    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) =>
+    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
       state.currentAnnotatedImage.annotatedImage.imageSource,
   );
 
@@ -56,7 +56,7 @@ const Crop = ({path, size}: CropPropsType) => {
      */
     if (canvas && (path !== currentPath || firstRender)) {
       // Gets the size of the crop and sets the canvas size to it
-      const {minX, minY, maxX, maxY} = getExtremePointsOfPath(path);
+      const { minX, minY, maxX, maxY } = getExtremePointsOfPath(path);
       const [width, height] = [maxX - minX, maxY - minY];
       canvas.width = width;
       canvas.height = height;
@@ -84,7 +84,7 @@ const Crop = ({path, size}: CropPropsType) => {
         // The crop is drawn on the canvas and separated from the image
         context.beginPath();
         context.moveTo(adjustedPath[0].x, adjustedPath[0].y);
-        adjustedPath.slice(1).forEach(({x, y}) => context.lineTo(x, y));
+        adjustedPath.slice(1).forEach(({ x, y }) => context.lineTo(x, y));
         context.lineTo(adjustedPath[0].x, adjustedPath[0].y);
         context.clip();
         context.drawImage(imageObj, -minX, -minY, size.width, size.height);

@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Crop, Pixel} from './types/image-annotation-types';
-import type {annotatedImage} from './types/store-state-types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Crop, Pixel } from './types/image-annotation-types';
+import type { annotatedImage } from './types/store-state-types';
 
 export interface CurrentAnnotatedImageState {
   annotatedImage: annotatedImage;

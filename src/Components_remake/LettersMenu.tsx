@@ -1,5 +1,5 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import Letter from './Letter';
 import LettersButtons from './LettersButtons';
 

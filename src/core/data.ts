@@ -7,7 +7,7 @@ export const enum Chan {
 
 export interface AnnoData {
   '#text': string;
-  attr: {type: string};
+  attr: { type: string };
 }
 
 export interface TraceGroupData {
@@ -18,7 +18,7 @@ export interface TraceGroupData {
     [key: string]: any;
   };
   annotationXML?: {
-    attr: {type: string};
+    attr: { type: string };
     annotation: AnnoData[];
   };
   annotation?: AnnoData[];

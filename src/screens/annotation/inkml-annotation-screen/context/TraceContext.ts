@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 import * as Word from '../../../../core/word';
 
 type TraceContextValue = {

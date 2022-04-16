@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import AddLetterButton from './AddLetterButton';
 import RemoveLetterButton from './RemoveLetterButton';
 import ValidateLetterButton from './ValidateLetterButton';

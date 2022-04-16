@@ -1,15 +1,15 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
-import {useCurrentSelectedCropContext} from '../context/CurrentSelectedCropContext';
-import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
-import {useTrueImageSizeContext} from '../context/TrueImageSizeContext';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
+import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
+import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   CurrentAnnotatedImageState,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import {Crop, Pixel, Point} from '../types/image-annotation-types';
-import {getAllPointsInPath} from '../utils/pixels-utils';
+import { Crop, Pixel, Point } from '../types/image-annotation-types';
+import { getAllPointsInPath } from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
 import CropContainerButtons from './CropContainerButtons';
 const cloneDeep = require('clone-deep');
@@ -24,11 +24,11 @@ const CropScrollView = () => {
   //===========================================================================
 
   const crops = useAppSelector(
-    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) =>
+    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
       state.currentAnnotatedImage.annotatedImage.imageCrops,
   );
   const pixels = useAppSelector(
-    (state: {currentAnnotatedImage: CurrentAnnotatedImageState}) =>
+    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
       state.currentAnnotatedImage.annotatedImage.imagePixels,
   );
 
@@ -38,10 +38,10 @@ const CropScrollView = () => {
   // Contexts
   //===========================================================================
 
-  const {trueImageSize} = useTrueImageSizeContext();
-  const {displayedImageSize} = useDisplayedImageSizeContext();
+  const { trueImageSize } = useTrueImageSizeContext();
+  const { displayedImageSize } = useDisplayedImageSizeContext();
 
-  const {currentSelectedCrop, setCurrentSelectedCrop} =
+  const { currentSelectedCrop, setCurrentSelectedCrop } =
     useCurrentSelectedCropContext();
 
   //===========================================================================

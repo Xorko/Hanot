@@ -1,10 +1,10 @@
-import {Point, Size} from '../types/image-annotation-types';
+import { Point, Size } from '../types/image-annotation-types';
 
 /**
  * Rounds x and y coordinates of given point to the nearest integer
  * @param {Point} - The point to be rounded
  */
-export const roundPointCoordinates = ({x, y}: Point): Point => ({
+export const roundPointCoordinates = ({ x, y }: Point): Point => ({
   x: Math.round(x),
   y: Math.round(y),
 });
@@ -15,11 +15,11 @@ export const roundPointCoordinates = ({x, y}: Point): Point => ({
  * @returns An array of points corresponding to the four corners of the rectangle.
  */
 const getBorder = (containerSize: Size): Point[] => {
-  const div = {x: 0, y: 0};
+  const div = { x: 0, y: 0 };
 
   const topRight: Point = div;
-  const topLeft = {x: div.x + containerSize.width, y: div.y};
-  const bottomRight = {x: div.x, y: div.y + containerSize.height};
+  const topLeft = { x: div.x + containerSize.width, y: div.y };
+  const bottomRight = { x: div.x, y: div.y + containerSize.height };
   const bottomLeft = {
     x: div.x + containerSize.width,
     y: div.y + containerSize.height,
@@ -64,8 +64,8 @@ export const getPolylinePoints = (path: Point[], closed: Boolean) => {
  * @returns The extreme points of the path as an object with minx, minY and maxX and maxY properties
  */
 export const getExtremePointsOfPath = (path: Point[]) => {
-  const xAxis = path.map(({x}) => x);
-  const yAxis = path.map(({y}) => y);
+  const xAxis = path.map(({ x }) => x);
+  const yAxis = path.map(({ y }) => y);
   const [minX, minY] = [
     Math.min.apply(null, xAxis),
     Math.min.apply(null, yAxis),
@@ -75,5 +75,5 @@ export const getExtremePointsOfPath = (path: Point[]) => {
     Math.max.apply(null, yAxis),
   ];
 
-  return {minX, minY, maxX, maxY};
+  return { minX, minY, maxX, maxY };
 };

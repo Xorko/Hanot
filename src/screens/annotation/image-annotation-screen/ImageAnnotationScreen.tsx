@@ -1,16 +1,16 @@
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useEffect, useState} from 'react';
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
-import {useAppDispatch} from '../../../app/hooks';
-import {RootStackParamList} from '../../../types/navigation-types';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useEffect, useState } from 'react';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { useAppDispatch } from '../../../app/hooks';
+import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';
 import HomeButton from './components/HomeButton';
-import {CurrentSelectedCropProvider} from './context/CurrentSelectedCropContext';
-import {DisplayedImageSizeContextProvider} from './context/DisplayedImageSizeContext';
-import {TrueImageSizeContextProvider} from './context/TrueImageSizeContext';
-import {setCurrentAnnotatedImageSrc} from './current-annotated-image';
-import {Size} from './types/image-annotation-types';
+import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
+import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
+import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
+import { setCurrentAnnotatedImageSrc } from './current-annotated-image';
+import { Size } from './types/image-annotation-types';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -19,13 +19,13 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
   'ImageAnnotationScreen'
 >;
 
-const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
+const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
   //===========================================================================
   // Navigation
   //===========================================================================
 
   // Gets the props from the navigation params
-  const {file} = route.params;
+  const { file } = route.params;
 
   //===========================================================================
   // Redux functions
@@ -47,7 +47,7 @@ const ImageAnnotationScreen = ({route}: ImageAnnotationScreenPropsType) => {
 
       // Retrieves the image size and sets it in the state
       Image.getSize(file.image, (width, height) => {
-        const size = {width, height};
+        const size = { width, height };
         setTrueImageSize(size);
       });
     }

@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { StyleSheet, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface ValidateButtonPropsType {
   validateCrop: () => void;
 }
 
-const ValidateButton = ({validateCrop}: ValidateButtonPropsType) => {
+const ValidateButton = ({ validateCrop }: ValidateButtonPropsType) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={validateCrop}>
       <View style={styles.button}>

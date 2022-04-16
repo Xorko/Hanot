@@ -4,7 +4,7 @@ import {
   isLetter,
   isPending,
   noise,
-  pendingChar
+  pendingChar,
 } from '../core/char';
 import * as Trace from '../core/trace';
 import * as TraceGroup from '../core/tracegroup';
@@ -170,7 +170,7 @@ export const split = (
     throw new Error();
   } else {
     const newTrace = trg.traces[base].dots.slice(from);
-    trg.traces.splice(base + 1, 0, {dots: newTrace});
+    trg.traces.splice(base + 1, 0, { dots: newTrace });
     trg.traces[base].dots.splice(0, from);
   }
 };

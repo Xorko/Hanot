@@ -1,9 +1,9 @@
 import React from 'react';
-import {Dimensions, StyleSheet, TextInput, View} from 'react-native';
+import { Dimensions, StyleSheet, TextInput, View } from 'react-native';
 import Svg from 'react-native-svg';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import {WrittedLetter} from './WritedLetter';
+import { WrittedLetter } from './WritedLetter';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -15,7 +15,7 @@ interface LetterProps {
   selectedLetter: Trace.Type[];
 }
 
-function Letter({editLetterAnnotation, traceGroup, index}: LetterProps) {
+function Letter({ editLetterAnnotation, traceGroup, index }: LetterProps) {
   return (
     <View style={styles.box}>
       <Svg style={styles.letterWriting}>

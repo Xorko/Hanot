@@ -1,14 +1,14 @@
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Button, Dimensions, StyleSheet, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Button, Dimensions, StyleSheet, View } from 'react-native';
 import Word from './components/Word';
-import {RootStackParamList} from '../../../types/navigation-types';
-import {TraceContext} from './context/TraceContext';
-import {useEffect, useState} from 'react';
+import { RootStackParamList } from '../../../types/navigation-types';
+import { TraceContext } from './context/TraceContext';
+import { useEffect, useState } from 'react';
 import * as Trace from '../../../core/trace';
 import * as WordData from '../../../core/word';
 import LettersMenu from './components/LettersMenu';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
   RootStackParamList,
@@ -17,10 +17,10 @@ type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
 
 const windowWidth = Dimensions.get('window').width;
 
-function InkmlAnnotationScreen({route}: InkMLAnnotationScreenPropsType) {
+function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const {file} = route.params;
+  const { file } = route.params;
 
   const [selectedLetter, setSelectedLetter] = useState<Trace.Type[]>([]);
 
@@ -47,7 +47,7 @@ function InkmlAnnotationScreen({route}: InkMLAnnotationScreenPropsType) {
   return (
     <View style={styles.screen}>
       <View style={styles.annotation}>
-        <TraceContext.Provider value={{currentWord, changeCurrentWord}}>
+        <TraceContext.Provider value={{ currentWord, changeCurrentWord }}>
           <View style={styles.home}>
             <Button
               title="Menu"

@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   GestureResponderEvent,
   LayoutChangeEvent,
@@ -6,18 +6,18 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import Canvas, {Image as CanvasImage} from 'react-native-canvas';
+import Canvas, { Image as CanvasImage } from 'react-native-canvas';
 import Svg from 'react-native-svg';
-import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
-import {useCurrentSelectedCropContext} from '../context/CurrentSelectedCropContext';
-import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
-import {useTrueImageSizeContext} from '../context/TrueImageSizeContext';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
+import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
+import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import {Pixel, Point, Size} from '../types/image-annotation-types';
+import { Pixel, Point, Size } from '../types/image-annotation-types';
 import {
   getPolygonPoints,
   getPolylinePoints,
@@ -43,13 +43,13 @@ const AnnotationArea = () => {
   // Contexts
   //===========================================================================
 
-  const {displayedImageSize, setDisplayedImageSize} =
+  const { displayedImageSize, setDisplayedImageSize } =
     useDisplayedImageSizeContext();
 
-  const {currentSelectedCrop, setCurrentSelectedCrop} =
+  const { currentSelectedCrop, setCurrentSelectedCrop } =
     useCurrentSelectedCropContext();
 
-  const {trueImageSize} = useTrueImageSizeContext();
+  const { trueImageSize } = useTrueImageSizeContext();
 
   //===========================================================================
   // State
@@ -88,7 +88,7 @@ const AnnotationArea = () => {
       setTrueSizeDisplayed(true);
 
       // Retrieves the size of the container
-      const {width, height} = event.nativeEvent.layout;
+      const { width, height } = event.nativeEvent.layout;
 
       // The size scale between the container and the image
       const scale = Math.min(
@@ -148,7 +148,7 @@ const AnnotationArea = () => {
             const blue = data.data[i + 2];
             const hex =
               red.toString(16) + green.toString(16) + blue.toString(16);
-            res.push({color: hex, annotation: undefined});
+            res.push({ color: hex, annotation: undefined });
           }
 
           dispatch(setCurrentAnnotatedImagePixels(res));
@@ -318,10 +318,10 @@ const AnnotationArea = () => {
                   updateCrop={updateCrop}
                   containerSize={displayedImageSize}
                 />
-                {path.map(({x, y}, idx) => (
+                {path.map(({ x, y }, idx) => (
                   <SvgPoint
                     key={idx}
-                    point={{x, y}}
+                    point={{ x, y }}
                     idx={idx}
                     onPress={handlePointPress}
                     closedPath={closedPath}

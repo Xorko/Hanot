@@ -1,5 +1,5 @@
-import React, {createContext} from 'react';
-import {Size} from '../types/image-annotation-types';
+import React, { createContext } from 'react';
+import { Size } from '../types/image-annotation-types';
 
 type TrueImageSizeContextValue = {
   trueImageSize?: Size;
@@ -24,7 +24,7 @@ export const TrueImageSizeContextProvider = ({
   );
 
   return (
-    <TrueImageSizeContext.Provider value={{trueImageSize, setTrueImageSize}}>
+    <TrueImageSizeContext.Provider value={{ trueImageSize, setTrueImageSize }}>
       {children}
     </TrueImageSizeContext.Provider>
   );

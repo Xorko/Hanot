@@ -1,4 +1,10 @@
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 function RemoveLetterButton() {
   const animatedButtonScale = new Animated.Value(1);
@@ -18,7 +24,7 @@ function RemoveLetterButton() {
   };
 
   const animatedScaleStyle = {
-    transform: [{scale: animatedButtonScale}],
+    transform: [{ scale: animatedButtonScale }],
   };
 
   return (

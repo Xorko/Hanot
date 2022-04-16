@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   LayoutChangeEvent,
@@ -8,11 +8,11 @@ import {
   TextInputSubmitEditingEventData,
   View,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useAppDispatch} from '../../../../app/hooks';
-import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
-import {setCurrentAnnotatedImageCropAnnotationAtIndex} from '../current-annotated-image';
-import {Point, Size} from '../types/image-annotation-types';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useAppDispatch } from '../../../../app/hooks';
+import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
+import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
+import { Point, Size } from '../types/image-annotation-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -45,7 +45,7 @@ const CropContainer = ({
   // Contexts
   //===========================================================================
 
-  const {displayedImageSize} = useDisplayedImageSizeContext();
+  const { displayedImageSize } = useDisplayedImageSizeContext();
 
   //===========================================================================
   // State
@@ -63,8 +63,8 @@ const CropContainer = ({
   // Functions
   //===========================================================================
   const handleLayout = (event: LayoutChangeEvent) => {
-    const {width, height} = event.nativeEvent.layout;
-    setContainerSize({width, height});
+    const { width, height } = event.nativeEvent.layout;
+    setContainerSize({ width, height });
   };
 
   const handleTextSubmit = (
@@ -86,7 +86,7 @@ const CropContainer = ({
   useEffect(() => {
     if (containerSize) {
       // Get the size of the crop
-      const {minX, minY, maxX, maxY} = getExtremePointsOfPath(path);
+      const { minX, minY, maxX, maxY } = getExtremePointsOfPath(path);
       const [cropWidth, cropHeight] = [maxX - minX, maxY - minY];
 
       // The size scale between the container and the crop
@@ -121,7 +121,7 @@ const CropContainer = ({
 
     <TouchableOpacity activeOpacity={0.8} onPress={selectCrop}>
       <View
-        style={selected ? {...styles.box, ...styles.seletedBox} : styles.box}>
+        style={selected ? { ...styles.box, ...styles.seletedBox } : styles.box}>
         <View style={styles.letterWriting} onLayout={handleLayout}>
           {pathToDisplay && sizeOfCrop && (
             <Crop path={pathToDisplay} size={sizeOfCrop} />

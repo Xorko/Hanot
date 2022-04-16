@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {GestureResponderEvent} from 'react-native';
-import {Rect} from 'react-native-svg';
-import {Point, Size} from '../types/image-annotation-types';
-import {roundPointCoordinates} from '../utils/crop-utils';
+import React, { useState } from 'react';
+import { GestureResponderEvent } from 'react-native';
+import { Rect } from 'react-native-svg';
+import { Point, Size } from '../types/image-annotation-types';
+import { roundPointCoordinates } from '../utils/crop-utils';
 
 interface SvgPointPropsType {
   point: Point;
@@ -35,11 +35,11 @@ const SvgPoint = ({
   //===========================================================================
 
   // Coordinates of the point
-  const {x, y} = point;
+  const { x, y } = point;
 
   // Size of the point, that depends on if it is the first point or not
-  const {width, height} =
-    idx === 0 ? {width: 15, height: 15} : {width: 10, height: 10};
+  const { width, height } =
+    idx === 0 ? { width: 15, height: 15 } : { width: 10, height: 10 };
 
   //===========================================================================
   // Functions
@@ -74,8 +74,8 @@ const SvgPoint = ({
    */
   const handleResponderMove = (e: GestureResponderEvent) => {
     if (previousDragPosition) {
-      const {x: prevX, y: prevY} = previousDragPosition;
-      const {x: newX, y: newY} = {
+      const { x: prevX, y: prevY } = previousDragPosition;
+      const { x: newX, y: newY } = {
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
       };
@@ -93,8 +93,10 @@ const SvgPoint = ({
       const deltaX = newX - prevX;
       const deltaY = newY - prevY;
 
-      setPreviousDragPosition({x: newX, y: newY});
-      updatePointAtIndex(roundPointCoordinates({x: x + deltaX, y: y + deltaY}));
+      setPreviousDragPosition({ x: newX, y: newY });
+      updatePointAtIndex(
+        roundPointCoordinates({ x: x + deltaX, y: y + deltaY }),
+      );
     }
   };
 

@@ -1,5 +1,5 @@
-import {Point} from '../types/image-annotation-types';
-import {getExtremePointsOfPath} from './crop-utils';
+import { Point } from '../types/image-annotation-types';
+import { getExtremePointsOfPath } from './crop-utils';
 
 /**
  * Returns the orientation of three points.
@@ -117,7 +117,7 @@ const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
   }
 
   // Create a point for line segment from p to infinite
-  let extreme: Point = {x: INF, y: point.y};
+  let extreme: Point = { x: INF, y: point.y };
 
   /*
   Count intersections of the above line
@@ -159,7 +159,7 @@ const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
  * @returns The indexex of the points that are in and on the path
  */
 export const getAllPointsInPath = (path: Point[], width: number) => {
-  const {maxX, maxY, minX, minY} = getExtremePointsOfPath(path);
+  const { maxX, maxY, minX, minY } = getExtremePointsOfPath(path);
 
   let indexes: number[] = [];
 
@@ -169,7 +169,7 @@ export const getAllPointsInPath = (path: Point[], width: number) => {
    */
   for (let i = minY; i <= maxY; i++) {
     for (let j = minX; j <= maxX; j++) {
-      const point = {x: j, y: i};
+      const point = { x: j, y: i };
       if (pointInPolygon(point, path)) {
         // We check every points in the square defined by the extreme points and add them to the indexes is they are in the path
         indexes.push(j + i * width);

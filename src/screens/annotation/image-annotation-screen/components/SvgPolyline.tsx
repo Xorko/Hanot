@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {GestureResponderEvent} from 'react-native';
-import {Polyline} from 'react-native-svg';
-import {Point, Size} from '../types/image-annotation-types';
+import React, { useState } from 'react';
+import { GestureResponderEvent } from 'react-native';
+import { Polyline } from 'react-native-svg';
+import { Point, Size } from '../types/image-annotation-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -48,8 +48,8 @@ const SvgPolyline = ({
    */
   const handleResponderMove = (e: GestureResponderEvent) => {
     if (lastDragPosition) {
-      const {x: lastX, y: lastY} = lastDragPosition;
-      const {x: newX, y: newY} = {
+      const { x: lastX, y: lastY } = lastDragPosition;
+      const { x: newX, y: newY } = {
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
       };
@@ -63,7 +63,7 @@ const SvgPolyline = ({
           y: point.y + deltaY,
         }),
       );
-      const {minX, minY, maxX, maxY} = getExtremePointsOfPath(newPath);
+      const { minX, minY, maxX, maxY } = getExtremePointsOfPath(newPath);
 
       if (
         minX < 0 ||
@@ -74,7 +74,7 @@ const SvgPolyline = ({
         path.pop();
         updatePath(path);
       } else {
-        setLastDragPosition({x: newX, y: newY});
+        setLastDragPosition({ x: newX, y: newY });
 
         newPath.pop();
         updatePath(newPath);
@@ -82,7 +82,7 @@ const SvgPolyline = ({
     }
   };
 
-  const points = path.map(({x, y}) => `${x},${y}`).join(' ');
+  const points = path.map(({ x, y }) => `${x},${y}`).join(' ');
   return (
     <Polyline
       points={points}

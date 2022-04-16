@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Dimensions, GestureResponderEvent, View} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, GestureResponderEvent, View } from 'react-native';
 import Svg from 'react-native-svg';
-import {TraceContext} from '../context/TraceContext';
+import { TraceContext } from '../context/TraceContext';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import {Hitbox} from './Hitbox';
-import {Trace} from './Trace';
+import { Hitbox } from './Hitbox';
+import { Trace } from './Trace';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 interface AnnotationAreaProps {
   editLetterTraces: (traces: TraceData.Type[]) => void;
@@ -19,20 +19,20 @@ export interface Dimension {
   posVertical: number;
 }
 
-export const AnnotationArea = ({editLetterTraces}: AnnotationAreaProps) => {
+export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
   const [finalTraceGroups, setFinalTraceGroups] = useState<TraceGroup.Type[]>(
     [],
   );
   const [defaultTraces, setDefaultTraces] = useState<TraceData.Type[]>([]);
   const [dimensions, setDimensions] = useState<Dimension>();
-  const {currentWord} = useContext(TraceContext);
+  const { currentWord } = useContext(TraceContext);
 
   useEffect(() => {
     setFinalTraceGroups(currentWord ? currentWord.tracegroups : []);
     setDefaultTraces(currentWord ? currentWord.defaultTraceGroup : []);
     if (currentWord) {
       const xcoords = currentWord.defaultTraceGroup //A changer, ne va pas marcher pour un mot dont l'annotation est commence
-        .map(trace => trace.dots.map(({x}) => x))
+        .map(trace => trace.dots.map(({ x }) => x))
         .flat();
       const lengthWord = GetMaxXValue(xcoords) - GetMinXValue(xcoords);
       setDimensions({
@@ -53,8 +53,8 @@ export const AnnotationArea = ({editLetterTraces}: AnnotationAreaProps) => {
   );
 
   const distance = (
-    pointA: {x: number; y: number},
-    pointB: {x: number; y: number},
+    pointA: { x: number; y: number },
+    pointB: { x: number; y: number },
   ) => {
     return Math.sqrt(
       Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2),
@@ -73,7 +73,10 @@ export const AnnotationArea = ({editLetterTraces}: AnnotationAreaProps) => {
         // });
         console.error('AnnotationArea : error box empty');
       } else {
-        const point = {x: e.nativeEvent.locationX, y: e.nativeEvent.locationY};
+        const point = {
+          x: e.nativeEvent.locationX,
+          y: e.nativeEvent.locationY,
+        };
         const realPoint = {
           x: (point.x - dimensions.posHorizontal) / dimensions.factorSize,
           y: (point.y - dimensions.posVertical) / dimensions.factorSize,

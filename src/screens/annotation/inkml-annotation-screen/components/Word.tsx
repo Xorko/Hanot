@@ -1,6 +1,6 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import * as Trace from '../../../../core/trace';
-import {AnnotationArea} from './AnnotationArea';
+import { AnnotationArea } from './AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -9,7 +9,7 @@ interface WordProps {
   editLetterTraces: (traces: Trace.Type[]) => void;
 }
 
-function Word({editLetterTraces}: WordProps) {
+function Word({ editLetterTraces }: WordProps) {
   return (
     <View style={styles.main}>
       <View style={styles.box}>

@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
-import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
-import {addAnnotationUnit, annotate} from '../../../../core/methods';
-import {TraceContext} from '../context/TraceContext';
+import React, { useContext } from 'react';
+import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { addAnnotationUnit, annotate } from '../../../../core/methods';
+import { TraceContext } from '../context/TraceContext';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import Letter from './Letter';
@@ -13,8 +13,8 @@ interface LettersMenuProps {
 
 const windowHeight = Dimensions.get('window').height;
 
-function LettersMenu({selectedLetter}: LettersMenuProps) {
-  const {currentWord, changeCurrentWord} = useContext(TraceContext);
+function LettersMenu({ selectedLetter }: LettersMenuProps) {
+  const { currentWord, changeCurrentWord } = useContext(TraceContext);
 
   /**
    * State saving the current index of the last Letters coponent added.
