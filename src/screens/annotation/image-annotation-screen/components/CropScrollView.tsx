@@ -1,10 +1,9 @@
-import {useContext} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
-import {CurrentSelectedIndexCropContext} from '../context/CurrentSelectedCropContext';
-import {DisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
-import {TrueImageSizeContext} from '../context/TrueImageSizeContext';
+import {useCurrentSelectedCropContext} from '../context/CurrentSelectedCropContext';
+import {useDisplayedImageSizeContext} from '../context/DisplayedImageSizeContext';
+import {useTrueImageSizeContext} from '../context/TrueImageSizeContext';
 import {
   CurrentAnnotatedImageState,
   setCurrentAnnotatedImagePixels,
@@ -39,12 +38,11 @@ const CropScrollView = () => {
   // Contexts
   //===========================================================================
 
-  const {trueImageSize} = useContext(TrueImageSizeContext);
-  const {displayedImageSize} = useContext(DisplayedImageSizeContext);
+  const {trueImageSize} = useTrueImageSizeContext();
+  const {displayedImageSize} = useDisplayedImageSizeContext();
 
-  const {currentSelectedCropIndex, changeCurrentSelectedCropIndex} = useContext(
-    CurrentSelectedIndexCropContext,
-  );
+  const {currentSelectedCrop, setCurrentSelectedCrop} =
+    useCurrentSelectedCropContext();
 
   //===========================================================================
   // Variables
@@ -62,7 +60,7 @@ const CropScrollView = () => {
    * @param index The index of the crop that is selected
    */
   const selectCrop = (index: number) => {
-    changeCurrentSelectedCropIndex(index);
+    setCurrentSelectedCrop(index);
   };
 
   /**
@@ -90,7 +88,7 @@ const CropScrollView = () => {
    */
   const annotate = () => {
     // Unselects crops if one is selected
-    changeCurrentSelectedCropIndex(undefined);
+    setCurrentSelectedCrop(undefined);
 
     const truePaths = getAdjustedPaths();
 
@@ -132,13 +130,13 @@ const CropScrollView = () => {
             key={idx}
             path={path}
             selectCrop={() => selectCrop(idx)}
-            selected={idx === currentSelectedCropIndex}
+            selected={idx === currentSelectedCrop}
             index={idx}
           />
         ))}
       </ScrollView>
       <CropContainerButtons
-        currentSelectedCrop={currentSelectedCropIndex}
+        currentSelectedCrop={currentSelectedCrop}
         annotate={annotate}
       />
     </View>

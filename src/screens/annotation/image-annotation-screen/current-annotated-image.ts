@@ -46,7 +46,6 @@ const currentAnnotatedImageSlice = createSlice({
         crop: Crop;
       }>,
     ) => {
-      console.log(JSON.stringify(action.payload));
       state.annotatedImage.imageCrops[action.payload.index] =
         action.payload.crop;
     },

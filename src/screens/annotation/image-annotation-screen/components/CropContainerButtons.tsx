@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {useAppDispatch} from '../../../../app/hooks';
-import {CurrentSelectedIndexCropContext} from '../context/CurrentSelectedCropContext';
+import {useCurrentSelectedCropContext} from '../context/CurrentSelectedCropContext';
 import {currentAnnotatedImageRemoveCrop} from '../current-annotated-image';
 import DeleteButton from './DeleteButton';
 import ValidateButton from './ValidateButton';
@@ -25,9 +25,7 @@ const CropContainerButtons = ({
   // Contexts
   //===========================================================================
 
-  const {changeCurrentSelectedCropIndex} = useContext(
-    CurrentSelectedIndexCropContext,
-  );
+  const {setCurrentSelectedCrop} = useCurrentSelectedCropContext();
 
   //===========================================================================
   // Functions
@@ -44,7 +42,7 @@ const CropContainerButtons = ({
   const deleteCrop = () => {
     if (currentSelectedCrop !== undefined) {
       dispatch(currentAnnotatedImageRemoveCrop(currentSelectedCrop));
-      changeCurrentSelectedCropIndex(undefined);
+      setCurrentSelectedCrop(undefined);
     }
   };
 
