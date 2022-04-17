@@ -15,7 +15,10 @@ function IconButton({
   onPress,
 }: IconButtonProps) {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={activeOpacity || 0.8}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={activeOpacity || 0.8}
+      testID="icon-btn">
       <View>
         <Icon name={iconName} size={iconSize || 40} />
       </View>
