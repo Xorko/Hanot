@@ -93,6 +93,10 @@
   },
   "jest": {
     "preset": "react-native",
+    "moduleDirectories": [
+      "node_modules",
+      "src/utils"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
