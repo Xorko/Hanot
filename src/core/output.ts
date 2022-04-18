@@ -1,5 +1,6 @@
-import { getChar, isLetter, isNoise, isPending } from './char';
-import { AnnoData, Chan, Data, InkData, TraceGroupData } from './data';
+import { SerializableMap } from 'screens/file-selection-screen/types/file-import-types';
+import * as Char from './char';
+import * as Data from './data';
 import * as InkML from './inkml';
 import * as Word from './word';
 
@@ -8,28 +9,28 @@ import * as Word from './word';
  * xml.
  * @param ink the InkML type to be converted.
  */
-export const exportInk = (ink?: InkML.Type): Data | undefined => {
+export const exportInk = (ink?: InkML.Type): Data.Type | undefined => {
   if (ink !== undefined) {
     const t = ink.words.map(exportWord);
-    let r: TraceGroupData | TraceGroupData[];
-    let an: AnnoData[] | undefined;
+    let r: Data.TraceGroupData | Data.TraceGroupData[];
+    let an: Data.AnnoData[] | undefined;
     if (t.length === 0) {
       throw new Error('exportInk Error: no trace group');
     } else if (t.length === 1) {
-      r = t[0] as TraceGroupData;
+      r = t[0] as Data.TraceGroupData;
       an = r.annotation;
       delete r.annotation;
     } else {
-      r = t as TraceGroupData[];
+      r = t as Data.TraceGroupData[];
     }
-    const i: InkData = {
+    const i: Data.InkData = {
       attr: { xmlns: 'http://www.w3.org/2003/InkML' },
       traceFormat: {
         channel: [
-          { attr: { name: Chan.X, type: 'decimal' as const } },
-          { attr: { name: Chan.Y, type: 'decimal' as const } },
-          { attr: { name: Chan.F, type: 'decimal' as const } },
-          { attr: { name: Chan.T, type: 'integer' as const } },
+          { attr: { name: Data.Chan.X, type: 'decimal' as const } },
+          { attr: { name: Data.Chan.Y, type: 'decimal' as const } },
+          { attr: { name: Data.Chan.F, type: 'decimal' as const } },
+          { attr: { name: Data.Chan.T, type: 'integer' as const } },
         ],
       },
       annotation: an,
@@ -44,9 +45,11 @@ export const exportInk = (ink?: InkML.Type): Data | undefined => {
   }
 };
 
-const exportWord = (tg: Word.Type): TraceGroupData => {
+const exportWord = (tg: Word.Type): Data.TraceGroupData => {
   const uncommented = [
-    ...tg.tracegroups.filter(a => isPending(a.label)).flatMap(e => e.traces),
+    ...tg.tracegroups
+      .filter(a => Char.isPending(a.label))
+      .flatMap(e => e.traces),
     ...tg.defaultTraceGroup,
   ].sort((a, b) => {
     if (a.dots[0].t < b.dots[0].t) {
@@ -58,21 +61,21 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
     return 0;
   });
 
-  const traces: TraceGroupData[] = tg.tracegroups
-    .filter(a => isLetter(a.label) || isNoise(a.label))
+  const traces: Data.TraceGroupData[] = tg.tracegroups
+    .filter(a => Char.isLetter(a.label) || Char.isNoise(a.label))
     .map((a, i) => {
       const tx = a.traces.map(e =>
         e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
       );
-      let r: TraceGroupData = {};
+      let r: Data.TraceGroupData = {};
       if (tx.length === 0) {
         throw new Error('exportTraceGroup Error: empty trace group, no trace');
       } else if (tx.length === 1) {
         r = {
           attr: {
-            'xml:id': getChar(a.label),
+            'xml:id': Char.getChar(a.label),
             positionInGroundTruthValue: i,
-            noise: isNoise(a.label) ? 'noise' : undefined,
+            noise: Char.isNoise(a.label) ? 'noise' : undefined,
           },
           trace: tx[0],
         };
@@ -86,9 +89,9 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
       } else {
         r = {
           attr: {
-            'xml:id': getChar(a.label),
+            'xml:id': Char.getChar(a.label),
             positionInGroundTruthValue: i,
-            noise: isNoise(a.label) ? 'noise' : undefined,
+            noise: Char.isNoise(a.label) ? 'noise' : undefined,
           },
           trace: tx,
         };
@@ -121,8 +124,8 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
       }
       return 0;
     });
-  const annotationXML: AnnoData[] = [];
-  const annotationAttr: AnnoData[] = [];
+  const annotationXML: Data.AnnoData[] = [];
+  const annotationAttr: Data.AnnoData[] = [];
   enqueueAnnotations(annotationXML, tg.annotationsXML?.values);
   enqueueAnnotations(annotationAttr, tg.annotations);
   const xmlid = tg.predicted;
@@ -134,7 +137,7 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
     annotation: annotationXML,
   };
 
-  const r: TraceGroupData = {
+  const r: Data.TraceGroupData = {
     attr: {
       'xml:id': xmlid,
     },
@@ -145,7 +148,9 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
       e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
     ),
   };
-  tg.attributes.forEach((v, k) => (r.attr![k] = v));
+  Object.entries(tg.attributes).forEach(
+    ([key, value]) => (r.attr![key] = value),
+  );
 
   if (annotationXML.length === 0 || annotationXMLAttr.attr.type === '') {
     delete r.annotationXML;
@@ -157,11 +162,16 @@ const exportWord = (tg: Word.Type): TraceGroupData => {
   return r;
 };
 
-const enqueueAnnotations = (an: AnnoData[], dict?: Map<string, string>) => {
-  dict?.forEach((v, k) => {
-    an.push({
-      '#text': v,
-      attr: { type: k },
+const enqueueAnnotations = (
+  an: Data.AnnoData[],
+  dict?: SerializableMap<string>,
+) => {
+  if (dict) {
+    Object.entries(dict).forEach(([key, val]) => {
+      an.push({
+        '#text': val,
+        attr: { type: key },
+      });
     });
-  });
+  }
 };

@@ -1,11 +1,4 @@
-import {
-  constructLetter,
-  getChar,
-  isLetter,
-  isPending,
-  noise,
-  pendingChar,
-} from '../core/char';
+import * as Char from '../core/char';
 import * as Trace from '../core/trace';
 import * as TraceGroup from '../core/tracegroup';
 import * as Word from '../core/word';
@@ -16,7 +9,7 @@ import { createEmptyTraceGroup } from './input';
  * @param word the word to extract annotations.
  */
 export const annotas = (word: Word.Type): string[] => {
-  return getAnnotated(word).map(e => getChar(e.label)) as string[];
+  return getAnnotated(word).map(e => Char.getChar(e.label)) as string[];
 };
 
 /**
@@ -40,7 +33,7 @@ export const getWord = (word: Word.Type): string => {
  * @param word the word to inspect.
  */
 export const getAnnotated = (word: Word.Type): TraceGroup.Type[] => {
-  return word.tracegroups.filter(e => isLetter(e.label));
+  return word.tracegroups.filter(e => Char.isLetter(e.label));
 };
 
 /**
@@ -48,7 +41,7 @@ export const getAnnotated = (word: Word.Type): TraceGroup.Type[] => {
  * @param word the word to inspect.
  */
 export const getPending = (word: Word.Type): TraceGroup.Type[] => {
-  return word.tracegroups.filter(e => isPending(e.label));
+  return word.tracegroups.filter(e => Char.isPending(e.label));
 };
 
 /**
@@ -276,7 +269,7 @@ export const move = (
  * @param tg the trace group to be annotated.
  */
 export const annotate = (chr: string, tg: TraceGroup.Type): void => {
-  tg.label = constructLetter(chr);
+  tg.label = Char.constructLetter(chr);
 };
 
 /**
@@ -284,7 +277,7 @@ export const annotate = (chr: string, tg: TraceGroup.Type): void => {
  * @param tg the trace group to be marked.
  */
 export const makeNoise = (tg: TraceGroup.Type): void => {
-  tg.label = noise;
+  tg.label = Char.noise;
 };
 
 /**
@@ -292,7 +285,7 @@ export const makeNoise = (tg: TraceGroup.Type): void => {
  * @param tg the trace group to be erased.
  */
 export const eraseAnnotation = (tg: TraceGroup.Type): void => {
-  tg.label = pendingChar;
+  tg.label = Char.pendingChar;
 };
 
 /**

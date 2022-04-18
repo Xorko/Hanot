@@ -47,4 +47,6 @@ export const getChar = (x: Char): string | undefined => {
   }
 };
 
-export type Char = Noise | Letter | Pending;
+type Char = Noise | Letter | Pending;
+
+export type Type = Char;
