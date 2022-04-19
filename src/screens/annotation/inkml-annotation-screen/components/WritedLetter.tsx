@@ -1,22 +1,57 @@
 import { View } from 'react-native';
 import { Polyline } from 'react-native-svg';
 import * as Trace from '../../../../core/trace';
+import { Dimension } from '../types/annotation-types';
+import { getMaxValue, getMinValue } from '../utils/letter-utils';
 
 interface WrittedLetterProps {
-  // dimensions: { factorSize: number; posHorizontal: number; posVertical: number };
   traces: Trace.Type[];
-  index: number;
+  sizeComponent: { width: number; height: number };
 }
 
 // const dimensions : Dimension;
 
-export const WrittedLetter = ({ traces }: WrittedLetterProps) => {
+export const WrittedLetter = ({
+  traces,
+  sizeComponent,
+}: WrittedLetterProps) => {
+  /**
+   * Computing size of current letter
+   */
+  const xcoords = traces.map(trace => trace.dots.map(({ x }) => x)).flat();
+  const ycoords = traces.map(trace => trace.dots.map(({ y }) => y)).flat();
+  const minX = getMinValue(xcoords);
+  const minY = getMinValue(ycoords);
+  const lengthLetter = getMaxValue(xcoords) - minX;
+  const heightLetter = getMaxValue(ycoords) - minY;
+
+  /**
+   * Initializing of dimensions used for resize and place letter
+   */
+  const dimensions: Dimension = {
+    factorSize: 1,
+    posHorizontal: 0,
+    posVertical: 0,
+  };
+  // To resize a letter too big
+  if (heightLetter - sizeComponent.height > 0) {
+    dimensions.factorSize = 1 - (heightLetter - sizeComponent.height) / 100;
+  }
+  dimensions.posHorizontal = -minX + (sizeComponent.width - lengthLetter) / 2;
+  dimensions.posVertical = -minY + sizeComponent.height - heightLetter - 10;
+
   return (
     <View>
       {traces.map(trace => (
-        <Polyline // each PolyLine draws a trace
+        <Polyline
           key={traces.indexOf(trace)}
-          points={trace.dots.map(({ x, y }) => `${x + 250},${y}`).join(' ')}
+          points={trace.dots
+            .map(
+              ({ x, y }) =>
+                `${x * dimensions.factorSize + dimensions.posHorizontal},
+            ${y * dimensions.factorSize + dimensions.posVertical}`,
+            )
+            .join(' ')}
           strokeWidth="4"
           stroke="black"
         />

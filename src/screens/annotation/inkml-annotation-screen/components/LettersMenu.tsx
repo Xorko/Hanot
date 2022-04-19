@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
-import { addAnnotationUnit, annotate } from '../../../../core/methods';
-import { TraceContext } from '../context/TraceContext';
+import { addTraceGroup, annotate } from '../../../../core/methods';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
+import { useCurrentWordContext } from '../context/CurrentWordContext';
 import Letter from './Letter';
 const cloneDeep = require('clone-deep');
+import * as WordData from '../../../../core/word';
 
 interface LettersMenuProps {
   selectedLetter: Trace.Type[];
@@ -14,12 +15,36 @@ interface LettersMenuProps {
 const windowHeight = Dimensions.get('window').height;
 
 function LettersMenu({ selectedLetter }: LettersMenuProps) {
-  const { currentWord, changeCurrentWord } = useContext(TraceContext);
+  const { currentWord, changeCurrentWord } = useCurrentWordContext();
 
-  /**
-   * State saving the current index of the last Letters coponent added.
-   */
-  const [maxIndexLetter, setMaxIndexLetter] = React.useState(-1);
+  const deleteOneTraceGroup = (traceGroup: TraceGroup.Type): void => {
+    if (currentWord) {
+      traceGroup.traces.map(trace => {
+        currentWord.defaultTraceGroup[trace.oldTrace].dots = [
+          ...trace.dots,
+          ...currentWord.defaultTraceGroup[trace.oldTrace].dots,
+        ];
+      });
+    }
+  };
+
+  const deleteTraceGroups = (index: number): void => {
+    if (currentWord) {
+      const finalTraceGroups: TraceGroup.Type[] = currentWord.tracegroups;
+      const deletedTraceGroups: TraceGroup.Type[] = finalTraceGroups
+        .splice(index)
+        .reverse();
+      deletedTraceGroups.map(traceGroup => deleteOneTraceGroup(traceGroup));
+      const current: WordData.Type = {
+        tracegroups: finalTraceGroups,
+        defaultTraceGroup: currentWord.defaultTraceGroup,
+        annotations: currentWord.annotations,
+        attributes: currentWord.attributes,
+        predicted: currentWord.predicted,
+      };
+      changeCurrentWord(current);
+    }
+  };
 
   /**
    * Modify the annotation of the current traceGroup
@@ -39,11 +64,9 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
         <Button
           title="Press me"
           onPress={() => {
-            setMaxIndexLetter(maxIndexLetter + 1);
-
             if (currentWord) {
               const wordCopy = cloneDeep(currentWord);
-              addAnnotationUnit(wordCopy, maxIndexLetter);
+              addTraceGroup(wordCopy);
               changeCurrentWord(wordCopy);
             }
           }}
@@ -52,6 +75,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
         {currentWord?.tracegroups.map((traceGroup, index) => (
           <Letter
             editLetterAnnotation={editLetterAnnotation}
+            deleteTraceGroups={deleteTraceGroups}
             traceGroup={traceGroup}
             index={index}
             selectedLetter={selectedLetter}
