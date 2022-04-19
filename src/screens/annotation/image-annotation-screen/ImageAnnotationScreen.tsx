@@ -1,6 +1,12 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { useAppDispatch } from '../../../app/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
@@ -58,7 +64,7 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
   //===========================================================================
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.annotation}>
         <View style={styles.home}>
           <HomeButton />
@@ -75,7 +81,7 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
           </CurrentSelectedCropProvider>
         </DisplayedImageSizeContextProvider>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

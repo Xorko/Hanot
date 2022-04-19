@@ -1,4 +1,5 @@
 import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Buttons from './components/Buttons';
 import Files from './components/Files';
 import { DisplayModeProvider } from './context/DisplayModeContext';
@@ -6,7 +7,7 @@ import { FileTypeProvider } from './context/FileTypeContext';
 
 function TextFileSelectionScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <DisplayModeProvider>
         <FileTypeProvider>
           <View style={styles.header}>
@@ -17,7 +18,7 @@ function TextFileSelectionScreen() {
           </View>
         </FileTypeProvider>
       </DisplayModeProvider>
-    </View>
+    </SafeAreaView>
   );
 }
 
