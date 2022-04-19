@@ -121,6 +121,7 @@ export const AnnotationArea = ({
     if (currentWord !== undefined) {
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
+
       if (traceGroups.length === 0) {
         throw new Error(
           'AnnotationArea: handlePressHitBox --  error box empty',
