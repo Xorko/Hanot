@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 type DisplayMode = 'block' | 'list';
 
-type ModeContextValue = {
+type DisplayModeContextValue = {
   displayMode: DisplayMode;
   setDisplayMode: (newDisplayMode: DisplayMode) => void;
 };
@@ -12,13 +12,17 @@ type ModeContextProviderProps = {
   children: React.ReactNode;
 };
 
-const ModeContext = createContext<ModeContextValue | undefined>(undefined);
+const ModeContext = createContext<DisplayModeContextValue | undefined>(
+  undefined,
+);
 
 export function DisplayModeProvider({
   initialMode,
   children,
 }: ModeContextProviderProps) {
-  const [displayMode, setDisplayMode] = useState(initialMode || 'block');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>(
+    initialMode || 'block',
+  );
 
   return (
     <ModeContext.Provider value={{ displayMode, setDisplayMode }}>
