@@ -293,12 +293,8 @@ export const eraseAnnotation = (tg: TraceGroup.Type): void => {
  * @param word the word to operate.
  * @param at the position to add this empty trace group.
  */
-export const addAnnotationUnit = (word: Word.Type, at?: number): void => {
-  if (at !== undefined && !Number.isInteger(at)) {
-    throw new Error();
-  } else {
-    word.tracegroups.push(createEmptyTraceGroup());
-  }
+export const addTraceGroup = (word: Word.Type): void => {
+  word.tracegroups.push(createEmptyTraceGroup());
 };
 
 /**
