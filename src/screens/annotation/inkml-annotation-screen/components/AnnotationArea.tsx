@@ -1,9 +1,12 @@
+import { RootState } from 'app/store';
 import React, { useEffect, useState } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import Svg from 'react-native-svg';
+import { useDispatch, useSelector } from 'react-redux';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import { useCurrentWordContext } from '../context/CurrentWordContext';
+import * as Word from '../../../../core/word';
+import { pushDotsToRight, pushTraceToRight } from '../currentWordSlice';
 import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';
@@ -21,7 +24,11 @@ export const AnnotationArea = ({
   );
   const [defaultTraces, setDefaultTraces] = useState<TraceData.Type[]>([]);
   const [dimensions, setDimensions] = useState<Dimension>();
-  const { currentWord } = useCurrentWordContext();
+  // const { currentWord } = useContext(TraceContext);
+  var currentWord: Word.Type = useSelector(
+    (state: RootState) => state.currentWord,
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setFinalTraceGroups(currentWord ? currentWord.tracegroups : []);
@@ -64,6 +71,12 @@ export const AnnotationArea = ({
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
       if (traceGroups.length === 0) {
+        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
+        // finalTraceGroupsCopy.push({
+        //   traces: [{dots: leftTrace}],
+        //   label: pendingChar,
+        // });
+        console.error('AnnotationArea : error box empty1');
       } else {
         const point = {
           x: e.nativeEvent.locationX,
@@ -84,16 +97,17 @@ export const AnnotationArea = ({
         const rightTrace = currentDefaultTraces[idxTrace].dots.splice(index);
         const leftTrace = currentDefaultTraces[idxTrace].dots;
 
-        traceGroups[traceGroups.length - 1].traces.push({
-          dots: leftTrace,
-          oldTrace: idxTrace,
-        });
+        // traceGroups[traceGroups.length - 1].traces.push({
+        //   dots: leftTrace,
+        // });
+        dispatch(pushDotsToRight(leftTrace));
 
         // setting state for rerender
         setFinalTraceGroups(traceGroups);
 
         // setting defaultTraces
         currentDefaultTraces[idxTrace].dots = rightTrace;
+
         setDefaultTraces(currentDefaultTraces);
       }
     } else {
@@ -105,20 +119,19 @@ export const AnnotationArea = ({
     if (currentWord !== undefined) {
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
+
       if (traceGroups.length === 0) {
-        throw new Error(
-          'AnnotationArea: handlePressHitBox --  error box empty',
-        );
+        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
+        // finalTraceGroupsCopy.push({
+        //   traces: [traceToMove[0]],
+        //   label: pendingChar,
+        // });
+        console.log('AnnotationArea : error box empty2');
       } else {
         const defaultTracesCopy = [...defaultTraces];
-        const dotsToMove = [...defaultTracesCopy[indexOfTrace].dots];
-        defaultTracesCopy[indexOfTrace].dots = [];
-
-        // adding the trace to the last tracegroup
-        traceGroups[traceGroups.length - 1].traces.push({
-          dots: dotsToMove,
-          oldTrace: indexOfTrace,
-        });
+        const traceToMove = defaultTracesCopy.splice(indexOfTrace, 1);
+        // traceGroups[traceGroups.length - 1].traces.push(traceToMove[0]);
+        dispatch(pushTraceToRight(traceToMove));
 
         //setting state for rerender
         setFinalTraceGroups(traceGroups);

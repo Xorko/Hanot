@@ -9,12 +9,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import * as Trace from '../../../core/trace';
-import * as WordData from '../../../core/word';
 import { RootStackParamList } from '../../../types/navigation-types';
 import LettersMenu from './components/LettersMenu';
 import Word from './components/Word';
-import { CurrentWordProvider } from './context/CurrentWordContext';
+import { initWord } from './currentWordSlice';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
   RootStackParamList,
@@ -29,13 +29,28 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
   const { file } = route.params;
 
   const [selectedLetter, setSelectedLetter] = useState<Trace.Type[]>([]);
-  const [currentWord, setCurrentWord] = useState<WordData.Type | undefined>();
+
+  // var currentWord: WordData.Type = useSelector(
+  //   (state: RootState) => state.currentWord,
+  // );
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (file.content) {
+  //     dispatch(initWord(file.content.words[0]));
+  //     // console.log('currentWord2 : ' + currentWord);
+  //     // console.log('currentWord3 : ' + currentWord.tracegroups.length);
+  //   }
+  // }, [file.content]);
 
   useEffect(() => {
     if (file.content) {
-      setCurrentWord(file.content.words[0]);
+      dispatch(initWord(file.content.words[0]));
+      // console.log('currentWord2 : ' + currentWord);
+      // console.log('currentWord3 : ' + currentWord.tracegroups.length);
     }
-  }, [file.content]);
+  }, [file.content, dispatch]);
 
   /**
    * Modify the traces of the current traceGroup to write in current box
@@ -48,18 +63,16 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.annotation}>
-        {currentWord && (
-          <CurrentWordProvider initialCurrentTrace={currentWord}>
-            <View style={styles.home}>
-              <Button
-                title="Menu"
-                onPress={() => navigation.navigate('FileSelectionScreen', {})}
-              />
-            </View>
-            <LettersMenu selectedLetter={selectedLetter} />
-            <Word editLetterTraces={editLetterTraces} />
-          </CurrentWordProvider>
-        )}
+        {/* <TraceContext.Provider value={{ currentWord, changeCurrentWord }}> */}
+        <View style={styles.home}>
+          <Button
+            title="Menu"
+            onPress={() => navigation.navigate('FileSelectionScreen', {})}
+          />
+        </View>
+        <LettersMenu selectedLetter={selectedLetter} />
+        <Word editLetterTraces={editLetterTraces} />
+        {/* </TraceContext.Provider> */}
       </View>
     </SafeAreaView>
   );

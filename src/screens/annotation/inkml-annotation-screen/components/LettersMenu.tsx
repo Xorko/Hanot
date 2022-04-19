@@ -1,12 +1,15 @@
+import { RootState } from 'app/store';
 import React from 'react';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTraceGroup, annotate } from '../../../../core/methods';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import { useCurrentWordContext } from '../context/CurrentWordContext';
+import * as WordData from '../../../../core/word';
+import * as WordType from '../../../../core/word';
+import { initWord } from '../currentWordSlice';
 import Letter from './Letter';
 const cloneDeep = require('clone-deep');
-import * as WordData from '../../../../core/word';
 
 interface LettersMenuProps {
   selectedLetter: Trace.Type[];
@@ -15,7 +18,11 @@ interface LettersMenuProps {
 const windowHeight = Dimensions.get('window').height;
 
 function LettersMenu({ selectedLetter }: LettersMenuProps) {
-  const { currentWord, changeCurrentWord } = useCurrentWordContext();
+  const dispatch = useDispatch();
+
+  var currentWord: WordType.Type = useSelector(
+    (state: RootState) => state.currentWord,
+  );
 
   const deleteOneTraceGroup = (traceGroup: TraceGroup.Type): void => {
     if (currentWord) {
@@ -42,7 +49,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
         attributes: currentWord.attributes,
         predicted: currentWord.predicted,
       };
-      changeCurrentWord(current);
+      dispatch(initWord(currentWord));
     }
   };
 
@@ -67,7 +74,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
             if (currentWord) {
               const wordCopy = cloneDeep(currentWord);
               addTraceGroup(wordCopy);
-              changeCurrentWord(wordCopy);
+              dispatch(initWord(wordCopy));
             }
           }}
         />
