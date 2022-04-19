@@ -1,14 +1,24 @@
-import { StyleProp, StyleSheet, Text as RNText, TextStyle } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text as RNText,
+  TextProps as RNTextProps,
+  TextStyle,
+} from 'react-native';
 import colors from '../style/colors';
 
 type TextProps = {
   variant: keyof typeof colors;
   style?: StyleProp<TextStyle>;
   children: React.ReactNode;
-};
+} & RNTextProps;
 
-function Text({ variant: status, style, children }: TextProps) {
-  return <RNText style={[style, styles[status]]}>{children}</RNText>;
+function Text({ variant: status, style, children, ...props }: TextProps) {
+  return (
+    <RNText style={[style, styles[status]]} {...props}>
+      {children}
+    </RNText>
+  );
 }
 
 const styles = StyleSheet.create({
