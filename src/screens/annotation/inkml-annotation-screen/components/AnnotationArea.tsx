@@ -10,6 +10,7 @@ import { pushDotsToRight, pushTraceToRight } from '../currentWordSlice';
 import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';
+const cloneDeep = require('clone-deep');
 
 interface AnnotationAreaProps {
   editLetterTraces: (traces: TraceData.Type[]) => void;
@@ -76,7 +77,7 @@ export const AnnotationArea = ({
         //   traces: [{dots: leftTrace}],
         //   label: pendingChar,
         // });
-        console.error('AnnotationArea : error box empty1');
+        console.error('AnnotationArea : error box empty');
       } else {
         const point = {
           x: e.nativeEvent.locationX,
@@ -93,7 +94,7 @@ export const AnnotationArea = ({
           dot => dot.x === closest.x && dot.y === closest.y,
         );
 
-        const currentDefaultTraces = [...defaultTraces];
+        const currentDefaultTraces = cloneDeep(defaultTraces);
         const rightTrace = currentDefaultTraces[idxTrace].dots.splice(index);
         const leftTrace = currentDefaultTraces[idxTrace].dots;
 
@@ -126,7 +127,7 @@ export const AnnotationArea = ({
         //   traces: [traceToMove[0]],
         //   label: pendingChar,
         // });
-        console.log('AnnotationArea : error box empty2');
+        console.log('AnnotationArea : error box empty');
       } else {
         const defaultTracesCopy = [...defaultTraces];
         const traceToMove = defaultTracesCopy.splice(indexOfTrace, 1);

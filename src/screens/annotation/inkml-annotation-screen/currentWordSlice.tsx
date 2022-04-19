@@ -21,7 +21,6 @@ export const currentWordSlice = createSlice({
         'action.payload.tracegroups ' + action.payload.tracegroups.length,
       );
       state.tracegroups = action.payload.tracegroups;
-
       state.defaultTraceGroup = action.payload.defaultTraceGroup;
       state.attributes = action.payload.attributes;
       state.annotations = action.payload.annotations;
