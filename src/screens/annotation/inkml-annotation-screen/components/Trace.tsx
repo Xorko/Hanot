@@ -4,7 +4,8 @@ import { Polyline } from 'react-native-svg';
 import * as TraceData from '../../../../core/trace';
 
 interface TraceProps {
-  parsedDots: TraceData.Type[]; // the traces to draw on the SVG
+  // The traces to draw on the SVG
+  parsedDots: TraceData.Type[];
   dimensions: {
     factorSize: number;
     posHorizontal: number;
@@ -25,7 +26,7 @@ export const Trace = ({
   return (
     <View>
       {parsedDots.map((trace, idxTrace) => (
-        <Polyline // each PolyLine draws a trace
+        <Polyline
           key={parsedDots.indexOf(trace)}
           points={trace.dots
             .map(

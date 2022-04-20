@@ -14,7 +14,7 @@ import * as WordData from '../../../core/word';
 import { RootStackParamList } from '../../../types/navigation-types';
 import LettersMenu from './components/LettersMenu';
 import Word from './components/Word';
-import { TraceContext } from './context/TraceContext';
+import { CurrentWordProvider } from './context/CurrentWordContext';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
   RootStackParamList,
@@ -29,8 +29,7 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
   const { file } = route.params;
 
   const [selectedLetter, setSelectedLetter] = useState<Trace.Type[]>([]);
-
-  const [currentWord, setCurrentWord] = useState<WordData.Type>();
+  const [currentWord, setCurrentWord] = useState<WordData.Type | undefined>();
 
   useEffect(() => {
     if (file.content) {
@@ -46,23 +45,21 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
     setSelectedLetter(traces);
   };
 
-  const changeCurrentWord = (word: WordData.Type): void => {
-    setCurrentWord(word);
-  };
-
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.annotation}>
-        <TraceContext.Provider value={{ currentWord, changeCurrentWord }}>
-          <View style={styles.home}>
-            <Button
-              title="Menu"
-              onPress={() => navigation.navigate('FileSelectionScreen', {})}
-            />
-          </View>
-          <LettersMenu selectedLetter={selectedLetter} />
-          <Word editLetterTraces={editLetterTraces} />
-        </TraceContext.Provider>
+        {currentWord && (
+          <CurrentWordProvider initialCurrentTrace={currentWord}>
+            <View style={styles.home}>
+              <Button
+                title="Menu"
+                onPress={() => navigation.navigate('FileSelectionScreen', {})}
+              />
+            </View>
+            <LettersMenu selectedLetter={selectedLetter} />
+            <Word editLetterTraces={editLetterTraces} />
+          </CurrentWordProvider>
+        )}
       </View>
     </SafeAreaView>
   );

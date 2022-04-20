@@ -1,4 +1,5 @@
-import { Dimensions, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import * as Trace from '../../../../core/trace';
 import { AnnotationArea } from './AnnotationArea';
 
@@ -10,10 +11,22 @@ interface WordProps {
 }
 
 function Word({ editLetterTraces }: WordProps) {
+  const [sizeView, setSizeView] = React.useState({ width: 0, height: 0 });
+
+  const changeSize = (e: LayoutChangeEvent) => {
+    setSizeView({
+      width: e.nativeEvent.layout.width,
+      height: e.nativeEvent.layout.height,
+    });
+  };
+
   return (
     <View style={styles.main}>
-      <View style={styles.box}>
-        <AnnotationArea editLetterTraces={editLetterTraces} />
+      <View style={styles.box} onLayout={changeSize}>
+        <AnnotationArea
+          editLetterTraces={editLetterTraces}
+          sizeComponent={sizeView}
+        />
       </View>
     </View>
   );

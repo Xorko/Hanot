@@ -1,56 +1,54 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, GestureResponderEvent, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { GestureResponderEvent, View } from 'react-native';
 import Svg from 'react-native-svg';
-import { TraceContext } from '../context/TraceContext';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
+import { useCurrentWordContext } from '../context/CurrentWordContext';
+import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';
 
-const { width } = Dimensions.get('window');
-
 interface AnnotationAreaProps {
   editLetterTraces: (traces: TraceData.Type[]) => void;
+  sizeComponent: { width: number; height: number };
 }
-
-export interface Dimension {
-  factorSize: number;
-  posHorizontal: number;
-  posVertical: number;
-}
-
-export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
+export const AnnotationArea = ({
+  editLetterTraces,
+  sizeComponent,
+}: AnnotationAreaProps) => {
   const [finalTraceGroups, setFinalTraceGroups] = useState<TraceGroup.Type[]>(
     [],
   );
   const [defaultTraces, setDefaultTraces] = useState<TraceData.Type[]>([]);
   const [dimensions, setDimensions] = useState<Dimension>();
-  const { currentWord } = useContext(TraceContext);
+  const { currentWord } = useCurrentWordContext();
 
   useEffect(() => {
     setFinalTraceGroups(currentWord ? currentWord.tracegroups : []);
     setDefaultTraces(currentWord ? currentWord.defaultTraceGroup : []);
     if (currentWord) {
-      const xcoords = currentWord.defaultTraceGroup //A changer, ne va pas marcher pour un mot dont l'annotation est commence
+      const xcoords = currentWord.defaultTraceGroup
         .map(trace => trace.dots.map(({ x }) => x))
         .flat();
-      const lengthWord = GetMaxXValue(xcoords) - GetMinXValue(xcoords);
+      currentWord.tracegroups.map(tracegroup => {
+        tracegroup.traces.map(trace =>
+          trace.dots.map(({ x }) => xcoords.push(x)),
+        );
+      });
+      const ycoords = currentWord.defaultTraceGroup //A changer, ne va pas marcher pour un mot dont l'annotation est commence
+        .map(trace => trace.dots.map(({ y }) => y))
+        .flat();
+      const lengthWord = getMaxXValue(xcoords) - getMinXValue(xcoords);
+      const heightWord = getMaxXValue(ycoords) - getMinXValue(ycoords);
       setDimensions({
-        factorSize: ResponsiveWord(lengthWord),
-        posHorizontal: width / 1.42 - lengthWord,
-        posVertical: width / 27,
+        factorSize: responsiveWord(lengthWord, sizeComponent.width),
+        posHorizontal:
+          -getMinXValue(xcoords) + (sizeComponent.width - lengthWord) / 2 + 20,
+        posVertical:
+          -getMinXValue(ycoords) + (sizeComponent.height - heightWord) / 2 - 40,
       });
     }
-  }, [currentWord]);
-
-  console.log(
-    'dimensions : ' +
-      dimensions?.factorSize +
-      ' ' +
-      dimensions?.posHorizontal +
-      ' ' +
-      dimensions?.posVertical,
-  );
+  }, [currentWord, sizeComponent]);
 
   const distance = (
     pointA: { x: number; y: number },
@@ -63,15 +61,9 @@ export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
 
   const handlePress = (e: GestureResponderEvent, idxTrace: number) => {
     if (currentWord !== undefined && dimensions !== undefined) {
-      //setting finalTraceGroups
+      // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
       if (traceGroups.length === 0) {
-        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
-        // finalTraceGroupsCopy.push({
-        //   traces: [{dots: leftTrace}],
-        //   label: pendingChar,
-        // });
-        console.error('AnnotationArea : error box empty');
       } else {
         const point = {
           x: e.nativeEvent.locationX,
@@ -94,19 +86,15 @@ export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
 
         traceGroups[traceGroups.length - 1].traces.push({
           dots: leftTrace,
+          oldTrace: idxTrace,
         });
 
-        //setting state for rerender
+        // setting state for rerender
         setFinalTraceGroups(traceGroups);
 
-        //setting defaultTraces
+        // setting defaultTraces
         currentDefaultTraces[idxTrace].dots = rightTrace;
         setDefaultTraces(currentDefaultTraces);
-
-        //editLetterTraces(traceGroups[traceGroups.length - 1].traces)
-
-        console.log(currentWord.tracegroups[0].traces.length);
-        console.log(currentWord.defaultTraceGroup[0].dots.length);
       }
     } else {
       throw new Error('AnnotationArea: handlePress -- currentWord undefined');
@@ -118,25 +106,25 @@ export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
       if (traceGroups.length === 0) {
-        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
-        // finalTraceGroupsCopy.push({
-        //   traces: [traceToMove[0]],
-        //   label: pendingChar,
-        // });
-        console.log('AnnotationArea : error box empty');
+        throw new Error(
+          'AnnotationArea: handlePressHitBox --  error box empty',
+        );
       } else {
         const defaultTracesCopy = [...defaultTraces];
-        const traceToMove = defaultTracesCopy.splice(indexOfTrace, 1);
-        traceGroups[traceGroups.length - 1].traces.push(traceToMove[0]);
+        const dotsToMove = [...defaultTracesCopy[indexOfTrace].dots];
+        defaultTracesCopy[indexOfTrace].dots = [];
+
+        // adding the trace to the last tracegroup
+        traceGroups[traceGroups.length - 1].traces.push({
+          dots: dotsToMove,
+          oldTrace: indexOfTrace,
+        });
 
         //setting state for rerender
         setFinalTraceGroups(traceGroups);
 
         //setting defaultTraces
         setDefaultTraces(defaultTracesCopy);
-
-        console.log(currentWord.tracegroups[0].traces.length);
-        console.log(currentWord.defaultTraceGroup[0].dots.length);
       }
     } else {
       throw new Error('AnnotationArea: handlePress -- currentWord undefined');
@@ -163,14 +151,19 @@ export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
               editLetterTraces={editLetterTraces}
             />
           ))}
-          {defaultTraces.map((trace, idx) => (
-            <Hitbox
-              dot={trace.dots[trace.dots.length - 1]}
-              dimensions={dimensions}
-              handlePressHitBox={handlePressHitBox}
-              indexOfTrace={idx}
-            />
-          ))}
+          {defaultTraces.map((trace, idx) => {
+            if (trace.dots.length > 0) {
+              return (
+                <Hitbox
+                  dot={trace.dots[trace.dots.length - 1]}
+                  dimensions={dimensions}
+                  handlePressHitBox={handlePressHitBox}
+                  indexOfTrace={idx}
+                  editLetterTraces={editLetterTraces}
+                />
+              );
+            }
+          })}
         </Svg>
       )}
     </View>
@@ -182,15 +175,16 @@ export const AnnotationArea = ({ editLetterTraces }: AnnotationAreaProps) => {
  * @param wordSize
  * @returns value to multiply coordinates of dots
  */
-const ResponsiveWord = (wordSize: number) => {
-  return width / (2.1 * wordSize);
+const responsiveWord = (wordSize: number, widthComp: number) => {
+  // return width / (2.1 * wordSize);
+  return widthComp / wordSize / 1.4;
 };
 
 /**
  * @param xcoords list of x points
  * @returns max x value
  */
-const GetMaxXValue = (xcoords: number[]) => {
+const getMaxXValue = (xcoords: number[]) => {
   return Math.max.apply(null, xcoords);
 };
 
@@ -198,6 +192,6 @@ const GetMaxXValue = (xcoords: number[]) => {
  * @param xcoords list of x points
  * @returns min x value
  */
-const GetMinXValue = (xcoords: number[]) => {
+const getMinXValue = (xcoords: number[]) => {
   return Math.min.apply(null, xcoords);
 };
