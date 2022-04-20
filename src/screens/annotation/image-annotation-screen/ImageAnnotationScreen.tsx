@@ -15,7 +15,11 @@ import HomeButton from './components/HomeButton';
 import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
-import { setCurrentAnnotatedImageSrc } from './current-annotated-image';
+import {
+  setCurrentAnnotatedImageFilePath,
+  setCurrentAnnotatedImageSrc,
+  setCurrentAnnotatedImageWidth,
+} from './current-annotated-image';
 import { Size } from './types/image-annotation-types';
 
 const windowWidth = Dimensions.get('window').width;
@@ -47,17 +51,19 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
 
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
-    if (file.image) {
+    if (file.image && file.filePath) {
       // Sets the image source in the store
       dispatch(setCurrentAnnotatedImageSrc(file.image));
+      dispatch(setCurrentAnnotatedImageFilePath(file.filePath));
 
       // Retrieves the image size and sets it in the state
       Image.getSize(file.image, (width, height) => {
         const size = { width, height };
         setTrueImageSize(size);
+        dispatch(setCurrentAnnotatedImageWidth(size.width));
       });
     }
-  }, [dispatch, file.image]);
+  }, [dispatch, file.filePath, file.image]);
 
   //===========================================================================
   // Render
