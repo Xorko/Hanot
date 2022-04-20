@@ -1,4 +1,4 @@
-import { RootState } from 'app/store';
+import { RootState } from '../../../../stores/store';
 import React, { useEffect, useState } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import Svg from 'react-native-svg';
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import * as Word from '../../../../core/word';
-import { pushDotsToRight, setDefaultTraceGroup } from '../currentWordSlice';
+import { pushDotsToRight, setDefaultTraceGroup } from '../current-word-slice';
 import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';

@@ -14,7 +14,7 @@ import * as Trace from '../../../core/trace';
 import { RootStackParamList } from '../../../types/navigation-types';
 import LettersMenu from './components/LettersMenu';
 import Word from './components/Word';
-import { initWord } from './currentWordSlice';
+import { initWord } from './current-word-slice';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
   RootStackParamList,

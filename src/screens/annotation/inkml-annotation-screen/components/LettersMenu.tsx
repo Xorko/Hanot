@@ -1,4 +1,4 @@
-import { RootState } from 'app/store';
+import { RootState } from '../../../../stores/store';
 import React from 'react';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import {
   deleteTraceGroup,
   initWord,
   setFinalTraceGroups,
-} from '../currentWordSlice';
+} from '../current-word-slice';
 import Letter from './Letter';
 const cloneDeep = require('clone-deep');
 
