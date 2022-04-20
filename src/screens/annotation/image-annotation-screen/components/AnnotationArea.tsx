@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Canvas, { Image as CanvasImage } from 'react-native-canvas';
 import Svg from 'react-native-svg';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';

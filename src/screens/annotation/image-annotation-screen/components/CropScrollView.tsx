@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';

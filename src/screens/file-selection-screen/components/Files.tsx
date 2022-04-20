@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppSelector } from '../../../stores/hooks';
 import Text from '../../../components/Text';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileType } from '../context/FileTypeContext';

@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../app/store';
+import { store } from '../stores/store';
 
 interface AppProvidersProps {
   children: React.ReactNode;

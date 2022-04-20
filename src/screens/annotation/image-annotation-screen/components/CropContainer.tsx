@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useAppDispatch } from '../../../../app/hooks';
+import { useAppDispatch } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
 import { Point, Size } from '../types/image-annotation-types';

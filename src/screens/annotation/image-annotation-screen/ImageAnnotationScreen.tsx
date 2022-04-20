@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';

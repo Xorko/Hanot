@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { useAppDispatch } from '../../../../app/hooks';
+import { useAppDispatch } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { currentAnnotatedImageRemoveCrop } from '../current-annotated-image';
 import DeleteButton from './DeleteButton';
