@@ -2,12 +2,16 @@ import { RootState } from 'app/store';
 import React from 'react';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTraceGroup, annotate } from '../../../../core/methods';
+import { createEmptyTraceGroup } from '../../../../core/input';
+import { annotate } from '../../../../core/methods';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import * as WordData from '../../../../core/word';
 import * as WordType from '../../../../core/word';
-import { initWord } from '../currentWordSlice';
+import {
+  deleteTraceGroup,
+  initWord,
+  setFinalTraceGroups,
+} from '../currentWordSlice';
 import Letter from './Letter';
 const cloneDeep = require('clone-deep');
 
@@ -37,19 +41,18 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
 
   const deleteTraceGroups = (index: number): void => {
     if (currentWord) {
-      const finalTraceGroups: TraceGroup.Type[] = currentWord.tracegroups;
+      const finalTraceGroups: TraceGroup.Type[] = cloneDeep(
+        currentWord.tracegroups,
+      );
       const deletedTraceGroups: TraceGroup.Type[] = finalTraceGroups
         .splice(index)
         .reverse();
-      deletedTraceGroups.map(traceGroup => deleteOneTraceGroup(traceGroup));
-      const current: WordData.Type = {
-        tracegroups: finalTraceGroups,
-        defaultTraceGroup: currentWord.defaultTraceGroup,
-        annotations: currentWord.annotations,
-        attributes: currentWord.attributes,
-        predicted: currentWord.predicted,
-      };
-      dispatch(initWord(currentWord));
+
+      deletedTraceGroups.map(traceGroup =>
+        dispatch(deleteTraceGroup(traceGroup)),
+      );
+
+      dispatch(setFinalTraceGroups(finalTraceGroups));
     }
   };
 
@@ -73,7 +76,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
           onPress={() => {
             if (currentWord) {
               const wordCopy = cloneDeep(currentWord);
-              addTraceGroup(wordCopy);
+              wordCopy.tracegroups.push(createEmptyTraceGroup());
               dispatch(initWord(wordCopy));
             }
           }}

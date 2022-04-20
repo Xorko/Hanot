@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import * as Word from '../../../../core/word';
-import { pushDotsToRight, pushTraceToRight } from '../currentWordSlice';
+import { pushDotsToRight, setDefaultTraceGroup } from '../currentWordSlice';
 import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';
@@ -24,6 +24,7 @@ export const AnnotationArea = ({
     [],
   );
   const [defaultTraces, setDefaultTraces] = useState<TraceData.Type[]>([]);
+
   const [dimensions, setDimensions] = useState<Dimension>();
   // const { currentWord } = useContext(TraceContext);
   var currentWord: Word.Type = useSelector(
@@ -43,9 +44,14 @@ export const AnnotationArea = ({
           trace.dots.map(({ x }) => xcoords.push(x)),
         );
       });
-      const ycoords = currentWord.defaultTraceGroup //A changer, ne va pas marcher pour un mot dont l'annotation est commence
+      const ycoords = currentWord.defaultTraceGroup //TODO A changer, ne va pas marcher pour un mot dont l'annotation est commence
         .map(trace => trace.dots.map(({ y }) => y))
         .flat();
+      currentWord.tracegroups.map(tracegroup => {
+        tracegroup.traces.map(trace =>
+          trace.dots.map(({ y }) => ycoords.push(y)),
+        );
+      });
       const lengthWord = getMaxXValue(xcoords) - getMinXValue(xcoords);
       const heightWord = getMaxXValue(ycoords) - getMinXValue(ycoords);
       setDimensions({
@@ -72,11 +78,6 @@ export const AnnotationArea = ({
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
       if (traceGroups.length === 0) {
-        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
-        // finalTraceGroupsCopy.push({
-        //   traces: [{dots: leftTrace}],
-        //   label: pendingChar,
-        // });
         console.error('AnnotationArea : error box empty');
       } else {
         const point = {
@@ -101,7 +102,7 @@ export const AnnotationArea = ({
         // traceGroups[traceGroups.length - 1].traces.push({
         //   dots: leftTrace,
         // });
-        dispatch(pushDotsToRight(leftTrace));
+        dispatch(pushDotsToRight({ leftTrace, idxTrace }));
 
         // setting state for rerender
         setFinalTraceGroups(traceGroups);
@@ -109,36 +110,33 @@ export const AnnotationArea = ({
         // setting defaultTraces
         currentDefaultTraces[idxTrace].dots = rightTrace;
 
-        setDefaultTraces(currentDefaultTraces);
+        dispatch(setDefaultTraceGroup(currentDefaultTraces));
       }
     } else {
       throw new Error('AnnotationArea: handlePress -- currentWord undefined');
     }
   };
 
-  const handlePressHitBox = (indexOfTrace: number) => {
+  const handlePressHitBox = (idxTrace: number) => {
     if (currentWord !== undefined) {
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
-
       if (traceGroups.length === 0) {
-        // //A changer pour l'ajout d'un tracegroup quand on clique pour ajouter une box --> erreur pas de traceGroup (ie pas de box ajoute)
-        // finalTraceGroupsCopy.push({
-        //   traces: [traceToMove[0]],
-        //   label: pendingChar,
-        // });
-        console.log('AnnotationArea : error box empty');
+        throw new Error(
+          'AnnotationArea: handlePressHitBox --  error box empty',
+        );
       } else {
-        const defaultTracesCopy = [...defaultTraces];
-        const traceToMove = defaultTracesCopy.splice(indexOfTrace, 1);
-        // traceGroups[traceGroups.length - 1].traces.push(traceToMove[0]);
-        dispatch(pushTraceToRight(traceToMove));
+        const defaultTracesCopy = cloneDeep(defaultTraces);
+        const leftTrace = [...defaultTracesCopy[idxTrace].dots];
+        defaultTracesCopy[idxTrace].dots = [];
+
+        dispatch(pushDotsToRight({ leftTrace, idxTrace }));
 
         //setting state for rerender
         setFinalTraceGroups(traceGroups);
 
         //setting defaultTraces
-        setDefaultTraces(defaultTracesCopy);
+        dispatch(setDefaultTraceGroup(defaultTracesCopy));
       }
     } else {
       throw new Error('AnnotationArea: handlePress -- currentWord undefined');

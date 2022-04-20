@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Dot from '../../../core/dot';
 import * as Trace from '../../../core/trace';
+import * as TraceGroup from '../../../core/tracegroup';
 import * as Word from '../../../core/word';
 
 const initialState: Word.Type = {
@@ -37,14 +38,41 @@ export const currentWordSlice = createSlice({
       );
       return state;
     },
+
+    setDefaultTraceGroup: (state, traces: PayloadAction<Trace.Type[]>) => {
+      state.defaultTraceGroup = traces.payload;
+      return state;
+    },
+
+    setFinalTraceGroups: (
+      state,
+      traceGroups: PayloadAction<TraceGroup.Type[]>,
+    ) => {
+      state.tracegroups = traceGroups.payload;
+      return state;
+    },
+
+    deleteTraceGroup: (state, traceGroup: PayloadAction<TraceGroup.Type>) => {
+      traceGroup.payload.traces.map(trace => {
+        state.defaultTraceGroup[trace.oldTrace].dots = [
+          ...trace.dots,
+          ...state.defaultTraceGroup[trace.oldTrace].dots,
+        ];
+      });
+    },
+
     /**
      *
      * @param dots The dots to be added at the end of the current word tracegroups
      * @returns the modified word as a state
      */
-    pushDotsToRight: (state, dots: PayloadAction<Dot.Type[]>) => {
+    pushDotsToRight: (
+      state,
+      action: PayloadAction<{ leftTrace: Dot.Type[]; idxTrace: number }>,
+    ) => {
       state.tracegroups[state.tracegroups.length - 1].traces.push({
-        dots: dots.payload,
+        dots: action.payload.leftTrace,
+        oldTrace: action.payload.idxTrace,
       });
       return state;
     },
@@ -52,7 +80,13 @@ export const currentWordSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { initWord, pushTraceToRight, pushDotsToRight } =
-  currentWordSlice.actions;
+export const {
+  initWord,
+  pushTraceToRight,
+  pushDotsToRight,
+  setDefaultTraceGroup,
+  deleteTraceGroup,
+  setFinalTraceGroups,
+} = currentWordSlice.actions;
 
 export default currentWordSlice.reducer;

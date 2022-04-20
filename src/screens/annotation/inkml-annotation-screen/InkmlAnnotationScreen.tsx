@@ -30,25 +30,11 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
 
   const [selectedLetter, setSelectedLetter] = useState<Trace.Type[]>([]);
 
-  // var currentWord: WordData.Type = useSelector(
-  //   (state: RootState) => state.currentWord,
-  // );
-
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (file.content) {
-  //     dispatch(initWord(file.content.words[0]));
-  //     // console.log('currentWord2 : ' + currentWord);
-  //     // console.log('currentWord3 : ' + currentWord.tracegroups.length);
-  //   }
-  // }, [file.content]);
 
   useEffect(() => {
     if (file.content) {
       dispatch(initWord(file.content.words[0]));
-      // console.log('currentWord2 : ' + currentWord);
-      // console.log('currentWord3 : ' + currentWord.tracegroups.length);
     }
   }, [file.content, dispatch]);
 
