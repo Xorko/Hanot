@@ -53,7 +53,7 @@ export const currentWordSlice = createSlice({
     },
 
     deleteTraceGroup: (state, traceGroup: PayloadAction<TraceGroup.Type>) => {
-      traceGroup.payload.traces.map(trace => {
+      traceGroup.payload.traces.reverse().map(trace => {
         state.defaultTraceGroup[trace.oldTrace].dots = [
           ...trace.dots,
           ...state.defaultTraceGroup[trace.oldTrace].dots,
