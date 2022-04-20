@@ -1,13 +1,12 @@
+import { useRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { addAnnotatedImage } from '../../../../shared/annotated-image-files';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
-import {
-  CurrentAnnotatedImageState,
-  setCurrentAnnotatedImagePixels,
-} from '../current-annotated-image';
+import { setCurrentAnnotatedImagePixels } from '../current-annotated-image';
 import { Crop, Pixel, Point } from '../types/image-annotation-types';
 import { getAllPointsInPath } from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
@@ -23,13 +22,8 @@ const CropScrollView = () => {
   // Redux
   //===========================================================================
 
-  const crops = useAppSelector(
-    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
-      state.currentAnnotatedImage.annotatedImage.imageCrops,
-  );
-  const pixels = useAppSelector(
-    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
-      state.currentAnnotatedImage.annotatedImage.imagePixels,
+  const currentImage = useAppSelector(
+    state => state.currentAnnotatedImage.annotatedImage,
   );
 
   const dispatch = useAppDispatch();
@@ -45,11 +39,19 @@ const CropScrollView = () => {
     useCurrentSelectedCropContext();
 
   //===========================================================================
+  // State
+  // ===========================================================================
+
+  const isAnnotated = useRef<boolean>(false);
+
+  //===========================================================================
   // Variables
   //===========================================================================
 
   // Varible that will contain all the paths of all the crops to display
-  const paths = crops ? crops.map((crop: Crop) => crop.cropPath) : [];
+  const paths = currentImage.imageCrops
+    ? currentImage.imageCrops.map((crop: Crop) => crop.cropPath)
+    : [];
 
   //===========================================================================
   // Functions
@@ -93,12 +95,12 @@ const CropScrollView = () => {
     const truePaths = getAdjustedPaths();
 
     // Copies the pixels to a new array to be able to modify it
-    const pixelsCopy: Pixel[] = cloneDeep(pixels);
+    const pixelsCopy: Pixel[] = cloneDeep(currentImage.imagePixels);
 
     if (truePaths && trueImageSize) {
       truePaths.forEach((path: Point[], idx: number) => {
         // For every crop, gets the crop annotation
-        const annotation = crops[idx].cropAnnotation;
+        const annotation = currentImage.imageCrops[idx].cropAnnotation;
 
         // Then gets all points that are on and in the path
         getAllPointsInPath(path, trueImageSize.width).forEach(
@@ -115,8 +117,15 @@ const CropScrollView = () => {
 
       // Updates the pixels of the image in the redux store
       dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
+
+      isAnnotated.current = true;
     }
   };
+
+  if (isAnnotated.current) {
+    // If the image is annotated, adds it to the annotated image files
+    dispatch(addAnnotatedImage(currentImage));
+  }
 
   //===========================================================================
   // Render
@@ -135,10 +144,7 @@ const CropScrollView = () => {
           />
         ))}
       </ScrollView>
-      <CropContainerButtons
-        currentSelectedCrop={currentSelectedCrop}
-        annotate={annotate}
-      />
+      <CropContainerButtons annotate={annotate} />
     </View>
   );
 };
