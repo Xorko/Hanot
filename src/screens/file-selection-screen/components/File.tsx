@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Text from '../../../components/Text';
@@ -7,6 +8,7 @@ import colors from '../../../style/colors';
 import { RootStackParamList } from '../../../types/navigation-types';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileType } from '../context/FileTypeContext';
+import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
 import { getNFirstCharacters } from '../utils/string-utils';
 
@@ -17,6 +19,7 @@ interface FileProps {
 function File({ file }: FileProps) {
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
+  const { selectedFiles, setSelectedFiles } = useSelectedFiles();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -37,8 +40,16 @@ function File({ file }: FileProps) {
     }
   };
 
+  const handleLongPress = () => {
+    if (!selectedFiles.includes(file.filePath)) {
+      setSelectedFiles([...selectedFiles, file.filePath]);
+    } else {
+      setSelectedFiles(selectedFiles.filter(f => f !== file.filePath));
+    }
+  };
+
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
       {displayMode === 'list' && <ListItem file={file} />}
       {displayMode === 'block' && <BlockItem file={file} />}
     </TouchableOpacity>
@@ -46,8 +57,19 @@ function File({ file }: FileProps) {
 }
 
 function ListItem({ file }: FileProps) {
+  // Code duplicated from block item to avoid having delay for the border coloration when selecting files
+  const { selectedFiles } = useSelectedFiles();
+
+  const [borderColor, setBorderColor] = useState<string>(colors.primary);
+
+  useEffect(() => {
+    if (selectedFiles.includes(file.filePath)) {
+      setBorderColor(colors.danger);
+    }
+  }, [selectedFiles, file.filePath]);
+
   return (
-    <View style={listStyles.container}>
+    <View style={{ ...listStyles.container, borderColor }}>
       <Text
         variant="light"
         style={styles.filename}
@@ -60,8 +82,21 @@ function ListItem({ file }: FileProps) {
 }
 
 function BlockItem({ file }: FileProps) {
+  // Code duplicated from block item to avoid having delay for the border coloration when selecting files
+  const { selectedFiles } = useSelectedFiles();
+
+  const [borderColor, setBorderColor] = useState<string>(colors.primary);
+
+  useEffect(() => {
+    if (selectedFiles.includes(file.filePath)) {
+      setBorderColor(colors.danger);
+    } else {
+      setBorderColor(colors.primary);
+    }
+  }, [selectedFiles, file.filePath]);
+
   return (
-    <View style={blockStyles.container}>
+    <View style={{ ...blockStyles.container, borderColor }}>
       <View style={blockStyles.preview}>
         <Text variant="secondary">Preview</Text>
       </View>
@@ -87,6 +122,7 @@ const listStyles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 20,
     paddingHorizontal: 150,
+    borderWidth: 4,
   },
 });
 
@@ -100,6 +136,7 @@ const blockStyles = StyleSheet.create({
     padding: 20,
     width: '97%', // Modify this to increase or decrease the gap between the items
     marginBottom: 8,
+    borderWidth: 4,
   },
   preview: {
     width: 200,
