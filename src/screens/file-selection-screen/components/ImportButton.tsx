@@ -43,7 +43,7 @@ const ImportButton = () => {
       library="Material"
       iconName="file-import"
       color="dark"
-      onPress={() => handlePress}
+      onPress={() => handlePress()}
     />
   );
 };
