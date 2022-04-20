@@ -1,6 +1,5 @@
 import { StyleSheet, View } from 'react-native';
 import ExportButton from './ExportButton';
-import OpenFileButton from './OpenFileButton';
 import RemoveFileButton from './RemoveFileButton';
 
 function Buttons() {
@@ -11,9 +10,6 @@ function Buttons() {
       </View>
       <View style={styles.ml}>
         <RemoveFileButton />
-      </View>
-      <View style={styles.ml}>
-        <OpenFileButton />
       </View>
     </View>
   );

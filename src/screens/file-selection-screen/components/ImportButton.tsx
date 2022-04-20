@@ -1,11 +1,10 @@
-import { TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconButton from '../../../components/IconButton';
 import { useAppDispatch } from '../../../stores/hooks';
 import { useFileType } from '../context/FileTypeContext';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
 import {
   handleOpenImageFiles,
-  handleOpenInkmlFiles,
+  handleOpenInkmlFiles
 } from '../utils/file-utils';
 
 const ImportButton = () => {
@@ -40,11 +39,12 @@ const ImportButton = () => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
-      <View>
-        <Icon name={'file-import'} size={40} />
-      </View>
-    </TouchableOpacity>
+    <IconButton
+      library="Material"
+      iconName="file-import"
+      color="dark"
+      onPress={() => handlePress}
+    />
   );
 };
 
