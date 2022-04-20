@@ -1,12 +1,18 @@
 import { createContext, useContext, useState } from 'react';
+import { FileType } from '../types/files-type';
+
+type SelectedFileType = {
+  filePath: string;
+  type: FileType;
+};
 
 type SelectedFilesContexValue = {
-  selectedFiles: string[];
-  setSelectedFiles: (newSelectedFile: string[]) => void;
+  selectedFiles: SelectedFileType[];
+  setSelectedFiles: (newSelectedFile: SelectedFileType[]) => void;
 };
 
 type SelectedFilesProviderProps = {
-  initialSelectedFiles?: string[];
+  initialSelectedFiles?: SelectedFileType[];
   children: React.ReactNode;
 };
 
@@ -18,13 +24,12 @@ export function SelectedFilesProvider({
   initialSelectedFiles: initialSelectedFile,
   children,
 }: SelectedFilesProviderProps) {
-  const [selectedFile, setSelectedFiles] = useState<string[]>(
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFileType[]>(
     initialSelectedFile || [],
   );
 
   return (
-    <SelectedFilesContext.Provider
-      value={{ selectedFiles: selectedFile, setSelectedFiles }}>
+    <SelectedFilesContext.Provider value={{ selectedFiles, setSelectedFiles }}>
       {children}
     </SelectedFilesContext.Provider>
   );

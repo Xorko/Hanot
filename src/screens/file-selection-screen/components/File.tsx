@@ -41,10 +41,13 @@ function File({ file }: FileProps) {
   };
 
   const handleLongPress = () => {
-    if (!selectedFiles.includes(file.filePath)) {
-      setSelectedFiles([...selectedFiles, file.filePath]);
+    if (selectedFiles.some(e => e.filePath === file.filePath)) {
+      setSelectedFiles(selectedFiles.filter(f => f.filePath !== file.filePath));
     } else {
-      setSelectedFiles(selectedFiles.filter(f => f !== file.filePath));
+      setSelectedFiles([
+        ...selectedFiles,
+        { filePath: file.filePath, type: fileType },
+      ]);
     }
   };
 
@@ -63,7 +66,7 @@ function ListItem({ file }: FileProps) {
   const [borderColor, setBorderColor] = useState<string>(colors.primary);
 
   useEffect(() => {
-    if (selectedFiles.includes(file.filePath)) {
+    if (selectedFiles.some(e => e.filePath === file.filePath)) {
       setBorderColor(colors.danger);
     }
   }, [selectedFiles, file.filePath]);
@@ -88,7 +91,7 @@ function BlockItem({ file }: FileProps) {
   const [borderColor, setBorderColor] = useState<string>(colors.primary);
 
   useEffect(() => {
-    if (selectedFiles.includes(file.filePath)) {
+    if (selectedFiles.some(e => e.filePath === file.filePath)) {
       setBorderColor(colors.danger);
     } else {
       setBorderColor(colors.primary);
