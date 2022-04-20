@@ -10,8 +10,9 @@ function ChangeModeButton() {
 
   return (
     <IconButton
-      library="FA5"
-      iconName={displayMode === 'list' ? 'th' : 'list'}
+      library="Material"
+      color="dark"
+      iconName={displayMode === 'list' ? 'view-grid' : 'format-list-bulleted'}
       onPress={handlePress}
     />
   );

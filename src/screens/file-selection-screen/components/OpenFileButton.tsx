@@ -5,7 +5,7 @@ const OpenFileButton = () => {
     <IconButton
       library="Material"
       iconName="pencil-circle"
-      color="danger"
+      color="dark"
       onPress={() => console.log('hello')}
     />
   );

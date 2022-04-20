@@ -26,8 +26,8 @@ const RemoveFileButton = () => {
 
   return (
     <IconButton
-      library="AntDesign"
-      iconName="closecircle"
+      library="Material"
+      iconName="close-circle"
       color="danger"
       onPress={handlePress}
     />
