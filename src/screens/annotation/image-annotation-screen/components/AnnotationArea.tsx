@@ -215,7 +215,6 @@ const AnnotationArea = () => {
       // Creates the crop object to add to the current image annotation
       const crop = {
         cropPath: path,
-        cropPixels: [],
       };
 
       // Adds the crop to the current image annotation
