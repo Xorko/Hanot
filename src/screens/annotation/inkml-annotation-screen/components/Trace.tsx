@@ -1,5 +1,4 @@
-import React from 'react';
-import { GestureResponderEvent, View } from 'react-native';
+import { GestureResponderEvent } from 'react-native';
 import { Polyline } from 'react-native-svg';
 import * as TraceData from '../../../../core/trace';
 
@@ -24,7 +23,7 @@ export const Trace = ({
   editLetterTraces,
 }: TraceProps) => {
   return (
-    <View>
+    <>
       {parsedDots.map((trace, idxTrace) => (
         <Polyline
           key={parsedDots.indexOf(trace)}
@@ -47,6 +46,6 @@ export const Trace = ({
           strokeLinejoin="round"
         />
       ))}
-    </View>
+    </>
   );
 };

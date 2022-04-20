@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import { Polyline } from 'react-native-svg';
 import * as Trace from '../../../../core/trace';
 import { Dimension } from '../types/annotation-types';
@@ -41,7 +40,7 @@ export const WrittedLetter = ({
   dimensions.posVertical = -minY + sizeComponent.height - heightLetter - 10;
 
   return (
-    <View>
+    <>
       {traces.map(trace => (
         <Polyline
           key={traces.indexOf(trace)}
@@ -56,6 +55,6 @@ export const WrittedLetter = ({
           stroke="black"
         />
       ))}
-    </View>
+    </>
   );
 };
