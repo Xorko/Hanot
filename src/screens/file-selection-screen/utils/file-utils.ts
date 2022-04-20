@@ -115,7 +115,7 @@ export const handleOpenImageFiles = async (): Promise<ImageFile[]> => {
 
     const files = Promise.all(readFiles).then((res: string[]) =>
       res.map((_, i) => {
-        const image = 'data:' + pickedFiles![i].type + ';base64,' + res;
+        const image = 'data:' + pickedFiles![i].type + ';base64,' + res[i];
         return {
           image,
           fileName: pickedFiles![i].name,
