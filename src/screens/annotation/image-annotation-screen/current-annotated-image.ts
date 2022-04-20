@@ -8,9 +8,11 @@ export interface CurrentAnnotatedImageState {
 
 const initialState: CurrentAnnotatedImageState = {
   annotatedImage: {
+    filePath: '',
     imageSource: '',
     imagePixels: [],
     imageCrops: [],
+    imageWidth: 0,
   },
 };
 
@@ -27,11 +29,20 @@ const currentAnnotatedImageSlice = createSlice({
     setCurrentAnnotatedImageSrc: (state, action: PayloadAction<string>) => {
       state.annotatedImage.imageSource = action.payload;
     },
+    setCurrentAnnotatedImageFilePath: (
+      state,
+      action: PayloadAction<string>,
+    ) => {
+      state.annotatedImage.filePath = action.payload;
+    },
     setCurrentAnnotatedImagePixels: (state, action: PayloadAction<Pixel[]>) => {
       state.annotatedImage.imagePixels = action.payload;
     },
     setCurrentAnnotatedImageCrops: (state, action: PayloadAction<Crop[]>) => {
       state.annotatedImage.imageCrops = action.payload;
+    },
+    setCurrentAnnotatedImageWidth: (state, action: PayloadAction<number>) => {
+      state.annotatedImage.imageWidth = action.payload;
     },
     currentAnnotatedImageAddCrop: (state, action: PayloadAction<Crop>) => {
       state.annotatedImage.imageCrops.push(action.payload);
@@ -69,8 +80,10 @@ const currentAnnotatedImageSlice = createSlice({
 export const {
   setCurrentAnnotatedImage,
   setCurrentAnnotatedImageSrc,
+  setCurrentAnnotatedImageFilePath,
   setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageCrops,
+  setCurrentAnnotatedImageWidth,
   currentAnnotatedImageAddCrop,
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImageCropAtIndex,
