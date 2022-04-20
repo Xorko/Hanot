@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-
-type FileType = 'image' | 'inkml';
+import { FileType } from '../types/files-type';
 
 type FileTypeContextValue = {
   fileType: FileType;
