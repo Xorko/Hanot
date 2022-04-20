@@ -13,7 +13,7 @@ import { ImageFile, InkMLFile } from '../types/file-import-types';
  */
 export const pickFiles = (): Promise<DocumentPickerResponse[]> | undefined => {
   try {
-    return DocumentPicker.pickMultiple({ type: 'application/octet-stream' });
+    return DocumentPicker.pickMultiple();
   } catch (err) {
     if (!DocumentPicker.isCancel(err)) {
       console.error(err);
