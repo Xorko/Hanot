@@ -28,17 +28,6 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
     (state: RootState) => state.currentWord,
   );
 
-  const deleteOneTraceGroup = (traceGroup: TraceGroup.Type): void => {
-    if (currentWord) {
-      traceGroup.traces.reverse().map(trace => {
-        currentWord.defaultTraceGroup[trace.oldTrace].dots = [
-          ...trace.dots,
-          ...currentWord.defaultTraceGroup[trace.oldTrace].dots,
-        ];
-      });
-    }
-  };
-
   const deleteTraceGroups = (index: number): void => {
     if (currentWord) {
       const finalTraceGroups: TraceGroup.Type[] = cloneDeep(
