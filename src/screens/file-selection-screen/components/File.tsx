@@ -8,6 +8,7 @@ import { RootStackParamList } from '../../../types/navigation-types';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
+import { getNFirstCharacters } from '../utils/string-utils';
 
 interface FileProps {
   file: InkMLFile | ImageFile;
@@ -47,8 +48,12 @@ function File({ file }: FileProps) {
 function ListItem({ file }: FileProps) {
   return (
     <View style={listStyles.container}>
-      <Text variant="light" style={styles.filename}>
-        {file.fileName}
+      <Text
+        variant="light"
+        style={styles.filename}
+        numberOfLines={1}
+        ellipsizeMode="head">
+        {getNFirstCharacters(file.fileName, 40)}
       </Text>
     </View>
   );
@@ -62,7 +67,7 @@ function BlockItem({ file }: FileProps) {
       </View>
       <View style={blockStyles.filenameContainer}>
         <Text variant="light" style={styles.filename}>
-          {file.fileName}
+          {getNFirstCharacters(file.fileName, 22)}
         </Text>
       </View>
     </View>
@@ -94,10 +99,11 @@ const blockStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     width: '97%', // Modify this to increase or decrease the gap between the items
+    marginBottom: 8,
   },
   preview: {
     width: 200,
-    height: 50,
+    height: 80,
     borderRadius: 10,
     backgroundColor: colors.light,
     justifyContent: 'center',

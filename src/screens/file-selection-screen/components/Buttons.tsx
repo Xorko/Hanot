@@ -1,17 +1,19 @@
 import { StyleSheet, View } from 'react-native';
-import ChangeModeButton from './ChangeModeButton';
-import FileTypeChangeButton from './FileTypeChangeButton';
 import ImportButton from './ImportButton';
+import OpenFileButton from './OpenFileButton';
+import RemoveFileButton from './RemoveFileButton';
 
 function Buttons() {
   return (
     <View style={styles.container}>
-      <ImportButton />
       <View style={styles.ml}>
-        <FileTypeChangeButton />
+        <ImportButton />
       </View>
       <View style={styles.ml}>
-        <ChangeModeButton />
+        <RemoveFileButton />
+      </View>
+      <View style={styles.ml}>
+        <OpenFileButton />
       </View>
     </View>
   );
@@ -20,10 +22,11 @@ function Buttons() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    marginVertical: 40,
   },
   ml: {
-    marginLeft: 10,
+    paddingHorizontal: 20,
   },
 });
 

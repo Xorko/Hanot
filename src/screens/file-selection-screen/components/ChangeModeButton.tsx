@@ -10,6 +10,7 @@ function ChangeModeButton() {
 
   return (
     <IconButton
+      library="FA5"
       iconName={displayMode === 'block' ? 'th' : 'list'}
       onPress={handlePress}
     />
