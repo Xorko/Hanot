@@ -9,7 +9,7 @@ interface Word {
   readonly annotations: SerializableMap<string>;
   readonly attributes: SerializableMap<any>;
 
-  readonly predicted: string | undefined;
+  readonly predicted?: string;
 
   defaultTraceGroup: Trace.Type[];
 }
