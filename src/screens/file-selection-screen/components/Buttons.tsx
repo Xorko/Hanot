@@ -1,15 +1,19 @@
 import { StyleSheet, View } from 'react-native';
-import ExportButton from './ExportButton';
+import ExportFileButton from './ExportButton';
+import OpenFileButton from './OpenFileButton';
 import RemoveFileButton from './RemoveFileButton';
 
 function Buttons() {
   return (
     <View style={styles.container}>
       <View style={styles.ml}>
-        <ExportButton />
+        <OpenFileButton />
       </View>
       <View style={styles.ml}>
         <RemoveFileButton />
+      </View>
+      <View style={styles.ml}>
+        <ExportFileButton />
       </View>
     </View>
   );
