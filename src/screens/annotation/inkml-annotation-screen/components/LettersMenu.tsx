@@ -19,7 +19,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
 
   const deleteOneTraceGroup = (traceGroup: TraceGroup.Type): void => {
     if (currentWord) {
-      traceGroup.traces.map(trace => {
+      traceGroup.traces.reverse().map(trace => {
         currentWord.defaultTraceGroup[trace.oldTrace].dots = [
           ...trace.dots,
           ...currentWord.defaultTraceGroup[trace.oldTrace].dots,
