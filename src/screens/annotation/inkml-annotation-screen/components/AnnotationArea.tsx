@@ -155,8 +155,9 @@ export const AnnotationArea = ({
             dimensions={dimensions}
             editLetterTraces={editLetterTraces}
           />
-          {finalTraceGroups.map(tracegroup => (
+          {finalTraceGroups.map((tracegroup, idx) => (
             <Trace
+              key={idx}
               parsedDots={tracegroup.traces}
               annotated={true}
               handlePress={handlePress}
@@ -168,6 +169,7 @@ export const AnnotationArea = ({
             if (trace.dots.length > 0) {
               return (
                 <Hitbox
+                  key={idx}
                   dot={trace.dots[trace.dots.length - 1]}
                   dimensions={dimensions}
                   handlePressHitBox={handlePressHitBox}
