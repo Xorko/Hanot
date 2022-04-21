@@ -40,7 +40,7 @@
     "react-native-document-picker": "^8.0.0",
     "react-native-drawer": "^2.5.1",
     "react-native-fs": "^2.19.0",
-    "react-native-gesture-handler": "^2.2.0",
+    "react-native-gesture-handler": "^2.4.1",
     "react-native-pager-view": "^5.4.9",
     "react-native-reanimated": "^2.2.4",
     "react-native-responsive-fontsize": "^0.5.1",
