@@ -9,7 +9,7 @@ import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
-import { getNFirstCharacters } from '../utils/string-utils';
+import { limitStringLength } from '../utils/string-utils';
 
 interface FileProps {
   file: InkMLFile | ImageFile;
@@ -77,7 +77,7 @@ function ListItem({ file }: FileProps) {
         style={styles.filename}
         numberOfLines={1}
         ellipsizeMode="head">
-        {getNFirstCharacters(file.fileName, 40)}
+        {limitStringLength(file.fileName, 40)}
       </Text>
     </View>
   );
@@ -104,7 +104,7 @@ function BlockItem({ file }: FileProps) {
       </View>
       <View style={blockStyles.filenameContainer}>
         <Text variant="light" style={styles.filename}>
-          {getNFirstCharacters(file.fileName, 22)}
+          {limitStringLength(file.fileName, 22)}
         </Text>
       </View>
     </View>
