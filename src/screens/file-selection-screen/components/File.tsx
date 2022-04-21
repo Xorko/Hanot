@@ -1,8 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Text from '../../../components/Text';
 import colors from '../../../style/colors';
 import { RootStackParamList } from '../../../types/navigation-types';

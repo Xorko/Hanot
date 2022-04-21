@@ -1,6 +1,4 @@
-import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface DeleteButtonPropsType {

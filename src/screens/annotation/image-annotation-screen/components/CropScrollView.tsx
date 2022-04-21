@@ -1,6 +1,5 @@
 import { useRef } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { addAnnotatedImage } from '../../../../shared/annotated-image-files';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';

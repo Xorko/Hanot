@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Dimensions,
   LayoutChangeEvent,
@@ -6,9 +6,9 @@ import {
   StyleSheet,
   TextInput,
   TextInputSubmitEditingEventData,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAppDispatch } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';

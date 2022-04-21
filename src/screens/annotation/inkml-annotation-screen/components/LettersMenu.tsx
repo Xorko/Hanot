@@ -1,5 +1,4 @@
-import { RootState } from '../../../../stores/store';
-import React from 'react';
+import cloneDeep from 'clone-deep';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmptyTraceGroup } from '../../../../core/input';
@@ -7,13 +6,13 @@ import { annotate } from '../../../../core/methods';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import * as WordType from '../../../../core/word';
+import { RootState } from '../../../../stores/store';
 import {
   deleteTraceGroup,
   initWord,
   setFinalTraceGroups,
 } from '../current-word-slice';
 import Letter from './Letter';
-const cloneDeep = require('clone-deep');
 
 interface LettersMenuProps {
   selectedLetter: Trace.Type[];
@@ -78,6 +77,7 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
             traceGroup={traceGroup}
             index={index}
             selectedLetter={selectedLetter}
+            key={index}
           />
         ))}
       </ScrollView>
