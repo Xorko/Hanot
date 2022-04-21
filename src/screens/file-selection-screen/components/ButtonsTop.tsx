@@ -8,9 +8,11 @@ const cancelPress = () => {
   console.log('Annuler');
 };
 
-const fullSelectionPress = () => {
+function FullSelectionPress() {
+  //const { selectedFiles, setSelectedFiles } = useSelectedFiles();
+
   console.log('Tout sélectionner');
-};
+}
 
 function ButtonsTop() {
   return (
@@ -30,7 +32,7 @@ function ButtonsTop() {
           <FullSelectionButton
             show={true}
             buttonText="Tout sélectionner"
-            onPress={() => fullSelectionPress()}
+            onPress={() => FullSelectionPress()}
           />
         </View>
         <View style={styles.pl}>
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
   },
   jc: {
     justifyContent: 'center',
+    marginHorizontal: 10,
   },
 });
 
