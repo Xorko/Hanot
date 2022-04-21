@@ -1,3 +1,4 @@
+import cloneDeep from 'clone-deep';
 import { useRef } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { addAnnotatedImage } from '../../../../shared/annotated-image-files';
@@ -10,7 +11,6 @@ import { Crop, Pixel, Point } from '../types/image-annotation-types';
 import { getAllPointsInPath } from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
 import CropContainerButtons from './CropContainerButtons';
-const cloneDeep = require('clone-deep');
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
