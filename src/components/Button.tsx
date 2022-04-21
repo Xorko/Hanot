@@ -21,20 +21,6 @@ function Button({ title, activeOpacity, onPress, variant }: IconButtonProps) {
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     borderWidth: 1,
-//     borderColor: 'white',
-//     backgroundColor: 'black',
-//     marginHorizontal: 10,
-//   },
-//   police: {
-//     color: 'white',
-//     marginHorizontal: 20,
-//     fontSize: 20,
-//   },
-// });
-
 const styles = StyleSheet.create({
   buttonContainer: {
     padding: 10,
