@@ -27,9 +27,7 @@ function Files() {
       numColumns={displayMode === 'block' ? 3 : 1}
       key={displayMode}
       contentContainerStyle={styles.contentContainer}
-      columnWrapperStyle={
-        displayMode === 'block' ? styles.columnWrapper : undefined
-      }
+      columnWrapperStyle={displayMode === 'block' ? undefined : undefined}
       ListEmptyComponent={
         <Text variant="primary" style={styles.emptyListMessage}>
           No files loaded
@@ -42,9 +40,6 @@ function Files() {
 const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: 20,
-  },
-  columnWrapper: {
-    justifyContent: 'space-between',
   },
   emptyListMessage: {
     fontSize: 35,
