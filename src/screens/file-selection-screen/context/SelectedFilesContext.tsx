@@ -3,6 +3,7 @@ import { FileType } from '../types/files-type';
 
 type SelectedFileType = {
   filePath: string;
+  fileName: string;
   type: FileType;
 };
 

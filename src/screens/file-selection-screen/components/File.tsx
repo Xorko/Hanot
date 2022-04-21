@@ -45,7 +45,7 @@ function File({ file }: FileProps) {
     } else {
       setSelectedFiles([
         ...selectedFiles,
-        { filePath: file.filePath, type: fileType },
+        { filePath: file.filePath, type: fileType, fileName: file.fileName },
       ]);
     }
   };
