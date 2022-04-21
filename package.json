@@ -66,6 +66,7 @@
     "@react-native-community/eslint-config": "^3.0.1",
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^8.0.0",
+    "@types/clone-deep": "^4.0.1",
     "@types/jest": "^27.0.2",
     "@types/react": "^17.0.35",
     "@types/react-native": "^0.66.4",
