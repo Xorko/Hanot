@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Button from '../../../components/Button';
 
 type FullSelectionButtonProps = {
   show: boolean;
@@ -15,19 +14,11 @@ function FullSelectionButton({
 }: FullSelectionButtonProps) {
   const [shouldShow] = useState(show);
 
-  return (
-    <View>
-      {shouldShow ? (
-        <TouchableOpacity onPress={onPress}>
-          <View style={styles.container}>
-            <Text style={styles.police}>{buttonText}</Text>
-          </View>
-        </TouchableOpacity>
-      ) : null}
-    </View>
-  );
+  return shouldShow ? (
+    <Button title={buttonText} variant="dark" onPress={onPress} />
+  ) : null;
 }
-
+/*
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
@@ -41,5 +32,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-
+*/
 export default FullSelectionButton;
