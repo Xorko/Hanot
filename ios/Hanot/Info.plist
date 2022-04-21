@@ -69,5 +69,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppleMusicUsageDescription</key>
+  	<string>Allow Hanot to access to your filesystem</string>
 </dict>
 </plist>
