@@ -47,6 +47,8 @@ export interface InkData {
   traceGroup: TraceGroupData | TraceGroupData[];
 }
 
-export interface Data {
+interface Data {
   ink: InkData;
 }
+
+export type Type = Data;

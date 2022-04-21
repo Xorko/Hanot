@@ -1,11 +1,4 @@
-import {
-  constructLetter,
-  getChar,
-  isLetter,
-  isPending,
-  noise,
-  pendingChar,
-} from './char';
+import * as Char from '../core/char';
 import * as Trace from '../core/trace';
 import * as TraceGroup from '../core/tracegroup';
 import * as Word from '../core/word';
@@ -16,7 +9,7 @@ import { createEmptyTraceGroup } from './input';
  * @param word the word to extract annotations.
  */
 export const annotas = (word: Word.Type): string[] => {
-  return getAnnotated(word).map(e => getChar(e.label)) as string[];
+  return getAnnotated(word).map(e => Char.getChar(e.label)) as string[];
 };
 
 /**
@@ -40,7 +33,7 @@ export const getWord = (word: Word.Type): string => {
  * @param word the word to inspect.
  */
 export const getAnnotated = (word: Word.Type): TraceGroup.Type[] => {
-  return word.tracegroups.filter(e => isLetter(e.label));
+  return word.tracegroups.filter(e => Char.isLetter(e.label));
 };
 
 /**
@@ -48,7 +41,7 @@ export const getAnnotated = (word: Word.Type): TraceGroup.Type[] => {
  * @param word the word to inspect.
  */
 export const getPending = (word: Word.Type): TraceGroup.Type[] => {
-  return word.tracegroups.filter(e => isPending(e.label));
+  return word.tracegroups.filter(e => Char.isPending(e.label));
 };
 
 /**
@@ -170,7 +163,8 @@ export const split = (
     throw new Error();
   } else {
     const newTrace = trg.traces[base].dots.slice(from);
-    trg.traces.splice(base + 1, 0, { dots: newTrace });
+    const oldTrace = 0; // FIXME: to be changed by the user
+    trg.traces.splice(base + 1, 0, { dots: newTrace, oldTrace: oldTrace });
     trg.traces[base].dots.splice(0, from);
   }
 };
@@ -226,13 +220,16 @@ export const crossConcat = (
   if (base < 0 || base >= trg.traces.length) {
     throw new Error();
   } else {
+    const oldTrace = 0; // FIXME: to be changed by the user
     if (leftToRight) {
       trg.traces[base] = {
         dots: [...trg.traces[base].dots, ...add.dots],
+        oldTrace: oldTrace,
       };
     } else {
       trg.traces[base] = {
         dots: [...add.dots, ...trg.traces[base].dots],
+        oldTrace: oldTrace,
       };
     }
   }
@@ -276,7 +273,7 @@ export const move = (
  * @param tg the trace group to be annotated.
  */
 export const annotate = (chr: string, tg: TraceGroup.Type): void => {
-  tg.label = constructLetter(chr);
+  tg.label = Char.constructLetter(chr);
 };
 
 /**
@@ -284,7 +281,7 @@ export const annotate = (chr: string, tg: TraceGroup.Type): void => {
  * @param tg the trace group to be marked.
  */
 export const makeNoise = (tg: TraceGroup.Type): void => {
-  tg.label = noise;
+  tg.label = Char.noise;
 };
 
 /**
@@ -292,7 +289,7 @@ export const makeNoise = (tg: TraceGroup.Type): void => {
  * @param tg the trace group to be erased.
  */
 export const eraseAnnotation = (tg: TraceGroup.Type): void => {
-  tg.label = pendingChar;
+  tg.label = Char.pendingChar;
 };
 
 /**
@@ -300,15 +297,8 @@ export const eraseAnnotation = (tg: TraceGroup.Type): void => {
  * @param word the word to operate.
  * @param at the position to add this empty trace group.
  */
-export const addAnnotationUnit = (word: Word.Type, at?: number): void => {
-  if (at !== undefined && !Number.isInteger(at)) {
-    throw new Error();
-  } else {
-    if (at === undefined) {
-      at = word.tracegroups.length - 1;
-    }
-    word.tracegroups.push(createEmptyTraceGroup());
-  }
+export const addTraceGroup = (word: Word.Type): void => {
+  word.tracegroups.push(createEmptyTraceGroup());
 };
 
 /**

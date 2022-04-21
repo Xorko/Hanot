@@ -1,3 +1,4 @@
+import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as XMLAnnotation from './xml-annotation';
@@ -6,10 +7,11 @@ import * as XMLAnnotation from './xml-annotation';
  * A data type to represent a word, this type contains a list of trace groups and some meta data for this word
  */
 interface Word {
-  readonly tracegroups: TraceGroup.Type[];
+  tracegroups: TraceGroup.Type[];
   readonly annotationsXML?: XMLAnnotation.Type;
-  readonly annotations: Map<string, string>;
-  readonly attributes: Map<string, any>;
+  readonly annotations: SerializableMap<string>;
+  readonly attributes: SerializableMap<any>;
+
   readonly predicted?: string;
 
   defaultTraceGroup: Trace.Type[];

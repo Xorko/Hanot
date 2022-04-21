@@ -1,5 +1,6 @@
-import { constructLetter, noise, pendingChar } from './char';
-import { AnnoData, InkData, TraceGroupData } from './data';
+import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
+import * as Char from './char';
+import * as Data from './data';
 import * as Dot from './dot';
 import * as InkML from './inkml';
 import * as Trace from './trace';
@@ -10,7 +11,7 @@ import * as Word from './word';
  * Construct an InkML type from the raw json data converted from an inkml file.
  * @param ink the InkData json object to be converted, do nothing if it's undefined.
  */
-export const constructData = (ink?: InkData): InkML.Type | undefined => {
+export const constructData = (ink?: Data.InkData): InkML.Type | undefined => {
   if (ink !== undefined) {
     const anno = makeAnnotations(ink.annotation);
     return {
@@ -22,8 +23,8 @@ export const constructData = (ink?: InkData): InkML.Type | undefined => {
 };
 
 const makeWords = (
-  tg: TraceGroupData | TraceGroupData[],
-  anno?: Map<string, string>,
+  tg: Data.TraceGroupData | Data.TraceGroupData[],
+  anno?: SerializableMap<string>,
 ): Word.Type[] => {
   if (Array.isArray(tg)) {
     return tg.map(e => makeSingleWord(e, anno));
@@ -33,15 +34,15 @@ const makeWords = (
 };
 
 const makeSingleWord = (
-  tg: TraceGroupData,
-  anno?: Map<string, string>,
+  tg: Data.TraceGroupData,
+  anno?: SerializableMap<string>,
 ): Word.Type => {
   const predicted = tg.attr?.['xml:id'];
-  const attrs = new Map<string, any>();
+  const attrs = {} as SerializableMap<any>;
   if (tg.attr !== undefined) {
     for (const [k, v] of Object.entries(tg.attr)) {
       if (!['xml:id', 'positionInGroundTruthValue', 'noise'].includes(k)) {
-        attrs.set(k, v);
+        attrs[k] = v;
       }
     }
   }
@@ -51,7 +52,7 @@ const makeSingleWord = (
       type: tg.annotationXML.attr.type,
       values:
         makeAnnotations(tg.annotationXML.annotation) ??
-        new Map<string, string>(),
+        ({} as SerializableMap<string>),
     };
   }
   const [traceGroups, danglingTraces] = constructTraceGroups(tg);
@@ -59,24 +60,27 @@ const makeSingleWord = (
     tracegroups: traceGroups,
     annotationsXML: annoXML,
     annotations:
-      anno ?? makeAnnotations(tg.annotation) ?? new Map<string, string>(),
+      anno ?? makeAnnotations(tg.annotation) ?? ({} as SerializableMap<string>),
     attributes: attrs,
     predicted: predicted,
     defaultTraceGroup: [...danglingTraces, ...constructDefaultTraceGroup(tg)],
   };
 };
 
-const makeAnnotations = (
-  annos?: AnnoData[],
-): Map<string, string> | undefined => {
-  return annos?.reduce(
-    (map, e) => map.set(e.attr.type, e['#text']),
-    new Map<string, string>(),
-  );
+const makeAnnotations = (annos?: Data.AnnoData[]): SerializableMap<string> => {
+  const ret: SerializableMap<string> = {};
+
+  for (const anno of annos ?? []) {
+    if (anno.attr !== undefined) {
+      ret[anno.attr.type] = anno['#text'];
+    }
+  }
+
+  return ret;
 };
 
 const constructTraceGroups = (
-  tg: TraceGroupData,
+  tg: Data.TraceGroupData,
 ): [TraceGroup.Type[], Trace.Type[]] => {
   if (Array.isArray(tg.traceGroup)) {
     return constructTraceGroupFromTraceGroupArray(tg.traceGroup);
@@ -88,7 +92,7 @@ const constructTraceGroups = (
   }
 };
 
-const constructDefaultTraceGroup = (tg: TraceGroupData): Trace.Type[] => {
+const constructDefaultTraceGroup = (tg: Data.TraceGroupData): Trace.Type[] => {
   if (Array.isArray(tg.trace)) {
     return tg.trace.map(x => constructTrace(x));
   } else if (tg.trace !== undefined) {
@@ -99,7 +103,7 @@ const constructDefaultTraceGroup = (tg: TraceGroupData): Trace.Type[] => {
 };
 
 const constructTraceGroupFromTraceGroupArray = (
-  tg: TraceGroupData[],
+  tg: Data.TraceGroupData[],
 ): [TraceGroup.Type[], Trace.Type[]] => {
   const nullableTraceGroupWithIndex = tg.map(c =>
     constructTraceGroupFromTraceGroup(c),
@@ -114,40 +118,40 @@ const constructTraceGroupFromTraceGroupArray = (
 };
 
 const constructTraceGroupFromTraceGroup = (
-  tg: TraceGroupData,
+  tg: Data.TraceGroupData,
 ): [TraceGroup.Type[], number[], Trace.Type[]] => {
   const xmlid = tg.attr?.['xml:id'];
   const pos = tg.attr?.positionInGroundTruthValue;
-  const noise_ = tg.attr?.noise;
+  const noise = tg.attr?.noise;
   let trace: Trace.Type[] = [];
   if (Array.isArray(tg.trace)) {
     trace = tg.trace.map(constructTrace);
   } else if (tg.trace !== undefined) {
     trace = [constructTrace(tg.trace)];
   }
-  if (pos !== undefined && xmlid !== undefined && noise_ === undefined) {
+  if (pos !== undefined && xmlid !== undefined && noise === undefined) {
     return [
       [
         {
           traces: trace,
-          label: constructLetter(xmlid),
+          label: Char.constructLetter(xmlid),
         },
       ],
       [pos],
       [],
     ];
-  } else if (pos !== undefined && xmlid === undefined && noise_ !== undefined) {
+  } else if (pos !== undefined && xmlid === undefined && noise !== undefined) {
     return [
       [
         {
           traces: trace,
-          label: noise,
+          label: Char.noise,
         },
       ],
       [pos],
       [],
     ];
-  } else if (pos === undefined && xmlid === undefined && noise_ === undefined) {
+  } else if (pos === undefined && xmlid === undefined && noise === undefined) {
     return [[], [], trace];
   } else {
     throw new Error('Impossible case');
@@ -165,6 +169,7 @@ const constructTrace = (tr: string): Trace.Type => {
           .map(e => parseFloat(e)),
       )
       .map(constructDot),
+    oldTrace: 0, // FIXME: to be changed by the user
   };
 };
 
@@ -210,7 +215,7 @@ export const createEmptyTraceGroup = (
 ): TraceGroup.Type => {
   return {
     traces: traces ?? [],
-    label: pendingChar,
+    label: Char.pendingChar,
   };
 };
 

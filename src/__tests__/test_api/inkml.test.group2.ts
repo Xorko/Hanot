@@ -1,9 +1,5 @@
-import {
-  jsToXmlOptions as js_xml_options,
-  xmlToJsOptions as xml_js_options,
-} from '../../shared/lib/fast-xml-parser-config';
-import { XMLBuilder, XMLParser } from 'fast-xml-parser';
-import { Data } from '../../core/data';
+import { parser, builder } from '../../lib/fast-xml-parser';
+import * as Data from '../../core/data';
 import { constructData } from '../../core/input';
 import { exportInk } from '../../core/output';
 import { readFileSync } from 'fs';
@@ -13,10 +9,8 @@ test('input example with pre segmentation', async () => {
     'src/__tests__/test_api/resources/group2/inputExampleWithPreSeg_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/inputExampleWithPreSeg_V1.inkml',
     'utf-8',
@@ -29,10 +23,8 @@ test('output example v1', async () => {
     'src/__tests__/test_api/resources/group2/outputExample_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/outputExample_V1.inkml',
     'utf-8',
@@ -45,10 +37,8 @@ test('abeille', async () => {
     'src/__tests__/test_api/resources/group2/strokes_abeille_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/strokes_abeille_V1.inkml',
     'utf-8',
@@ -61,10 +51,8 @@ test('fenetre', async () => {
     'src/__tests__/test_api/resources/group2/strokes_fenetre_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/strokes_fenetre_V1.inkml',
     'utf-8',
@@ -77,10 +65,8 @@ test('gateau', async () => {
     'src/__tests__/test_api/resources/group2/strokes_gateau_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/strokes_gateau_V1.inkml',
     'utf-8',
@@ -93,10 +79,8 @@ test('longtemps', async () => {
     'src/__tests__/test_api/resources/group2/strokes_longtemps_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/strokes_longtemps_V1.inkml',
     'utf-8',
@@ -109,10 +93,8 @@ test('riviere', async () => {
     'src/__tests__/test_api/resources/group2/strokes_riviere_V1.inkml',
     'utf-8',
   );
-  const inkdata = new XMLParser(xml_js_options).parse(src) as Data;
-  const gen = new XMLBuilder(js_xml_options).build(
-    exportInk(constructData(inkdata?.ink)),
-  );
+  const inkdata = parser.parse(src) as Data.Type;
+  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
   const result = readFileSync(
     'src/__tests__/test_api/resources/group2/strokes_riviere_V1.inkml',
     'utf-8',

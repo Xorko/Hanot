@@ -15,19 +15,6 @@ interface Letter {
   readonly value: string;
 }
 
-type Char = Noise | Letter | Pending;
-
-export type Type = Char;
-
-/**
- * Default constructor for noise
- */
-export const noise = { type: 'Noise' } as Noise;
-/**
- * Default constructor for pending char
- */
-export const pendingChar = { type: 'PendingCharacter' } as Pending;
-
 /**
  * Construct a letter type with a given string as its content
  * @param l a string, expects a single letter or syllabic unit
@@ -68,6 +55,16 @@ export const isNoise = (c: Char) => {
 };
 
 /**
+ * Default constructor for noise
+ */
+export const noise = { type: 'Noise' } as Noise;
+
+/**
+ * Default constructor for pending char
+ */
+export const pendingChar = { type: 'PendingCharacter' } as Pending;
+
+/**
  * Get the inner content of a char, if it's a noise, return '#noise', if it's pending, return undefined
  * @param x the char
  */
@@ -80,3 +77,7 @@ export const getChar = (x: Char): string | undefined => {
     return undefined;
   }
 };
+
+type Char = Noise | Letter | Pending;
+
+export type Type = Char;
