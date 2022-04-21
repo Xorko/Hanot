@@ -7,7 +7,7 @@ import * as TraceData from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import * as Word from '../../../../core/word';
 import { RootState } from '../../../../stores/store';
-import { pushDotsToRight, setDefaultTraceGroup } from '../current-word-slice';
+import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
 import { Dimension } from '../types/annotation-types';
 import { Hitbox } from './Hitbox';
 import { Trace } from './Trace';
@@ -102,7 +102,7 @@ export const AnnotationArea = ({
         // traceGroups[traceGroups.length - 1].traces.push({
         //   dots: leftTrace,
         // });
-        dispatch(pushDotsToRight({ leftTrace, idxTrace }));
+        dispatch(pushDots({ leftTrace, idxTrace }));
 
         // setting state for rerender
         setFinalTraceGroups(traceGroups);
@@ -131,7 +131,7 @@ export const AnnotationArea = ({
         const leftTrace = [...defaultTracesCopy[idxTrace].dots];
         defaultTracesCopy[idxTrace].dots = [];
 
-        dispatch(pushDotsToRight({ leftTrace, idxTrace }));
+        dispatch(pushDots({ leftTrace, idxTrace }));
 
         //setting state for rerender
         setFinalTraceGroups(traceGroups);
