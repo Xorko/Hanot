@@ -2,6 +2,7 @@ import { fireEvent, render } from 'test-utils';
 import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
 import { FileTypeProvider } from '../../../../screens/file-selection-screen/context/FileTypeContext';
 import { InkMLFile } from '../../../../screens/file-selection-screen/types/file-import-types';
+import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
 import File from '../File';
 
 const mockedNavigate = jest.fn();
@@ -30,7 +31,9 @@ test('it displays the filename', () => {
   const { queryByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider>
-        <File file={inkmlFileMock} />
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
@@ -41,7 +44,9 @@ test('it navigates to the inkml annotation screen when it contains an inkml file
   const { getByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider>
-        <File file={inkmlFileMock} />
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
@@ -58,7 +63,9 @@ test('it navigates to the image annotation screen when it contains an image file
   const { getByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider initialType="image">
-        <File file={imageFileMock} />
+        <SelectedFilesProvider>
+          <File file={imageFileMock} />
+        </SelectedFilesProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
