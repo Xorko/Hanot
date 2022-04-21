@@ -27,6 +27,16 @@ const loadedFilesSlice = createSlice({
     removeTextFile: (state, action: PayloadAction<any>) => {
       state.textFileInfo.splice(action.payload, 1);
     },
+    removeTextFiles: (state, action: PayloadAction<any[]>) => {
+      action.payload.forEach(file => {
+        const index = state.textFileInfo.findIndex(
+          f => f.filePath === file.filePath,
+        );
+        if (index !== -1) {
+          state.textFileInfo.splice(index, 1);
+        }
+      });
+    },
     addImageFile: (state, action: PayloadAction<any[]>) => {
       action.payload.forEach(file => {
         if (state.imageFileInfo.find(f => f.fileName === file.fileName)) {
@@ -39,10 +49,26 @@ const loadedFilesSlice = createSlice({
     removeImageFile: (state, action: PayloadAction<any>) => {
       state.imageFileInfo.splice(action.payload, 1);
     },
+    removeImageFiles: (state, action: PayloadAction<any[]>) => {
+      action.payload.forEach(file => {
+        const index = state.imageFileInfo.findIndex(
+          f => f.filePath === file.filePath,
+        );
+        if (index !== -1) {
+          state.imageFileInfo.splice(index, 1);
+        }
+      });
+    },
   },
 });
 
-export const { addTextFile, addImageFile, removeImageFile, removeTextFile } =
-  loadedFilesSlice.actions;
+export const {
+  addTextFile,
+  addImageFile,
+  removeImageFile,
+  removeImageFiles,
+  removeTextFile,
+  removeTextFiles,
+} = loadedFilesSlice.actions;
 
 export default loadedFilesSlice.reducer;

@@ -1,16 +1,26 @@
-import { useAppDispatch } from '../../../stores/hooks';
 import IconButton from '../../../components/IconButton';
+import { useAppDispatch } from '../../../stores/hooks';
+import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
-import { removeTextFile } from '../loaded-files-slice';
+import { removeImageFiles, removeTextFiles } from '../loaded-files-slice';
 
 const RemoveFileButton = () => {
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
+  const { fileType } = useFileType();
   const dispatch = useAppDispatch();
 
   const handlePress = () => {
-    selectedFiles.forEach(file => {
-      dispatch(removeTextFile(file));
-    });
+    switch (fileType) {
+      case 'inkml':
+        dispatch(removeTextFiles(selectedFiles));
+        break;
+      case 'image':
+        dispatch(removeImageFiles(selectedFiles));
+        break;
+      default:
+        break;
+    }
+
     setSelectedFiles([]);
   };
 
