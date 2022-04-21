@@ -1,4 +1,4 @@
-import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
+import { SerializableMap } from '../types/core-types';
 
 /**
  * A data type to represent the xml annotations in an inkml

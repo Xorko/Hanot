@@ -1,4 +1,4 @@
-import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
+import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
 import * as Dot from './dot';

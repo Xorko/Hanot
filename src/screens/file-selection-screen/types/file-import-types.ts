@@ -11,7 +11,3 @@ export type ImageFile = {
   filePath: string;
   image: string;
 };
-
-export type SerializableMap<V> = {
-  [key: string]: V;
-};

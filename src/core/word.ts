@@ -1,4 +1,4 @@
-import type { SerializableMap } from '../screens/file-selection-screen/types/file-import-types';
+import { SerializableMap } from '../types/core-types';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as XMLAnnotation from './xml-annotation';
