@@ -6,6 +6,7 @@ import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as Word from './word';
+import * as _ from 'lodash';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
@@ -67,7 +68,9 @@ const makeSingleWord = (
   };
 };
 
-const makeAnnotations = (annos?: Data.AnnoData[]): SerializableMap<string> => {
+const makeAnnotations = (
+  annos?: Data.AnnoData[],
+): SerializableMap<string> | undefined => {
   const ret: SerializableMap<string> = {};
 
   for (const anno of annos ?? []) {
@@ -76,7 +79,7 @@ const makeAnnotations = (annos?: Data.AnnoData[]): SerializableMap<string> => {
     }
   }
 
-  return ret;
+  return _.isEmpty(ret) ? undefined : ret;
 };
 
 const constructTraceGroups = (
