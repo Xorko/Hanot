@@ -49,7 +49,6 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.annotation}>
-        {/* <TraceContext.Provider value={{ currentWord, changeCurrentWord }}> */}
         <View style={styles.home}>
           <Button
             title="Menu"
@@ -58,7 +57,6 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
         </View>
         <LettersMenu selectedLetter={selectedLetter} />
         <Word editLetterTraces={editLetterTraces} />
-        {/* </TraceContext.Provider> */}
       </View>
     </SafeAreaView>
   );
