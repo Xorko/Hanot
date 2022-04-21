@@ -1,7 +1,7 @@
 import cloneDeep from 'clone-deep';
 import { useRef } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
-import { addAnnotatedImage } from '../../../../shared/annotated-image-files';
+import { addAnnotatedImage } from '../../../../shared/annotated-image-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
