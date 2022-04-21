@@ -30,7 +30,7 @@ function Files() {
       columnWrapperStyle={displayMode === 'block' ? undefined : undefined}
       ListEmptyComponent={
         <Text variant="primary" style={styles.emptyListMessage}>
-          No files loaded
+          Aucun fichier chargé
         </Text>
       }
     />
