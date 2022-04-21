@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   GestureResponderEvent,
   LayoutChangeEvent,
@@ -299,41 +299,47 @@ const AnnotationArea = () => {
       </View>
       {displayedImageSize && (
         <TouchableWithoutFeedback onPress={handlePress}>
-          <Svg
-            style={{
-              ...styles.pressableArea,
-              width: displayedImageSize.width,
-              height: displayedImageSize.height,
-            }}>
-            {inCropCreation && !!path.length && (
-              <Fragment>
-                <SvgPolygon
-                  path={getPolygonPoints(displayedImageSize, path, closedPath)}
-                />
-                <SvgPolyline
-                  path={getPolylinePoints(path, closedPath)}
-                  closedPath={closedPath}
-                  updatePath={updatePath}
-                  updateCrop={updateCrop}
-                  containerSize={displayedImageSize}
-                />
-                {path.map(({ x, y }, idx) => (
-                  <SvgPoint
-                    key={idx}
-                    point={{ x, y }}
-                    idx={idx}
-                    onPress={handlePointPress}
+          <View>
+            <Svg
+              style={{
+                ...styles.pressableArea,
+                width: displayedImageSize.width,
+                height: displayedImageSize.height,
+              }}>
+              {inCropCreation && !!path.length && (
+                <>
+                  <SvgPolygon
+                    path={getPolygonPoints(
+                      displayedImageSize,
+                      path,
+                      closedPath,
+                    )}
+                  />
+                  <SvgPolyline
+                    path={getPolylinePoints(path, closedPath)}
                     closedPath={closedPath}
-                    updatePointAtIndex={(point: Point) =>
-                      updatePointAtIndex(idx, point)
-                    }
-                    updateCrop={() => updateCrop()}
+                    updatePath={updatePath}
+                    updateCrop={updateCrop}
                     containerSize={displayedImageSize}
                   />
-                ))}
-              </Fragment>
-            )}
-          </Svg>
+                  {path.map(({ x, y }, idx) => (
+                    <SvgPoint
+                      key={idx}
+                      point={{ x, y }}
+                      idx={idx}
+                      onPress={handlePointPress}
+                      closedPath={closedPath}
+                      updatePointAtIndex={(point: Point) =>
+                        updatePointAtIndex(idx, point)
+                      }
+                      updateCrop={() => updateCrop()}
+                      containerSize={displayedImageSize}
+                    />
+                  ))}
+                </>
+              )}
+            </Svg>
+          </View>
         </TouchableWithoutFeedback>
       )}
     </View>
