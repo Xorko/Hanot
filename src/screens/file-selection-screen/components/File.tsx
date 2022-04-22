@@ -24,40 +24,27 @@ function File({ file }: FileProps) {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const handlePress = () => {
-    //checks whether we are in the single or multiple fileSelectionMode
-    switch (fileSelectionMode) {
-      case 'multiple':
-        handleLongPress();
+  const handleNavigation = () => {
+    switch (fileType) {
+      case 'image':
+        navigation.navigate('ImageAnnotationScreen', {
+          file: file as ImageFile,
+        });
         break;
-      case 'single':
-        switch (fileType) {
-          case 'image':
-            navigation.navigate('ImageAnnotationScreen', {
-              file: file as ImageFile,
-            });
-            break;
-          case 'inkml':
-            navigation.navigate('InkMLAnnotationScreen', {
-              file: file as InkMLFile,
-            });
-            break;
-          default:
-            break;
-        }
+      case 'inkml':
+        navigation.navigate('InkMLAnnotationScreen', {
+          file: file as InkMLFile,
+        });
+        break;
+      default:
+        break;
     }
   };
 
-  const handleLongPress = () => {
-    setFileSelectionMode('multiple');
-
+  const handleSelection = () => {
     if (selectedFiles.some(e => e.filePath === file.filePath)) {
       setSelectedFiles(selectedFiles.filter(f => f.filePath !== file.filePath));
 
-      /**
-       * Put the selection mode to signle when the last file selected is unselected
-       * Maybe badly done
-       */
       if (selectedFiles.length === 1) {
         setFileSelectionMode('single');
       }
@@ -69,8 +56,27 @@ function File({ file }: FileProps) {
     }
   };
 
+  const handleFileLongPress = () => {
+    setFileSelectionMode('multiple');
+    handleSelection();
+  };
+
+  const handleFilePress = () => {
+    switch (fileSelectionMode) {
+      case 'multiple':
+        handleSelection();
+        break;
+      case 'single':
+        handleNavigation();
+        break;
+      default:
+        break;
+    }
+  };
   return (
-    <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
+    <TouchableOpacity
+      onPress={handleFilePress}
+      onLongPress={handleFileLongPress}>
       {displayMode === 'list' && <ListItem file={file} />}
       {displayMode === 'block' && <BlockItem file={file} />}
     </TouchableOpacity>
