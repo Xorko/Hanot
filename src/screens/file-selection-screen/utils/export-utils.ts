@@ -16,11 +16,10 @@ export const createImageExport = (pixels: Pixel[], imageWidth: number) => {
 
   const pixelsCopy = cloneDeep(pixels);
   while (pixelsCopy.length) {
-    res.push(
-      pixelsCopy
-        .splice(0, imageWidth)
-        .map((pixel: Pixel) => pixel.annotation + ';'),
-    );
+    pixelsCopy
+      .splice(0, imageWidth)
+      .map((pixel: Pixel) => pixel.annotation + ';')
+      .forEach((pixel: string) => res.push(pixel));
     res.push('\n');
   }
   return res.join('');
