@@ -6,6 +6,7 @@ import Text from '../../../components/Text';
 import colors from '../../../style/colors';
 import { RootStackParamList } from '../../../types/navigation-types';
 import { useDisplayMode } from '../context/DisplayModeContext';
+import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
@@ -19,29 +20,47 @@ function File({ file }: FileProps) {
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
+  const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const handlePress = () => {
-    switch (fileType) {
-      case 'image':
-        navigation.navigate('ImageAnnotationScreen', {
-          file: file as ImageFile,
-        });
+    //checks whether we are in the single or multiple fileSelectionMode
+    switch (fileSelectionMode) {
+      case 'multiple':
+        handleLongPress();
         break;
-      case 'inkml':
-        navigation.navigate('InkMLAnnotationScreen', {
-          file: file as InkMLFile,
-        });
-        break;
-      default:
-        break;
+      case 'single':
+        switch (fileType) {
+          case 'image':
+            navigation.navigate('ImageAnnotationScreen', {
+              file: file as ImageFile,
+            });
+            break;
+          case 'inkml':
+            navigation.navigate('InkMLAnnotationScreen', {
+              file: file as InkMLFile,
+            });
+            break;
+          default:
+            break;
+        }
     }
   };
 
   const handleLongPress = () => {
+    setFileSelectionMode('multiple');
+
     if (selectedFiles.some(e => e.filePath === file.filePath)) {
       setSelectedFiles(selectedFiles.filter(f => f.filePath !== file.filePath));
+
+      /**
+       * Put the selection mode to signle when the last file selected is unselected
+       * Maybe badly done
+       */
+      if (selectedFiles.length === 1) {
+        setFileSelectionMode('single');
+      }
     } else {
       setSelectedFiles([
         ...selectedFiles,

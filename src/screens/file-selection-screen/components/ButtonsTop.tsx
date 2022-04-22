@@ -1,20 +1,46 @@
 import { StyleSheet, View } from 'react-native';
+import { useAppSelector } from '../../../stores/hooks';
+import { useFileSelectionMode } from '../context/FileSelectionModeContext';
+import { useFileType } from '../context/FileTypeContext';
+import { useSelectedFiles } from '../context/SelectedFilesContext';
 import ChangeModeButton from './ChangeModeButton';
 import FileTypeChangeButton from './FileTypeChangeButton';
 import FullSelectionButton from './FullSelectionButton';
 import ImportButton from './ImportButton';
 
-const cancelPress = () => {
-  console.log('Annuler');
-};
-
-function FullSelectionPress() {
-  //const { selectedFiles, setSelectedFiles } = useSelectedFiles();
-
-  console.log('Tout sélectionner');
-}
-
 function ButtonsTop() {
+  const { setSelectedFiles } = useSelectedFiles();
+  const { fileType } = useFileType();
+  const loadedFiles = useAppSelector(state => state.loadedFiles);
+  const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
+
+  // set the list of selected files to empty
+  const cancelPress = () => {
+    setSelectedFiles([]);
+    setFileSelectionMode('single');
+  };
+
+  // add all inkml|image files to the list of selected filesi
+  const fullSelectionPress = () => {
+    setFileSelectionMode('multiple');
+    switch (fileType) {
+      case 'inkml':
+        const inkmlToSelect = loadedFiles.textFileInfo.map(file => {
+          return { fileName: file.fileName, filePath: file.filePath, type: fileType };
+        });
+        setSelectedFiles(inkmlToSelect);
+        break;
+      case 'image':
+        const imagesToSelect = loadedFiles.imageFileInfo.map(file => {
+          return { fileName: file.fileName, filePath: file.filePath, type: fileType };
+        });
+        setSelectedFiles(imagesToSelect);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.pl}>
@@ -22,17 +48,19 @@ function ButtonsTop() {
       </View>
       <View style={styles.mode}>
         <View style={styles.jc}>
-          <FullSelectionButton
-            show={true}
-            buttonText="Annuler"
-            onPress={() => cancelPress()}
-          />
+          {fileSelectionMode === 'multiple' ? (
+            <FullSelectionButton
+              show={true}
+              buttonText="Annuler"
+              onPress={cancelPress}
+            />
+          ) : null}
         </View>
         <View style={styles.jc}>
           <FullSelectionButton
             show={true}
             buttonText="Tout sélectionner"
-            onPress={() => FullSelectionPress()}
+            onPress={() => fullSelectionPress()}
           />
         </View>
         <View style={styles.pl}>
