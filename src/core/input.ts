@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
@@ -79,7 +79,7 @@ const makeAnnotations = (
     }
   }
 
-  return _.isEmpty(ret) ? undefined : ret;
+  return isEmpty(ret) ? undefined : ret;
 };
 
 const constructTraceGroups = (
