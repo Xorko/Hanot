@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import type { FileSelectionMode } from '../types/file-selection-types';
+
+type FileSelectionMode = 'single' | 'multiple';
 
 type FileSelectionModeContextValue = {
   fileSelectionMode: FileSelectionMode;
