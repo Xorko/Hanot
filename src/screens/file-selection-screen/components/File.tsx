@@ -85,7 +85,7 @@ function ListItem({ file }: FileProps) {
 
   useEffect(() => {
     if (selectedFiles.some(e => e.filePath === file.filePath)) {
-      setBorderColor(colors.danger);
+      setBorderColor(colors.secondary);
     }
   }, [selectedFiles, file.filePath]);
 
@@ -110,7 +110,7 @@ function BlockItem({ file }: FileProps) {
 
   useEffect(() => {
     if (selectedFiles.some(e => e.filePath === file.filePath)) {
-      setBorderColor(colors.danger);
+      setBorderColor(colors.secondary);
     } else {
       setBorderColor(colors.primary);
     }
