@@ -102,8 +102,8 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
         r = {
           attr: {
             'xml:id': Char.getChar(a.label),
-            positionInGroundTruthValue: i,
             noise: Char.isNoise(a.label) ? 'noise' : undefined,
+            positionInGroundTruthValue: i,
           },
           trace: tx,
         };
