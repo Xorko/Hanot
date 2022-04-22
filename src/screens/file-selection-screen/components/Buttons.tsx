@@ -6,13 +6,13 @@ import RemoveFileButton from './RemoveFileButton';
 function Buttons() {
   return (
     <View style={styles.container}>
-      <View style={styles.ml}>
+      <View style={styles.px}>
         <OpenFileButton />
       </View>
-      <View style={styles.ml}>
+      <View style={styles.px}>
         <RemoveFileButton />
       </View>
-      <View style={styles.ml}>
+      <View style={styles.px}>
         <ExportFileButton />
       </View>
     </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 40,
   },
-  ml: {
+  px: {
     paddingHorizontal: 20,
   },
 });
