@@ -9,7 +9,7 @@ import { FileSelectionModeProvider } from './context/FileSelectionModeContext';
 import { FileTypeProvider } from './context/FileTypeContext';
 import { SelectedFilesProvider } from './context/SelectedFilesContext';
 
-function TextFileSelectionScreen() {
+function FileSelectionScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <DisplayModeProvider>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TextFileSelectionScreen;
+export default FileSelectionScreen;
