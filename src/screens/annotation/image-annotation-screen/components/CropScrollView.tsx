@@ -1,4 +1,4 @@
-import cloneDeep from 'clone-deep';
+import cloneDeep from 'lodash/cloneDeep';
 import { useRef } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { addAnnotatedImage } from '../../../../shared/annotated-image-files-slice';

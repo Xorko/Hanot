@@ -1,9 +1,9 @@
+import cloneDeep from 'lodash/cloneDeep';
 import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Toast from 'react-native-toast-message';
 import { Pixel } from '../../annotation/image-annotation-screen/types/image-annotation-types';
-const cloneDeep = require('clone-deep');
 
 /**
  * Creates the content of the file to be exported

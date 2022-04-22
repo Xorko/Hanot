@@ -1,4 +1,4 @@
-import cloneDeep from 'clone-deep';
+import cloneDeep from 'lodash/cloneDeep';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmptyTraceGroup } from '../../../../core/input';

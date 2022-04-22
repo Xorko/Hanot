@@ -1,4 +1,4 @@
-import React from 'react';
+import cloneDeep from 'lodash/cloneDeep';
 import { View } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
@@ -11,7 +11,6 @@ import { Pixel } from '../types/image-annotation-types';
 import { getAllPointsInPath } from '../utils/pixels-utils';
 import DeleteButton from './DeleteButton';
 import ValidateButton from './ValidateButton';
-const cloneDeep = require('clone-deep');
 
 type CropContainerButtonsPropsType = {
   annotate: () => void;

@@ -1,4 +1,4 @@
-import cloneDeep from 'clone-deep';
+import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useState } from 'react';
 import { GestureResponderEvent, View } from 'react-native';
 import Svg from 'react-native-svg';
