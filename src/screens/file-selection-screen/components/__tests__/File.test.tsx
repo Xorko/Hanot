@@ -2,6 +2,7 @@ import { fireEvent, render } from 'test-utils';
 import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
 import { FileTypeProvider } from '../../../../screens/file-selection-screen/context/FileTypeContext';
 import { InkMLFile } from '../../../../screens/file-selection-screen/types/file-import-types';
+import { FileSelectionModeProvider } from '../../context/FileSelectionModeContext';
 import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
 import File from '../File';
 
@@ -31,9 +32,11 @@ test('it displays the filename', () => {
   const { queryByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider>
-        <SelectedFilesProvider>
-          <File file={inkmlFileMock} />
-        </SelectedFilesProvider>
+        <FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
@@ -44,9 +47,11 @@ test('it navigates to the inkml annotation screen when it contains an inkml file
   const { getByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider>
-        <SelectedFilesProvider>
-          <File file={inkmlFileMock} />
-        </SelectedFilesProvider>
+        <FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
@@ -63,9 +68,11 @@ test('it navigates to the image annotation screen when it contains an image file
   const { getByText } = render(
     <DisplayModeProvider>
       <FileTypeProvider initialType="image">
-        <SelectedFilesProvider>
-          <File file={imageFileMock} />
-        </SelectedFilesProvider>
+        <FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <File file={imageFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
