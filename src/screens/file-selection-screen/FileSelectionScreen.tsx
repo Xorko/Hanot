@@ -5,6 +5,7 @@ import Buttons from './components/Buttons';
 import ButtonsTop from './components/ButtonsTop';
 import Files from './components/Files';
 import { DisplayModeProvider } from './context/DisplayModeContext';
+import { FileSelectionModeProvider } from './context/FileSelectionModeContext';
 import { FileTypeProvider } from './context/FileTypeContext';
 import { SelectedFilesProvider } from './context/SelectedFilesContext';
 
@@ -13,16 +14,18 @@ function TextFileSelectionScreen() {
     <SafeAreaView style={styles.container}>
       <DisplayModeProvider>
         <FileTypeProvider>
-          <SelectedFilesProvider>
-            <Toast />
-            <View style={styles.header}>
-              <ButtonsTop />
-              <Buttons />
-            </View>
-            <View style={styles.files}>
-              <Files />
-            </View>
-          </SelectedFilesProvider>
+          <FileSelectionModeProvider>
+            <SelectedFilesProvider>
+              <Toast />
+              <View style={styles.header}>
+                <ButtonsTop />
+                <Buttons />
+              </View>
+              <View style={styles.files}>
+                <Files />
+              </View>
+            </SelectedFilesProvider>
+          </FileSelectionModeProvider>
         </FileTypeProvider>
       </DisplayModeProvider>
     </SafeAreaView>
