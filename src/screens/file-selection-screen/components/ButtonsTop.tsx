@@ -1,11 +1,11 @@
 import { StyleSheet, View } from 'react-native';
+import Button from '../../../components/Button';
 import { useAppSelector } from '../../../stores/hooks';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import ChangeModeButton from './ChangeModeButton';
 import FileTypeChangeButton from './FileTypeChangeButton';
-import FullSelectionButton from './FullSelectionButton';
 import ImportButton from './ImportButton';
 
 function ButtonsTop() {
@@ -14,14 +14,18 @@ function ButtonsTop() {
   const loadedFiles = useAppSelector(state => state.loadedFiles);
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
 
-  // set the list of selected files to empty
-  const cancelPress = () => {
+  /**
+   * Removes all selected files from the context and UI.
+   */
+  const handleCancelSelectionButtonPress = () => {
     setSelectedFiles([]);
     setFileSelectionMode('single');
   };
 
-  // add all inkml|image files to the list of selected filesi
-  const fullSelectionPress = () => {
+  /**
+   * Selects all files of the current file type.
+   */
+  const handleSelectAllPress = () => {
     setFileSelectionMode('multiple');
     switch (fileType) {
       case 'inkml':
@@ -43,30 +47,30 @@ function ButtonsTop() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pl}>
+      <View style={styles.px}>
         <ImportButton />
       </View>
       <View style={styles.mode}>
-        <View style={styles.jc}>
-          {fileSelectionMode === 'multiple' ? (
-            <FullSelectionButton
-              show={true}
-              buttonText="Annuler"
-              onPress={cancelPress}
+        <View style={styles.selectionButton}>
+          {fileSelectionMode === 'multiple' && (
+            <Button
+              variant="dark"
+              title="Annuler la sélection"
+              onPress={handleCancelSelectionButtonPress}
             />
-          ) : null}
+          )}
         </View>
-        <View style={styles.jc}>
-          <FullSelectionButton
-            show={true}
-            buttonText="Tout sélectionner"
-            onPress={() => fullSelectionPress()}
+        <View style={styles.selectionButton}>
+          <Button
+            variant="dark"
+            title="Tout sélectionner"
+            onPress={() => handleSelectAllPress()}
           />
         </View>
-        <View style={styles.pl}>
+        <View style={styles.px}>
           <FileTypeChangeButton />
         </View>
-        <View style={styles.pl}>
+        <View style={styles.px}>
           <ChangeModeButton />
         </View>
       </View>
@@ -81,15 +85,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 20,
   },
+  selectionButton: {
+    justifyContent: 'center',
+    marginHorizontal: 10,
+  },
   mode: {
     flexDirection: 'row',
   },
-  pl: {
+  px: {
     paddingHorizontal: 20,
-  },
-  jc: {
-    justifyContent: 'center',
-    marginHorizontal: 10,
   },
 });
 
