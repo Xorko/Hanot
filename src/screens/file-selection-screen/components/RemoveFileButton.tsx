@@ -1,5 +1,6 @@
 import IconButton from '../../../components/IconButton';
 import { useAppDispatch } from '../../../stores/hooks';
+import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { removeImageFiles, removeTextFiles } from '../loaded-files-slice';
@@ -7,6 +8,7 @@ import { removeImageFiles, removeTextFiles } from '../loaded-files-slice';
 const RemoveFileButton = () => {
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { fileType } = useFileType();
+  const { setFileSelectionMode } = useFileSelectionMode();
   const dispatch = useAppDispatch();
 
   const handlePress = () => {
@@ -22,6 +24,7 @@ const RemoveFileButton = () => {
     }
 
     setSelectedFiles([]);
+    setFileSelectionMode('single');
   };
 
   return (
