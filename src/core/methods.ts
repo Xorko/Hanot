@@ -164,7 +164,7 @@ export const split = (
   } else {
     const newTrace = trg.traces[base].dots.slice(from);
     const oldTrace = 0; // FIXME: to be changed by the user
-    trg.traces.splice(base + 1, 0, { dots: newTrace, oldTrace: oldTrace });
+    trg.traces.splice(base + 1, 0, { dots: newTrace, oldTrace });
     trg.traces[base].dots.splice(0, from);
   }
 };
@@ -224,12 +224,12 @@ export const crossConcat = (
     if (leftToRight) {
       trg.traces[base] = {
         dots: [...trg.traces[base].dots, ...add.dots],
-        oldTrace: oldTrace,
+        oldTrace,
       };
     } else {
       trg.traces[base] = {
         dots: [...add.dots, ...trg.traces[base].dots],
-        oldTrace: oldTrace,
+        oldTrace,
       };
     }
   }
