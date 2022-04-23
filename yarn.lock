@@ -4745,11 +4745,6 @@ csstype@^3.0.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.0.10.tgz"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-ctx-polyfill@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/ctx-polyfill/-/ctx-polyfill-1.1.4.tgz#08420bc5c540d08ac36d05720ca503c65e302d65"
-  integrity sha1-CEILxcVA0IrDbQVyDKUDxl4wLWU=
-
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/cyclist/-/cyclist-1.0.1.tgz"
@@ -10870,13 +10865,6 @@ react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-canvas@^0.1.38:
-  version "0.1.38"
-  resolved "https://registry.yarnpkg.com/react-native-canvas/-/react-native-canvas-0.1.38.tgz#d2d76f1a105cd4711792271f265b72bd5699acf0"
-  integrity sha512-DjtN921PKoa2liYF8hKq1263xg2o47Bj/1E/+l75GPicT2RV/x/Y1HBrLvFVCR3OO+UslXEC5BtRjfxDoh/Bug==
-  dependencies:
-    ctx-polyfill "^1.1.4"
-
 react-native-codegen@^0.0.7:
   version "0.0.7"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.7.tgz"
@@ -10934,6 +10922,13 @@ react-native-permissions@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.3.1.tgz#8a359d9c0531afcde2f642a459b48c4c1e3e8f2d"
   integrity sha512-Ap9nVWBWJ7lyU6Ye3Qltm2V+Ut6XjDcs+6ZBmK1UUxcCoSSGx/mQg2GbMJLjlnoVtUgVHR3IhyZ0mN9DlMPRFQ==
+
+react-native-progress@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-5.0.0.tgz#f5ac6ceaeee27f184c660b00f29419e82a9d0ab0"
+  integrity sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-reanimated@^2.2.4:
   version "2.2.4"
