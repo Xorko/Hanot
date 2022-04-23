@@ -32,7 +32,7 @@ export const currentWordSlice = createSlice({
      * @param traces The traces to be added at the end of the current word tracegroups
      * @returns the modified word as a state
      */
-    pushTrace: (state, traces: PayloadAction<Trace.Type[]>) => {
+    pushTraces: (state, traces: PayloadAction<Trace.Type[]>) => {
       state.tracegroups[state.tracegroups.length - 1].traces.push(
         traces.payload[0],
       );
@@ -82,7 +82,7 @@ export const currentWordSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   initWord,
-  pushTrace,
+  pushTraces,
   pushDots,
   setDefaultTraceGroup,
   deleteTraceGroup,
