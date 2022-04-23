@@ -16,7 +16,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 interface LetterProps {
-  editLetterAnnotation: (arg0: string, arg1: TraceGroup.Type) => void;
+  editLetterAnnotation: (annotation: string, index: number) => void;
   deleteTraceGroups: (index: number) => void;
   traceGroup: TraceGroup.Type;
   index: number;
@@ -47,7 +47,7 @@ function Letter({
         <TextInput
           style={styles.input}
           onChangeText={text => {
-            editLetterAnnotation(text, traceGroup);
+            editLetterAnnotation(text, index);
           }}
           keyboardType="default"
           autoCapitalize="none"

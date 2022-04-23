@@ -2,12 +2,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import { Button, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEmptyTraceGroup } from '../../../../core/input';
-import { annotate } from '../../../../core/methods';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import * as WordType from '../../../../core/word';
 import { RootState } from '../../../../stores/store';
 import {
+  annotateTraceGroup,
   deleteTraceGroup,
   initWord,
   setFinalTraceGroups,
@@ -45,15 +45,12 @@ function LettersMenu({ selectedLetter }: LettersMenuProps) {
   };
 
   /**
-   * Modify the annotation of the current traceGroup
-   * @param annotation
-   * @param traceGroup
+   * Modify the annotation of the traceGroup indicated by index
+   * @param annotation the character captured from the keyboard
+   * @param index the number corresponding to the traceGroup index in the currentWord
    */
-  const editLetterAnnotation = (
-    annotation: string,
-    traceGroup: TraceGroup.Type,
-  ): void => {
-    annotate(annotation, traceGroup);
+  const editLetterAnnotation = (annotation: string, index: number): void => {
+    dispatch(annotateTraceGroup({ index, annotation }));
   };
 
   return (

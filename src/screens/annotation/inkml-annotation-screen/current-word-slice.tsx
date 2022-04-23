@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as Char from '../../../core/char';
 import * as Dot from '../../../core/dot';
 import * as Trace from '../../../core/trace';
 import * as TraceGroup from '../../../core/tracegroup';
@@ -76,6 +77,19 @@ export const currentWordSlice = createSlice({
       });
       return state;
     },
+
+    annotateTraceGroup: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        annotation: string;
+      }>,
+    ) => {
+      state.tracegroups[action.payload.index].label = Char.constructLetter(
+        action.payload.annotation,
+      );
+      return state;
+    },
   },
 });
 
@@ -84,6 +98,7 @@ export const {
   initWord,
   pushTraces,
   pushDots,
+  annotateTraceGroup,
   setDefaultTraceGroup,
   deleteTraceGroup,
   setFinalTraceGroups,
