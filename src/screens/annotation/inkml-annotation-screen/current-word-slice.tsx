@@ -63,7 +63,7 @@ export const currentWordSlice = createSlice({
 
     /**
      *
-     * @param dots The dots to be added at the end of the current word tracegroups
+     * @param action The dots to be added at the end of the current word tracegroups
      * @returns the modified word as a state
      */
     pushDots: (
