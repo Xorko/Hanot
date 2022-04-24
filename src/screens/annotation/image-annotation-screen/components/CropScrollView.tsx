@@ -122,18 +122,37 @@ const CropScrollView = () => {
     const pixelsCopy: Pixel[] = cloneDeep(currentImage.imagePixels);
 
     if (truePaths && trueImageSize) {
+      // Map that counts the letters occurences
+      const lettersMap: Map<string, number> = new Map();
+
       truePaths.forEach((path: Point[], idx: number) => {
         // For every crop, gets the crop annotation
         const annotation = currentImage.imageCrops[idx].cropAnnotation;
+
+        // Updates the letters map with the crop annotation
+        if (annotation) {
+          const letterOccurences = lettersMap.get(annotation);
+          lettersMap.set(
+            annotation,
+            letterOccurences ? letterOccurences + 1 : 1,
+          );
+        }
 
         // Then gets all points that are on and in the path
         getAllPointsInPath(path, trueImageSize.width).forEach(
           (index: number) => {
             // For every point, sets the annotation of the corresponding pixel to the one of the crop, if the pixel is not white (background)
             const pixel: Pixel = pixelsCopy[index];
-            if (pixel.color !== 'ffffff') {
-              // TODO: add map to count the occurence of letters
-              pixel.annotation = annotation;
+            // If the pixel is not white (background)
+            if (pixel.color !== '#FFFFFF') {
+              if (annotation) {
+                // If the crop has an annotation, annotates the pixel with the annotation and the occurence of the annotation
+                const occ = lettersMap.get(annotation);
+                pixel.annotation = `${annotation}-${occ}`;
+              } else {
+                // If the crop has no annotation, the annotation will be considered to be undefined
+                pixel.annotation = 'undefined';
+              }
             }
           },
         );
