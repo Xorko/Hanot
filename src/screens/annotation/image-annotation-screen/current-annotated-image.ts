@@ -70,7 +70,7 @@ const currentAnnotatedImageSlice = createSlice({
       state.annotatedImage.imageCrops[action.payload.index].cropAnnotation =
         action.payload.annotation;
     },
-    reset: state => {
+    resetCurrentAnnotatedImage: state => {
       state.annotatedImage = initialState.annotatedImage;
     },
     // TODO: Add reducers for modifying the pixels of the image ?
@@ -88,7 +88,7 @@ export const {
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImageCropAtIndex,
   setCurrentAnnotatedImageCropAnnotationAtIndex,
-  reset,
+  resetCurrentAnnotatedImage,
 } = currentAnnotatedImageSlice.actions;
 
 export default currentAnnotatedImageSlice.reducer;
