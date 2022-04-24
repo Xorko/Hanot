@@ -165,7 +165,7 @@ const CropScrollView = () => {
       // Shows a toast message to inform the user that the image has been annotated
       Toast.show({
         type: 'success',
-        text1: 'Successfully annotated',
+        text1: 'Image successfully annotated',
         visibilityTime: 1000,
       });
 
