@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { useAppDispatch } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
@@ -17,10 +18,12 @@ import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeC
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
 import {
   setCurrentAnnotatedImageFilePath,
+  setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageSrc,
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
 import { Size } from './types/image-annotation-types';
+import { getScript } from './utils/pixels-utils';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -44,10 +47,39 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
   const dispatch = useAppDispatch();
 
   //===========================================================================
-  // Contexts
+  // State
   //===========================================================================
 
   const [trueImageSize, setTrueImageSize] = useState<Size>();
+  const [pixelRetrieved, setPixelRetrieved] = useState(false);
+
+  //===========================================================================
+  // Function
+  //===========================================================================
+
+  /**
+   * Receive the message from the webview and set the pixels in the store.
+   * @param event Event from the webview
+   */
+  const handleWebviewMessages = (event: WebViewMessageEvent) => {
+    const pixelMap = event.nativeEvent.data.split(',').map((pixel: string) => {
+      if (pixel === 'w') {
+        return { color: '#FFFFFF', annotation: 'background' };
+      } else if (pixel === 'b') {
+        return { color: '#000000', annotation: undefined };
+      } else {
+        return { color: `#${pixel.toUpperCase()}`, annotation: undefined };
+      }
+    });
+
+    dispatch(setCurrentAnnotatedImagePixels(pixelMap));
+
+    setPixelRetrieved(true);
+  };
+
+  //===========================================================================
+  // Render
+  //===========================================================================
 
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
@@ -65,12 +97,20 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
     }
   }, [dispatch, file.filePath, file.image]);
 
-  //===========================================================================
-  // Render
-  //===========================================================================
-
   return (
     <SafeAreaView style={styles.screen}>
+      {trueImageSize && !pixelRetrieved && file.image && (
+        <View style={styles.backgroundCanvas}>
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html: `<canvas width="${trueImageSize.width}" height="${trueImageSize.height}" />`,
+            }}
+            onMessage={handleWebviewMessages}
+            injectedJavaScript={getScript(file.image, trueImageSize)}
+          />
+        </View>
+      )}
       <View style={styles.annotation}>
         <View style={styles.home}>
           <HomeButton />
@@ -96,7 +136,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: windowWidth / 1.07,
     backgroundColor: '#e1e2e1',
-    alignItems: 'center',
     justifyContent: 'space-around',
     borderRadius: 40,
     borderTopRightRadius: 0,
@@ -115,7 +154,9 @@ const styles = StyleSheet.create({
     top: 30,
   },
   backgroundCanvas: {
-    display: 'none',
+    flex: 1,
+    maxWidth: 1,
+    maxHeight: 1,
   },
 });
 
