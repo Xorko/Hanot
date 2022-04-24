@@ -26,28 +26,24 @@ function ButtonsTop() {
    * Selects all files of the current file type.
    */
   const handleSelectAllPress = () => {
-    let filesToSelect;
+    let fileInfo;
 
     switch (fileType) {
       case 'inkml':
-        filesToSelect = loadedFiles.textFileInfo.map(file => {
-          return {
-            fileName: file.fileName,
-            filePath: file.filePath,
-            type: fileType,
-          };
-        });
+        fileInfo = loadedFiles.textFileInfo;
         break;
       case 'image':
-        filesToSelect = loadedFiles.imageFileInfo.map(file => {
-          return {
-            fileName: file.fileName,
-            filePath: file.filePath,
-            type: fileType,
-          };
-        });
+        fileInfo = loadedFiles.imageFileInfo;
         break;
     }
+
+    const filesToSelect = fileInfo.map(file => {
+      return {
+        fileName: file.fileName,
+        filePath: file.filePath,
+        type: fileType,
+      };
+    });
 
     if (filesToSelect.length > 0) {
       setSelectedFiles(filesToSelect);
