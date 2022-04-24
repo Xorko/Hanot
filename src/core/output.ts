@@ -14,10 +14,12 @@ export const exportInk = (ink?: InkML.Type): Data.Type | undefined => {
     const t = ink.words.map(exportWord);
     let r: Data.TraceGroupData | Data.TraceGroupData[];
     let an: Data.AnnoData[] | undefined;
+
     if (t.length === 0) {
       throw new Error('exportInk Error: no trace group');
     } else if (t.length === 1) {
       r = t[0] as Data.TraceGroupData;
+
       an = r.annotation;
       delete r.annotation;
     } else {
@@ -52,11 +54,13 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
       .flatMap(e => e.traces),
     ...tg.defaultTraceGroup,
   ].sort((a, b) => {
-    if (a.dots[0].t < b.dots[0].t) {
-      return -1;
-    }
-    if (a.dots[0].t > b.dots[0].t) {
-      return 1;
+    if (a.dots.length !== 0 && b.dots.length !== 0) {
+      if (a.dots[0].t < b.dots[0].t) {
+        return -1;
+      }
+      if (a.dots[0].t > b.dots[0].t) {
+        return 1;
+      }
     }
     return 0;
   });
