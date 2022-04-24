@@ -23,7 +23,7 @@ export const createImageExport = (pixels: Pixel[], imageWidth: number) => {
   while (pixelsCopy.length) {
     pixelsCopy
       .splice(0, imageWidth)
-      .map((pixel: Pixel) => pixel.annotation + ';')
+      .map((pixel: Pixel) => `${pixel.color},${pixel.annotation};`)
       .forEach((pixel: string) => res.push(pixel));
     res.push('\n');
   }
