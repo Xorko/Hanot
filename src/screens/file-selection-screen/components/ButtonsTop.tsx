@@ -26,30 +26,32 @@ function ButtonsTop() {
    * Selects all files of the current file type.
    */
   const handleSelectAllPress = () => {
-    setFileSelectionMode('multiple');
+    let filesToSelect;
+
     switch (fileType) {
       case 'inkml':
-        const inkmlToSelect = loadedFiles.textFileInfo.map(file => {
+        filesToSelect = loadedFiles.textFileInfo.map(file => {
           return {
             fileName: file.fileName,
             filePath: file.filePath,
             type: fileType,
           };
         });
-        setSelectedFiles(inkmlToSelect);
         break;
       case 'image':
-        const imagesToSelect = loadedFiles.imageFileInfo.map(file => {
+        filesToSelect = loadedFiles.imageFileInfo.map(file => {
           return {
             fileName: file.fileName,
             filePath: file.filePath,
             type: fileType,
           };
         });
-        setSelectedFiles(imagesToSelect);
         break;
-      default:
-        break;
+    }
+
+    if (filesToSelect.length > 0) {
+      setSelectedFiles(filesToSelect);
+      setFileSelectionMode('multiple');
     }
   };
 
@@ -72,7 +74,7 @@ function ButtonsTop() {
           <Button
             variant="dark"
             title="Tout sélectionner"
-            onPress={() => handleSelectAllPress()}
+            onPress={handleSelectAllPress}
           />
         </View>
         <View style={styles.px}>
