@@ -35,7 +35,7 @@ const fileListToFileArray = (fileList: FileList) => {
  *
  * @returns The selected files
  */
-const pickInkMLFiles = async () => {
+const pickInkMLFiles = () => {
   try {
     return DocumentPicker.pickMultiple();
   } catch (err) {
@@ -109,7 +109,7 @@ const readTextFileMobile = (file: DocumentPickerResponse) => {
  * @param file The file to read
  * @returns The content of the file as text
  */
-const readTextFileWeb = async (file: File) => file.text();
+const readTextFileWeb = (file: File) => file.text();
 
 /**
  * Handles the text file reading for web and mobile
@@ -117,7 +117,7 @@ const readTextFileWeb = async (file: File) => file.text();
  * @param file The text file to read
  * @returns The content of the file as text
  */
-const readTextFile = async (file: DocumentPickerResponse | File) =>
+const readTextFile = (file: DocumentPickerResponse | File) =>
   Platform.OS === 'web'
     ? readTextFileWeb(file as File)
     : readTextFileMobile(file as DocumentPickerResponse);
@@ -128,8 +128,8 @@ const readTextFile = async (file: DocumentPickerResponse | File) =>
  * @param file The image file to read
  * @returns The image file in base64
  */
-const readImageFileMobile = async (file: DocumentPickerResponse) => {
-  return RNFS.readFile(file.uri, 'base64');
+const readImageFileMobile = (file: DocumentPickerResponse) => {
+  return RNFS.readFile(file.uri, 'base64') as string;
 };
 
 /**
@@ -153,7 +153,7 @@ const readImageFileWeb = (file: File) => {
  * @param file The text file to read
  * @returns The file content as text
  */
-const readImageFile = async (file: DocumentPickerResponse | File) =>
+const readImageFile = (file: DocumentPickerResponse | File) =>
   Platform.OS === 'web'
     ? readImageFileWeb(file as File)
     : readImageFileMobile(file as DocumentPickerResponse);
@@ -245,16 +245,15 @@ const parseFiles = async (
 ) => {
   const readFiles = pickedFiles.map(file => readFile(file, type));
 
-  return Promise.all(readFiles).then((files: string[]) =>
-    files.map((fileContent, i) => {
-      switch (type) {
-        case 'inkml':
-          return parseInkML(pickedFiles, fileContent, i);
-        case 'image':
-          return encodeImage(pickedFiles, files[i], i);
-      }
-    }),
-  );
+  const files = await Promise.all(readFiles);
+  return files.map((fileContent, i) => {
+    switch (type) {
+      case 'inkml':
+        return parseInkML(pickedFiles, fileContent, i);
+      case 'image':
+        return encodeImage(pickedFiles, files[i], i);
+    }
+  });
 };
 
 /**
