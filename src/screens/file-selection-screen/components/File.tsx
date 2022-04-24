@@ -2,9 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import Text from '../../../components/Text';
 import colors from '../../../style/colors';
 import { RootStackParamList } from '../../../types/navigation-types';
+import { resetCurrentAnnotatedImage } from '../../annotation/image-annotation-screen/current-annotated-image';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
@@ -24,9 +26,12 @@ function File({ file }: FileProps) {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const dispatch = useDispatch();
+
   const handleNavigation = () => {
     switch (fileType) {
       case 'image':
+        dispatch(resetCurrentAnnotatedImage());
         navigation.navigate('ImageAnnotationScreen', {
           file: file as ImageFile,
         });
