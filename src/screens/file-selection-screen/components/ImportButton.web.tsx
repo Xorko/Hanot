@@ -23,17 +23,19 @@ const ImportButton = () => {
     }
   };
 
-  const handlePress = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePress = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    let files;
+
     switch (fileType) {
       case 'image':
-        handleFileImport('image', event).then(addFiles);
+        files = await handleFileImport('image', event);
         break;
       case 'inkml':
-        handleFileImport('inkml', event).then(addFiles);
-        break;
-      default:
+        files = await handleFileImport('inkml', event);
         break;
     }
+
+    addFiles(files);
   };
 
   return (

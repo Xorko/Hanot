@@ -86,7 +86,7 @@ const createDirectory = (path: string) => {
  * @param fileContent the file in string form
  * @param mutilple option for many export
  */
-export const exportFile = (
+export const exportFile = async (
   fileContent: string,
   fileName: string,
   mutilple?: boolean,
@@ -113,25 +113,24 @@ export const exportFile = (
   }
   const pathToWrite = `${outputPath}/${newFileName}`;
 
-  RNFS.writeFile(pathToWrite, fileContent, 'utf8')
-    .then(() => {
-      console.log(`wrote file ${pathToWrite}`);
-      if (!mutilple) {
-        Toast.show({
-          type: 'success',
-          text1: fileName + ' annotation has been exported',
-          text2: 'location: ' + outputPath,
-        });
-      }
-    })
-    .catch((err: any) => {
+  try {
+    await RNFS.writeFile(pathToWrite, fileContent, 'utf8');
+
+    if (!mutilple) {
       Toast.show({
-        type: 'error',
-        text1: fileName + ' export failed',
-        text2: err,
-        visibilityTime: 5001,
+        type: 'success',
+        text1: fileName + ' annotation has been exported',
+        text2: 'location: ' + outputPath,
       });
+    }
+  } catch (err) {
+    Toast.show({
+      type: 'error',
+      text1: fileName + ' export failed',
+      text2: err as string,
+      visibilityTime: 5001,
     });
+  }
 
   if (mutilple) {
     Toast.show({

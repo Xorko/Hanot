@@ -22,17 +22,19 @@ const ImportButton = () => {
     }
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    let files;
+
     switch (fileType) {
       case 'image':
-        handleFileImport('image').then(addFiles);
+        files = await handleFileImport('image');
         break;
       case 'inkml':
-        handleFileImport('inkml').then(addFiles);
-        break;
-      default:
+        files = await handleFileImport('inkml');
         break;
     }
+
+    addFiles(files);
   };
 
   return (
