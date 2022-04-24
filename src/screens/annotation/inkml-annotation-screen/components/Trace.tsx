@@ -26,6 +26,7 @@ export const Trace = ({
     <>
       {parsedDots.map((trace, idxTrace) => (
         <Polyline
+          fill="none"
           key={parsedDots.indexOf(trace)}
           points={trace.dots
             .map(
