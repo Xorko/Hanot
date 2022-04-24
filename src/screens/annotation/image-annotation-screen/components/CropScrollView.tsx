@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: windowHeight / 2.5,
     width: windowWidth / 1.5,
-    alignItems: 'center',
+    alignSelf: 'center',
     marginRight: '2.7%',
   },
   scroll: {
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     padding: 17,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignSelf: 'center',
   },
   buttons: {
     backgroundColor: '#e1e2e1',
