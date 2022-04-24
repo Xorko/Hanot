@@ -5,7 +5,7 @@ import Text from './Text';
 type IconButtonProps = {
   title: string;
   activeOpacity?: number;
-  onPress: () => void;
+  onPress?: () => void;
   variant: keyof typeof colors;
 };
 
