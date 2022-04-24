@@ -10,7 +10,7 @@ type IconButtonProps = {
   iconName: string;
   iconSize?: number;
   activeOpacity?: number;
-  onPress: () => void;
+  onPress?: () => void;
   library: IconLibrary;
   color?: keyof typeof colors;
 };
