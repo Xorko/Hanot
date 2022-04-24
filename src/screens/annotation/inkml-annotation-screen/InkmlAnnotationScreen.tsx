@@ -9,8 +9,10 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
 import * as Trace from '../../../core/trace';
+import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
 import LettersMenu from './components/LettersMenu';
 import Word from './components/Word';
@@ -30,7 +32,9 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
 
   const [selectedLetter, setSelectedLetter] = useState<Trace.Type[]>([]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const currentWord = useAppSelector(state => state.currentWord);
 
   useEffect(() => {
     if (file.content) {
@@ -46,6 +50,26 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
     setSelectedLetter(traces);
   };
 
+  const handleValidate = (): void => {
+    const word = {
+      tracegroups: currentWord.tracegroups,
+      defaultTraceGroup: currentWord.defaultTraceGroup,
+      annotations: currentWord.annotations,
+      attributes: currentWord.attributes,
+      predicted: currentWord.predicted,
+    };
+    const inkml = {
+      words: [word],
+    };
+    dispatch(addAnnotatedInkml({ filePath: file.filePath, content: inkml }));
+
+    Toast.show({
+      type: 'success',
+      text1: 'Inkml successfully annotated',
+      visibilityTime: 1000,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.annotation}>
@@ -57,6 +81,9 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
         </View>
         <LettersMenu selectedLetter={selectedLetter} />
         <Word editLetterTraces={editLetterTraces} />
+      </View>
+      <View style={styles.annotate}>
+        <Button title="Validate" onPress={handleValidate} />
       </View>
     </SafeAreaView>
   );
@@ -84,6 +111,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 30,
     top: 30,
+  },
+  annotate: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
   },
 });
 export default InkmlAnnotationScreen;
