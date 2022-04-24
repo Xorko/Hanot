@@ -30,13 +30,21 @@ function ButtonsTop() {
     switch (fileType) {
       case 'inkml':
         const inkmlToSelect = loadedFiles.textFileInfo.map(file => {
-          return { fileName: file.fileName, filePath: file.filePath, type: fileType };
+          return {
+            fileName: file.fileName,
+            filePath: file.filePath,
+            type: fileType,
+          };
         });
         setSelectedFiles(inkmlToSelect);
         break;
       case 'image':
         const imagesToSelect = loadedFiles.imageFileInfo.map(file => {
-          return { fileName: file.fileName, filePath: file.filePath, type: fileType };
+          return {
+            fileName: file.fileName,
+            filePath: file.filePath,
+            type: fileType,
+          };
         });
         setSelectedFiles(imagesToSelect);
         break;
