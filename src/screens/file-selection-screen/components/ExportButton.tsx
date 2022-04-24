@@ -1,4 +1,6 @@
 import IconButton from '../../../components/IconButton';
+import { exportInk } from '../../../core/output';
+import { builder } from '../../../lib/fast-xml-parser';
 import { useAppSelector } from '../../../stores/hooks';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
@@ -11,6 +13,7 @@ import {
 function ExportButton() {
   const { fileType } = useFileType();
   const { annotatedImages } = useAppSelector(state => state.annotatedImages);
+  const { annotatedInkml } = useAppSelector(state => state.annotatedInkml);
   const { selectedFiles } = useSelectedFiles();
 
   const exportImage = (
@@ -35,6 +38,29 @@ function ExportButton() {
     }
   };
 
+  const exportInkml = (
+    filePath: string,
+    fileName: string,
+    multipleFiles: boolean,
+  ) => {
+    const inkmlIndex = selectedFiles.findIndex(
+      file => file.filePath === filePath,
+    );
+
+    if (inkmlIndex !== -1) {
+      const inkmlToExport = annotatedInkml[inkmlIndex];
+      if (inkmlToExport) {
+        const dataToExport = exportInk(inkmlToExport.content);
+        if (dataToExport) {
+          const fileContent = builder.build(dataToExport);
+          callFunctionWithPermission(() =>
+            exportFile(fileContent, fileName, multipleFiles),
+          );
+        }
+      }
+    }
+  };
+
   const handlePress = () => {
     const multipleFiles = selectedFiles.length > 1;
     selectedFiles.forEach(file => {
@@ -44,7 +70,7 @@ function ExportButton() {
             exportImage(file.filePath, file.fileName, multipleFiles);
             break;
           case 'inkml':
-            console.log('inkml');
+            exportInkml(file.filePath, file.fileName, multipleFiles);
             break;
           default:
             break;
