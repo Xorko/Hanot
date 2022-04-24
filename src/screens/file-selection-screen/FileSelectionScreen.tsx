@@ -1,6 +1,5 @@
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Toast from 'react-native-toast-message';
 import Buttons from './components/Buttons';
 import ButtonsTop from './components/ButtonsTop';
 import Files from './components/Files';
@@ -16,7 +15,6 @@ function FileSelectionScreen() {
         <FileTypeProvider>
           <FileSelectionModeProvider>
             <SelectedFilesProvider>
-              <Toast />
               <View style={styles.header}>
                 <ButtonsTop />
                 <Buttons />
@@ -26,6 +24,15 @@ function FileSelectionScreen() {
               </View>
             </SelectedFilesProvider>
           </FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <View style={styles.header}>
+              <ButtonsTop />
+              <Buttons />
+            </View>
+            <View style={styles.files}>
+              <Files />
+            </View>
+          </SelectedFilesProvider>
         </FileTypeProvider>
       </DisplayModeProvider>
     </SafeAreaView>

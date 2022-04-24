@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import Toast from 'react-native-toast-message';
 import AppProviders from './components/AppProvider';
 import ImageAnnotationScreen from './screens/annotation/image-annotation-screen/ImageAnnotationScreen';
 import InkmlAnnotationScreen from './screens/annotation/inkml-annotation-screen/InkmlAnnotationScreen';
@@ -29,6 +30,7 @@ function App() {
         />
         <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
       </Navigator>
+      <Toast />
     </AppProviders>
   );
 }
