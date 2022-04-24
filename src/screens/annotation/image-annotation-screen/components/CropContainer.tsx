@@ -114,11 +114,12 @@ const CropContainer = ({
       }
     }
   }, [containerSize, displayedImageSize, path]);
-  return (
-    //===========================================================================
-    // Render
-    //===========================================================================
 
+  //===========================================================================
+  // Render
+  //===========================================================================
+
+  return (
     <TouchableOpacity activeOpacity={0.8} onPress={selectCrop}>
       <View
         style={selected ? { ...styles.box, ...styles.seletedBox } : styles.box}>
@@ -157,7 +158,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#6ec6ff',
     borderRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   letterTitle: {
     backgroundColor: '#6ec6ff',
