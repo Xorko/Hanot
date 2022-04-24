@@ -77,11 +77,7 @@ export const callFunctionWithPermission = async (callback: () => any) => {
  * @param path path of the Directory
  */
 const createDirectory = (path: string) => {
-  RNFS.mkdir(path)
-    .then(() => {
-      console.log('directory' + path + 'was created');
-    })
-    .catch((err: any) => console.error(err));
+  RNFS.mkdir(path);
 };
 
 /**

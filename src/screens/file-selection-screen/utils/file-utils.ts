@@ -9,7 +9,7 @@ import { parser } from '../../../lib/fast-xml-parser';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
 import type { FileType } from '../types/files-type';
 
-// RNFS can't be imported on web so we can't use `import`
+// RNFS can't be imported on the web so we can't use `import`
 const RNFS = Platform.OS !== 'web' && require('react-native-fs');
 
 /**
@@ -35,9 +35,7 @@ const fileListToFileArray = (fileList: FileList) => {
  *
  * @returns The selected files
  */
-const pickInkMLFiles = async (): Promise<
-  DocumentPickerResponse[] | undefined
-> => {
+const pickInkMLFiles = async () => {
   try {
     return DocumentPicker.pickMultiple();
   } catch (err) {
@@ -52,7 +50,7 @@ const pickInkMLFiles = async (): Promise<
  *
  * @returns The selected image files
  */
-const pickImageFiles = (): Promise<DocumentPickerResponse[]> | undefined => {
+const pickImageFiles = () => {
   try {
     return DocumentPicker.pickMultiple({ type: [types.images] });
   } catch (err) {
@@ -125,22 +123,22 @@ const readTextFile = async (file: DocumentPickerResponse | File) =>
     : readTextFileMobile(file as DocumentPickerResponse);
 
 /**
- * Reads an image file and encodes it as base64 on mobile
+ * Reads an image file and encodes it in base64 on mobile
  *
  * @param file The image file to read
- * @returns The image file as base64
+ * @returns The image file in base64
  */
 const readImageFileMobile = async (file: DocumentPickerResponse) => {
   return RNFS.readFile(file.uri, 'base64');
 };
 
 /**
- * Reads an image file and returns it as base64 on the web
+ * Reads an image file and returns it in base64 on the web
  *
  * @param file The image file to read
- * @returns The image file as base64
+ * @returns The image file in base64
  */
-const readImageFileWeb = (file: File): Promise<string> => {
+const readImageFileWeb = (file: File) => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -150,12 +148,12 @@ const readImageFileWeb = (file: File): Promise<string> => {
 };
 
 /**
- * Handles the image file encoding for web and mobile
+ * Handles the image file base64 encoding for web and mobile
  *
  * @param file The text file to read
  * @returns The file content as text
  */
-const encodeImageFile = async (file: DocumentPickerResponse | File) =>
+const readImageFile = async (file: DocumentPickerResponse | File) =>
   Platform.OS === 'web'
     ? readImageFileWeb(file as File)
     : readImageFileMobile(file as DocumentPickerResponse);
@@ -165,12 +163,12 @@ const encodeImageFile = async (file: DocumentPickerResponse | File) =>
  *
  * @param file The file to read
  * @param type The type of file to read
- * @returns The content of the file as text if type = inkml or the file as base64 if type = image
+ * @returns The content of the file as text if type = inkml or the file in base64 if type = image
  */
 const readFile = (file: DocumentPickerResponse | File, type: FileType) => {
   switch (type) {
     case 'image':
-      return encodeImageFile(file);
+      return readImageFile(file);
     case 'inkml':
       return readTextFile(file);
   }
@@ -211,7 +209,7 @@ const parseInkML = (
 };
 
 /**
- * Encodes an image file as base64
+ * Encodes an image file in base64
  *
  * @param pickedFiles The selected files
  * @param fileContent The content of the file to parse
@@ -235,7 +233,7 @@ const encodeImage = (
 };
 
 /**
- * Handle the file parsing for web and mobile
+ * Handles the file parsing for web and mobile
  *
  * @param pickedFiles The picked files
  * @param type The type of file to parse
@@ -264,12 +262,12 @@ const parseFiles = async (
  *
  * @param type The type of file to import
  * @param event The event that triggered the file import (web only).
- * @returns The parsed files as InkMLFile[] or ImageFile[] or empty array if no files were selected
+ * @returns The parsed files as (InkMLFile | ImageFile)[] or empty array if no files were selected
  */
 export const handleFileImport = async (
   type: FileType,
   event?: React.ChangeEvent<HTMLInputElement>,
-): Promise<InkMLFile[]> => {
+) => {
   const pickedFiles = await selectFiles(
     event?.target?.files || undefined,
     type,
