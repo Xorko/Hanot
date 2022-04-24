@@ -1,5 +1,55 @@
-import { Point } from '../types/image-annotation-types';
+import { Point, Size } from '../types/image-annotation-types';
 import { getExtremePointsOfPath } from './crop-utils';
+
+/**
+ * The webview script to get the pixels of the image.
+ * @param src The source image
+ * @returns The script to get the pixels of the image.
+ */
+export const getScript = (src: string, size: Size) => {
+  return `
+    const canvas = document.querySelector('canvas');
+    canvas.width = ${size.width};
+    canvas.height = ${size.height};
+    const ctx = canvas.getContext('2d');
+
+    const image = new Image();
+
+    image.onload = () => {
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      let res = [];
+
+      // Creates the array containing the pixels colors
+      for (let i = 0; i < imageData.height * imageData.width * 4; i += 4) {
+          const red = imageData.data[i];
+          const green = imageData.data[i + 1];
+          const blue = imageData.data[i + 2];
+
+          // Gets the hexadecimal value of the pixel color
+          const hex = red.toString(16) + green.toString(16) + blue.toString(16);
+
+          // To reduce the size of the array, if the color is ffffff we put w instead, if the color is 000000 we put b instead
+          if (hex === 'ffffff') {
+            res.push('w');
+          } else if (hex === '000000') {
+            res.push('b');
+          } else {
+            res.push(hex);
+          }
+      }
+
+      // Webview can only send strings, so we need to convert the array to a string and we send it
+      window.ReactNativeWebView.postMessage(res.join(','));
+    };
+
+    image.src = '${src}';
+
+    true; // note: this is required, or you'll sometimes get silent failures
+  `;
+};
 
 /**
  * Returns the orientation of three points.
