@@ -96,7 +96,7 @@ function ListItem({ file }: FileProps) {
   }, [selectedFiles, file.filePath]);
 
   return (
-    <View style={{ ...listStyles.container, borderColor }}>
+    <View style={{ ...listStyles.container, borderColor }} testID="file-list">
       <Text
         variant="light"
         style={styles.filename}
@@ -123,7 +123,7 @@ function BlockItem({ file }: FileProps) {
   }, [selectedFiles, file.filePath]);
 
   return (
-    <View style={{ ...blockStyles.container, borderColor }}>
+    <View style={{ ...blockStyles.container, borderColor }} testID="file-block">
       <View style={blockStyles.preview}>
         <Text variant="secondary">Preview</Text>
       </View>

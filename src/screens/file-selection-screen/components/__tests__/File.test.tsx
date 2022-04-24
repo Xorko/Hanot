@@ -2,6 +2,7 @@ import { fireEvent, render } from 'test-utils';
 import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
 import { FileTypeProvider } from '../../../../screens/file-selection-screen/context/FileTypeContext';
 import { InkMLFile } from '../../../../screens/file-selection-screen/types/file-import-types';
+import colors from '../../../../style/colors';
 import { FileSelectionModeProvider } from '../../context/FileSelectionModeContext';
 import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
 import File from '../File';
@@ -40,7 +41,8 @@ test('it displays the filename', () => {
       </FileTypeProvider>
     </DisplayModeProvider>,
   );
-  expect(queryByText('test.inkml')).toBeTruthy();
+
+  expect(queryByText(/test.inkml/i)).toBeTruthy();
 });
 
 test('it navigates to the inkml annotation screen when it contains an inkml file and it is pressed', () => {
@@ -56,9 +58,7 @@ test('it navigates to the inkml annotation screen when it contains an inkml file
     </DisplayModeProvider>,
   );
 
-  expect(getByText('test.inkml')).toBeTruthy();
-
-  fireEvent(getByText('test.inkml'), 'press');
+  fireEvent(getByText(/test.inkml/i), 'press');
   expect(mockedNavigate).toHaveBeenCalledWith('InkMLAnnotationScreen', {
     file: inkmlFileMock,
   });
@@ -77,10 +77,90 @@ test('it navigates to the image annotation screen when it contains an image file
     </DisplayModeProvider>,
   );
 
-  expect(getByText('test.png')).toBeTruthy();
+  fireEvent(getByText(/test.png/i), 'press');
 
-  fireEvent(getByText('test.png'), 'press');
   expect(mockedNavigate).toHaveBeenCalledWith('ImageAnnotationScreen', {
     file: imageFileMock,
+  });
+});
+
+test('it is selected on long press in block mode', () => {
+  const { getByTestId } = render(
+    <DisplayModeProvider>
+      <FileTypeProvider>
+        <FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
+      </FileTypeProvider>
+    </DisplayModeProvider>,
+  );
+
+  fireEvent(getByTestId('file-block'), 'onLongPress');
+
+  expect(getByTestId('file-block')).toHaveStyle({
+    borderColor: colors.secondary,
+  });
+});
+
+test('it is selected on long press in list mode', () => {
+  const { getByTestId } = render(
+    <DisplayModeProvider initialMode="list">
+      <FileTypeProvider>
+        <FileSelectionModeProvider>
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
+      </FileTypeProvider>
+    </DisplayModeProvider>,
+  );
+
+  fireEvent(getByTestId('file-list'), 'onLongPress');
+
+  expect(getByTestId('file-list')).toHaveStyle({
+    borderColor: colors.secondary,
+  });
+});
+
+test('it is selected on press when in multiple selection mode', () => {
+  const { getByText, getByTestId } = render(
+    <DisplayModeProvider>
+      <FileTypeProvider>
+        <FileSelectionModeProvider initialType="multiple">
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
+      </FileTypeProvider>
+    </DisplayModeProvider>,
+  );
+
+  fireEvent(getByText(/test.inkml/i), 'press');
+
+  expect(getByTestId('file-block')).toHaveStyle({
+    borderColor: colors.secondary,
+  });
+});
+
+test('it is unselected on press', () => {
+  const { getByText, getByTestId } = render(
+    <DisplayModeProvider>
+      <FileTypeProvider>
+        <FileSelectionModeProvider initialType="multiple">
+          <SelectedFilesProvider>
+            <File file={inkmlFileMock} />
+          </SelectedFilesProvider>
+        </FileSelectionModeProvider>
+      </FileTypeProvider>
+    </DisplayModeProvider>,
+  );
+
+  fireEvent(getByText(/test.inkml/i), 'onLongPress');
+  fireEvent(getByText(/test.inkml/i), 'press');
+
+  expect(getByTestId('file-block')).toHaveStyle({
+    borderColor: colors.primary,
   });
 });
