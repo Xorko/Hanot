@@ -1,9 +1,14 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { Platform } from 'react-native';
-import RNFS from 'react-native-fs';
-import { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Toast from 'react-native-toast-message';
 import { Pixel } from '../../annotation/image-annotation-screen/types/image-annotation-types';
+
+// RNFS can't be imported on web so we can't use `import`
+const RNFS = Platform.OS !== 'web' && require('react-native-fs');
+
+// RNPermissions can't be imported on web so we can't use `import`
+const { PERMISSIONS, request, RESULTS } =
+  Platform.OS !== 'web' && require('react-native-permissions');
 
 /**
  * Creates the content of the file to be exported
@@ -76,7 +81,7 @@ const createDirectory = (path: string) => {
     .then(() => {
       console.log('directory' + path + 'was created');
     })
-    .catch(err => console.error(err));
+    .catch((err: any) => console.error(err));
 };
 
 /**
