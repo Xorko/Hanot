@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';
 import HomeButton from './components/HomeButton';
+import ProgressCircle from './components/ProgressCircle';
 import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
@@ -120,8 +121,14 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
             {trueImageSize && (
               <TrueImageSizeContextProvider
                 initialTrueImageSize={trueImageSize}>
-                <CropScrollView />
-                <AnnotationContainer />
+                {pixelRetrieved ? (
+                  <>
+                    <CropScrollView />
+                    <AnnotationContainer />
+                  </>
+                ) : (
+                  <ProgressCircle />
+                )}
               </TrueImageSizeContextProvider>
             )}
           </CurrentSelectedCropProvider>
