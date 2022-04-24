@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import WebView from 'react-native-webview';
 import { useAppSelector } from '../../../../stores/hooks';
 import { CurrentAnnotatedImageState } from '../current-annotated-image';
 import { Point, Size } from '../types/image-annotation-types';
@@ -55,9 +55,7 @@ const Crop = ({ path, size }: CropPropsType) => {
       source={{
         html: `<canvas width={${size.width}} height={${size.height}} />`,
       }}
-      onMessage={(event: WebViewMessageEvent) => {
-        console.log(event.nativeEvent.data);
-      }}
+      onMessage={() => {}}
       injectedJavaScript={getScript(path, size, imageSrc)}
       ref={webViewRef}
     />
