@@ -1,5 +1,58 @@
 import { Point, Size } from '../types/image-annotation-types';
 
+export const getScript = (path: Point[], size: Size, imageSrc: string) => {
+  const { minX, minY, maxX, maxY } = getExtremePointsOfPath(path);
+  const [width, height] = [maxX - minX, maxY - minY];
+
+  return `
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = ${size.width};
+    canvas.height = ${size.height};
+
+    // Gets the path of the crop
+    const p = '${path.map(({ x, y }) => `${x},${y}`).join(' ')}';
+    const path = p.split(' ').map(elt => ({x: Number(elt.split(',')[0]), y: Number(elt.split(',')[1])}));
+
+    const image = new Image();
+
+    image.onload = () => {
+
+      // Crop the image
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(canvas.width, 0);
+      context.lineTo(canvas.width, canvas.height);
+      context.lineTo(0, canvas.height);
+      context.lineTo(0, 0);
+      context.lineTo(path[0].x + 1, path[0].y + 1);
+      path.slice(1).forEach(({ x, y }) => context.lineTo(x + 1, y + 1));
+      context.lineTo(path[0].x + 1, path[0].y + 1);
+      context.lineTo(0, 0);
+      context.closePath();
+      context.clip('evenodd');
+      context.globalCompositeOperation = 'destination-out';
+      context.fill();
+
+      // Place the crop at top left corner
+      const minX = ${minX};
+      const minY = ${minY};
+      const width = ${width};
+      const height = ${height};
+      const imageData = context.getImageData(minX, minY, width, height);
+      canvas.width = width;
+      canvas.height = height;
+      context.putImageData(imageData, 0, 0);
+
+    };
+
+    image.src = '${imageSrc}';
+
+    true; // note: this is required, or you'll sometimes get silent failures
+  `;
+};
+
 /**
  * Rounds x and y coordinates of given point to the nearest integer
  * @param {Point} - The point to be rounded
