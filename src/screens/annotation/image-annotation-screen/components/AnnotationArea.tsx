@@ -60,7 +60,7 @@ const AnnotationArea = () => {
 
   return (
     <View style={styles.container} onLayout={handleContainerLayout}>
-      {displayedImageSize && (
+      {displayedImageSize && currentAnnotatedImage.imageSource.length > 0 && (
         <>
           <Image
             source={{ uri: currentAnnotatedImage.imageSource }}
