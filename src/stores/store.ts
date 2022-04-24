@@ -3,6 +3,7 @@ import currentAnnotatedImageReducer from '../screens/annotation/image-annotation
 import currentWordReducer from '../screens/annotation/inkml-annotation-screen/current-word-slice';
 import loadedFilesReducer from '../screens/file-selection-screen/loaded-files-slice';
 import annotatedImagesReducer from '../shared/annotated-image-files-slice';
+import annotatedInkmlReducer from '../shared/annotated-inkml-files-slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     currentAnnotatedImage: currentAnnotatedImageReducer,
     currentWord: currentWordReducer,
     annotatedImages: annotatedImagesReducer,
+    annotatedInkml: annotatedInkmlReducer,
   },
 });
 
