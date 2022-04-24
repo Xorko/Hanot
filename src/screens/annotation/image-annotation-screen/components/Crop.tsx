@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Canvas, { Image as CanvasImage } from 'react-native-canvas';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { useAppSelector } from '../../../../stores/hooks';
 import { CurrentAnnotatedImageState } from '../current-annotated-image';
 import { Point, Size } from '../types/image-annotation-types';
-import { getExtremePointsOfPath } from '../utils/crop-utils';
+import { getScript } from '../utils/crop-utils';
 
 interface CropPropsType {
   path: Point[];
@@ -23,81 +24,50 @@ const Crop = ({ path, size }: CropPropsType) => {
   );
 
   //===========================================================================
-  // State
+  // Variables
   //===========================================================================
 
-  // The path being currently drawn
-  const [currentPath, setCurrentPath] = useState<Point[]>([]);
-
-  // State used to get the crop displayed only once (certainly not the best way to do it)
-  const [firstRender, setFirstRender] = useState<boolean>(true);
-
-  //===========================================================================
-  // Functions
-  //===========================================================================
-
-  // On the first render, change the first render state to indicate that the crop has been displayed
-  useEffect(() => {
-    setFirstRender(false);
-  }, []);
-
-  //===========================================================================
-  // Functions
-  //===========================================================================
-
-  /**
-   * Draws the crop on the canvas
-   * @param canvas The canvas to draw on
-   */
-  const handleCanvas = (canvas: Canvas) => {
-    /*
-      The passed prop can be undefined (RNCanvas particularity) so it is checked before drawing
-      The crop is drawn only if it is the first render of if the crop path has been updated
-     */
-    if (canvas && (path !== currentPath || firstRender)) {
-      // Gets the size of the crop and sets the canvas size to it
-      const { minX, minY, maxX, maxY } = getExtremePointsOfPath(path);
-      const [width, height] = [maxX - minX, maxY - minY];
-      canvas.width = width;
-      canvas.height = height;
-
-      /*
-        To display the crop, the image is displayed at the start of the path and we limit the display to the crop
-        Because of that the path needs to be adjusted to the image position
-       */
-      const adjustedPath = path.map(elt => ({
-        x: elt.x - minX,
-        y: elt.y - minY,
-      }));
-
-      const context = canvas.getContext('2d');
-
-      const imageObj = new CanvasImage(canvas);
-      imageObj.src = imageSrc;
-
-      imageObj.addEventListener('load', async () => {
-        if (path.length < 3) {
-          throw '';
-        }
-
-        // TODO: Adjust the crop size to the container size
-        // The crop is drawn on the canvas and separated from the image
-        context.beginPath();
-        context.moveTo(adjustedPath[0].x, adjustedPath[0].y);
-        adjustedPath.slice(1).forEach(({ x, y }) => context.lineTo(x, y));
-        context.lineTo(adjustedPath[0].x, adjustedPath[0].y);
-        context.clip();
-        context.drawImage(imageObj, -minX, -minY, size.width, size.height);
-        setCurrentPath(path);
-      });
-    }
-  };
+  const webViewRef = useRef<any>();
 
   //===========================================================================
   // Render
   //===========================================================================
 
-  return <Canvas ref={handleCanvas} />;
+  // when the image source or the path or the size changes, reload the webview to update the crop
+  useEffect(() => {
+    if (imageSrc) {
+      webViewRef.current?.reload();
+    }
+  }, [imageSrc, path, size]);
+
+  return (
+    <WebView
+      style={{
+        ...styles.webView,
+        maxHeight: size.height,
+        maxWidth: size.width,
+      }}
+      scalesPageToFit={false}
+      scrollEnabled={false}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      originWhitelist={['*']}
+      source={{
+        html: `<canvas width={${size.width}} height={${size.height}} />`,
+      }}
+      onMessage={(event: WebViewMessageEvent) => {
+        console.log(event.nativeEvent.data);
+      }}
+      injectedJavaScript={getScript(path, size, imageSrc)}
+      ref={webViewRef}
+    />
+  );
 };
+
+const styles = StyleSheet.create({
+  webView: {
+    backgroundColor: 'transparent',
+  },
+});
 
 export default Crop;
