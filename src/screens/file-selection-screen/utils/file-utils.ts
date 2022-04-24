@@ -78,7 +78,7 @@ const selectFiles = async (files?: FileList, type?: FileType) => {
         : pickInkMLFiles());
     } catch (err) {
       if (!DocumentPicker.isCancel(err)) {
-        console.error(err);
+        throw err;
       }
     }
   } else {
