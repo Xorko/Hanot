@@ -128,7 +128,6 @@ export const exportFile = async (
       type: 'error',
       text1: fileName + ' export failed',
       text2: err as string,
-      visibilityTime: 5001,
     });
   }
 
@@ -137,7 +136,6 @@ export const exportFile = async (
       type: 'success',
       text1: 'Export Finished',
       text2: 'location: ' + outputPath,
-      visibilityTime: 6000,
     });
   }
 
