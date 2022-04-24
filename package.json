@@ -116,7 +116,8 @@
     ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js",
-      "<rootDir>/src/__mocks__/setup/index.ts"
+      "<rootDir>/src/__mocks__/setup/index.ts",
+      "<rootDir>/jest.setup.js"
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
