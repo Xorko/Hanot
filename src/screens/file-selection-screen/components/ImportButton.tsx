@@ -2,10 +2,7 @@ import IconButton from '../../../components/IconButton';
 import { useAppDispatch } from '../../../stores/hooks';
 import { useFileType } from '../context/FileTypeContext';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
-import {
-  handleOpenImageFiles,
-  handleOpenInkmlFiles
-} from '../utils/file-utils';
+import { handleFileImport } from '../utils/file-utils';
 
 const ImportButton = () => {
   const { fileType } = useFileType();
@@ -28,10 +25,10 @@ const ImportButton = () => {
   const handlePress = () => {
     switch (fileType) {
       case 'image':
-        handleOpenImageFiles().then(addFiles);
+        handleFileImport('image').then(addFiles);
         break;
       case 'inkml':
-        handleOpenInkmlFiles().then(addFiles);
+        handleFileImport('inkml').then(addFiles);
         break;
       default:
         break;

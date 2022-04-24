@@ -1,18 +1,12 @@
-import { handleOpenInkmlFiles } from '../file-utils';
+import { handleFileImport } from '../file-utils';
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('handleOpenFiles', () => {
+describe('handleFileImport', () => {
   it('must return an empty array if no file is selected', async () => {
-    jest.mock('react-native-fs', () => {
-      return {
-        readFile: jest.fn().mockReturnValueOnce(undefined),
-      };
-    });
-
-    const result = await handleOpenInkmlFiles();
+    const result = await handleFileImport('inkml');
     expect(result).toEqual([]);
   });
 });
