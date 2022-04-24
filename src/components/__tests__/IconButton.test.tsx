@@ -4,7 +4,7 @@ import IconButton from '../IconButton';
 test('it should call the onPress function when pressed', () => {
   const onPress = jest.fn();
   const { getByTestId } = render(
-    <IconButton iconName="home" onPress={onPress} />,
+    <IconButton library="Material" iconName="home" onPress={onPress} />,
   );
 
   fireEvent(getByTestId('icon-btn'), 'press');
