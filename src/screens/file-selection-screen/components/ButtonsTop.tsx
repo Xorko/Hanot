@@ -37,13 +37,11 @@ function ButtonsTop() {
         break;
     }
 
-    const filesToSelect = fileInfo.map(file => {
-      return {
-        fileName: file.fileName,
-        filePath: file.filePath,
-        type: fileType,
-      };
-    });
+    const filesToSelect = fileInfo.map(file => ({
+      fileName: file.fileName,
+      filePath: file.filePath,
+      type: fileType,
+    }));
 
     if (filesToSelect.length > 0) {
       setSelectedFiles(filesToSelect);
