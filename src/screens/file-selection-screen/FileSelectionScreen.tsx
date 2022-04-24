@@ -24,15 +24,6 @@ function FileSelectionScreen() {
               </View>
             </SelectedFilesProvider>
           </FileSelectionModeProvider>
-          <SelectedFilesProvider>
-            <View style={styles.header}>
-              <ButtonsTop />
-              <Buttons />
-            </View>
-            <View style={styles.files}>
-              <Files />
-            </View>
-          </SelectedFilesProvider>
         </FileTypeProvider>
       </DisplayModeProvider>
     </SafeAreaView>
