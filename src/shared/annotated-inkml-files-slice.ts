@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as InkML from '../core/inkml';
 
 type AnnotatedInkml = {
-  filePath: string;
+  id: string;
   content: InkML.Type;
 };
 
@@ -23,7 +23,7 @@ const annotatedInkmlSlice = createSlice({
     },
     addAnnotatedInkml: (state, action: PayloadAction<AnnotatedInkml>) => {
       const inkmlIndex = state.annotatedInkml.findIndex(
-        e => e.filePath === action.payload.filePath,
+        e => e.id === action.payload.id,
       );
       if (inkmlIndex === -1) {
         state.annotatedInkml.push(action.payload);

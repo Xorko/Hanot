@@ -47,8 +47,8 @@ function File({ file }: FileProps) {
   };
 
   const handleSelection = () => {
-    if (selectedFiles.some(e => e.filePath === file.filePath)) {
-      setSelectedFiles(selectedFiles.filter(f => f.filePath !== file.filePath));
+    if (selectedFiles.some(e => e.id === file.id)) {
+      setSelectedFiles(selectedFiles.filter(f => f.id !== file.id));
 
       if (selectedFiles.length === 1) {
         setFileSelectionMode('single');
@@ -56,7 +56,7 @@ function File({ file }: FileProps) {
     } else {
       setSelectedFiles([
         ...selectedFiles,
-        { filePath: file.filePath, type: fileType, fileName: file.fileName },
+        { id: file.id, type: fileType, fileName: file.fileName },
       ]);
     }
   };
@@ -95,10 +95,10 @@ function ListItem({ file }: FileProps) {
   const [borderColor, setBorderColor] = useState<string>(colors.primary);
 
   useEffect(() => {
-    if (selectedFiles.some(e => e.filePath === file.filePath)) {
+    if (selectedFiles.some(e => e.id === file.id)) {
       setBorderColor(colors.secondary);
     }
-  }, [selectedFiles, file.filePath]);
+  }, [selectedFiles, file.id]);
 
   return (
     <View style={{ ...listStyles.container, borderColor }} testID="file-list">
@@ -120,12 +120,12 @@ function BlockItem({ file }: FileProps) {
   const [borderColor, setBorderColor] = useState<string>(colors.primary);
 
   useEffect(() => {
-    if (selectedFiles.some(e => e.filePath === file.filePath)) {
+    if (selectedFiles.some(e => e.id === file.id)) {
       setBorderColor(colors.secondary);
     } else {
       setBorderColor(colors.primary);
     }
-  }, [selectedFiles, file.filePath]);
+  }, [selectedFiles, file.id]);
 
   return (
     <View style={{ ...blockStyles.container, borderColor }} testID="file-block">

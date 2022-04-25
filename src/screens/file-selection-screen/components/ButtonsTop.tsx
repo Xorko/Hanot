@@ -38,8 +38,8 @@ function ButtonsTop() {
     }
 
     const filesToSelect = fileInfo.map(file => ({
+      id: file.id,
       fileName: file.fileName,
-      filePath: file.filePath,
       type: fileType,
     }));
 

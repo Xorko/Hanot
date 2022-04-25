@@ -84,10 +84,10 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
 
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
-    if (file.image && file.filePath) {
+    if (file.image && file.id) {
       // Sets the image source in the store
       dispatch(setCurrentAnnotatedImageSrc(file.image));
-      dispatch(setCurrentAnnotatedImageFilePath(file.filePath));
+      dispatch(setCurrentAnnotatedImageFilePath(file.id));
 
       // Retrieves the image size and sets it in the state
       Image.getSize(file.image, (width, height) => {
@@ -96,7 +96,7 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
         dispatch(setCurrentAnnotatedImageWidth(size.width));
       });
     }
-  }, [dispatch, file.filePath, file.image]);
+  }, [dispatch, file.id, file.image]);
 
   return (
     <SafeAreaView style={styles.screen}>

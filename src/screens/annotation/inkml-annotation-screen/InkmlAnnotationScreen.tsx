@@ -61,7 +61,7 @@ function InkmlAnnotationScreen({ route }: InkMLAnnotationScreenPropsType) {
     const inkml = {
       words: [word],
     };
-    dispatch(addAnnotatedInkml({ filePath: file.filePath, content: inkml }));
+    dispatch(addAnnotatedInkml({ id: file.id, content: inkml }));
 
     Toast.show({
       type: 'success',

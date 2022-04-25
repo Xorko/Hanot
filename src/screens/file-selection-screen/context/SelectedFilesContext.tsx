@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 import { FileType } from '../types/files-type';
 
 type SelectedFileType = {
-  filePath: string;
+  id: string;
   fileName: string;
   type: FileType;
 };

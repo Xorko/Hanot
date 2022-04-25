@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React from 'react';
 import { Platform } from 'react-native';
 import DocumentPicker, {
@@ -199,12 +200,9 @@ const parseInkML = (
 ): InkMLFile => {
   const parsed = constructData(parseXML(fileContent).ink);
   return {
+    id: nanoid(),
     content: parsed,
     fileName: pickedFiles![index].name,
-    filePath:
-      Platform.OS === 'web'
-        ? (pickedFiles![index] as File).webkitRelativePath // WARNING: this is only supported on webkit browsers (e.g. Chrome)
-        : (pickedFiles![index] as DocumentPickerResponse).uri,
   };
 };
 
@@ -223,12 +221,9 @@ const encodeImage = (
 ): ImageFile => {
   const image = 'data:' + pickedFiles![index].type + ';base64,' + fileContent;
   return {
+    id: nanoid(),
     image,
     fileName: pickedFiles![index].name,
-    filePath:
-      Platform.OS === 'web'
-        ? (pickedFiles![index] as File).webkitRelativePath
-        : (pickedFiles![index] as DocumentPickerResponse).uri,
   };
 };
 

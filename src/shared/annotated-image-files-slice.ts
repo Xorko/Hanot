@@ -18,7 +18,7 @@ const annotatedImagesSlice = createSlice({
     },
     addAnnotatedImage: (state, action: PayloadAction<annotatedImage>) => {
       const imageIndex = state.annotatedImages.findIndex(
-        e => e.filePath === action.payload.filePath,
+        e => e.id === action.payload.id,
       );
       if (imageIndex === -1) {
         state.annotatedImages.push(action.payload);

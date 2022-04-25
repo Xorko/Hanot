@@ -17,13 +17,11 @@ function ExportButton() {
   const { selectedFiles } = useSelectedFiles();
 
   const exportImage = (
-    filePath: string,
+    id: string,
     fileName: string,
     multipleFiles: boolean,
   ) => {
-    const imageIndex = annotatedImages.findIndex(
-      image => image.filePath === filePath,
-    );
+    const imageIndex = annotatedImages.findIndex(image => image.id === id);
     if (imageIndex !== -1) {
       const imageToExport = annotatedImages[imageIndex];
       const fileContent = createImageExport(
@@ -39,13 +37,11 @@ function ExportButton() {
   };
 
   const exportInkml = (
-    filePath: string,
+    id: string,
     fileName: string,
     multipleFiles: boolean,
   ) => {
-    const inkmlIndex = selectedFiles.findIndex(
-      file => file.filePath === filePath,
-    );
+    const inkmlIndex = selectedFiles.findIndex(file => file.id === id);
 
     if (inkmlIndex !== -1) {
       const inkmlToExport = annotatedInkml[inkmlIndex];
@@ -67,10 +63,10 @@ function ExportButton() {
       if (file.type === fileType) {
         switch (fileType) {
           case 'image':
-            exportImage(file.filePath, file.fileName, multipleFiles);
+            exportImage(file.id, file.fileName, multipleFiles);
             break;
           case 'inkml':
-            exportInkml(file.filePath, file.fileName, multipleFiles);
+            exportInkml(file.id, file.fileName, multipleFiles);
             break;
           default:
             break;

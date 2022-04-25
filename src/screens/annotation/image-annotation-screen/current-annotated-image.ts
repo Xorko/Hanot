@@ -8,7 +8,7 @@ export interface CurrentAnnotatedImageState {
 
 const initialState: CurrentAnnotatedImageState = {
   annotatedImage: {
-    filePath: '',
+    id: '',
     imageSource: '',
     imagePixels: [],
     imageCrops: [],
@@ -33,7 +33,7 @@ const currentAnnotatedImageSlice = createSlice({
       state,
       action: PayloadAction<string>,
     ) => {
-      state.annotatedImage.filePath = action.payload;
+      state.annotatedImage.id = action.payload;
     },
     setCurrentAnnotatedImagePixels: (state, action: PayloadAction<Pixel[]>) => {
       state.annotatedImage.imagePixels = action.payload;

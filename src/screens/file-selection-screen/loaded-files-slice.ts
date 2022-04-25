@@ -29,9 +29,7 @@ const loadedFilesSlice = createSlice({
     },
     removeTextFiles: (state, action: PayloadAction<any[]>) => {
       action.payload.forEach(file => {
-        const index = state.textFileInfo.findIndex(
-          f => f.filePath === file.filePath,
-        );
+        const index = state.textFileInfo.findIndex(f => f.id === file.id);
         if (index !== -1) {
           state.textFileInfo.splice(index, 1);
         }
@@ -51,9 +49,7 @@ const loadedFilesSlice = createSlice({
     },
     removeImageFiles: (state, action: PayloadAction<any[]>) => {
       action.payload.forEach(file => {
-        const index = state.imageFileInfo.findIndex(
-          f => f.filePath === file.filePath,
-        );
+        const index = state.imageFileInfo.findIndex(f => f.id === file.id);
         if (index !== -1) {
           state.imageFileInfo.splice(index, 1);
         }
