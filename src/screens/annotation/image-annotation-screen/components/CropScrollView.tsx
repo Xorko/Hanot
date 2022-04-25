@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { addAnnotatedImage } from '../../../../shared/annotated-image-files-slice';
@@ -45,7 +45,7 @@ const CropScrollView = () => {
   // State
   // ===========================================================================
 
-  const isAnnotated = useRef<boolean>(false);
+  const [isAnnotated, setIsAnnotated] = useState<boolean>(false);
 
   //===========================================================================
   // Variables
@@ -162,21 +162,23 @@ const CropScrollView = () => {
       // Updates the pixels of the image in the redux store
       dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
 
+      setIsAnnotated(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isAnnotated) {
+      // If the image is annotated, adds it to the annotated image files
+      dispatch(addAnnotatedImage(currentImage));
+
       // Shows a toast message to inform the user that the image has been annotated
       Toast.show({
         type: 'success',
         text1: 'Image successfully annotated',
         visibilityTime: 1000,
       });
-
-      isAnnotated.current = true;
     }
-  };
-
-  if (isAnnotated.current) {
-    // If the image is annotated, adds it to the annotated image files
-    dispatch(addAnnotatedImage(currentImage));
-  }
+  }, [currentImage, dispatch, isAnnotated]);
 
   //===========================================================================
   // Render
