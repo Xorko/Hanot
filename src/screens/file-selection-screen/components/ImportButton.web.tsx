@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useAppDispatch } from '../../../stores/hooks';
@@ -7,6 +8,7 @@ import { handleFileImport } from '../utils/import-utils';
 
 const ImportButton = () => {
   const { fileType } = useFileType();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -35,6 +37,10 @@ const ImportButton = () => {
         break;
     }
 
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+
     addFiles(files);
   };
 
@@ -47,6 +53,7 @@ const ImportButton = () => {
         type="file"
         multiple
         id="file-input"
+        ref={inputRef}
         style={inputStyle}
         onChange={event => handlePress(event)}
       />
