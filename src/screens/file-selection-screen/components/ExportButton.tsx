@@ -14,7 +14,7 @@ function ExportButton() {
   const { fileType } = useFileType();
   const { annotatedImages } = useAppSelector(state => state.annotatedImages);
   const { annotatedInkml } = useAppSelector(state => state.annotatedInkml);
-  const { selectedFiles } = useSelectedFiles();
+  const { selectedFiles, setSelectedFiles } = useSelectedFiles();
 
   const exportImage = (
     id: string,
@@ -72,6 +72,7 @@ function ExportButton() {
             break;
         }
       }
+      setSelectedFiles([]);
     });
   };
 
