@@ -203,7 +203,7 @@ const parseInkML = (
     fileName: pickedFiles![index].name,
     filePath:
       Platform.OS === 'web'
-        ? (pickedFiles![index] as File).webkitRelativePath
+        ? (pickedFiles![index] as File).webkitRelativePath // WARNING: this is only supported on webkit browsers (e.g. Chrome)
         : (pickedFiles![index] as DocumentPickerResponse).uri,
   };
 };
