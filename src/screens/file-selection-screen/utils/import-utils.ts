@@ -100,8 +100,8 @@ const selectFiles = async (files?: FileList, type?: FileType) => {
  * @param file The file to read
  * @returns The content of the file as text
  */
-const readTextFileMobile = (file: DocumentPickerResponse) => {
-  return RNFS.readFile(file.uri, 'utf8') as string;
+const readTextFileMobile = (file: DocumentPickerResponse): Promise<string> => {
+  return RNFS.readFile(file.uri, 'utf8');
 };
 
 /**
@@ -129,8 +129,8 @@ const readTextFile = (file: DocumentPickerResponse | File) =>
  * @param file The image file to read
  * @returns The image file in base64
  */
-const readImageFileMobile = (file: DocumentPickerResponse) => {
-  return RNFS.readFile(file.uri, 'base64') as string;
+const readImageFileMobile = (file: DocumentPickerResponse): Promise<string> => {
+  return RNFS.readFile(file.uri, 'base64');
 };
 
 /**
