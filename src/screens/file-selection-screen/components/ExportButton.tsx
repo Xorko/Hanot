@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { exportInk } from '../../../core/output';
 import { builder } from '../../../lib/fast-xml-parser';
@@ -8,6 +9,7 @@ import {
   callFunctionWithPermission,
   createImageExport,
   exportFile,
+  shareToFiles,
 } from '../utils/export-utils';
 
 function ExportButton() {
@@ -57,7 +59,7 @@ function ExportButton() {
     }
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
     const multipleFiles = selectedFiles.length > 1;
     selectedFiles.forEach(file => {
       if (file.type === fileType) {
@@ -68,12 +70,29 @@ function ExportButton() {
           case 'inkml':
             exportInkml(file.id, file.fileName, multipleFiles);
             break;
-          default:
-            break;
         }
       }
-      setSelectedFiles([]);
     });
+    setSelectedFiles([]);
+
+    // It is necessary to ask the user where to save the files so he can access
+    // it in the Files app (at least since iOS 15).
+    //
+    // https://github.com/itinance/react-native-fs/issues/1051#issuecomment-965481463
+    // https://github.com/itinance/react-native-fs/issues/897#issuecomment-1024313510
+    if (Platform.OS === 'ios') {
+      const RNFS = (await import('react-native-fs')).default;
+
+      const filePath = (
+        await RNFS.readDir(`${RNFS.TemporaryDirectoryPath}/annotated`)
+      ).map(item => item.path);
+
+      await shareToFiles(filePath);
+
+      filePath.forEach(path => {
+        RNFS.unlink(path);
+      });
+    }
   };
 
   return (

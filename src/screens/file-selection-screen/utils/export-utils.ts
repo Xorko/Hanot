@@ -11,6 +11,25 @@ const { PERMISSIONS, request, RESULTS } =
   Platform.OS !== 'web' && require('react-native-permissions');
 
 /**
+ * Open the iOS file share prompt to export files to the Files app
+ * @param files Array of filepaths of the files to share
+ */
+export const shareToFiles = async (files: string[]) => {
+  const Share = (await import('react-native-share')).default;
+
+  const shareOptions = {
+    title: 'Save to files',
+    failOnCancel: false,
+    saveToFiles: true,
+    urls: [...files], // base64 with mimeType or path to local file
+  };
+
+  try {
+    await Share.open(shareOptions);
+  } catch (err) {} // Ignore errors
+};
+
+/**
  * Creates the content of the file to be exported
  * @param pixels The annotated pixels
  * @param imageWidth The width of the image
@@ -33,11 +52,12 @@ export const createImageExport = (pixels: Pixel[], imageWidth: number) => {
 /**
  * Asks permission to write a file for different platform
  */
-const platformPermission = () => {
+const requestWritePermission = () => {
   try {
     switch (Platform.OS) {
       case 'ios':
-        return request(PERMISSIONS.IOS.MEDIA_LIBRARY);
+        // No need to ask permission on iOS
+        return RESULTS.GRANTED;
       case 'android':
         return request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
 
@@ -55,7 +75,7 @@ const platformPermission = () => {
  */
 export const callFunctionWithPermission = async (callback: () => any) => {
   try {
-    const permission = await platformPermission();
+    const permission = await requestWritePermission();
     switch (permission) {
       case RESULTS.GRANTED:
         callback();
@@ -91,11 +111,10 @@ export const exportFile = async (
   fileName: string,
   mutiple?: boolean,
 ) => {
-  const path =
+  const outputPath =
     Platform.OS === 'ios'
-      ? RNFS.DocumentDirectoryPath
-      : RNFS.ExternalDirectoryPath;
-  const outputPath = `${path}/Documents/Hanot`;
+      ? `${RNFS.TemporaryDirectoryPath}/annotated`
+      : `${RNFS.ExternalDirectoryPath}/Documents/Hanot`;
   createDirectory(outputPath);
   let newFileName = fileName;
 
