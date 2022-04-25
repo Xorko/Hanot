@@ -219,7 +219,10 @@ const encodeImage = (
   fileContent: string,
   index: number,
 ): ImageFile => {
-  const image = 'data:' + pickedFiles![index].type + ';base64,' + fileContent;
+  const image =
+    Platform.OS === 'web'
+      ? fileContent
+      : `data:${pickedFiles![index].type};base64,${fileContent}`;
   return {
     id: nanoid(),
     image,
