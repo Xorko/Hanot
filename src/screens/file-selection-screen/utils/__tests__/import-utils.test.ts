@@ -1,4 +1,4 @@
-import { handleFileImport } from '../file-utils';
+import { handleFileImport } from '../import-utils';
 
 afterEach(() => {
   jest.clearAllMocks();

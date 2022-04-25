@@ -3,7 +3,7 @@ import IconButton from '../../../components/IconButton';
 import { useAppDispatch } from '../../../stores/hooks';
 import { useFileType } from '../context/FileTypeContext';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
-import { handleFileImport } from '../utils/file-utils';
+import { handleFileImport } from '../utils/import-utils';
 
 const ImportButton = () => {
   const { fileType } = useFileType();
