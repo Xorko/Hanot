@@ -26,6 +26,7 @@ import {
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
 import { Size } from './types/image-annotation-types';
+import { getImagePixels } from './utils/pixel-utils.web';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -96,6 +97,17 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
         setTrueImageSize(size);
         dispatch(setCurrentAnnotatedImageWidth(size.width));
       });
+
+      Platform.OS === 'web' &&
+        getImagePixels(file.image, (err, pixels) => {
+          if (err) {
+            console.error(err);
+          } else {
+            dispatch(setCurrentAnnotatedImagePixels(pixels));
+
+            setPixelRetrieved(true);
+          }
+        });
     }
   }, [dispatch, file.id, file.image]);
 
