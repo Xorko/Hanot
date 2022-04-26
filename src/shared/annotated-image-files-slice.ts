@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { annotatedImage } from '../screens/annotation/image-annotation-screen/types/store-state-types';
 
-export interface AnnotatedImagesState {
+type AnnotatedImagesState = {
   annotatedImages: annotatedImage[];
-}
+};
 
 const initialState: AnnotatedImagesState = {
   annotatedImages: [],

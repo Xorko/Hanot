@@ -3,7 +3,7 @@ import { Circle } from 'react-native-svg';
 import * as Dot from '../../../../core/dot';
 import * as Trace from '../../../../core/trace';
 
-interface HitBoxProps {
+type HitBoxProps = {
   // the dot to associate to the hitbox
   dot: Dot.Type;
   dimensions: {
@@ -14,7 +14,8 @@ interface HitBoxProps {
   handlePressHitBox: (indexOfTrace: number) => void;
   indexOfTrace: number;
   editLetterTraces: (traces: Trace.Type[]) => void;
-}
+};
+
 const Hitbox = ({
   dot,
   indexOfTrace,

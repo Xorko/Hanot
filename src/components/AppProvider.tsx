@@ -4,9 +4,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store } from '../stores/store';
 
-interface AppProvidersProps {
+type AppProvidersProps = {
   children: React.ReactNode;
-}
+};
 
 function AppProviders({ children }: AppProvidersProps) {
   return (

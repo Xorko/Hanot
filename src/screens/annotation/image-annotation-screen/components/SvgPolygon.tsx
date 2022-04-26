@@ -1,10 +1,10 @@
 import React from 'react';
 import { Polygon } from 'react-native-svg';
-import { Point } from '../types/image-annotation-types';
+import type { Point } from '../types/image-annotation-types';
 
-interface SvgPolygonPropsType {
+type SvgPolygonPropsType = {
   path: Point[];
-}
+};
 
 const SvgPolygon = ({ path }: SvgPolygonPropsType) => {
   const points = path.map(({ x, y }) => `${x},${y}`).join(' ');

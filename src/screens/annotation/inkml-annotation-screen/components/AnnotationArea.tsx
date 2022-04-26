@@ -8,14 +8,15 @@ import * as TraceGroup from '../../../../core/tracegroup';
 import * as Word from '../../../../core/word';
 import { RootState } from '../../../../stores/store';
 import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
-import { Dimension } from '../types/annotation-types';
+import type { Dimension } from '../types/annotation-types';
 import Hitbox from './Hitbox';
 import Trace from './Trace';
 
-interface AnnotationAreaProps {
+type AnnotationAreaProps = {
   editLetterTraces: (traces: TraceData.Type[]) => void;
   sizeComponent: { width: number; height: number };
-}
+};
+
 export const AnnotationArea = ({
   editLetterTraces,
   sizeComponent,

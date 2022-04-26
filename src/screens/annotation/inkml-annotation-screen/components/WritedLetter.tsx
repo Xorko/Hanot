@@ -3,10 +3,10 @@ import * as Trace from '../../../../core/trace';
 import { Dimension } from '../types/annotation-types';
 import { getMaxValue, getMinValue } from '../utils/letter-utils';
 
-interface WritedLetterProps {
+type WritedLetterProps = {
   traces: Trace.Type[];
   sizeComponent: { width: number; height: number };
-}
+};
 
 // const dimensions : Dimension;
 

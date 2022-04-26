@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { CurrentAnnotatedImageState } from '../current-annotated-image';
-import { Point, Size } from '../types/image-annotation-types';
+import type { Point, Size } from '../types/image-annotation-types';
 import { getExtremePointsOfPath } from '../utils/crop-utils';
 
 type CropPropsType = {

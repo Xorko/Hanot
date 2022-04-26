@@ -2,7 +2,7 @@ import { GestureResponderEvent } from 'react-native';
 import { Polyline } from 'react-native-svg';
 import * as TraceData from '../../../../core/trace';
 
-interface TraceProps {
+type TraceProps = {
   // The traces to draw on the SVG
   parsedDots: TraceData.Type[];
   dimensions: {
@@ -13,7 +13,7 @@ interface TraceProps {
   annotated: boolean;
   handlePress: (e: any, idxTrac: number) => void;
   editLetterTraces: (traces: TraceData.Type[]) => void;
-}
+};
 
 const Trace = ({
   parsedDots,

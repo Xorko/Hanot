@@ -6,9 +6,9 @@ import { AnnotationArea } from './AnnotationArea';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-interface WordProps {
+type WordProps = {
   editLetterTraces: (traces: Trace.Type[]) => void;
-}
+};
 
 function Word({ editLetterTraces }: WordProps) {
   const [sizeView, setSizeView] = React.useState({ width: 0, height: 0 });

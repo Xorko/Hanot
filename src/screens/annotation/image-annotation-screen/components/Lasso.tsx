@@ -8,7 +8,7 @@ import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
 } from '../current-annotated-image';
-import { Point } from '../types/image-annotation-types';
+import type { Point } from '../types/image-annotation-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 import LassoGeometry from './LassoGeometry';
 

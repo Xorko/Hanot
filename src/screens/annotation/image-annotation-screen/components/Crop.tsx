@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 import { useAppSelector } from '../../../../stores/hooks';
-import { CurrentAnnotatedImageState } from '../current-annotated-image';
-import { Point, Size } from '../types/image-annotation-types';
+import type { CurrentAnnotatedImageState } from '../current-annotated-image';
+import type { Point, Size } from '../types/image-annotation-types';
 import { getScript } from '../utils/crop-utils';
 
-interface CropPropsType {
+type CropPropsType = {
   path: Point[];
   size: Size;
-}
+};
 
 /* A crop of the image */
 const Crop = ({ path, size }: CropPropsType) => {

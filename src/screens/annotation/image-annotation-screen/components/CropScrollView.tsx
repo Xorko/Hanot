@@ -11,7 +11,7 @@ import {
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import { Crop, Pixel, Point } from '../types/image-annotation-types';
+import type { Crop, Pixel, Point } from '../types/image-annotation-types';
 import { getAllPointsInPath } from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
 import CropContainerButtons from './CropContainerButtons';

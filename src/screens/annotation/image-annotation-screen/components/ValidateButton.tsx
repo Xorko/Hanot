@@ -1,9 +1,9 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-interface ValidateButtonPropsType {
+type ValidateButtonPropsType = {
   validateCrop: () => void;
-}
+};
 
 const ValidateButton = ({ validateCrop }: ValidateButtonPropsType) => {
   return (

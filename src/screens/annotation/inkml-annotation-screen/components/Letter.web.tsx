@@ -14,13 +14,13 @@ import WritedLetter from './WritedLetter';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-interface LetterProps {
+type LetterProps = {
   editLetterAnnotation: (annotation: string, index: number) => void;
   deleteTraceGroups: (index: number) => void;
   traceGroup: TraceGroup.Type;
   index: number;
   selectedLetter: Trace.Type[];
-}
+};
 
 function Letter({
   editLetterAnnotation,

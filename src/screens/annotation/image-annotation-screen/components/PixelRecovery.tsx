@@ -1,5 +1,5 @@
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import { Size } from '../types/image-annotation-types';
+import type { Size } from '../types/image-annotation-types';
 import { getScript } from '../utils/pixels-utils';
 
 type PixelRecoveryPropsType = {

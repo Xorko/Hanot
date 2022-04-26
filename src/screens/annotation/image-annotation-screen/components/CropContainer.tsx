@@ -12,7 +12,7 @@ import {
 import { useAppDispatch } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
-import { Point, Size } from '../types/image-annotation-types';
+import type { Point, Size } from '../types/image-annotation-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -22,12 +22,12 @@ import Crop from './Crop';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-interface CropContainerPropsType {
+type CropContainerPropsType = {
   path: Point[];
   selectCrop: () => void;
   selected: boolean;
   index: number;
-}
+};
 
 const CropContainer = ({
   path,

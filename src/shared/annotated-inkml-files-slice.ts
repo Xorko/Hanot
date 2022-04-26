@@ -6,9 +6,9 @@ type AnnotatedInkml = {
   content: InkML.Type;
 };
 
-export interface AnnotatedInkmlState {
+type AnnotatedInkmlState = {
   annotatedInkml: AnnotatedInkml[];
-}
+};
 
 const initialState: AnnotatedInkmlState = {
   annotatedInkml: [],

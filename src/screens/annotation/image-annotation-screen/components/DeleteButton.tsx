@@ -1,9 +1,9 @@
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-interface DeleteButtonPropsType {
+type DeleteButtonPropsType = {
   deleteCrop: () => void;
-}
+};
 
 const DeleteButton = ({ deleteCrop }: DeleteButtonPropsType) => {
   return (

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { Rect } from 'react-native-svg';
-import { Point, Size } from '../types/image-annotation-types';
+import type { Point, Size } from '../types/image-annotation-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 
-interface SvgPointPropsType {
+type SvgPointPropsType = {
   point: Point;
   idx: number;
   onPress: (idx: number) => void;
@@ -12,7 +12,7 @@ interface SvgPointPropsType {
   updatePointAtIndex: (newPoint: Point) => void;
   updateCrop: () => void;
   containerSize: Size;
-}
+};
 
 const SvgPoint = ({
   point,

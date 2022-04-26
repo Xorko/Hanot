@@ -14,9 +14,9 @@ import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
 import { limitStringLength } from '../utils/string-utils';
 
-interface FileProps {
+type FileProps = {
   file: InkMLFile | ImageFile;
-}
+};
 
 function File({ file }: FileProps) {
   const { displayMode } = useDisplayMode();

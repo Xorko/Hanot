@@ -14,9 +14,9 @@ import {
 } from '../current-word-slice';
 import Letter from './Letter';
 
-interface LettersMenuProps {
+type LettersMenuProps = {
   selectedLetter: Trace.Type[];
-}
+};
 
 const windowHeight = Dimensions.get('window').height;
 
