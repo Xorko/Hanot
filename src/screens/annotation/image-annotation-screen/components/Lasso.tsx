@@ -3,6 +3,7 @@ import { Platform, Pressable } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
+import { useLassoModifiedContext } from '../context/LassoModifiedContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
@@ -31,6 +32,8 @@ function Lasso() {
     useCurrentSelectedCropContext();
 
   const { displayedImageSize } = useDisplayedImageSizeContext();
+
+  const { lassoModified, setLassoModified } = useLassoModifiedContext();
 
   //===========================================================================
   // State
@@ -103,7 +106,12 @@ function Lasso() {
       // Add the press position to the path
       setPath([...path, pressPosition]);
     } else {
-      reset();
+      if (!lassoModified) {
+        // If the lasso is not modified, it means that user clicked to reset the lasso
+        reset();
+      }
+
+      setLassoModified(false);
     }
   };
 
