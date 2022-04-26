@@ -21,7 +21,7 @@ export const shareToFiles = async (files: string[]) => {
     title: 'Save to files',
     failOnCancel: false,
     saveToFiles: true,
-    urls: [...files], // base64 with mimeType or path to local file
+    urls: files, // base64 with mimeType or path to local file
   };
 
   try {
