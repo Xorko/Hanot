@@ -3,16 +3,18 @@ import { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
+  Platform,
   SafeAreaView,
   StyleSheet,
   View,
 } from 'react-native';
-import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import { WebViewMessageEvent } from 'react-native-webview';
 import { useAppDispatch } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
 import AnnotationContainer from './components/AnnotationContainer';
 import CropScrollView from './components/CropScrollView';
 import HomeButton from './components/HomeButton';
+import PixelRecovery from './components/PixelRecovery';
 import ProgressCircle from './components/ProgressCircle';
 import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
@@ -24,7 +26,6 @@ import {
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
 import { Size } from './types/image-annotation-types';
-import { getScript } from './utils/pixels-utils';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -102,14 +103,13 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
     <SafeAreaView style={styles.screen}>
       {trueImageSize && !pixelRetrieved && file.image && (
         <View style={styles.backgroundCanvas}>
-          <WebView
-            originWhitelist={['*']}
-            source={{
-              html: `<canvas width="${trueImageSize.width}" height="${trueImageSize.height}" />`,
-            }}
-            onMessage={handleWebviewMessages}
-            injectedJavaScript={getScript(file.image, trueImageSize)}
-          />
+          {Platform.OS !== 'web' && (
+            <PixelRecovery
+              imageSize={trueImageSize}
+              imageSrc={file.image}
+              handleWebviewMessages={handleWebviewMessages}
+            />
+          )}
         </View>
       )}
       <View style={styles.annotation}>
