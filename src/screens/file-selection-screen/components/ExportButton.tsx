@@ -83,13 +83,13 @@ function ExportButton() {
     if (Platform.OS === 'ios') {
       const RNFS = (await import('react-native-fs')).default;
 
-      const filePath = (
+      const filePaths = (
         await RNFS.readDir(`${RNFS.TemporaryDirectoryPath}/annotated`)
       ).map(item => item.path);
 
-      await shareToFiles(filePath);
+      await shareToFiles(filePaths);
 
-      filePath.forEach(path => {
+      filePaths.forEach(path => {
         RNFS.unlink(path);
       });
     }
