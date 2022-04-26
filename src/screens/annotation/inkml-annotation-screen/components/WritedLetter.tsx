@@ -3,17 +3,14 @@ import * as Trace from '../../../../core/trace';
 import { Dimension } from '../types/annotation-types';
 import { getMaxValue, getMinValue } from '../utils/letter-utils';
 
-interface WrittedLetterProps {
+interface WritedLetterProps {
   traces: Trace.Type[];
   sizeComponent: { width: number; height: number };
 }
 
 // const dimensions : Dimension;
 
-export const WrittedLetter = ({
-  traces,
-  sizeComponent,
-}: WrittedLetterProps) => {
+const WritedLetter = ({ traces, sizeComponent }: WritedLetterProps) => {
   /**
    * Computing size of current letter
    */
@@ -58,3 +55,5 @@ export const WrittedLetter = ({
     </>
   );
 };
+
+export default WritedLetter;

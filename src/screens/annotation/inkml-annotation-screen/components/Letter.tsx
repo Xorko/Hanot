@@ -10,7 +10,7 @@ import {
 import Svg from 'react-native-svg';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import { WrittedLetter } from './WritedLetter';
+import WritedLetter from './WritedLetter';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -41,7 +41,7 @@ function Letter({
   return (
     <View style={styles.box}>
       <Svg style={styles.letterWriting} onLayout={changeSize}>
-        <WrittedLetter traces={traceGroup.traces} sizeComponent={sizeView} />
+        <WritedLetter traces={traceGroup.traces} sizeComponent={sizeView} />
       </Svg>
       <View style={styles.letterTitle}>
         <TextInput
