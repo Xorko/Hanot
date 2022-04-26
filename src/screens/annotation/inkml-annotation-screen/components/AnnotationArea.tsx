@@ -123,9 +123,7 @@ export const AnnotationArea = ({
       const traceGroups = currentWord.tracegroups;
 
       if (traceGroups.length === 0) {
-        throw new Error(
-          'AnnotationArea: handlePressHitBox --  error box empty',
-        );
+        console.error('AnnotationArea: handlePressHitBox --  error box empty');
       } else {
         const defaultTracesCopy = cloneDeep(defaultTraces);
         const leftTrace = [...defaultTracesCopy[idxTrace].dots];
