@@ -63,14 +63,15 @@ const AnnotationArea = () => {
     <View style={styles.container} onLayout={handleContainerLayout}>
       {displayedImageSize && currentAnnotatedImage.imageSource.length > 0 && (
         <>
-          <Image
-            source={{ uri: currentAnnotatedImage.imageSource }}
-            style={{
-              ...styles.image,
-              width: displayedImageSize.width,
-              height: displayedImageSize.height,
-            }}
-          />
+          <View style={styles.image}>
+            <Image
+              source={{ uri: currentAnnotatedImage.imageSource }}
+              style={{
+                width: displayedImageSize.width,
+                height: displayedImageSize.height,
+              }}
+            />
+          </View>
           <LassoModifiedContextProvider>
             <Lasso />
           </LassoModifiedContextProvider>
