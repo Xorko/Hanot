@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  GestureResponderEvent,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import Svg from 'react-native-svg';
+import { Platform, Pressable } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
@@ -13,14 +8,8 @@ import {
   setCurrentAnnotatedImageCropAtIndex,
 } from '../current-annotated-image';
 import { Point } from '../types/image-annotation-types';
-import {
-  getPolygonPoints,
-  getPolylinePoints,
-  roundPointCoordinates,
-} from '../utils/crop-utils';
-import SvgPoint from './SvgPoint';
-import SvgPolygon from './SvgPolygon';
-import SvgPolyline from './SvgPolyline';
+import { roundPointCoordinates } from '../utils/crop-utils';
+import LassoGeometry from './LassoGeometry';
 
 function Lasso() {
   //===========================================================================
@@ -91,19 +80,25 @@ function Lasso() {
    * Handles the users presses on the lasso region
    * If the path is closed, it will reset the selection
    * Else it will add the pressed position to the path
-   * @param {GestureResponderEvent} e - event
+   * @param event Mouse event that triggered the press
    */
-  const handlePress = (e: GestureResponderEvent) => {
+  const handlePress = (e: any) => {
     if (!closedPath) {
       if (!inCropCreation) {
         setInCropCreation(true);
       }
 
       // Gets the position of the press, and rounds its points
-      const pressPosition = roundPointCoordinates({
-        x: e.nativeEvent.locationX,
-        y: e.nativeEvent.locationY,
-      });
+      const pressPosition =
+        Platform.OS === 'web'
+          ? roundPointCoordinates({
+              x: e.nativeEvent.layerX,
+              y: e.nativeEvent.layerY,
+            })
+          : roundPointCoordinates({
+              x: e.nativeEvent.locationX,
+              y: e.nativeEvent.locationY,
+            });
 
       // Add the press position to the path
       setPath([...path, pressPosition]);
@@ -195,52 +190,21 @@ function Lasso() {
   return (
     <>
       {displayedImageSize && (
-        <TouchableWithoutFeedback onPress={handlePress}>
-          <Svg
-            style={{
-              ...styles.pressableArea,
-              width: displayedImageSize.width,
-              height: displayedImageSize.height,
-            }}>
-            {inCropCreation && !!path.length && (
-              <>
-                <SvgPolygon
-                  path={getPolygonPoints(displayedImageSize, path, closedPath)}
-                />
-                <SvgPolyline
-                  path={getPolylinePoints(path, closedPath)}
-                  closedPath={closedPath}
-                  updatePath={updatePath}
-                  updateCrop={updateCrop}
-                  containerSize={displayedImageSize}
-                />
-                {path.map(({ x, y }, idx) => (
-                  <SvgPoint
-                    key={idx}
-                    point={{ x, y }}
-                    idx={idx}
-                    onPress={handlePointPress}
-                    closedPath={closedPath}
-                    updatePointAtIndex={(point: Point) =>
-                      updatePointAtIndex(idx, point)
-                    }
-                    updateCrop={() => updateCrop()}
-                    containerSize={displayedImageSize}
-                  />
-                ))}
-              </>
-            )}
-          </Svg>
-        </TouchableWithoutFeedback>
+        <Pressable onPress={handlePress}>
+          <LassoGeometry
+            path={path}
+            displayedImageSize={displayedImageSize}
+            inCropCreation={inCropCreation}
+            closedPath={closedPath}
+            updatePath={updatePath}
+            updateCrop={updateCrop}
+            updatePointAtIndex={updatePointAtIndex}
+            handlePointPress={handlePointPress}
+          />
+        </Pressable>
       )}
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  pressableArea: {
-    borderWidth: 1,
-  },
-});
 
 export default Lasso;
