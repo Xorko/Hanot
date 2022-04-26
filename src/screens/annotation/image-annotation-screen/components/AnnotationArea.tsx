@@ -1,6 +1,7 @@
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
+import { LassoModifiedContextProvider } from '../context/LassoModifiedContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import Lasso from './Lasso';
 
@@ -70,7 +71,9 @@ const AnnotationArea = () => {
               height: displayedImageSize.height,
             }}
           />
-          <Lasso />
+          <LassoModifiedContextProvider>
+            <Lasso />
+          </LassoModifiedContextProvider>
         </>
       )}
     </View>
