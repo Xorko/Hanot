@@ -22,17 +22,17 @@ const SvgPolyline = ({
   updateCrop,
   containerSize,
 }: SvgPolylinePropsType) => {
-  const [lastDragPosition, setLastDragPosition] = useState<Point>();
+  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
 
   /**
    * Allow or deny the dragging of the polyline
    * @param e The event that is triggered when the user tries to drag the point
    * @returns True if the point can be dragged, false otherwise
    */
-  const handleStartShouldSetResponder = (e: GestureResponderEvent) => {
-    // A polyline can only be dragged if it is not closed
+  const startDrag = (e: GestureResponderEvent) => {
+    // A polyline can only be dragged if it is closed
     if (closedPath) {
-      setLastDragPosition({
+      setPreviousDragPosition({
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
       });
@@ -46,9 +46,9 @@ const SvgPolyline = ({
    * Handle the dragging of the polyline
    * @param e The event that is triggered when the user drags the point
    */
-  const handleResponderMove = (e: GestureResponderEvent) => {
-    if (lastDragPosition) {
-      const { x: lastX, y: lastY } = lastDragPosition;
+  const drag = (e: GestureResponderEvent) => {
+    if (previousDragPosition) {
+      const { x: lastX, y: lastY } = previousDragPosition;
       const { x: newX, y: newY } = {
         x: e.nativeEvent.locationX,
         y: e.nativeEvent.locationY,
@@ -74,7 +74,7 @@ const SvgPolyline = ({
         path.pop();
         updatePath(path);
       } else {
-        setLastDragPosition({ x: newX, y: newY });
+        setPreviousDragPosition({ x: newX, y: newY });
 
         newPath.pop();
         updatePath(newPath);
@@ -91,8 +91,8 @@ const SvgPolyline = ({
       strokeWidth="1.5"
       strokeDasharray="5"
       strokeDashoffset="0"
-      onStartShouldSetResponder={handleStartShouldSetResponder}
-      onResponderMove={handleResponderMove}
+      onStartShouldSetResponder={startDrag}
+      onResponderMove={drag}
       onResponderEnd={updateCrop}
     />
   );

@@ -50,7 +50,7 @@ const SvgPoint = ({
    * @param e The event that is triggered when the user tries to drag the point
    * @returns True if the point can be dragged, false otherwise
    */
-  const handleStartShouldSetResponder = (e: GestureResponderEvent) => {
+  const shouldDragStart = (e: GestureResponderEvent) => {
     setPreviousDragPosition({
       x: e.nativeEvent.locationX,
       y: e.nativeEvent.locationY,
@@ -61,7 +61,7 @@ const SvgPoint = ({
   /**
    * Called if the drag is allowed
    */
-  const handleResponderGrant = () => {
+  const startDrag = () => {
     if (!closedPath) {
       // If the path is not closed, the point is not dragged but pressed
       onPress(idx);
@@ -72,7 +72,7 @@ const SvgPoint = ({
    * Handle the dragging of the point
    * @param e The event that is triggered when the user drags the point
    */
-  const handleResponderMove = (e: GestureResponderEvent) => {
+  const drag = (e: GestureResponderEvent) => {
     if (previousDragPosition) {
       const { x: prevX, y: prevY } = previousDragPosition;
       const { x: newX, y: newY } = {
@@ -109,9 +109,9 @@ const SvgPoint = ({
       fill="rgba(0, 0, 0, 0)"
       stroke="white"
       strokeWidth="1.25"
-      onStartShouldSetResponder={handleStartShouldSetResponder}
-      onResponderGrant={handleResponderGrant}
-      onResponderMove={handleResponderMove}
+      onStartShouldSetResponder={shouldDragStart}
+      onResponderGrant={startDrag}
+      onResponderMove={drag}
       onResponderEnd={updateCrop}
     />
   );
