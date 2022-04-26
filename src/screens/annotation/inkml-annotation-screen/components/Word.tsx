@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import * as Trace from '../../../../core/trace';
-import { AnnotationArea } from './AnnotationArea';
+import AnnotationArea from './AnnotationArea';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

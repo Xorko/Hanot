@@ -16,8 +16,7 @@ type AnnotationAreaProps = {
   editLetterTraces: (traces: TraceData.Type[]) => void;
   sizeComponent: { width: number; height: number };
 };
-
-export function AnnotationArea({
+function AnnotationArea({
   editLetterTraces,
   sizeComponent,
 }: AnnotationAreaProps) {
@@ -210,3 +209,5 @@ const getMaxXValue = (xcoords: number[]) => {
 const getMinXValue = (xcoords: number[]) => {
   return Math.min.apply(null, xcoords);
 };
+
+export default AnnotationArea;
