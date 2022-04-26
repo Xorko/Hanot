@@ -5,7 +5,7 @@ import { LassoModifiedContextProvider } from '../context/LassoModifiedContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import Lasso from './Lasso';
 
-const AnnotationArea = () => {
+function AnnotationArea() {
   //===========================================================================
   // Redux
   //===========================================================================
@@ -79,7 +79,7 @@ const AnnotationArea = () => {
       )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

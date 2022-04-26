@@ -4,7 +4,7 @@ import AnnotationArea from './AnnotationArea';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const AnnotationContainer = () => {
+function AnnotationContainer() {
   return (
     <View style={styles.main}>
       <View style={styles.box}>
@@ -12,7 +12,7 @@ const AnnotationContainer = () => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   main: {

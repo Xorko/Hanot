@@ -14,7 +14,7 @@ type SvgPointPropsType = {
   containerSize: Size;
 };
 
-const SvgPoint = ({
+function SvgPoint({
   point,
   idx,
   onPress,
@@ -22,7 +22,7 @@ const SvgPoint = ({
   updatePointAtIndex,
   updateCrop,
   containerSize,
-}: SvgPointPropsType) => {
+}: SvgPointPropsType) {
   //===========================================================================
   // State
   //===========================================================================
@@ -115,6 +115,6 @@ const SvgPoint = ({
       onResponderEnd={updateCrop}
     />
   );
-};
+}
 
 export default SvgPoint;

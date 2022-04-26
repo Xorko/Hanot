@@ -15,13 +15,13 @@ type SvgPolylinePropsType = {
   containerSize: Size;
 };
 
-const SvgPolyline = ({
+function SvgPolyline({
   path,
   closedPath,
   updatePath,
   updateCrop,
   containerSize,
-}: SvgPolylinePropsType) => {
+}: SvgPolylinePropsType) {
   const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
 
   /**
@@ -96,6 +96,6 @@ const SvgPolyline = ({
       onResponderEnd={updateCrop}
     />
   );
-};
+}
 
 export default SvgPolyline;

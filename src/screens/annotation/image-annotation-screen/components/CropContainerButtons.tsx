@@ -7,10 +7,10 @@ type CropContainerButtonsPropsType = {
   deleteCrop: () => void;
 };
 
-const CropContainerButtons = ({
+function CropContainerButtons({
   annotate,
   deleteCrop,
-}: CropContainerButtonsPropsType) => {
+}: CropContainerButtonsPropsType) {
   //===========================================================================
   // Render
   //===========================================================================
@@ -21,7 +21,7 @@ const CropContainerButtons = ({
       <DeleteButton deleteCrop={deleteCrop} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -35,7 +35,7 @@ type ImageAnnotationScreenPropsType = NativeStackScreenProps<
   'ImageAnnotationScreen'
 >;
 
-const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
+function ImageAnnotationScreen({ route }: ImageAnnotationScreenPropsType) {
   //===========================================================================
   // Navigation
   //===========================================================================
@@ -148,7 +148,7 @@ const ImageAnnotationScreen = ({ route }: ImageAnnotationScreenPropsType) => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   annotation: {

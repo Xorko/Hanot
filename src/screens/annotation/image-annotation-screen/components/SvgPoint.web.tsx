@@ -13,7 +13,7 @@ type SvgPointPropsType = {
   containerSize: Size;
 };
 
-const SvgPoint = ({
+function SvgPoint({
   point,
   idx,
   updatePointAtIndex,
@@ -21,7 +21,7 @@ const SvgPoint = ({
   containerSize,
   closedPath,
   onPress,
-}: SvgPointPropsType) => {
+}: SvgPointPropsType) {
   //===========================================================================
   // Context
   //===========================================================================
@@ -123,6 +123,6 @@ const SvgPoint = ({
       onMouseLeave={endDrag}
     />
   );
-};
+}
 
 export default SvgPoint;

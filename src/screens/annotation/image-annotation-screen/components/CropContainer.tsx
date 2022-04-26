@@ -29,12 +29,12 @@ type CropContainerPropsType = {
   index: number;
 };
 
-const CropContainer = ({
+function CropContainer({
   path,
   selectCrop,
   selected,
   index,
-}: CropContainerPropsType) => {
+}: CropContainerPropsType) {
   //===========================================================================
   // Redux
   //===========================================================================
@@ -138,7 +138,7 @@ const CropContainer = ({
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   box: {

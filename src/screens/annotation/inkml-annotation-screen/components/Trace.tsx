@@ -15,13 +15,13 @@ type TraceProps = {
   editLetterTraces: (traces: TraceData.Type[]) => void;
 };
 
-const Trace = ({
+function Trace({
   parsedDots,
   annotated,
   handlePress,
   dimensions,
   editLetterTraces,
-}: TraceProps) => {
+}: TraceProps) {
   return (
     <>
       {parsedDots.map((trace, idxTrace) => (
@@ -49,6 +49,6 @@ const Trace = ({
       ))}
     </>
   );
-};
+}
 
 export default Trace;

@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from 'react-native';
 import { RootStackParamList } from '../../../../types/navigation-types';
 
-const HomeButton = () => {
+function HomeButton() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
@@ -15,6 +15,6 @@ const HomeButton = () => {
       }}
     />
   );
-};
+}
 
 export default HomeButton;

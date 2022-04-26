@@ -12,7 +12,7 @@ type CropPropsType = {
 };
 
 /* A crop of the image */
-const Crop = ({ path, size }: CropPropsType) => {
+function Crop({ path, size }: CropPropsType) {
   //===========================================================================
   // Redux
   //===========================================================================
@@ -60,7 +60,7 @@ const Crop = ({ path, size }: CropPropsType) => {
       ref={webViewRef}
     />
   );
-};
+}
 
 const styles = StyleSheet.create({
   webView: {

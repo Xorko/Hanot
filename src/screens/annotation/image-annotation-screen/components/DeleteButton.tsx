@@ -5,7 +5,7 @@ type DeleteButtonPropsType = {
   deleteCrop: () => void;
 };
 
-const DeleteButton = ({ deleteCrop }: DeleteButtonPropsType) => {
+function DeleteButton({ deleteCrop }: DeleteButtonPropsType) {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={deleteCrop}>
       <Animated.View style={styles.button}>
@@ -13,7 +13,7 @@ const DeleteButton = ({ deleteCrop }: DeleteButtonPropsType) => {
       </Animated.View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   button: {

@@ -5,7 +5,7 @@ type ValidateButtonPropsType = {
   validateCrop: () => void;
 };
 
-const ValidateButton = ({ validateCrop }: ValidateButtonPropsType) => {
+function ValidateButton({ validateCrop }: ValidateButtonPropsType) {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={validateCrop}>
       <View style={styles.button}>
@@ -13,7 +13,7 @@ const ValidateButton = ({ validateCrop }: ValidateButtonPropsType) => {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   button: {

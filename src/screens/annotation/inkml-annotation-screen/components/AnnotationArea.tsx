@@ -17,10 +17,10 @@ type AnnotationAreaProps = {
   sizeComponent: { width: number; height: number };
 };
 
-export const AnnotationArea = ({
+export function AnnotationArea({
   editLetterTraces,
   sizeComponent,
-}: AnnotationAreaProps) => {
+}: AnnotationAreaProps) {
   const [finalTraceGroups, setFinalTraceGroups] = useState<TraceGroup.Type[]>(
     [],
   );
@@ -183,7 +183,7 @@ export const AnnotationArea = ({
       )}
     </View>
   );
-};
+}
 
 /**
  * Compute the value used for resizing the word

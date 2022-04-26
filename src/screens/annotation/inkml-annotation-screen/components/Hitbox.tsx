@@ -16,13 +16,13 @@ type HitBoxProps = {
   editLetterTraces: (traces: Trace.Type[]) => void;
 };
 
-const Hitbox = ({
+function Hitbox({
   dot,
   indexOfTrace,
   handlePressHitBox,
   dimensions,
   editLetterTraces,
-}: HitBoxProps) => {
+}: HitBoxProps) {
   return (
     <Circle
       onPress={() => {
@@ -35,6 +35,6 @@ const Hitbox = ({
       fill={'red'}
     />
   );
-};
+}
 
 export default Hitbox;

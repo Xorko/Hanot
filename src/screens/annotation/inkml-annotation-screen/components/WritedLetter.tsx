@@ -10,7 +10,7 @@ type WritedLetterProps = {
 
 // const dimensions : Dimension;
 
-const WritedLetter = ({ traces, sizeComponent }: WritedLetterProps) => {
+function WritedLetter({ traces, sizeComponent }: WritedLetterProps) {
   /**
    * Computing size of current letter
    */
@@ -54,6 +54,6 @@ const WritedLetter = ({ traces, sizeComponent }: WritedLetterProps) => {
       ))}
     </>
   );
-};
+}
 
 export default WritedLetter;

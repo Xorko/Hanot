@@ -14,13 +14,13 @@ type SvgPolylinePropsType = {
   containerSize: Size;
 };
 
-const SvgPolyline = ({
+function SvgPolyline({
   path,
   closedPath,
   containerSize,
   updatePath,
   updateCrop,
-}: SvgPolylinePropsType) => {
+}: SvgPolylinePropsType) {
   const { setLassoModified } = useLassoModifiedContext();
 
   const points = path.map(({ x, y }) => `${x},${y}`).join(' ');
@@ -102,6 +102,6 @@ const SvgPolyline = ({
       />
     </polyline>
   );
-};
+}
 
 export default SvgPolyline;

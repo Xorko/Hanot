@@ -20,7 +20,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 /* Scroll view that will contain all the crops created */
-const CropScrollView = () => {
+function CropScrollView() {
   //===========================================================================
   // Redux
   //===========================================================================
@@ -200,7 +200,7 @@ const CropScrollView = () => {
       <CropContainerButtons annotate={annotate} deleteCrop={deleteCrop} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   box: {
