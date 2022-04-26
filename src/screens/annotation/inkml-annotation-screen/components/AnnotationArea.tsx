@@ -9,8 +9,8 @@ import * as Word from '../../../../core/word';
 import { RootState } from '../../../../stores/store';
 import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
 import { Dimension } from '../types/annotation-types';
-import { Hitbox } from './Hitbox';
-import { Trace } from './Trace';
+import Hitbox from './Hitbox';
+import Trace from './Trace';
 
 interface AnnotationAreaProps {
   editLetterTraces: (traces: TraceData.Type[]) => void;

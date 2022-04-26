@@ -15,7 +15,7 @@ interface HitBoxProps {
   indexOfTrace: number;
   editLetterTraces: (traces: Trace.Type[]) => void;
 }
-export const Hitbox = ({
+const Hitbox = ({
   dot,
   indexOfTrace,
   handlePressHitBox,
@@ -35,3 +35,5 @@ export const Hitbox = ({
     />
   );
 };
+
+export default Hitbox;

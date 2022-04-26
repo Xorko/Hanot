@@ -11,11 +11,11 @@ interface TraceProps {
     posVertical: number;
   };
   annotated: boolean;
-  handlePress: (e: GestureResponderEvent, idxTrac: number) => void;
+  handlePress: (e: any, idxTrac: number) => void;
   editLetterTraces: (traces: TraceData.Type[]) => void;
 }
 
-export const Trace = ({
+const Trace = ({
   parsedDots,
   annotated,
   handlePress,
@@ -50,3 +50,5 @@ export const Trace = ({
     </>
   );
 };
+
+export default Trace;
