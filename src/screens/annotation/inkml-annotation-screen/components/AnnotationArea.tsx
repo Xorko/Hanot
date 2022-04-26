@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useState } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import Svg from 'react-native-svg';
 import { useDispatch, useSelector } from 'react-redux';
 import * as TraceData from '../../../../core/trace';
@@ -73,17 +73,18 @@ export const AnnotationArea = ({
     );
   };
 
-  const handlePress = (e: GestureResponderEvent, idxTrace: number) => {
+  const handlePress = (e: any, idxTrace: number) => {
     if (currentWord !== undefined && dimensions !== undefined) {
       // setting finalTraceGroups
       const traceGroups = currentWord.tracegroups;
       if (traceGroups.length === 0) {
         console.error('AnnotationArea : error box empty');
       } else {
-        const point = {
-          x: e.nativeEvent.locationX,
-          y: e.nativeEvent.locationY,
-        };
+        const point =
+          Platform.OS === 'web'
+            ? { x: e.nativeEvent.layerX, y: e.nativeEvent.layerY }
+            : { x: e.nativeEvent.locationX, y: e.nativeEvent.locationY };
+
         const realPoint = {
           x: (point.x - dimensions.posHorizontal) / dimensions.factorSize,
           y: (point.y - dimensions.posVertical) / dimensions.factorSize,
