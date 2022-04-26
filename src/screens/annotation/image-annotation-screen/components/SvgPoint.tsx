@@ -102,8 +102,8 @@ const SvgPoint = ({
 
   return (
     <Rect
-      x={x - 5}
-      y={y - 5}
+      x={x - width / 2}
+      y={y - height / 2}
       width={width}
       height={height}
       fill="rgba(0, 0, 0, 0)"
