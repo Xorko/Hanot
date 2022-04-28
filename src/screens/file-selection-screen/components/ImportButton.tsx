@@ -39,7 +39,7 @@ const ImportButton = () => {
 
   return (
     <IconButton
-      library="Material"
+      library="material"
       iconName="file-import"
       color="dark"
       onPress={handlePress}

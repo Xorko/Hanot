@@ -4,7 +4,7 @@ import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../style/colors';
 
-type IconLibrary = 'FA5' | 'AntDesign' | 'Material';
+type IconLibrary = 'fa5' | 'antdesign' | 'material';
 
 type IconButtonProps = {
   iconName: string;
@@ -31,13 +31,13 @@ function IconButton({
         opacity: pressed ? 0.5 : 1,
       })}>
       <View>
-        {library === 'FA5' && (
+        {library === 'fa5' && (
           <IconFA5 color={iconColor} name={iconName} size={iconSize || 40} />
         )}
-        {library === 'AntDesign' && (
+        {library === 'antdesign' && (
           <IconAnt color={iconColor} name={iconName} size={iconSize || 40} />
         )}
-        {library === 'Material' && (
+        {library === 'material' && (
           <IconMaterial
             color={iconColor}
             name={iconName}

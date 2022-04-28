@@ -10,7 +10,7 @@ function ChangeModeButton() {
 
   return (
     <IconButton
-      library="Material"
+      library="material"
       color="dark"
       iconName={displayMode === 'list' ? 'view-grid' : 'format-list-bulleted'}
       onPress={handlePress}

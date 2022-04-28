@@ -47,7 +47,7 @@ const ImportButton = () => {
   return (
     <View>
       <label htmlFor="file-input">
-        <IconButton library="Material" iconName="file-import" color="dark" />
+        <IconButton library="material" iconName="file-import" color="dark" />
       </label>
       <input
         type="file"

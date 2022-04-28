@@ -3,7 +3,7 @@ import IconButton from '../../../components/IconButton';
 const OpenFileButton = () => {
   return (
     <IconButton
-      library="Material"
+      library="material"
       iconName="pencil-circle"
       color="dark"
       onPress={() => console.log('hello')}

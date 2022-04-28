@@ -29,7 +29,7 @@ const RemoveFileButton = () => {
 
   return (
     <IconButton
-      library="Material"
+      library="material"
       iconName="close-circle"
       color="danger"
       onPress={handlePress}

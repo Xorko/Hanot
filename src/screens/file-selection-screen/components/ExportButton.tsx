@@ -97,7 +97,7 @@ function ExportButton() {
 
   return (
     <IconButton
-      library="Material"
+      library="material"
       iconName="file-export"
       onPress={handlePress}
     />
