@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,7 +9,6 @@ type IconLibrary = 'FA5' | 'AntDesign' | 'Material';
 type IconButtonProps = {
   iconName: string;
   iconSize?: number;
-  activeOpacity?: number;
   onPress?: () => void;
   library: IconLibrary;
   color?: keyof typeof colors;
@@ -18,7 +17,6 @@ type IconButtonProps = {
 function IconButton({
   iconName,
   iconSize,
-  activeOpacity,
   onPress,
   library,
   color,
@@ -26,10 +24,12 @@ function IconButton({
   const iconColor = color ? colors[color] : undefined;
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      activeOpacity={activeOpacity || 0.8}
-      testID="icon-btn">
+      testID="icon-btn"
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
+      })}>
       <View>
         {library === 'FA5' && (
           <IconFA5 color={iconColor} name={iconName} size={iconSize || 40} />
@@ -45,7 +45,7 @@ function IconButton({
           />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
