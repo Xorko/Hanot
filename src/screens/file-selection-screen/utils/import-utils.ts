@@ -7,8 +7,8 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import { constructData } from '../../../core/input';
 import { parser } from '../../../lib/fast-xml-parser';
-import { ImageFile, InkMLFile } from '../types/file-import-types';
-import type { FileType } from '../types/files-type';
+import { ImageFile, InkMLFile } from '../../../types/file-import-types';
+import type { FileType } from '../../../types/file-types';
 
 // RNFS can't be imported on the web so we can't use `import`
 const RNFS = Platform.OS !== 'web' && require('react-native-fs');
