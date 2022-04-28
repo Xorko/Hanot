@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { FileType } from '../types/files-type';
+import { FileType } from '../../../types/file-types';
 
 type FileTypeContextValue = {
   fileType: FileType;
