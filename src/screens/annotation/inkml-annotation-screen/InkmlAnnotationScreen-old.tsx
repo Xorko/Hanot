@@ -14,8 +14,8 @@ import * as Trace from '../../../core/trace';
 import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
-import LettersMenu from './components/LettersMenu';
-import Word from './components/Word';
+import LettersMenu from './old-components/LettersMenu';
+import Word from './old-components/Word';
 import { initWord } from './current-word-slice';
 
 type InkMLAnnotationScreenPropsType = NativeStackScreenProps<
