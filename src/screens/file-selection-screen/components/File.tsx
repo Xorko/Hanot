@@ -5,13 +5,13 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Text from '../../../components/Text';
 import colors from '../../../style/colors';
+import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { RootStackParamList } from '../../../types/navigation-types';
 import { resetCurrentAnnotatedImage } from '../../annotation/image-annotation-screen/current-annotated-image';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
-import { ImageFile, InkMLFile } from '../types/file-import-types';
 import { limitStringLength } from '../utils/string-utils';
 
 type FileProps = {
@@ -32,12 +32,14 @@ function File({ file }: FileProps) {
     switch (fileType) {
       case 'image':
         dispatch(resetCurrentAnnotatedImage());
-        navigation.navigate('ImageAnnotationScreen', {
+        navigation.navigate('AnnotationScreen', {
+          type: fileType,
           file: file as ImageFile,
         });
         break;
       case 'inkml':
-        navigation.navigate('InkMLAnnotationScreen', {
+        navigation.navigate('AnnotationScreen', {
+          type: fileType,
           file: file as InkMLFile,
         });
         break;

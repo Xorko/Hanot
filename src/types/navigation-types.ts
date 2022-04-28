@@ -1,7 +1,10 @@
 import type { ImageFile, InkMLFile } from './file-import-types';
+import type { FileType } from './file-types';
 
 export type RootStackParamList = {
-  ImageAnnotationScreen: { file: ImageFile };
-  InkMLAnnotationScreen: { file: InkMLFile };
+  AnnotationScreen: {
+    type: FileType;
+    file: ImageFile | InkMLFile;
+  };
   FileSelectionScreen: {};
 };
