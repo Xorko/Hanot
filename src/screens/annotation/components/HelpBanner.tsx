@@ -16,17 +16,19 @@ function HelpBanner({ type, fadeAnim }: HelpBannerProps) {
         bannerStyle.shadow,
         { opacity: fadeAnim || 0 },
       ]}>
-      <View style={bannerStyle.iconDescription}>
-        <Icon name="comma-circle" size={30} color={colors.secondary} />
-        <Text style={bannerStyle.ml}>Ajouter un signe diacritque</Text>
-      </View>
+      {type === 'inkml' && (
+        <View style={bannerStyle.iconDescription}>
+          <Icon name="comma-circle" size={30} color={colors.secondary} />
+          <Text style={bannerStyle.ml}>Ajouter un signe diacritque</Text>
+        </View>
+      )}
 
       <View style={bannerStyle.iconDescription}>
         <Icon name="close-circle" size={30} color={colors.danger} />
         <Text style={bannerStyle.ml}>Supprimer la lettre</Text>
       </View>
 
-      {type && (
+      {type === 'inkml' && (
         <View style={bannerStyle.iconDescription}>
           <Icon name="alert-circle" size={30} color={colors.warning} />
           <Text style={bannerStyle.ml}>Spécifier la lettre comme bruit</Text>
