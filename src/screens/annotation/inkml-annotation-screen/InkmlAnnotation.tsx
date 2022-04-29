@@ -4,11 +4,13 @@ import SvgContainer from '../../../components/SvgContainer';
 import { useAppDispatch } from '../../../stores/hooks';
 import { InkMLFile } from '../../../types/file-import-types';
 import AnnotationArea from '../components/AnnotationArea';
-import Annotations from '../components/Annotations';
 import Header from '../components/Header';
-import { getExtremePointsOfPath } from '../image-annotation-screen/utils/crop-utils';
+import AnnotationsContainer from './components/AnnotationsContainer';
 import Workspace from './components/Workspace';
+import { PolylineTransformProvider } from './context/PolylineTransformContext';
 import { initWord } from './current-word-slice';
+import { Transform } from './types/annotation-types';
+import { getTransform } from './utils/transform-utils';
 
 type InkmlAnnotationProps = {
   file: InkMLFile;
@@ -17,13 +19,8 @@ type InkmlAnnotationProps = {
 function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   const dispatch = useAppDispatch();
 
-  const [min, setMin] = useState<{ minX: number; minY: number; scale: number }>(
-    {
-      minX: 0,
-      minY: 0,
-      scale: 1,
-    },
-  );
+  const [inkmlTransform, setInkmlTransform] = useState<Transform>();
+
   const [areaSize, setAreaSize] = useState<{ width: number; height: number }>();
 
   useEffect(() => {
@@ -41,35 +38,14 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
           }),
         )
         .flat();
-
-      const { minX, minY, maxX, maxY } = getExtremePointsOfPath(dots);
-
-      const wordidth = maxX - minX;
-      const wordHeight = maxY - minY;
-
-      // The plus 5 is to make sure the word is not cropped
-      const scale = Math.min(
-        areaSize.width / (wordidth + 5),
-        areaSize.height / (wordHeight + 5),
-      );
-
-      const widthDif = (areaSize.width - wordidth * scale) / 6;
-      const heightDif = (areaSize.height - wordHeight * scale) / 6;
-      const dif = widthDif > 0 ? minX - widthDif : minX;
-      console.log(dif);
-
-      setMin({
-        minX: widthDif > 0 ? minX - widthDif : minX,
-        minY: heightDif > 0 ? minY - heightDif : minY,
-        scale,
-      });
+      setInkmlTransform(getTransform(dots, areaSize));
     }
   }, [file.content, dispatch, areaSize]);
 
   return (
     <View style={styles.container}>
       <Header type="inkml" />
-      <Annotations type="inkml" />
+      <AnnotationsContainer />
       <AnnotationArea>
         <View
           onLayout={(event: LayoutChangeEvent) =>
@@ -77,7 +53,11 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
           }
           style={styles.area}>
           <SvgContainer>
-            <Workspace wordMinCoordinates={min} />
+            {inkmlTransform && (
+              <PolylineTransformProvider initialTransform={inkmlTransform}>
+                <Workspace />
+              </PolylineTransformProvider>
+            )}
           </SvgContainer>
         </View>
       </AnnotationArea>

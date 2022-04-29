@@ -1,4 +1,5 @@
 import { Polyline } from 'react-native-svg';
+import { Transform } from '../screens/annotation/inkml-annotation-screen/types/annotation-types';
 import colors from '../style/colors';
 
 type PolylineRendererProps = {
@@ -6,7 +7,7 @@ type PolylineRendererProps = {
   strokeWidth?: number;
   strokeColor?: string;
   onPress?: (...args: any[]) => void;
-  minCoordinates?: { minX: number; minY: number; scale: number };
+  transform?: Transform;
 };
 
 function PolylineRenderer({
@@ -14,11 +15,11 @@ function PolylineRenderer({
   strokeWidth = 2,
   strokeColor = colors.dark,
   onPress,
-  minCoordinates = { minX: 0, minY: 0, scale: 1 },
+  transform = { translateX: 0, translateY: 0, scale: 1 },
 }: PolylineRendererProps) {
   const path = points
     .map(({ x, y }) => {
-      return `${x} ${y}`;
+      return `${x},${y}`;
     })
     .join(' ');
 
@@ -29,8 +30,8 @@ function PolylineRenderer({
       strokeWidth={strokeWidth}
       stroke={strokeColor}
       fill="none"
-      transform={`translate(${-minCoordinates.minX},${-minCoordinates.minY})`}
-      scale={minCoordinates.scale}
+      transform={`translate(${-transform.translateX},${-transform.translateY})`}
+      scale={transform.scale}
     />
   );
 }

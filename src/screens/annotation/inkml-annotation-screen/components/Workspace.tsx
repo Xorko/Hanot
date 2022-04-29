@@ -3,11 +3,7 @@ import * as Trace from '../../../../core/trace';
 import { useAppSelector } from '../../../../stores/hooks';
 import WordPolyline from './WordPolyline';
 
-type WorkspaceProps = {
-  wordMinCoordinates: { minX: number; minY: number; scale: number };
-};
-
-function Workspace({ wordMinCoordinates }: WorkspaceProps) {
+function Workspace() {
   const [defaultTraces, setDefaultTraces] = useState<Trace.Type[]>([]);
 
   const currentWord = useAppSelector(state => state.currentWord);
@@ -16,12 +12,7 @@ function Workspace({ wordMinCoordinates }: WorkspaceProps) {
     setDefaultTraces(currentWord ? currentWord.defaultTraceGroup : []);
   }, [currentWord]);
 
-  return (
-    <WordPolyline
-      traces={defaultTraces}
-      wordMinCoordinates={wordMinCoordinates}
-    />
-  );
+  return <WordPolyline traces={defaultTraces} />;
 }
 
 export default Workspace;
