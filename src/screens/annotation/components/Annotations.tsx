@@ -1,15 +1,25 @@
 import { useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { FileType } from '../../../types/file-types';
 
-type AnnotationsButtonsProps = {
-  scrollToEnd?: () => void;
-  onAddAnnotation?: () => void;
+type AnnotationsProps = {
+  type: FileType;
+  children?: React.ReactNode;
+  onAddDiacritic?: () => void;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
 
-function Annotations() {
+type AnnotationsButtonsProps = {
+  type: FileType;
+  scrollToEnd?: () => void;
+  onAddDiacritic?: () => void;
+  onDeleteAnnotation?: () => void;
+  onMarkAsNoise?: () => void;
+};
+
+function Annotations({ type, children, onDeleteAnnotation }: AnnotationsProps) {
   const scrollviewRef = useRef<ScrollView>(null);
 
   const scrollToEnd = () => {
@@ -22,37 +32,45 @@ function Annotations() {
         <ScrollView
           horizontal
           ref={scrollviewRef}
-          style={annotationStyle.scrollView}
-        />
+          style={annotationStyle.scrollView}>
+          {children}
+        </ScrollView>
       </View>
-      <AnnotationsButtons scrollToEnd={scrollToEnd} />
+      <AnnotationsButtons
+        scrollToEnd={scrollToEnd}
+        type={type}
+        onDeleteAnnotation={onDeleteAnnotation}
+      />
     </View>
   );
 }
 
 function AnnotationsButtons({
   scrollToEnd,
-  onAddAnnotation,
+  onAddDiacritic,
   onDeleteAnnotation,
   onMarkAsNoise,
+  type,
 }: AnnotationsButtonsProps) {
   const handleAddPress = () => {
     if (scrollToEnd) {
       scrollToEnd();
     }
-    if (onAddAnnotation) {
-      onAddAnnotation();
+    if (onAddDiacritic) {
+      onAddDiacritic();
     }
   };
 
   return (
     <View style={buttonsStyle.container}>
-      <IconButton
-        library="material"
-        iconName="comma-circle"
-        onPress={handleAddPress}
-        iconSize={70}
-      />
+      {type === 'inkml' && (
+        <IconButton
+          library="material"
+          iconName="comma-circle"
+          onPress={handleAddPress}
+          iconSize={70}
+        />
+      )}
       <IconButton
         library="material"
         iconName="close-circle"
@@ -60,13 +78,15 @@ function AnnotationsButtons({
         iconSize={70}
         color="danger"
       />
-      <IconButton
-        library="material"
-        iconName="alert-circle"
-        onPress={onMarkAsNoise}
-        iconSize={70}
-        color="warning"
-      />
+      {type === 'inkml' && (
+        <IconButton
+          library="material"
+          iconName="alert-circle"
+          onPress={onMarkAsNoise}
+          iconSize={70}
+          color="warning"
+        />
+      )}
     </View>
   );
 }
