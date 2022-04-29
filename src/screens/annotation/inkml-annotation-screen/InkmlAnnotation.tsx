@@ -69,7 +69,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   return (
     <View style={styles.container}>
       <Header type="inkml" />
-      <Annotations />
+      <Annotations type="inkml" />
       <AnnotationArea>
         <View
           onLayout={(event: LayoutChangeEvent) =>
