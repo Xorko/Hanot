@@ -5,6 +5,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import type { FileType } from '../../../types/file-types';
 import { RootStackParamList } from '../../../types/navigation-types';
+import { useCurrentStatePanelContext } from '../context/CurrentStatePanelContext';
 import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
@@ -17,6 +18,9 @@ type HeaderButtonProps = {
 
 function Header({ type }: HeaderProps) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const { currentStatePanel, setCurrentStatePanel } =
+    useCurrentStatePanelContext();
 
   // Using a ref instead of a state avoids having to re-render the component when the value is changed
   const showHelp = useRef<boolean>(false);
@@ -43,13 +47,18 @@ function Header({ type }: HeaderProps) {
     showHelp.current = !showHelp.current;
   };
 
+  const handlePanel = () => {
+    setCurrentStatePanel(!currentStatePanel);
+    console.log('currentStatePanel: ' + currentStatePanel);
+  };
+
   return (
     <View style={headerStyles.container}>
       <View style={headerStyles.row}>
         <IconButton
           library="material"
           iconName="menu"
-          onPress={() => {}}
+          onPress={handlePanel}
           iconSize={50}
           color="dark"
         />
