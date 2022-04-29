@@ -1,22 +1,38 @@
-import { StyleSheet, TextInput, View } from 'react-native';
-import PolylineRenderer from '../../../components/PolylineRenderer';
-import SvgContainer from '../../../components/SvgContainer';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import colors from '../../../style/colors';
 
-function Annotation() {
+type AnnotationProps = {
+  children?: React.ReactNode;
+  onPress?: (...args: any[]) => void;
+  onInputChange?: (text: string) => void;
+  selected?: boolean;
+};
+
+type AnnotationInputProps = {
+  onInputChange?: (text: string) => void;
+};
+
+function Annotation({
+  children,
+  onInputChange,
+  onPress,
+  selected = false,
+}: AnnotationProps) {
   return (
-    <View style={annotationStyle.container}>
-      <View style={annotationStyle.preview}>
-        <SvgContainer>
-          <PolylineRenderer points={[]} />
-        </SvgContainer>
-      </View>
-      <AnnotationInput />
-    </View>
+    <Pressable
+      onPress={onPress}
+      style={
+        selected
+          ? [annotationStyle.container, annotationStyle.selectedColor]
+          : annotationStyle.container
+      }>
+      <View style={annotationStyle.preview}>{children}</View>
+      <AnnotationInput onInputChange={onInputChange} />
+    </Pressable>
   );
 }
 
-function AnnotationInput() {
+function AnnotationInput({ onInputChange }: AnnotationInputProps) {
   return (
     <View style={inputStyles.container}>
       <TextInput
@@ -24,6 +40,7 @@ function AnnotationInput() {
         autoCorrect={false}
         autoCapitalize="none"
         selectTextOnFocus
+        onChangeText={onInputChange}
         placeholder="Aa"
         textAlign="center"
         multiline
@@ -43,6 +60,9 @@ const annotationStyle = StyleSheet.create({
     borderWidth: 5,
     borderColor: colors.primary,
     backgroundColor: colors.light,
+  },
+  selectedColor: {
+    borderColor: colors.secondary,
   },
   preview: {
     flex: 0.9,
