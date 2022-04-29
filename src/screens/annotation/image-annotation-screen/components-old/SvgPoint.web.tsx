@@ -1,7 +1,6 @@
 import React, { MouseEvent, useState } from 'react';
 import { useLassoModifiedContext } from '../context/LassoModifiedContext';
-import type { Size } from '../types/image-annotation-types';
-import { Coordinates } from '../../types/coordinates-types';
+import { Size, Coordinates } from '../../types/coordinates-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 
 type SvgPointPropsType = {

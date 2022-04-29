@@ -12,8 +12,7 @@ import {
 import { useAppDispatch } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
-import type { Size } from '../types/image-annotation-types';
-import { Coordinates } from '../../types/coordinates-types';
+import { Size, Coordinates } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,

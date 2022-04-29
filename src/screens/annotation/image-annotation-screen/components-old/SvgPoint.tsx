@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { Rect } from 'react-native-svg';
-import type { Size } from '../types/image-annotation-types';
-import { Coordinates } from '../../types/coordinates-types';
+import { Size, Coordinates } from '../../types/coordinates-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 
 type SvgPointPropsType = {

@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { Size } from '../types/image-annotation-types';
+import { Size } from '../../types/coordinates-types';
 
 type TrueImageSizeContextValue = {
   trueImageSize?: Size;

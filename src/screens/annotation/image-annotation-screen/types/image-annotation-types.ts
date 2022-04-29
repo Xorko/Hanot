@@ -9,8 +9,3 @@ export type Crop = {
   cropPath: Coordinates[];
   cropAnnotation?: string;
 };
-
-export type Size = {
-  width: number;
-  height: number;
-};
