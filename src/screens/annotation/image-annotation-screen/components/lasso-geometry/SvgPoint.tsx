@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { Rect } from 'react-native-svg';
-import type { Point, Size } from '../../types/image-annotation-types';
+import type { Coordinates, Size } from '../../../types/coordinates-types';
 import { roundPointCoordinates } from '../../utils/crop-utils';
 
 type SvgPointPropsType = {
-  point: Point;
+  point: Coordinates;
   idx: number;
   onPress: (idx: number) => void;
   closedPath: boolean;
-  updatePointAtIndex: (newPoint: Point) => void;
+  updatePointAtIndex: (newPoint: Coordinates) => void;
   updateCrop: () => void;
   containerSize: Size;
 };
@@ -28,7 +28,8 @@ function SvgPoint({
   //===========================================================================
 
   // The previous position of the point
-  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
+  const [previousDragPosition, setPreviousDragPosition] =
+    useState<Coordinates>();
 
   //===========================================================================
   // Variables

@@ -5,7 +5,7 @@ import Annotation from '../../components/Annotation';
 import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
-import { Point, Size } from '../types/image-annotation-types';
+import type { Coordinates, Size } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -13,7 +13,7 @@ import {
 import Crop from './Crop';
 
 type AnnotationContainerProps = {
-  path: Point[];
+  path: Coordinates[];
   selectCrop: () => void;
   index: number;
 };
@@ -42,7 +42,7 @@ function AnnotationContainer({
   //===========================================================================
 
   // The path of the crop adjusted to the size of the container
-  const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
+  const [pathToDisplay, setPathToDisplay] = useState<Coordinates[]>();
 
   // The size of the crop adjusted to the size of the container
   const [cropSize, setCropSize] = useState<Size>();
@@ -85,7 +85,7 @@ function AnnotationContainer({
       );
 
       // For all points in the path if the crop is larger than the container (scale < 1), the points needs to be scaled
-      const newPath = path.map((point: Point) => {
+      const newPath = path.map((point: Coordinates) => {
         return roundPointCoordinates({
           x: point.x * (scale < 1 ? scale : 1),
           y: point.y * (scale < 1 ? scale : 1),

@@ -8,7 +8,7 @@ import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
 } from '../current-annotated-image';
-import type { Point } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 import LassoGeometry from './lasso-geometry/LassoGeometry';
 
@@ -40,7 +40,7 @@ function Lasso() {
   //===========================================================================
 
   // The current path of the crop
-  const [path, setPath] = useState<Point[]>([]);
+  const [path, setPath] = useState<Coordinates[]>([]);
 
   // Indicates if the crop current path is closed (i.e. the user has finished)
   const [closedPath, setClosedPath] = useState<boolean>(false);
@@ -130,7 +130,7 @@ function Lasso() {
    * Udpates the path to the given one
    * @param newPath The new path to set
    */
-  const updatePath = (newPath: Point[]) => {
+  const updatePath = (newPath: Coordinates[]) => {
     setPath(newPath);
   };
 
@@ -160,7 +160,7 @@ function Lasso() {
    * @param idx The index of the point moved
    * @param newPoint The new position of the point
    */
-  const updatePointAtIndex = (idx: number, newPoint: Point) => {
+  const updatePointAtIndex = (idx: number, newPoint: Coordinates) => {
     const newPath = [...path];
     newPath[idx] = newPoint;
     setPath(newPath);

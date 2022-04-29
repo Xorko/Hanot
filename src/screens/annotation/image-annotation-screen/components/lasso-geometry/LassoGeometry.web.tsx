@@ -1,19 +1,19 @@
 import { StyleSheet } from 'react-native';
-import type { Point, Size } from '../../types/image-annotation-types';
+import type { Coordinates, Size } from '../../../types/coordinates-types';
 import { getPolygonPoints, getPolylinePoints } from '../../utils/crop-utils';
 import SvgPoint from './SvgPoint';
 import SvgPolygon from './SvgPolygon';
 import SvgPolyline from './SvgPolyline';
 
-type LassoGeomertyProps = {
+type LassoGeometryProps = {
   displayedImageSize: Size;
   inCropCreation: boolean;
   closedPath: boolean;
-  updatePath: (newPath: Point[]) => void;
+  updatePath: (newPath: Coordinates[]) => void;
   updateCrop: () => void;
-  updatePointAtIndex: (idx: number, newPoint: Point) => void;
+  updatePointAtIndex: (idx: number, newPoint: Coordinates) => void;
   handlePointPress: (idx: number) => void;
-  path: Point[];
+  path: Coordinates[];
 };
 
 function LassoGeometry({
@@ -25,7 +25,7 @@ function LassoGeometry({
   updatePointAtIndex,
   handlePointPress,
   path,
-}: LassoGeomertyProps) {
+}: LassoGeometryProps) {
   return (
     <svg
       style={{
@@ -52,7 +52,7 @@ function LassoGeometry({
               idx={idx}
               onPress={handlePointPress}
               closedPath={closedPath}
-              updatePointAtIndex={(point: Point) =>
+              updatePointAtIndex={(point: Coordinates) =>
                 updatePointAtIndex(idx, point)
               }
               updateCrop={() => updateCrop()}

@@ -1,4 +1,5 @@
-import { Point, Size } from '../types/image-annotation-types';
+import { Size } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import { getExtremePointsOfPath } from './crop-utils';
 
 /**
@@ -58,7 +59,7 @@ export const getScript = (src: string, size: Size) => {
  * @param r The third point
  * @returns 0 if the points are collinear, 1 if clockwise, 2 if counterclockwise
  */
-function orientation(p: Point, q: Point, r: Point) {
+function orientation(p: Coordinates, q: Coordinates, r: Coordinates) {
   let val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
 
   if (val === 0) {
@@ -69,13 +70,13 @@ function orientation(p: Point, q: Point, r: Point) {
 
 /**
  * Checks if a point is on a line
- * @param {Point} p - the start point of the line segment
- * @param {Point} q - The point to check
- * @param {Point} r - The end point of the line segment.
+ * @param {Coordinates} p - the start point of the line segment
+ * @param {Coordinates} q - The point to check
+ * @param {Coordinates} r - The end point of the line segment.
  * @returns True if q is on the line segment pr, false otherwise.
  */
 
-function onSegment(p: Point, q: Point, r: Point) {
+function onSegment(p: Coordinates, q: Coordinates, r: Coordinates) {
   if (
     q.x <= Math.max(p.x, r.x) &&
     q.x >= Math.min(p.x, r.x) &&
@@ -98,7 +99,12 @@ function onSegment(p: Point, q: Point, r: Point) {
  * @param q2 The end point of the second line segment
  * @returns True if the line segments intersect, false otherwise.
  */
-function doIntersect(p1: Point, q1: Point, p2: Point, q2: Point) {
+function doIntersect(
+  p1: Coordinates,
+  q1: Coordinates,
+  p2: Coordinates,
+  q2: Coordinates,
+) {
   /*
   Find the four orientations needed for
   general and special cases
@@ -156,7 +162,10 @@ function doIntersect(p1: Point, q1: Point, p2: Point, q2: Point) {
  * @param polygon The polygon to check
  * @returns True if the point lies inside the polygon, false otherwise.
  */
-const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
+const pointInPolygon = (
+  point: Coordinates,
+  polygon: Coordinates[],
+): Boolean => {
   // Define Infinite (Using INT_MAX caused overflow problems)
   let INF = 10000;
 
@@ -167,7 +176,7 @@ const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
   }
 
   // Create a point for line segment from p to infinite
-  let extreme: Point = { x: INF, y: point.y };
+  let extreme: Coordinates = { x: INF, y: point.y };
 
   /*
   Count intersections of the above line
@@ -208,7 +217,7 @@ const pointInPolygon = (point: Point, polygon: Point[]): Boolean => {
  * @param width The width of the image
  * @returns The indexex of the points that are in and on the path
  */
-export const getAllPointsInPath = (path: Point[], width: number) => {
+export const getAllPointsInPath = (path: Coordinates[], width: number) => {
   const { maxX, maxY, minX, minY } = getExtremePointsOfPath(path);
 
   let indexes: number[] = [];

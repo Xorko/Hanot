@@ -1,6 +1,11 @@
-import { Point, Size } from '../types/image-annotation-types';
+import { Size } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 
-export const getScript = (path: Point[], size: Size, imageSrc: string) => {
+export const getScript = (
+  path: Coordinates[],
+  size: Size,
+  imageSrc: string,
+) => {
   const { minX, minY, maxX, maxY } = getExtremePointsOfPath(path);
   const [width, height] = [maxX - minX, maxY - minY];
 
@@ -55,9 +60,9 @@ export const getScript = (path: Point[], size: Size, imageSrc: string) => {
 
 /**
  * Rounds x and y coordinates of given point to the nearest integer
- * @param {Point} - The point to be rounded
+ * @param {Coordinates} - The point to be rounded
  */
-export const roundPointCoordinates = ({ x, y }: Point): Point => ({
+export const roundPointCoordinates = ({ x, y }: Coordinates): Coordinates => ({
   x: Math.round(x),
   y: Math.round(y),
 });
@@ -67,10 +72,10 @@ export const roundPointCoordinates = ({ x, y }: Point): Point => ({
  * @param {Size} containerSize - The size of container to get the border of
  * @returns An array of points corresponding to the four corners of the rectangle.
  */
-const getBorder = (containerSize: Size): Point[] => {
+const getBorder = (containerSize: Size): Coordinates[] => {
   const div = { x: 0, y: 0 };
 
-  const topRight: Point = div;
+  const topRight: Coordinates = div;
   const topLeft = { x: div.x + containerSize.width, y: div.y };
   const bottomRight = { x: div.x, y: div.y + containerSize.height };
   const bottomLeft = {
@@ -84,15 +89,15 @@ const getBorder = (containerSize: Size): Point[] => {
 /**
  * Given an image size and a path, returns a list of points that form a polygon
  * @param {Size} containerSize - Size The size of the container to get the border of
- * @param {Point[]} path - The points of the polygon.
+ * @param {Coordinates[]} path - The points of the polygon.
  * @param {Boolean} closedPath - Boolean indicating whether the path is closed or not.
  * @returns A list of points that make up the polygon.
  */
 export const getPolygonPoints = (
   containerSize: Size,
-  path: Point[],
+  path: Coordinates[],
   closedPath: Boolean,
-): Point[] => {
+): Coordinates[] => {
   const border = getBorder(containerSize);
 
   return closedPath
@@ -103,11 +108,11 @@ export const getPolygonPoints = (
 /**
  * Given a path and a boolean indicating whether the path is closed, returns a list of points that
  * represents the polyline
- * @param {Point[]} path - The array of points that make up the polyline.
+ * @param {Coordinates[]} path - The array of points that make up the polyline.
  * @param {Boolean} closed - Boolean indicating whether the path is closed or not.
  * @returns An array of points.
  */
-export const getPolylinePoints = (path: Point[], closed: Boolean) => {
+export const getPolylinePoints = (path: Coordinates[], closed: Boolean) => {
   return path.concat(closed ? path[0] : []);
 };
 
@@ -116,7 +121,7 @@ export const getPolylinePoints = (path: Point[], closed: Boolean) => {
  * @param path The path to get the extreme points from
  * @returns The extreme points of the path as an object with minx, minY and maxX and maxY properties
  */
-export const getExtremePointsOfPath = (path: Point[]) => {
+export const getExtremePointsOfPath = (path: Coordinates[]) => {
   const xAxis = path.map(({ x }) => x);
   const yAxis = path.map(({ y }) => y);
   const [minX, minY] = [

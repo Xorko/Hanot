@@ -11,7 +11,8 @@ import {
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import type { Crop, Pixel, Point } from '../types/image-annotation-types';
+import type { Crop, Pixel } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import { getAllPointsInPath } from '../utils/pixels-utils';
 import CropContainer from './CropContainer';
 import CropContainerButtons from './CropContainerButtons';
@@ -99,8 +100,8 @@ function CropScrollView() {
       const widthRatio = trueImageSize.width / displayedImageSize.width;
       const heightRatio = trueImageSize.height / displayedImageSize.height;
 
-      return paths.map((path: Point[]) => {
-        return path.map((point: Point) => {
+      return paths.map((path: Coordinates[]) => {
+        return path.map((point: Coordinates) => {
           return {
             x: point.x * widthRatio,
             y: point.y * heightRatio,
@@ -126,7 +127,7 @@ function CropScrollView() {
       // Map that counts the letters occurences
       const lettersMap: Map<string, number> = new Map();
 
-      truePaths.forEach((path: Point[], idx: number) => {
+      truePaths.forEach((path: Coordinates[], idx: number) => {
         // For every crop, gets the crop annotation
         const annotation = currentImage.imageCrops[idx].cropAnnotation;
 

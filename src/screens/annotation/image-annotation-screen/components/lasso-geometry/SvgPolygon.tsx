@@ -1,9 +1,9 @@
 import React from 'react';
 import { Polygon } from 'react-native-svg';
-import type { Point } from '../../types/image-annotation-types';
+import type { Coordinates } from '../../../types/coordinates-types';
 
 type SvgPolygonPropsType = {
-  path: Point[];
+  path: Coordinates[];
 };
 
 function SvgPolygon({ path }: SvgPolygonPropsType) {

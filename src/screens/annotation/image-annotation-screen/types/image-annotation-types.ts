@@ -1,7 +1,4 @@
-export type Point = {
-  x: number;
-  y: number;
-};
+import { Coordinates } from '../../types/coordinates-types';
 
 export type Pixel = {
   color: string;
@@ -9,7 +6,7 @@ export type Pixel = {
 };
 
 export type Crop = {
-  cropPath: Point[];
+  cropPath: Coordinates[];
   cropAnnotation?: string;
 };
 

@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { Polyline } from 'react-native-svg';
-import type { Point, Size } from '../types/image-annotation-types';
+import type { Size } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
 } from '../utils/crop-utils';
 
 type SvgPolylinePropsType = {
-  path: Point[];
+  path: Coordinates[];
   closedPath: boolean;
-  updatePath: (newPath: Point[]) => void;
+  updatePath: (newPath: Coordinates[]) => void;
   updateCrop: () => void;
   containerSize: Size;
 };
@@ -22,7 +23,8 @@ function SvgPolyline({
   updateCrop,
   containerSize,
 }: SvgPolylinePropsType) {
-  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
+  const [previousDragPosition, setPreviousDragPosition] =
+    useState<Coordinates>();
 
   /**
    * Allow or deny the dragging of the polyline

@@ -18,7 +18,7 @@ import {
   setCurrentAnnotatedImageSrc,
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
-import { Size } from './types/image-annotation-types';
+import { Size } from '../types/coordinates-types';
 import { getImagePixels } from './utils/pixel-utils.web';
 
 type ImageAnnotationProps = {

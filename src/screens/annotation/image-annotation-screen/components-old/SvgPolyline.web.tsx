@@ -1,15 +1,16 @@
 import React, { MouseEvent, useState } from 'react';
 import { useLassoModifiedContext } from '../context/LassoModifiedContext';
-import type { Point, Size } from '../types/image-annotation-types';
+import type { Size } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
 } from '../utils/crop-utils';
 
 type SvgPolylinePropsType = {
-  path: Point[];
+  path: Coordinates[];
   closedPath: boolean;
-  updatePath: (newPath: Point[]) => void;
+  updatePath: (newPath: Coordinates[]) => void;
   updateCrop: () => void;
   containerSize: Size;
 };
@@ -25,7 +26,8 @@ function SvgPolyline({
 
   const points = path.map(({ x, y }) => `${x},${y}`).join(' ');
 
-  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
+  const [previousDragPosition, setPreviousDragPosition] =
+    useState<Coordinates>();
 
   const [isDragging, setIsDragging] = useState(false);
 

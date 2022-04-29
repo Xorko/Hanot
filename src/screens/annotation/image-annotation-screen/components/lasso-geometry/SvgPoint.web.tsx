@@ -1,14 +1,14 @@
 import React, { MouseEvent, useState } from 'react';
-import { useLassoModifiedContext } from '../../../context/LassoModifiedContext';
-import type { Point, Size } from '../../../types/image-annotation-types';
-import { roundPointCoordinates } from '../../../utils/crop-utils';
+import { useLassoModifiedContext } from '../../context/LassoModifiedContext';
+import type { Coordinates, Size } from '../../../types/coordinates-types';
+import { roundPointCoordinates } from '../../utils/crop-utils';
 
 type SvgPointPropsType = {
-  point: Point;
+  point: Coordinates;
   idx: number;
   onPress: (idx: number) => void;
   closedPath: boolean;
-  updatePointAtIndex: (newPoint: Point) => void;
+  updatePointAtIndex: (newPoint: Coordinates) => void;
   updateCrop: () => void;
   containerSize: Size;
 };
@@ -33,7 +33,8 @@ function SvgPoint({
   //===========================================================================
 
   // The previous position of the point
-  const [previousDragPosition, setPreviousDragPosition] = useState<Point>();
+  const [previousDragPosition, setPreviousDragPosition] =
+    useState<Coordinates>();
 
   const [isDragging, setIsDragging] = useState(false);
 

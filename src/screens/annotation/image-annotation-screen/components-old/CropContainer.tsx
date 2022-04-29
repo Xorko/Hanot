@@ -12,7 +12,8 @@ import {
 import { useAppDispatch } from '../../../../stores/hooks';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
-import type { Point, Size } from '../types/image-annotation-types';
+import type { Size } from '../types/image-annotation-types';
+import { Coordinates } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -23,7 +24,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 type CropContainerPropsType = {
-  path: Point[];
+  path: Coordinates[];
   selectCrop: () => void;
   selected: boolean;
   index: number;
@@ -52,7 +53,7 @@ function CropContainer({
   //===========================================================================
 
   // The path of the crop adjusted to the size of the container
-  const [pathToDisplay, setPathToDisplay] = useState<Point[]>();
+  const [pathToDisplay, setPathToDisplay] = useState<Coordinates[]>();
 
   // The size of the crop adjusted to the size of the container
   const [sizeOfCrop, setSizeOfCrop] = useState<Size>();
@@ -96,7 +97,7 @@ function CropContainer({
       );
 
       // For all points in the path if the crop is larger than the container (scale < 1), the points needs to be scaled
-      const newPath = path.map((point: Point) => {
+      const newPath = path.map((point: Coordinates) => {
         return roundPointCoordinates({
           x: point.x * (scale < 1 ? scale : 1),
           y: point.y * (scale < 1 ? scale : 1),
