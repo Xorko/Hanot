@@ -26,9 +26,9 @@ export const getScript = (path: Point[], size: Size, imageSrc: string) => {
       context.lineTo(canvas.width, canvas.height);
       context.lineTo(0, canvas.height);
       context.lineTo(0, 0);
-      context.lineTo(path[0].x + 1, path[0].y + 1);
-      path.slice(1).forEach(({ x, y }) => context.lineTo(x + 1, y + 1));
-      context.lineTo(path[0].x + 1, path[0].y + 1);
+      context.lineTo(path[0].x, path[0].y);
+      path.slice(1).forEach(({ x, y }) => context.lineTo(x, y));
+      context.lineTo(path[0].x, path[0].y);
       context.lineTo(0, 0);
       context.closePath();
       context.clip('evenodd');
