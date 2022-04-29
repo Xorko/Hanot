@@ -11,11 +11,11 @@ import {
 import { WebViewMessageEvent } from 'react-native-webview';
 import { useAppDispatch } from '../../../stores/hooks';
 import { RootStackParamList } from '../../../types/navigation-types';
-import AnnotationContainer from './components/AnnotationContainer';
-import CropScrollView from './components/CropScrollView';
-import HomeButton from './components/HomeButton';
-import PixelRecovery from './components/PixelRecovery';
-import ProgressCircle from './components/ProgressCircle';
+import AnnotationContainer from './components-old/AnnotationContainer';
+import CropScrollView from './components-old/CropScrollView';
+import HomeButton from './components-old/HomeButton';
+import PixelRecovery from './components-old/PixelRecovery';
+import ProgressCircle from './components-old/ProgressCircle';
 import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
