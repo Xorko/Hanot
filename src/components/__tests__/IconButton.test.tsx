@@ -1,4 +1,4 @@
-import { fireEvent, render } from 'test-utils';
+import { fireEvent, render } from '../../utils/test-utils';
 import IconButton from '../IconButton';
 
 test('it should call the onPress function when pressed', () => {

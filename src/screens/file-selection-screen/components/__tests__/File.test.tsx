@@ -1,8 +1,8 @@
-import { fireEvent, render } from 'test-utils';
 import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
 import { FileTypeProvider } from '../../../../screens/file-selection-screen/context/FileTypeContext';
-import { InkMLFile } from '../../../../types/file-import-types';
 import colors from '../../../../style/colors';
+import { InkMLFile } from '../../../../types/file-import-types';
+import { fireEvent, render } from '../../../../utils/test-utils';
 import { FileSelectionModeProvider } from '../../context/FileSelectionModeContext';
 import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
 import File from '../File';
