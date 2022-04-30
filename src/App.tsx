@@ -4,11 +4,6 @@ import AppProviders from './components/AppProvider';
 import AnnotationScreen from './screens/annotation/AnnotationScreen';
 import FileSelectionScreen from './screens/file-selection-screen/FileSelectionScreen';
 
-export type DrawerParamList = {
-  Annotation: undefined;
-  'File Selection': undefined;
-};
-
 const { Navigator, Screen } = createStackNavigator();
 
 function App() {
