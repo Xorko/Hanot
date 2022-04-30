@@ -1,21 +1,19 @@
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../../../style/colors';
 import { FileType } from '../../../types/file-types';
 
 type HelpBannerProps = {
   type: FileType;
-  fadeAnim?: Animated.Value;
 };
 
-function HelpBanner({ type, fadeAnim }: HelpBannerProps) {
+function HelpBanner({ type }: HelpBannerProps) {
   return (
     <Animated.View
-      style={[
-        bannerStyle.content,
-        bannerStyle.shadow,
-        { opacity: fadeAnim || 0 },
-      ]}>
+      entering={FadeIn.duration(250)}
+      exiting={FadeOut.duration(250)}
+      style={[bannerStyle.content, bannerStyle.shadow]}>
       {type === 'inkml' && (
         <View style={bannerStyle.iconDescription}>
           <Icon name="comma-circle" size={30} color={colors.secondary} />

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useRef } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import type { FileType } from '../../../types/file-types';
 import { RootStackParamList } from '../../../types/navigation-types';
@@ -22,29 +22,10 @@ function Header({ type }: HeaderProps) {
   const { currentStatePanel, setCurrentStatePanel } =
     useCurrentStatePanelContext();
 
-  // Using a ref instead of a state avoids having to re-render the component when the value is changed
-  const showHelp = useRef<boolean>(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
+  const [showHelp, setShowHelp] = useState<boolean>(false);
 
   const toggleHelp = () => {
-    showHelp.current ? fadeOut() : fadeIn();
-    showHelp.current = !showHelp.current;
+    setShowHelp(!showHelp);
   };
 
   const handlePanel = () => {
@@ -66,7 +47,7 @@ function Header({ type }: HeaderProps) {
           <HelpButton toggleHelp={toggleHelp} />
         </View>
       </View>
-      <HelpBanner type={type} fadeAnim={fadeAnim} />
+      {showHelp && <HelpBanner type={type} />}
       <View style={headerStyles.row}>
         <IconButton
           library="material"
