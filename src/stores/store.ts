@@ -13,6 +13,11 @@ export const store = configureStore({
     annotatedImages: annotatedImagesReducer,
     annotatedInkml: annotatedInkmlReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: { warnAfter: 128 },
+      immutableCheck: { warnAfter: 128 },
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;
