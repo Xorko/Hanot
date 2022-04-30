@@ -1,4 +1,4 @@
-import { Point, Size } from '../types/image-annotation-types';
+import { Coordinates, Size } from '../../types/coordinates-types';
 
 /**
  * Calculates the paths adjusted to the real image size
@@ -7,14 +7,14 @@ import { Point, Size } from '../types/image-annotation-types';
 export const getAdjustedPaths = (
   trueSize: Size,
   displayedSize: Size,
-  paths: Point[][],
+  paths: Coordinates[][],
 ) => {
   if (trueSize && displayedSize) {
     const widthRatio = trueSize.width / displayedSize.width;
     const heightRatio = trueSize.height / displayedSize.height;
 
-    return paths.map((path: Point[]) => {
-      return path.map((point: Point) => {
+    return paths.map((path: Coordinates[]) => {
+      return path.map((point: Coordinates) => {
         return {
           x: point.x * widthRatio,
           y: point.y * heightRatio,
