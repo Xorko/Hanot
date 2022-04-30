@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import type { FileType } from '../../../types/file-types';
 import { RootStackParamList } from '../../../types/navigation-types';
-import { useCurrentStatePanelContext } from '../context/CurrentStatePanelContext';
+import { useDrawerStateContext } from '../context/DrawerStateContext';
 import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
@@ -19,8 +19,8 @@ type HeaderButtonProps = {
 function Header({ type }: HeaderProps) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const { currentStatePanel, setCurrentStatePanel } =
-    useCurrentStatePanelContext();
+  const { isOpen: drawerIsOpen, setIsOpen: setDrawerisOpen } =
+    useDrawerStateContext();
 
   const [showHelp, setShowHelp] = useState<boolean>(false);
 
@@ -28,9 +28,8 @@ function Header({ type }: HeaderProps) {
     setShowHelp(!showHelp);
   };
 
-  const handlePanel = () => {
-    setCurrentStatePanel(!currentStatePanel);
-    console.log('currentStatePanel: ' + currentStatePanel);
+  const toggleDrawer = () => {
+    setDrawerisOpen(!drawerIsOpen);
   };
 
   return (
@@ -39,7 +38,7 @@ function Header({ type }: HeaderProps) {
         <IconButton
           library="material"
           iconName="menu"
-          onPress={handlePanel}
+          onPress={toggleDrawer}
           iconSize={50}
           color="dark"
         />

@@ -2,8 +2,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { ImageFile, InkMLFile } from '../../types/file-import-types';
 import { RootStackParamList } from '../../types/navigation-types';
-import Panel from './components/Panel';
-import { CurrentStatePanelProvider } from './context/CurrentStatePanelContext';
+import Drawer from './components/Drawer';
+import { DrawerStateProvider } from './context/DrawerStateContext';
 import ImageAnnotation from './image-annotation-screen/ImageAnnotation';
 import InkmlAnnotation from './inkml-annotation-screen/InkmlAnnotation';
 
@@ -17,15 +17,15 @@ function AnnotationScreen({ route }: AnnotationScreenPropsType) {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <CurrentStatePanelProvider>
+      <DrawerStateProvider>
         <View style={styles.container}>
-          <Panel />
+          <Drawer />
           <View style={styles.contentContainer}>
             {type === 'inkml' && <InkmlAnnotation file={file as InkMLFile} />}
             {type === 'image' && <ImageAnnotation file={file as ImageFile} />}
           </View>
         </View>
-      </CurrentStatePanelProvider>
+      </DrawerStateProvider>
     </SafeAreaView>
   );
 }

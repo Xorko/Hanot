@@ -1,22 +1,20 @@
-import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
-import { useCurrentStatePanelContext } from '../context/CurrentStatePanelContext';
+import { useDrawerStateContext } from '../context/DrawerStateContext';
 import FilePanel from './FilePanel';
 
-function Panel() {
-  const { currentStatePanel: showPanel, setCurrentStatePanel } =
-    useCurrentStatePanelContext();
+function Drawer() {
+  const { isOpen, setIsOpen } = useDrawerStateContext();
 
   return (
     <View>
-      {showPanel && (
+      {isOpen && (
         <View style={styles.panel}>
           <View style={styles.buttons}>
             <IconButton
               library="material"
               iconName="close"
-              onPress={() => setCurrentStatePanel(!showPanel)}
+              onPress={() => setIsOpen(!isOpen)}
               iconSize={50}
               color="dark"
             />
@@ -69,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Panel;
+export default Drawer;
