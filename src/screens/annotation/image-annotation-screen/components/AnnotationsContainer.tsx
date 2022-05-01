@@ -42,8 +42,11 @@ function AnnotationsContainer() {
    * @param index The index of the crop that is selected
    */
   const selectCrop = (index: number) => {
-    setSelectedBox(index);
-    console.log('selectCrop', index);
+    if (selectedBox === index) {
+      setSelectedBox(undefined);
+    } else {
+      setSelectedBox(index);
+    }
   };
 
   /**
