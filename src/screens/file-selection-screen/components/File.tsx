@@ -31,6 +31,9 @@ function File({ file }: FileProps) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
 
+  /**
+   * Navigates to the correct annotation screen based on the file type.
+   */
   const handleNavigation = () => {
     switch (fileType) {
       case 'image':
@@ -46,11 +49,12 @@ function File({ file }: FileProps) {
           file: file as InkMLFile,
         });
         break;
-      default:
-        break;
     }
   };
 
+  /**
+   * Handles the selection of a file.
+   */
   const handleSelection = () => {
     if (selectedFiles.some(e => e.id === file.id)) {
       setSelectedFiles(selectedFiles.filter(f => f.id !== file.id));
@@ -66,11 +70,19 @@ function File({ file }: FileProps) {
     }
   };
 
+  /**
+   * Acivates the multiple selection mode on long press on a file (and selects it).
+   */
   const handleFileLongPress = () => {
     setFileSelectionMode('multiple');
     handleSelection();
   };
 
+  /**
+   * Handles the press on a file.
+   * It will select the file if the file selection mode is multiple or it will
+   * navigates to the annotation screen to annote it.
+   */
   const handleFilePress = () => {
     switch (fileSelectionMode) {
       case 'multiple':
