@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { Coordinates } from '../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useLassoModifiedContext } from '../context/LassoModifiedContext';
-import { useSelectedBox } from '../context/SelectedBoxContext';
+import { useSelectedBox } from '../../context/SelectedBoxContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,

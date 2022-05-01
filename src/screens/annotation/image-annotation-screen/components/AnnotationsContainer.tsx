@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
-import { useSelectedBox } from '../context/SelectedBoxContext';
+import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageRemoveCrop,

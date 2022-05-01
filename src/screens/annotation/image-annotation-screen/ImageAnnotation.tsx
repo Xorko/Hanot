@@ -9,7 +9,7 @@ import AnnotationsContainer from './components/AnnotationsContainer';
 import PixelRecovery from './components/PixelRecovery';
 import ProgressCircle from './components/ProgressCircle';
 import Workspace from './components/Workspace';
-import { SelectedBoxProvider } from './context/SelectedBoxContext';
+import { SelectedBoxProvider } from '../context/SelectedBoxContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
 import {
