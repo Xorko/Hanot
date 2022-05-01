@@ -99,6 +99,7 @@ function ExportButton() {
     <IconButton
       library="material"
       iconName="file-export"
+      color="dark"
       onPress={handlePress}
     />
   );
