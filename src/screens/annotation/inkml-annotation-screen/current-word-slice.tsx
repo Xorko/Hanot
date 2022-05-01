@@ -61,6 +61,19 @@ export const currentWordSlice = createSlice({
         ];
       });
     },
+    deleteTraceGroups: (
+      state,
+      traceGroups: PayloadAction<TraceGroup.Type[]>,
+    ) => {
+      traceGroups.payload.map(traceGroup => {
+        traceGroup.traces.reverse().map(trace => {
+          state.defaultTraceGroup[trace.oldTrace].dots = [
+            ...trace.dots,
+            ...state.defaultTraceGroup[trace.oldTrace].dots,
+          ];
+        });
+      });
+    },
 
     /**
      *
@@ -101,6 +114,7 @@ export const {
   annotateTraceGroup,
   setDefaultTraceGroup,
   deleteTraceGroup,
+  deleteTraceGroups,
   setFinalTraceGroups,
 } = currentWordSlice.actions;
 

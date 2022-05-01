@@ -10,7 +10,7 @@ import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { Size } from '../../types/coordinates-types';
 import {
-  deleteTraceGroup,
+  deleteTraceGroups,
   initWord,
   setFinalTraceGroups,
 } from '../current-word-slice';
@@ -55,9 +55,7 @@ function AnnotationsContainer() {
         .splice(selectedBox)
         .reverse();
 
-      deletedTraceGroups.map(traceGroup =>
-        dispatch(deleteTraceGroup(traceGroup)),
-      );
+      dispatch(deleteTraceGroups(deletedTraceGroups));
 
       dispatch(setFinalTraceGroups(finalTraceGroups));
       setSelectedBox(undefined);
