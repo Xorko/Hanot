@@ -1,11 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import type { FileType } from '../../../types/file-types';
-import { RootStackParamList } from '../../../types/navigation-types';
-import { useDrawerStateContext } from '../context/DrawerStateContext';
+import { NavigationProp } from '../../../types/navigation-types';
 import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
@@ -17,19 +16,12 @@ type HeaderButtonProps = {
 };
 
 function Header({ type }: HeaderProps) {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
-  const { isOpen: drawerIsOpen, setIsOpen: setDrawerisOpen } =
-    useDrawerStateContext();
-
+  const navigation = useNavigation<NavigationProp>();
   const [showHelp, setShowHelp] = useState<boolean>(false);
+  const { setOpenedFiles } = useDrawerFilesContext();
 
   const toggleHelp = () => {
     setShowHelp(!showHelp);
-  };
-
-  const toggleDrawer = () => {
-    setDrawerisOpen(!drawerIsOpen);
   };
 
   return (
@@ -38,7 +30,7 @@ function Header({ type }: HeaderProps) {
         <IconButton
           library="material"
           iconName="menu"
-          onPress={toggleDrawer}
+          onPress={navigation.toggleDrawer}
           iconSize={50}
           color="dark"
         />
@@ -60,7 +52,10 @@ function Header({ type }: HeaderProps) {
           <IconButton
             library="material"
             iconName="home"
-            onPress={() => navigation.navigate('FileSelectionScreen', {})}
+            onPress={() => {
+              setOpenedFiles([]);
+              navigation.getParent()?.navigate('FileSelectionScreen'); // The parent of this navigator is the RootStack
+            }}
             iconSize={50}
             color="dark"
           />
