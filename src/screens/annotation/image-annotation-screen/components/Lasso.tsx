@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Platform, Pressable } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
+import { Coordinates } from '../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useLassoModifiedContext } from '../context/LassoModifiedContext';
+import { useSelectedBox } from '../context/SelectedBoxContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,
 } from '../current-annotated-image';
-import { Coordinates } from '../../types/coordinates-types';
 import { roundPointCoordinates } from '../utils/crop-utils';
 import LassoGeometry from './lasso-geometry/LassoGeometry';
 
@@ -28,8 +28,7 @@ function Lasso() {
   // Contexts
   //===========================================================================
 
-  const { currentSelectedCrop, setCurrentSelectedCrop } =
-    useCurrentSelectedCropContext();
+  const { selectedBox, setSelectedBox } = useSelectedBox();
 
   const { displayedImageSize } = useDisplayedImageSizeContext();
 
@@ -59,7 +58,7 @@ function Lasso() {
     setPath([]);
     setClosedPath(false);
     setInCropCreation(false);
-    setCurrentSelectedCrop();
+    setSelectedBox();
   };
 
   /**
@@ -138,7 +137,7 @@ function Lasso() {
    * Updates the current selected crop path to the current path
    */
   const updateCrop = () => {
-    if (currentSelectedCrop !== undefined) {
+    if (selectedBox !== undefined) {
       // Creates the new crop object
       const newCrop = {
         cropPath: [...path],
@@ -148,7 +147,7 @@ function Lasso() {
       // Updates the current image annotation with the new crop in the store
       dispatch(
         setCurrentAnnotatedImageCropAtIndex({
-          index: currentSelectedCrop,
+          index: selectedBox,
           crop: newCrop,
         }),
       );
@@ -174,8 +173,8 @@ function Lasso() {
    * Checks if a crop is selected and if so, sets the states to its values
    */
   useEffect(() => {
-    if (currentSelectedCrop !== undefined) {
-      const selectedCrop = currentAnnotatedImageCrops[currentSelectedCrop];
+    if (selectedBox !== undefined) {
+      const selectedCrop = currentAnnotatedImageCrops[selectedBox];
 
       if (selectedCrop) {
         // If a crop is selected, the path is set to its points, the crop is set to be in creation, and the path needs to be closed
@@ -193,7 +192,7 @@ function Lasso() {
       setInCropCreation(false);
       setClosedPath(false);
     }
-  }, [currentAnnotatedImageCrops, currentSelectedCrop]);
+  }, [currentAnnotatedImageCrops, selectedBox]);
 
   return (
     <>

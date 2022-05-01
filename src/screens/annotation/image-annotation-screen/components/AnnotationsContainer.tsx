@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
-import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
+import { useSelectedBox } from '../context/SelectedBoxContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageRemoveCrop,
@@ -27,8 +27,7 @@ function AnnotationsContainer() {
 
   const { trueImageSize } = useTrueImageSizeContext();
 
-  const { currentSelectedCrop, setCurrentSelectedCrop } =
-    useCurrentSelectedCropContext();
+  const { selectedBox, setSelectedBox } = useSelectedBox();
 
   //===========================================================================
   // State
@@ -43,7 +42,7 @@ function AnnotationsContainer() {
    * @param index The index of the crop that is selected
    */
   const selectCrop = (index: number) => {
-    setCurrentSelectedCrop(index);
+    setSelectedBox(index);
     console.log('selectCrop', index);
   };
 
@@ -51,11 +50,11 @@ function AnnotationsContainer() {
    * Removes the crop from the redux store
    */
   const deleteCrop = () => {
-    if (currentSelectedCrop !== undefined && trueImageSize) {
+    if (selectedBox !== undefined && trueImageSize) {
       const pixelsCopy: Pixel[] = cloneDeep(currentImage.imagePixels);
 
       getAllPointsInPath(
-        currentImage.imageCrops[currentSelectedCrop].cropPath,
+        currentImage.imageCrops[selectedBox].cropPath,
         trueImageSize.width,
       ).forEach((index: number) => {
         // For every point, sets the annotation of the corresponding pixel to the one of the crop, if the pixel is not white (background)
@@ -63,9 +62,9 @@ function AnnotationsContainer() {
         pixel.annotation = undefined;
       });
 
-      dispatch(currentAnnotatedImageRemoveCrop(currentSelectedCrop));
+      dispatch(currentAnnotatedImageRemoveCrop(selectedBox));
       dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
-      setCurrentSelectedCrop(undefined);
+      setSelectedBox(undefined);
     }
   };
 

@@ -9,7 +9,7 @@ import AnnotationsContainer from './components/AnnotationsContainer';
 import PixelRecovery from './components/PixelRecovery';
 import ProgressCircle from './components/ProgressCircle';
 import Workspace from './components/Workspace';
-import { CurrentSelectedCropProvider } from './context/CurrentSelectedCropContext';
+import { SelectedBoxProvider } from './context/SelectedBoxContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
 import {
@@ -123,7 +123,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
       )}
       <Header type="image" />
       <DisplayedImageSizeContextProvider>
-        <CurrentSelectedCropProvider>
+        <SelectedBoxProvider initialSelectedBox={undefined}>
           {trueImageSize && (
             <TrueImageSizeContextProvider initialTrueImageSize={trueImageSize}>
               {pixelRetrieved ? (
@@ -138,7 +138,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
               )}
             </TrueImageSizeContextProvider>
           )}
-        </CurrentSelectedCropProvider>
+        </SelectedBoxProvider>
       </DisplayedImageSizeContextProvider>
     </View>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppDispatch } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
-import { useCurrentSelectedCropContext } from '../context/CurrentSelectedCropContext';
+import { useSelectedBox } from '../context/SelectedBoxContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
 import type { Coordinates, Size } from '../../types/coordinates-types';
@@ -35,7 +35,7 @@ function AnnotationContainer({
 
   const { displayedImageSize } = useDisplayedImageSizeContext();
 
-  const { currentSelectedCrop } = useCurrentSelectedCropContext();
+  const { selectedBox } = useSelectedBox();
 
   //===========================================================================
   // State
@@ -109,7 +109,7 @@ function AnnotationContainer({
       <Annotation
         onInputChange={handleInputChange}
         onPress={selectCrop}
-        selected={index === currentSelectedCrop}>
+        selected={index === selectedBox}>
         <View style={styles.container} onLayout={getContainerSize}>
           {pathToDisplay && cropSize && (
             <Crop path={pathToDisplay} size={cropSize} />
