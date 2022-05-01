@@ -9,13 +9,14 @@ import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
   type: FileType;
+  onValidate?: () => void;
 };
 
 type HeaderButtonProps = {
   toggleHelp: () => void;
 };
 
-function Header({ type }: HeaderProps) {
+function Header({ type, onValidate }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
   const [showHelp, setShowHelp] = useState<boolean>(false);
   const { setOpenedFiles } = useDrawerFilesContext();
@@ -43,7 +44,7 @@ function Header({ type }: HeaderProps) {
         <IconButton
           library="material"
           iconName="checkbox-marked"
-          onPress={() => { }}
+          onPress={onValidate}
           iconSize={50}
           color="success"
         />

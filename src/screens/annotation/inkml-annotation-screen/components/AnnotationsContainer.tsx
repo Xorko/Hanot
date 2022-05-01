@@ -10,6 +10,7 @@ import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { Size } from '../../types/coordinates-types';
 import {
+  annotateTraceGroup,
   deleteTraceGroups,
   initWord,
   setFinalTraceGroups,
@@ -62,6 +63,15 @@ function AnnotationsContainer() {
     }
   };
 
+  /**
+   * Modify the annotation of the traceGroup indicated by index
+   * @param annotation the character captured from the keyboard
+   * @param index the number corresponding to the traceGroup index in the currentWord
+   */
+  const editAnnotationLabel = (annotation: string, index: number): void => {
+    dispatch(annotateTraceGroup({ index, annotation }));
+  };
+
   return (
     <Annotations
       type="inkml"
@@ -71,7 +81,10 @@ function AnnotationsContainer() {
         <Annotation
           key={index}
           onPress={() => selectBox(index)}
-          selected={index === selectedBox}>
+          selected={index === selectedBox}
+          onInputChange={(annotation: string) =>
+            editAnnotationLabel(annotation, index)
+          }>
           <View style={styles.polylineContainer} onLayout={getContainerSize}>
             <SvgContainer>
               {containerSize &&

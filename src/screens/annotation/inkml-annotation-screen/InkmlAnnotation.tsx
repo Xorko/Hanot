@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import SvgContainer from '../../../components/SvgContainer';
-import { useAppDispatch } from '../../../stores/hooks';
+import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { InkMLFile } from '../../../types/file-import-types';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
@@ -19,10 +21,31 @@ type InkmlAnnotationProps = {
 
 function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   const dispatch = useAppDispatch();
+  const currentWord = useAppSelector(state => state.currentWord);
 
   const [inkmlTransform, setInkmlTransform] = useState<Transform>();
 
   const [areaSize, setAreaSize] = useState<{ width: number; height: number }>();
+
+  const validate = () => {
+    const word = {
+      tracegroups: currentWord.tracegroups,
+      defaultTraceGroup: currentWord.defaultTraceGroup,
+      annotations: currentWord.annotations,
+      attributes: currentWord.attributes,
+      predicted: currentWord.predicted,
+    };
+    const inkml = {
+      words: [word],
+    };
+    dispatch(addAnnotatedInkml({ id: file.id, content: inkml }));
+
+    Toast.show({
+      type: 'success',
+      text1: 'Inkml successfully annotated',
+      visibilityTime: 1000,
+    });
+  };
 
   useEffect(() => {
     if (file.content && areaSize) {
@@ -45,7 +68,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   return (
     <View style={styles.container}>
-      <Header type="inkml" />
+      <Header type="inkml" onValidate={validate} />
       <SelectedBoxProvider initialSelectedBox={undefined}>
         <AnnotationsContainer />
       </SelectedBoxProvider>
