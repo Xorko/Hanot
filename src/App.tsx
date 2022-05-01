@@ -4,19 +4,22 @@ import AppProviders from './components/AppProvider';
 import AnnotationScreen from './screens/annotation/AnnotationScreen';
 import FileSelectionScreen from './screens/file-selection-screen/FileSelectionScreen';
 
-const { Navigator, Screen } = createStackNavigator();
+const Stack = createStackNavigator();
 
 function App() {
   return (
     <AppProviders>
-      <Navigator
+      <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}
         initialRouteName="FileSelectionScreen">
-        <Screen name="AnnotationScreen" component={AnnotationScreen} />
-        <Screen name="FileSelectionScreen" component={FileSelectionScreen} />
-      </Navigator>
+        <Stack.Screen name="AnnotationScreen" component={AnnotationScreen} />
+        <Stack.Screen
+          name="FileSelectionScreen"
+          component={FileSelectionScreen}
+        />
+      </Stack.Navigator>
       <Toast />
     </AppProviders>
   );
