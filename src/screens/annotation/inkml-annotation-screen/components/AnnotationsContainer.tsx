@@ -3,12 +3,17 @@ import { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import SvgContainer from '../../../../components/SvgContainer';
 import { createEmptyTraceGroup } from '../../../../core/input';
+import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { Size } from '../../types/coordinates-types';
-import { initWord } from '../current-word-slice';
+import {
+  deleteTraceGroup,
+  initWord,
+  setFinalTraceGroups,
+} from '../current-word-slice';
 import LetterPolyline from './LetterPolyline';
 
 function AnnotationsContainer() {
@@ -40,8 +45,30 @@ function AnnotationsContainer() {
     }
   };
 
+  const deleteBox = () => {
+    if (currentWord && selectedBox !== undefined) {
+      const finalTraceGroups: TraceGroup.Type[] = cloneDeep(
+        currentWord.tracegroups,
+      );
+
+      const deletedTraceGroups: TraceGroup.Type[] = finalTraceGroups
+        .splice(selectedBox)
+        .reverse();
+
+      deletedTraceGroups.map(traceGroup =>
+        dispatch(deleteTraceGroup(traceGroup)),
+      );
+
+      dispatch(setFinalTraceGroups(finalTraceGroups));
+      setSelectedBox(undefined);
+    }
+  };
+
   return (
-    <Annotations type="inkml" onAddDiacritic={handleAddBox}>
+    <Annotations
+      type="inkml"
+      onAddDiacritic={handleAddBox}
+      onDeleteAnnotation={deleteBox}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
         <Annotation
           key={index}
