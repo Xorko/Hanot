@@ -10,6 +10,7 @@ import { usePolylineTransformContext } from '../context/PolylineTransformContext
 import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
 import { distance } from '../utils/math-utils';
 import { reverseTransform } from '../utils/transform-utils';
+import SplitPoint from './SplitPoint';
 
 type WordSvgProps = {
   traces: Trace.Type[];
@@ -69,6 +70,30 @@ function WordSvg({ traces }: WordSvgProps) {
     }
   };
 
+  const handlePointPress = (traceIndex: number) => {
+    if (currentWord !== undefined) {
+      const traceGroups = currentWord.tracegroups;
+
+      if (traceGroups.length === 0) {
+        console.error('AnnotationArea: handlePressHitBox --  error box empty');
+      } else {
+        const defaultTracesCopy = cloneDeep(defaultTraces);
+        const leftTrace = [...defaultTracesCopy[traceIndex].dots];
+        defaultTracesCopy[traceIndex].dots = [];
+
+        dispatch(pushDots({ leftTrace, idxTrace: traceIndex }));
+
+        //setting state for rerender
+        setAnnotatedTraceGroups(traceGroups);
+
+        //setting defaultTraces
+        dispatch(setDefaultTraceGroup(defaultTracesCopy));
+      }
+    } else {
+      throw new Error('AnnotationArea: handlePress -- currentWord undefined');
+    }
+  };
+
   useEffect(() => {
     setDefaultTraces(currentWord ? currentWord.defaultTraceGroup : []);
     setAnnotatedTraceGroups(currentWord ? currentWord.tracegroups : []);
@@ -96,6 +121,17 @@ function WordSvg({ traces }: WordSvgProps) {
           />
         )),
       )}
+      {defaultTraces.map((trace, idx) => {
+        if (trace.dots.length > 0) {
+          return (
+            <SplitPoint
+              key={idx}
+              dot={trace.dots[trace.dots.length - 1]}
+              onPress={() => handlePointPress(idx)}
+            />
+          );
+        }
+      })}
     </>
   );
 }
