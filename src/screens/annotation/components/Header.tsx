@@ -43,7 +43,7 @@ function Header({ type }: HeaderProps) {
         <IconButton
           library="material"
           iconName="checkbox-marked"
-          onPress={() => {}}
+          onPress={() => { }}
           iconSize={50}
           color="success"
         />
