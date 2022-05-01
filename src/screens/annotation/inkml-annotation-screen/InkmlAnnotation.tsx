@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../stores/hooks';
 import { InkMLFile } from '../../../types/file-import-types';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
+import { SelectedBoxProvider } from '../context/SelectedBoxContext';
 import AnnotationsContainer from './components/AnnotationsContainer';
 import Workspace from './components/Workspace';
 import { PolylineTransformProvider } from './context/PolylineTransformContext';
@@ -45,7 +46,9 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   return (
     <View style={styles.container}>
       <Header type="inkml" />
-      <AnnotationsContainer />
+      <SelectedBoxProvider initialSelectedBox={undefined}>
+        <AnnotationsContainer />
+      </SelectedBoxProvider>
       <AnnotationArea>
         <View
           onLayout={(event: LayoutChangeEvent) =>

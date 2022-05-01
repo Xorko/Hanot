@@ -6,6 +6,7 @@ import { createEmptyTraceGroup } from '../../../../core/input';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
 import Annotations from '../../components/Annotations';
+import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { Size } from '../../types/coordinates-types';
 import { initWord } from '../current-word-slice';
 import LetterPolyline from './LetterPolyline';
@@ -13,6 +14,8 @@ import LetterPolyline from './LetterPolyline';
 function AnnotationsContainer() {
   const dispatch = useAppDispatch();
   const currentWord = useAppSelector(state => state.currentWord);
+
+  const { selectedBox, setSelectedBox } = useSelectedBox();
 
   const [containerSize, setContainerSize] = useState<Size>();
 
@@ -29,10 +32,21 @@ function AnnotationsContainer() {
     setContainerSize(event.nativeEvent.layout);
   };
 
+  const selectBox = (idx: number) => {
+    if (selectedBox === idx) {
+      setSelectedBox(undefined);
+    } else {
+      setSelectedBox(idx);
+    }
+  };
+
   return (
     <Annotations type="inkml" onAddDiacritic={handleAddBox}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
-        <Annotation key={index}>
+        <Annotation
+          key={index}
+          onPress={() => selectBox(index)}
+          selected={index === selectedBox}>
           <View style={styles.polylineContainer} onLayout={getContainerSize}>
             <SvgContainer>
               {containerSize &&
