@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as Trace from '../../../../core/trace';
 import { useAppSelector } from '../../../../stores/hooks';
-import WordPolyline from './WordPolyline';
+import WordSvg from './WordSvg';
 
 function Workspace() {
   const [defaultTraces, setDefaultTraces] = useState<Trace.Type[]>([]);
@@ -12,7 +12,7 @@ function Workspace() {
     setDefaultTraces(currentWord ? currentWord.defaultTraceGroup : []);
   }, [currentWord]);
 
-  return <WordPolyline traces={defaultTraces} />;
+  return <WordSvg traces={defaultTraces} />;
 }
 
 export default Workspace;

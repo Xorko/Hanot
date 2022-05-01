@@ -11,13 +11,13 @@ import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
 import { distance } from '../utils/math-utils';
 import { reverseTransform } from '../utils/transform-utils';
 
-type WordPolylineProps = {
+type WordSvgProps = {
   traces: Trace.Type[];
   annotated?: boolean;
   onPress?: (e: GestureResponderEvent, idx: number) => void;
 };
 
-function WordPolyline({ traces }: WordPolylineProps) {
+function WordSvg({ traces }: WordSvgProps) {
   const currentWord = useAppSelector(state => state.currentWord);
   const dispatch = useAppDispatch();
 
@@ -100,4 +100,4 @@ function WordPolyline({ traces }: WordPolylineProps) {
   );
 }
 
-export default WordPolyline;
+export default WordSvg;
