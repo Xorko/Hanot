@@ -18,14 +18,17 @@ type FileProps = {
   file: InkMLFile | ImageFile;
 };
 
+type FileItemProps = FileProps & {
+  isSelected?: boolean;
+};
+
 function File({ file }: FileProps) {
+  const [isSelected, setIsSelected] = useState<boolean>(false);
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
   const dispatch = useDispatch();
 
   const handleNavigation = () => {
@@ -76,34 +79,36 @@ function File({ file }: FileProps) {
       case 'single':
         handleNavigation();
         break;
-      default:
-        break;
     }
   };
-  return (
-    <TouchableOpacity
-      onPress={handleFilePress}
-      onLongPress={handleFileLongPress}>
-      {displayMode === 'list' && <ListItem file={file} />}
-      {displayMode === 'block' && <BlockItem file={file} />}
-    </TouchableOpacity>
-  );
-}
-
-function ListItem({ file }: FileProps) {
-  // Code duplicated from block item to avoid having delay for the border coloration when selecting files
-  const { selectedFiles } = useSelectedFiles();
-
-  const [borderColor, setBorderColor] = useState<string>(colors.primary);
 
   useEffect(() => {
     if (selectedFiles.some(e => e.id === file.id)) {
-      setBorderColor(colors.secondary);
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
     }
   }, [selectedFiles, file.id]);
 
   return (
-    <View style={{ ...listStyles.container, borderColor }} testID="file-list">
+    <TouchableOpacity
+      onPress={handleFilePress}
+      onLongPress={handleFileLongPress}>
+      {displayMode === 'list' && (
+        <ListItem file={file} isSelected={isSelected} />
+      )}
+      {displayMode === 'block' && (
+        <BlockItem file={file} isSelected={isSelected} />
+      )}
+    </TouchableOpacity>
+  );
+}
+
+function ListItem({ file, isSelected }: FileItemProps) {
+  return (
+    <View
+      style={[listStyles.container, isSelected && styles.selected]}
+      testID="file-list">
       <Text
         variant="light"
         style={styles.filename}
@@ -115,22 +120,11 @@ function ListItem({ file }: FileProps) {
   );
 }
 
-function BlockItem({ file }: FileProps) {
-  // Code duplicated from block item to avoid having delay for the border coloration when selecting files
-  const { selectedFiles } = useSelectedFiles();
-
-  const [borderColor, setBorderColor] = useState<string>(colors.primary);
-
-  useEffect(() => {
-    if (selectedFiles.some(e => e.id === file.id)) {
-      setBorderColor(colors.secondary);
-    } else {
-      setBorderColor(colors.primary);
-    }
-  }, [selectedFiles, file.id]);
-
+function BlockItem({ file, isSelected }: FileItemProps) {
   return (
-    <View style={{ ...blockStyles.container, borderColor }} testID="file-block">
+    <View
+      style={[blockStyles.container, isSelected && styles.selected]}
+      testID="file-block">
       <View style={blockStyles.preview}>
         <Text variant="secondary">Preview</Text>
       </View>
@@ -147,16 +141,20 @@ const styles = StyleSheet.create({
   filename: {
     fontWeight: 'bold',
   },
+  selected: {
+    borderColor: colors.secondary,
+  },
 });
 
 const listStyles = StyleSheet.create({
   container: {
     alignContent: 'center',
     backgroundColor: colors.primary,
-    borderRadius: 10,
     paddingVertical: 20,
     paddingHorizontal: 150,
+    borderRadius: 10,
     borderWidth: 4,
+    borderColor: colors.primary,
   },
 });
 
@@ -166,11 +164,12 @@ const blockStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
     padding: 20,
     width: '97%', // Modify this to increase or decrease the gap between the items
     marginBottom: 8,
+    borderRadius: 10,
     borderWidth: 4,
+    borderColor: colors.primary,
   },
   preview: {
     width: 200,
@@ -185,4 +184,5 @@ const blockStyles = StyleSheet.create({
   },
 });
 
+export { BlockItem as BlockFile };
 export default File;
