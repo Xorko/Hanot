@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Text from '../../../components/Text';
+import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import colors from '../../../style/colors';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { RootStackParamList } from '../../../types/navigation-types';
@@ -27,6 +28,7 @@ function File({ file }: FileProps) {
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
+  const { setOpenedFiles } = useDrawerFilesContext();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
@@ -39,14 +41,20 @@ function File({ file }: FileProps) {
       case 'image':
         dispatch(resetCurrentAnnotatedImage());
         navigation.navigate('AnnotationScreen', {
-          type: fileType,
-          file: file as ImageFile,
+          screen: 'Annotation',
+          params: {
+            type: fileType,
+            file: file as ImageFile,
+          },
         });
         break;
       case 'inkml':
         navigation.navigate('AnnotationScreen', {
-          type: fileType,
-          file: file as InkMLFile,
+          screen: 'Annotation',
+          params: {
+            type: fileType,
+            file: file as InkMLFile,
+          },
         });
         break;
     }
@@ -90,6 +98,7 @@ function File({ file }: FileProps) {
         break;
       case 'single':
         handleNavigation();
+        setOpenedFiles([file.id]);
         break;
     }
   };
