@@ -1,11 +1,16 @@
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
+import { Size } from '../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { LassoModifiedContextProvider } from '../context/LassoModifiedContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import Lasso from './Lasso';
 
-function Workspace() {
+type WorkspacePropsType = {
+  pullUpDisplayedImageSize: (displayedSize: Size) => void;
+};
+
+function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
   //===========================================================================
   // Redux
   //===========================================================================
@@ -52,6 +57,7 @@ function Workspace() {
         height: trueImageSize.height * (scale < 1 ? scale : 1),
       };
       setDisplayedImageSize(newSize);
+      pullUpDisplayedImageSize(newSize);
     }
   };
   return (
