@@ -1,16 +1,12 @@
-import { cloneDeep } from 'lodash';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
-import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImageCropAnnotationAtIndex,
-  setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
-import type { Crop, Pixel } from '../types/image-annotation-types';
-import { getAllPointsInPath } from '../utils/pixels-utils';
+import type { Crop } from '../types/image-annotation-types';
 import AnnotationContainer from './AnnotationContainer';
 function AnnotationsContainer() {
   //===========================================================================
@@ -26,8 +22,6 @@ function AnnotationsContainer() {
   //===========================================================================
   // Contexts
   //===========================================================================
-
-  const { trueImageSize } = useTrueImageSizeContext();
 
   const { selectedBox, setSelectedBox } = useSelectedBox();
 
@@ -70,20 +64,8 @@ function AnnotationsContainer() {
    * Removes the crop from the redux store
    */
   const deleteCrop = () => {
-    if (selectedBox !== undefined && trueImageSize) {
-      const pixelsCopy: Pixel[] = cloneDeep(currentImage.imagePixels);
-
-      getAllPointsInPath(
-        currentImage.imageCrops[selectedBox].cropPath,
-        trueImageSize.width,
-      ).forEach((index: number) => {
-        // For every point, sets the annotation of the corresponding pixel to the one of the crop, if the pixel is not white (background)
-        const pixel: Pixel = pixelsCopy[index];
-        pixel.annotation = undefined;
-      });
-
+    if (selectedBox !== undefined) {
       dispatch(currentAnnotatedImageRemoveCrop(selectedBox));
-      dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
       setSelectedBox(undefined);
     }
   };
