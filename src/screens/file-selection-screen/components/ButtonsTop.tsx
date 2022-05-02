@@ -14,6 +14,11 @@ function ButtonsTop() {
   const loadedFiles = useAppSelector(state => state.loadedFiles);
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
 
+  const showSelectAllButton =
+    fileType === 'inkml'
+      ? loadedFiles.textFileInfo.length > 0
+      : loadedFiles.imageFileInfo.length > 0;
+
   /**
    * Removes all selected files from the context and UI.
    */
@@ -65,11 +70,13 @@ function ButtonsTop() {
           )}
         </View>
         <View style={styles.selectionButton}>
-          <Button
-            variant="dark"
-            title="Tout sélectionner"
-            onPress={handleSelectAllPress}
-          />
+          {showSelectAllButton && (
+            <Button
+              variant="dark"
+              title="Tout sélectionner"
+              onPress={handleSelectAllPress}
+            />
+          )}
         </View>
         <View style={styles.px}>
           <FileTypeChangeButton />
