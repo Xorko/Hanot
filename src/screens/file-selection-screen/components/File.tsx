@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Text from '../../../components/Text';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
+import { useAppSelector } from '../../../stores/hooks';
 import colors from '../../../style/colors';
+import type {
+  AnnotatedImage,
+  AnnotatedInkml
+} from '../../../types/annotated-files-types';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { RootStackParamList } from '../../../types/navigation-types';
 import { useDisplayMode } from '../context/DisplayModeContext';
@@ -19,6 +24,7 @@ type FileProps = {
 
 type FileItemProps = FileProps & {
   isSelected?: boolean;
+  isAnnotated?: boolean;
 };
 
 function File({ file }: FileProps) {
@@ -29,6 +35,23 @@ function File({ file }: FileProps) {
   const { setOpenedFiles } = useDrawerFilesContext();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const isAnnotated = useAppSelector(state => {
+    let annotatedFiles: (AnnotatedInkml | AnnotatedImage)[];
+
+    switch (fileType) {
+      case 'inkml':
+        annotatedFiles = state.annotatedInkml.annotatedInkml;
+        break;
+      case 'image':
+        annotatedFiles = state.annotatedImages.annotatedImages;
+        break;
+    }
+
+    return (
+      annotatedFiles.filter(annotatedFile => annotatedFile.id === file.id)
+        .length > 0
+    );
+  });
 
   /**
    * Navigates to the correct annotation screen based on the file type.
@@ -112,19 +135,31 @@ function File({ file }: FileProps) {
       onPress={handleFilePress}
       onLongPress={handleFileLongPress}>
       {displayMode === 'list' && (
-        <ListItem file={file} isSelected={isSelected} />
+        <ListItem
+          file={file}
+          isSelected={isSelected}
+          isAnnotated={isAnnotated}
+        />
       )}
       {displayMode === 'block' && (
-        <BlockItem file={file} isSelected={isSelected} />
+        <BlockItem
+          file={file}
+          isSelected={isSelected}
+          isAnnotated={isAnnotated}
+        />
       )}
     </TouchableOpacity>
   );
 }
 
-function ListItem({ file, isSelected }: FileItemProps) {
+function ListItem({ file, isSelected, isAnnotated }: FileItemProps) {
   return (
     <View
-      style={[listStyles.container, isSelected && styles.selected]}
+      style={[
+        listStyles.container,
+        isAnnotated && styles.annotated,
+        isSelected && styles.selected,
+      ]}
       testID="file-list">
       <Text
         variant="light"
@@ -137,10 +172,14 @@ function ListItem({ file, isSelected }: FileItemProps) {
   );
 }
 
-function BlockItem({ file, isSelected }: FileItemProps) {
+function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
   return (
     <View
-      style={[blockStyles.container, isSelected && styles.selected]}
+      style={[
+        blockStyles.container,
+        isAnnotated && styles.annotated,
+        isSelected && styles.selected,
+      ]}
       testID="file-block">
       <View style={blockStyles.preview}>
         <Text variant="secondary">Preview</Text>
@@ -160,6 +199,10 @@ const styles = StyleSheet.create({
   },
   selected: {
     borderColor: colors.secondary,
+  },
+  annotated: {
+    backgroundColor: colors.success,
+    borderColor: colors.success,
   },
 });
 
