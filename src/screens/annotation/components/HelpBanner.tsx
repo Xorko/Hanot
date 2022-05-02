@@ -14,13 +14,6 @@ function HelpBanner({ type }: HelpBannerProps) {
       entering={FadeIn.duration(250)}
       exiting={FadeOut.duration(250)}
       style={[bannerStyle.content, bannerStyle.shadow]}>
-      {type === 'inkml' && (
-        <View style={bannerStyle.iconDescription}>
-          <Icon name="comma-circle" size={30} color={colors.secondary} />
-          <Text style={bannerStyle.ml}>Ajouter un signe diacritque</Text>
-        </View>
-      )}
-
       <View style={bannerStyle.iconDescription}>
         <Icon name="close-circle" size={30} color={colors.danger} />
         <Text style={bannerStyle.ml}>Supprimer la lettre</Text>
