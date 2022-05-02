@@ -1,9 +1,9 @@
 import { Platform } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { useFileType } from '../../../context/FileTypeContext';
 import { exportInk } from '../../../core/output';
 import { builder } from '../../../lib/fast-xml-parser';
 import { useAppSelector } from '../../../stores/hooks';
-import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import {
   callFunctionWithPermission,

@@ -1,7 +1,7 @@
 import IconButton from '../../../components/IconButton';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
-import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { removeImageFiles, removeTextFiles } from '../loaded-files-slice';
 

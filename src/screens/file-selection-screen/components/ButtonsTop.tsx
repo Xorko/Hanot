@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import Button from '../../../components/Button';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
-import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import ChangeModeButton from './ChangeModeButton';
 import FileTypeChangeButton from './FileTypeChangeButton';

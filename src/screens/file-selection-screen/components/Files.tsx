@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import Text from '../../../components/Text';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { useDisplayMode } from '../context/DisplayModeContext';
-import { useFileType } from '../context/FileTypeContext';
 import { LoadedFilesState } from '../loaded-files-slice';
 import File from './File';
 

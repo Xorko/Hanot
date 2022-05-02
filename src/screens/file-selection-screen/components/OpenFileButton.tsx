@@ -2,11 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { NavigationProp } from '../../../types/navigation-types';
 import { resetCurrentAnnotatedImage } from '../../annotation/image-annotation-screen/current-annotated-image';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
-import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { LoadedFilesState } from '../loaded-files-slice';
 

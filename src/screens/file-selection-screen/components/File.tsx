@@ -4,17 +4,17 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Text from '../../../components/Text';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import colors from '../../../style/colors';
 import type {
   AnnotatedImage,
-  AnnotatedInkml
+  AnnotatedInkml,
 } from '../../../types/annotated-files-types';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { RootStackParamList } from '../../../types/navigation-types';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
-import { useFileType } from '../context/FileTypeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { limitStringLength } from '../utils/string-utils';
 

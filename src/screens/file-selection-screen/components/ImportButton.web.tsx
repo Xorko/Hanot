@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
-import { useFileType } from '../context/FileTypeContext';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
 import { handleFileImport } from '../utils/import-utils';
 

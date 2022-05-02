@@ -1,5 +1,5 @@
 import IconButton from '../../../components/IconButton';
-import { useFileType } from '../context/FileTypeContext';
+import { useFileType } from '../../../context/FileTypeContext';
 
 const FileTypeChangeButton = () => {
   const { fileType, setFileType } = useFileType();

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as ReduxProvider } from 'react-redux';
 import { DrawerFilesContextProvider } from '../context/DrawerFilesContext';
+import { FileTypeProvider } from '../context/FileTypeContext';
 import { store } from '../stores/store';
 
 type AppProvidersProps = {
@@ -14,7 +15,9 @@ function AppProviders({ children }: AppProvidersProps) {
     <ReduxProvider store={store}>
       <NavigationContainer>
         <GestureHandlerRootView style={styles.ghrv}>
-          <DrawerFilesContextProvider>{children}</DrawerFilesContextProvider>
+          <FileTypeProvider>
+            <DrawerFilesContextProvider>{children}</DrawerFilesContextProvider>
+          </FileTypeProvider>
         </GestureHandlerRootView>
       </NavigationContainer>
     </ReduxProvider>
