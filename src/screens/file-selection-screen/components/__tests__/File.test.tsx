@@ -1,5 +1,6 @@
+import { nanoid } from 'nanoid';
+import { FileTypeProvider } from '../../../../context/FileTypeContext';
 import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
-import { FileTypeProvider } from '../../../../screens/file-selection-screen/context/FileTypeContext';
 import colors from '../../../../style/colors';
 import { InkMLFile } from '../../../../types/file-import-types';
 import { fireEvent, render } from '../../../../utils/test-utils';
@@ -8,6 +9,7 @@ import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
 import File from '../File';
 
 const mockedNavigate = jest.fn();
+const id = nanoid();
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -20,25 +22,27 @@ jest.mock('@react-navigation/native', () => {
 });
 
 const inkmlFileMock: InkMLFile = {
+  id,
   fileName: 'test.inkml',
-  filePath: '/path/to/test.inkml',
 };
 
 const imageFileMock: InkMLFile = {
+  id,
   fileName: 'test.png',
-  filePath: '/path/to/test.png',
 };
+
+afterEach(() => {
+  mockedNavigate.mockClear();
+});
 
 test('it displays the filename', () => {
   const { queryByText } = render(
     <DisplayModeProvider>
-      <FileTypeProvider>
-        <FileSelectionModeProvider>
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider>
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
@@ -48,19 +52,21 @@ test('it displays the filename', () => {
 test('it navigates to the inkml annotation screen when it contains an inkml file and it is pressed', () => {
   const { getByText } = render(
     <DisplayModeProvider>
-      <FileTypeProvider>
-        <FileSelectionModeProvider>
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider>
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
   fireEvent(getByText(/test.inkml/i), 'press');
-  expect(mockedNavigate).toHaveBeenCalledWith('InkMLAnnotationScreen', {
-    file: inkmlFileMock,
+  expect(mockedNavigate).toHaveBeenCalledWith('AnnotationScreen', {
+    screen: 'Annotation',
+    params: {
+      file: inkmlFileMock,
+      type: 'inkml',
+    },
   });
 });
 
@@ -79,21 +85,23 @@ test('it navigates to the image annotation screen when it contains an image file
 
   fireEvent(getByText(/test.png/i), 'press');
 
-  expect(mockedNavigate).toHaveBeenCalledWith('ImageAnnotationScreen', {
-    file: imageFileMock,
+  expect(mockedNavigate).toHaveBeenCalledWith('AnnotationScreen', {
+    screen: 'Annotation',
+    params: {
+      file: imageFileMock,
+      type: 'image',
+    },
   });
 });
 
 test('it is selected on long press in block mode', () => {
   const { getByTestId } = render(
     <DisplayModeProvider>
-      <FileTypeProvider>
-        <FileSelectionModeProvider>
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider>
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
@@ -107,13 +115,11 @@ test('it is selected on long press in block mode', () => {
 test('it is selected on long press in list mode', () => {
   const { getByTestId } = render(
     <DisplayModeProvider initialMode="list">
-      <FileTypeProvider>
-        <FileSelectionModeProvider>
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider>
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
@@ -127,13 +133,11 @@ test('it is selected on long press in list mode', () => {
 test('it is selected on press when in multiple selection mode', () => {
   const { getByText, getByTestId } = render(
     <DisplayModeProvider>
-      <FileTypeProvider>
-        <FileSelectionModeProvider initialType="multiple">
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider initialType="multiple">
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
@@ -147,13 +151,11 @@ test('it is selected on press when in multiple selection mode', () => {
 test('it is unselected on press', () => {
   const { getByText, getByTestId } = render(
     <DisplayModeProvider>
-      <FileTypeProvider>
-        <FileSelectionModeProvider initialType="multiple">
-          <SelectedFilesProvider>
-            <File file={inkmlFileMock} />
-          </SelectedFilesProvider>
-        </FileSelectionModeProvider>
-      </FileTypeProvider>
+      <FileSelectionModeProvider initialType="multiple">
+        <SelectedFilesProvider>
+          <File file={inkmlFileMock} />
+        </SelectedFilesProvider>
+      </FileSelectionModeProvider>
     </DisplayModeProvider>,
   );
 
