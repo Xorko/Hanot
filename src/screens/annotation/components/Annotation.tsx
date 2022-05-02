@@ -51,14 +51,34 @@ function AnnotationInput({
   index,
   isNoise,
 }: AnnotationInputProps) {
-  const charValue = useAppSelector(
-    state => state.currentWord.tracegroups[index].label,
-  );
+  const _char = useAppSelector(state => {
+    // This checks if we are annotating an InkML file
+    // TODO: use FileType context
+    if (state.currentWord) {
+      return state.currentWord.tracegroups[index].label;
+    }
+    return (
+      state.currentAnnotatedImage.annotatedImage.imageCrops[index]
+        .cropAnnotation || ''
+    );
+  });
+
+  /**
+   * Temporary solution to get the character from the annotation.
+   * InkMLAnnotation uses Char type while ImageAnnotation uses string.
+   * @param char The character to get the value from.
+   */
+  const getCharacterValue = (char: Char.Type | string) => {
+    if (typeof char === 'string') {
+      return char;
+    }
+    return Char.getChar(char) || '';
+  };
 
   return (
     <View style={[inputStyles.container, isNoise && styles.noise]}>
       <TextInput
-        value={Char.getChar(charValue) || ''}
+        value={getCharacterValue(_char)}
         maxLength={1}
         autoCorrect={false}
         autoCapitalize="none"
