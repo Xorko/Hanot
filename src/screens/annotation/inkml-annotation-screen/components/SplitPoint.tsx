@@ -1,5 +1,6 @@
 import { Circle } from 'react-native-svg';
 import * as Dot from '../../../../core/dot';
+import colors from '../../../../style/colors';
 import { usePolylineTransformContext } from '../context/PolylineTransformContext';
 
 type SpliPointPropsType = {
@@ -16,7 +17,7 @@ function SplitPoint({ dot, onPress }: SpliPointPropsType) {
       cx={dot.x}
       cy={dot.y}
       r={3}
-      fill="red"
+      fill={colors.info}
       transform={`translate(${-transform.translateX},${-transform.translateY})`}
       scale={transform.scale}
     />
