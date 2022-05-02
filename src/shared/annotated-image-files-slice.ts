@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { annotatedImage } from '../screens/annotation/image-annotation-screen/types/store-state-types';
+import type { AnnotatedImage } from '../types/annotated-files-types';
 
 type AnnotatedImagesState = {
-  annotatedImages: annotatedImage[];
+  annotatedImages: AnnotatedImage[];
 };
 
 const initialState: AnnotatedImagesState = {
@@ -13,10 +13,10 @@ const annotatedImagesSlice = createSlice({
   name: 'annotatedImages',
   initialState,
   reducers: {
-    setAnnotatedImages: (state, action: PayloadAction<annotatedImage[]>) => {
+    setAnnotatedImages: (state, action: PayloadAction<AnnotatedImage[]>) => {
       state.annotatedImages = action.payload;
     },
-    addAnnotatedImage: (state, action: PayloadAction<annotatedImage>) => {
+    addAnnotatedImage: (state, action: PayloadAction<AnnotatedImage>) => {
       const imageIndex = state.annotatedImages.findIndex(
         e => e.id === action.payload.id,
       );

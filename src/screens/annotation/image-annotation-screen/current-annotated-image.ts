@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { AnnotatedImage } from '../../../types/annotated-files-types';
 import { Crop, Pixel } from './types/image-annotation-types';
-import type { annotatedImage } from './types/store-state-types';
 
 export interface CurrentAnnotatedImageState {
-  annotatedImage: annotatedImage;
+  annotatedImage: AnnotatedImage;
 }
 
 export const initialState: CurrentAnnotatedImageState = {
@@ -22,7 +22,7 @@ const currentAnnotatedImageSlice = createSlice({
   reducers: {
     setCurrentAnnotatedImage: (
       state,
-      action: PayloadAction<annotatedImage>,
+      action: PayloadAction<AnnotatedImage>,
     ) => {
       state.annotatedImage = action.payload;
     },
