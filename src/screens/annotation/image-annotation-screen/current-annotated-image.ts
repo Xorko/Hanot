@@ -6,7 +6,7 @@ export interface CurrentAnnotatedImageState {
   annotatedImage: annotatedImage;
 }
 
-const initialState: CurrentAnnotatedImageState = {
+export const initialState: CurrentAnnotatedImageState = {
   annotatedImage: {
     id: '',
     imageSource: '',

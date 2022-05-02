@@ -5,20 +5,22 @@ import { useAppDispatch } from '../../../stores/hooks';
 import type { ImageFile } from '../../../types/file-import-types';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
+import { SelectedBoxProvider } from '../context/SelectedBoxContext';
+import { Size } from '../types/coordinates-types';
 import AnnotationsContainer from './components/AnnotationsContainer';
 import PixelRecovery from './components/PixelRecovery';
 import ProgressCircle from './components/ProgressCircle';
 import Workspace from './components/Workspace';
-import { SelectedBoxProvider } from '../context/SelectedBoxContext';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
 import {
+  initialState,
+  setCurrentAnnotatedImage,
   setCurrentAnnotatedImageFilePath,
   setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageSrc,
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
-import { Size } from '../types/coordinates-types';
 import { getImagePixels } from './utils/pixel-utils.web';
 
 type ImageAnnotationProps = {
@@ -77,6 +79,10 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
   //   const truePaths = getAdjustedPaths();
   // };
 
+  const onGoBack = () => {
+    dispatch(setCurrentAnnotatedImage(initialState.annotatedImage));
+  };
+
   //===========================================================================
   // Render
   //===========================================================================
@@ -121,7 +127,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
           )}
         </View>
       )}
-      <Header type="image" />
+      <Header type="image" onGoBack={onGoBack} />
       <DisplayedImageSizeContextProvider>
         <SelectedBoxProvider initialSelectedBox={undefined}>
           {trueImageSize && (

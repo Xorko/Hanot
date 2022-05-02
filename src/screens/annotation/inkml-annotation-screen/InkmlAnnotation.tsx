@@ -11,7 +11,7 @@ import { SelectedBoxProvider } from '../context/SelectedBoxContext';
 import AnnotationsContainer from './components/AnnotationsContainer';
 import Workspace from './components/Workspace';
 import { PolylineTransformProvider } from './context/PolylineTransformContext';
-import { initWord } from './current-word-slice';
+import { initialState, initWord } from './current-word-slice';
 import { Transform } from './types/annotation-types';
 import { getTransform } from './utils/transform-utils';
 
@@ -47,6 +47,10 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
     });
   };
 
+  const onGoBack = () => {
+    dispatch(initWord(initialState));
+  };
+
   useEffect(() => {
     if (file.content && areaSize) {
       dispatch(initWord(file.content.words[0]));
@@ -68,7 +72,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   return (
     <View style={styles.container}>
-      <Header type="inkml" onValidate={validate} />
+      <Header type="inkml" onValidate={validate} onGoBack={onGoBack} />
       <SelectedBoxProvider initialSelectedBox={undefined}>
         <AnnotationsContainer />
       </SelectedBoxProvider>

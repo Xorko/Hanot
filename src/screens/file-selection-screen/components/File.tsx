@@ -2,13 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import Text from '../../../components/Text';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import colors from '../../../style/colors';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { RootStackParamList } from '../../../types/navigation-types';
-import { resetCurrentAnnotatedImage } from '../../annotation/image-annotation-screen/current-annotated-image';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useFileType } from '../context/FileTypeContext';
@@ -31,7 +29,6 @@ function File({ file }: FileProps) {
   const { setOpenedFiles } = useDrawerFilesContext();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch();
 
   /**
    * Navigates to the correct annotation screen based on the file type.
@@ -39,7 +36,6 @@ function File({ file }: FileProps) {
   const handleNavigation = () => {
     switch (fileType) {
       case 'image':
-        dispatch(resetCurrentAnnotatedImage());
         navigation.navigate('AnnotationScreen', {
           screen: 'Annotation',
           params: {

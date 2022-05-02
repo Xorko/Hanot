@@ -5,7 +5,7 @@ import * as Trace from '../../../core/trace';
 import * as TraceGroup from '../../../core/tracegroup';
 import * as Word from '../../../core/word';
 
-const initialState: Word.Type = {
+export const initialState: Word.Type = {
   tracegroups: [],
   defaultTraceGroup: [],
   annotations: {},

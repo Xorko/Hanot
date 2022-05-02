@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import type { FileType } from '../../../types/file-types';
@@ -10,20 +10,38 @@ import HelpBanner from './HelpBanner';
 type HeaderProps = {
   type: FileType;
   onValidate?: () => void;
+  onGoBack?: () => void;
 };
 
 type HeaderButtonProps = {
   toggleHelp: () => void;
 };
 
-function Header({ type, onValidate }: HeaderProps) {
+function Header({ type, onValidate, onGoBack }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
+
   const [showHelp, setShowHelp] = useState<boolean>(false);
   const { setOpenedFiles } = useDrawerFilesContext();
 
   const toggleHelp = () => {
     setShowHelp(!showHelp);
   };
+
+  const handleHomePress = useCallback(() => {
+    setOpenedFiles([]);
+    navigation.getParent()?.navigate('FileSelectionScreen'); // The parent of this navigator is the RootStack
+    onGoBack?.();
+    return true;
+  }, [navigation, onGoBack]);
+
+  useEffect(() => {
+    if (onGoBack) {
+      BackHandler.addEventListener('hardwareBackPress', handleHomePress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleHomePress);
+      };
+    }
+  }, [handleHomePress, onGoBack]);
 
   return (
     <View style={headerStyles.container}>
@@ -53,10 +71,7 @@ function Header({ type, onValidate }: HeaderProps) {
           <IconButton
             library="material"
             iconName="home"
-            onPress={() => {
-              setOpenedFiles([]);
-              navigation.getParent()?.navigate('FileSelectionScreen'); // The parent of this navigator is the RootStack
-            }}
+            onPress={handleHomePress}
             iconSize={50}
             color="dark"
           />
