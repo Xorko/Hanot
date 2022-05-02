@@ -3,9 +3,9 @@ import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppDispatch } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
+import type { Coordinates, Size } from '../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
-import type { Coordinates, Size } from '../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,
@@ -107,9 +107,10 @@ function AnnotationContainer({
   return (
     <>
       <Annotation
+        index={index}
         onInputChange={handleInputChange}
         onPress={selectCrop}
-        selected={index === selectedBox}
+        isSelected={index === selectedBox}
         backgroundColor="#C5CAE9">
         <View style={styles.container} onLayout={getContainerSize}>
           {pathToDisplay && cropSize && (
