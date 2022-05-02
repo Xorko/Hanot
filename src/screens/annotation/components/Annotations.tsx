@@ -6,7 +6,6 @@ import { FileType } from '../../../types/file-types';
 type AnnotationsProps = {
   type: FileType;
   children?: React.ReactNode;
-  onAddDiacritic?: () => void;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
@@ -14,17 +13,11 @@ type AnnotationsProps = {
 type AnnotationsButtonsProps = {
   type: FileType;
   scrollToEnd?: () => void;
-  onAddDiacritic?: () => void;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
 
-function Annotations({
-  type,
-  children,
-  onDeleteAnnotation,
-  onAddDiacritic,
-}: AnnotationsProps) {
+function Annotations({ type, children, onDeleteAnnotation }: AnnotationsProps) {
   const scrollviewRef = useRef<ScrollView>(null);
 
   const scrollToEnd = () => {
@@ -45,38 +38,18 @@ function Annotations({
         scrollToEnd={scrollToEnd}
         type={type}
         onDeleteAnnotation={onDeleteAnnotation}
-        onAddDiacritic={onAddDiacritic}
       />
     </View>
   );
 }
 
 function AnnotationsButtons({
-  scrollToEnd,
-  onAddDiacritic,
   onDeleteAnnotation,
   onMarkAsNoise,
   type,
 }: AnnotationsButtonsProps) {
-  const handleAddPress = () => {
-    if (scrollToEnd) {
-      scrollToEnd();
-    }
-    if (onAddDiacritic) {
-      onAddDiacritic();
-    }
-  };
-
   return (
     <View style={buttonsStyle.container}>
-      {type === 'inkml' && (
-        <IconButton
-          library="material"
-          iconName="comma-circle"
-          onPress={handleAddPress}
-          iconSize={70}
-        />
-      )}
       <IconButton
         library="material"
         iconName="close-circle"
