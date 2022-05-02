@@ -16,12 +16,14 @@ type AnnotationContainerProps = {
   path: Coordinates[];
   selectCrop: () => void;
   index: number;
+  isNoise: boolean;
 };
 
 function AnnotationContainer({
   path,
   index,
   selectCrop,
+  isNoise,
 }: AnnotationContainerProps) {
   //===========================================================================
   // Redux
@@ -111,7 +113,8 @@ function AnnotationContainer({
         onInputChange={handleInputChange}
         onPress={selectCrop}
         isSelected={index === selectedBox}
-        backgroundColor="#C5CAE9">
+        backgroundColor="#C5CAE9"
+        isNoise={isNoise}>
         <View style={styles.container} onLayout={getContainerSize}>
           {pathToDisplay && cropSize && (
             <Crop path={pathToDisplay} size={cropSize} />

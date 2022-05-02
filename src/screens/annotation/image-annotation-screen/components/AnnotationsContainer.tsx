@@ -1,10 +1,12 @@
 import { cloneDeep } from 'lodash';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import {
   currentAnnotatedImageRemoveCrop,
+  setCurrentAnnotatedImageCropAnnotationAtIndex,
   setCurrentAnnotatedImagePixels,
 } from '../current-annotated-image';
 import type { Crop, Pixel } from '../types/image-annotation-types';
@@ -33,6 +35,8 @@ function AnnotationsContainer() {
   // State
   // ===========================================================================
 
+  const [noiseList, setNoiseList] = useState<number[]>([]);
+
   //===========================================================================
   // Functions
   //===========================================================================
@@ -46,6 +50,19 @@ function AnnotationsContainer() {
       setSelectedBox(undefined);
     } else {
       setSelectedBox(index);
+    }
+  };
+
+  const markAsNoise = () => {
+    if (selectedBox !== undefined) {
+      dispatch(
+        setCurrentAnnotatedImageCropAnnotationAtIndex({
+          index: selectedBox,
+          annotation: 'noise',
+        }),
+      );
+      setNoiseList(prev => [...prev, selectedBox]);
+      setSelectedBox(undefined);
     }
   };
 
@@ -81,13 +98,14 @@ function AnnotationsContainer() {
     : [];
 
   return (
-    <Annotations type="image" onDeleteAnnotation={deleteCrop}>
+    <Annotations onDeleteAnnotation={deleteCrop} onMarkAsNoise={markAsNoise}>
       {paths.map((path, index) => (
         <AnnotationContainer
           key={index}
           path={path}
           index={index}
           selectCrop={() => selectCrop(index)}
+          isNoise={noiseList.includes(index)}
         />
       ))}
     </Annotations>

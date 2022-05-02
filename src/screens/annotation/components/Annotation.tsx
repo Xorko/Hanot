@@ -72,6 +72,9 @@ function AnnotationInput({
    */
   const getCharacterValue = (char: Char.Type | string) => {
     if (typeof char === 'string') {
+      if (char === 'noise') {
+        return '#';
+      }
       return char;
     }
     return Char.getChar(char) || '';

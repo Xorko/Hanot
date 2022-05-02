@@ -1,24 +1,20 @@
 import { useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
-import { FileType } from '../../../types/file-types';
 
 type AnnotationsProps = {
-  type: FileType;
   children?: React.ReactNode;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
 
 type AnnotationsButtonsProps = {
-  type: FileType;
   scrollToEnd?: () => void;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
 
 function Annotations({
-  type,
   children,
   onDeleteAnnotation,
   onMarkAsNoise,
@@ -41,7 +37,6 @@ function Annotations({
       </View>
       <AnnotationsButtons
         scrollToEnd={scrollToEnd}
-        type={type}
         onDeleteAnnotation={onDeleteAnnotation}
         onMarkAsNoise={onMarkAsNoise}
       />
@@ -52,7 +47,6 @@ function Annotations({
 function AnnotationsButtons({
   onDeleteAnnotation,
   onMarkAsNoise,
-  type,
 }: AnnotationsButtonsProps) {
   return (
     <View style={buttonsStyle.container}>
@@ -63,15 +57,13 @@ function AnnotationsButtons({
         iconSize={70}
         color="danger"
       />
-      {type === 'inkml' && (
-        <IconButton
-          library="material"
-          iconName="alert-circle"
-          onPress={onMarkAsNoise}
-          iconSize={70}
-          color="warning"
-        />
-      )}
+      <IconButton
+        library="material"
+        iconName="alert-circle"
+        onPress={onMarkAsNoise}
+        iconSize={70}
+        color="warning"
+      />
     </View>
   );
 }
