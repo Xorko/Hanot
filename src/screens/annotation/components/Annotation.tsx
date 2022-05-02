@@ -6,6 +6,7 @@ type AnnotationProps = {
   onPress?: (...args: any[]) => void;
   onInputChange?: (text: string) => void;
   selected?: boolean;
+  backgroundColor?: string;
 };
 
 type AnnotationInputProps = {
@@ -17,14 +18,19 @@ function Annotation({
   onInputChange,
   onPress,
   selected = false,
+  backgroundColor = colors.light,
 }: AnnotationProps) {
   return (
     <Pressable
       onPress={onPress}
       style={
         selected
-          ? [annotationStyle.container, annotationStyle.selectedColor]
-          : annotationStyle.container
+          ? [
+              annotationStyle.container,
+              annotationStyle.selectedColor,
+              { backgroundColor: backgroundColor },
+            ]
+          : [annotationStyle.container, { backgroundColor: backgroundColor }]
       }>
       <View style={annotationStyle.preview}>{children}</View>
       <AnnotationInput onInputChange={onInputChange} />

@@ -109,7 +109,8 @@ function AnnotationContainer({
       <Annotation
         onInputChange={handleInputChange}
         onPress={selectCrop}
-        selected={index === selectedBox}>
+        selected={index === selectedBox}
+        backgroundColor="#C5CAE9">
         <View style={styles.container} onLayout={getContainerSize}>
           {pathToDisplay && cropSize && (
             <Crop path={pathToDisplay} size={cropSize} />
