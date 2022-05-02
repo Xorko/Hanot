@@ -6,8 +6,13 @@ import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import colors from '../../../../style/colors';
+import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { usePolylineTransformContext } from '../context/PolylineTransformContext';
-import { pushDots, setDefaultTraceGroup } from '../current-word-slice';
+import {
+  pushDots,
+  pushTraceGroup,
+  setDefaultTraceGroup,
+} from '../current-word-slice';
 import { distance } from '../utils/math-utils';
 import { reverseTransform } from '../utils/transform-utils';
 import SplitPoint from './SplitPoint';
@@ -24,6 +29,8 @@ function WordSvg({ traces }: WordSvgProps) {
 
   const { transform } = usePolylineTransformContext();
 
+  const { selectedBox, setSelectedBox } = useSelectedBox();
+
   const [defaultTraces, setDefaultTraces] = useState<Trace.Type[]>([]);
 
   const [annotatedTraceGroups, setAnnotatedTraceGroups] = useState<
@@ -33,62 +40,122 @@ function WordSvg({ traces }: WordSvgProps) {
   const handlePress = (e: any, idx: number) => {
     if (currentWord) {
       const traceGroups = currentWord.tracegroups;
-      if (traceGroups.length === 0) {
-        console.error('AnnotationArea : error box empty');
+
+      const pressPosition =
+        Platform.OS === 'web'
+          ? { x: e.nativeEvent.layerX, y: e.nativeEvent.layerY }
+          : { x: e.nativeEvent.locationX, y: e.nativeEvent.locationY };
+
+      const point = reverseTransform(pressPosition, transform);
+
+      const closest = defaultTraces[idx].dots.reduce((a, b) =>
+        distance(point, a) < distance(point, b) ? a : b,
+      );
+
+      const index = defaultTraces[idx].dots.findIndex(
+        dot => dot.x === closest.x && dot.y === closest.y,
+      );
+
+      const currentDefaultTraces = cloneDeep(defaultTraces);
+      let idxTraceGroup;
+
+      if (selectedBox === undefined) {
+        idxTraceGroup = traceGroups.length;
+
+        // Add a new traceGroup when clicking on the trace
+        dispatch(pushTraceGroup());
+
+        // Adding all traces drawn before to the traceGroup
+        for (let i = 0; i < idx; i++) {
+          if (currentDefaultTraces[i].dots.length > 0) {
+            const traceToAdd = [...currentDefaultTraces[i].dots];
+            dispatch(
+              pushDots({
+                leftTrace: traceToAdd,
+                idxOldTrace: i,
+                idxTraceGroup: idxTraceGroup,
+              }),
+            );
+            currentDefaultTraces[i].dots = [];
+          }
+        }
       } else {
-        const pressPosition =
-          Platform.OS === 'web'
-            ? { x: e.nativeEvent.layerX, y: e.nativeEvent.layerY }
-            : { x: e.nativeEvent.locationX, y: e.nativeEvent.locationY };
-
-        const point = reverseTransform(pressPosition, transform);
-
-        const closest = defaultTraces[idx].dots.reduce((a, b) =>
-          distance(point, a) < distance(point, b) ? a : b,
-        );
-
-        const index = defaultTraces[idx].dots.findIndex(
-          dot => dot.x === closest.x && dot.y === closest.y,
-        );
-
-        const currentDefaultTraces = cloneDeep(defaultTraces);
-        const rightTrace = currentDefaultTraces[idx].dots.splice(index);
-        const leftTrace = currentDefaultTraces[idx].dots;
-
-        dispatch(pushDots({ leftTrace, idxTrace: idx }));
-
-        // setting state for rerender
-        setAnnotatedTraceGroups(traceGroups);
-
-        // setting defaultTraces
-        currentDefaultTraces[idx].dots = rightTrace;
-
-        dispatch(setDefaultTraceGroup(currentDefaultTraces));
-
-        setAnnotatedTraceGroups(traceGroups);
+        idxTraceGroup = selectedBox;
       }
+
+      // Adding the dots to the left of the trace clicked to the traceGroup
+      const rightTrace = currentDefaultTraces[idx].dots.splice(index);
+      const leftTrace = currentDefaultTraces[idx].dots;
+
+      dispatch(
+        pushDots({
+          leftTrace,
+          idxOldTrace: idx,
+          idxTraceGroup: idxTraceGroup,
+        }),
+      );
+
+      // setting defaultTraces
+      currentDefaultTraces[idx].dots = rightTrace;
+
+      dispatch(setDefaultTraceGroup(currentDefaultTraces));
+
+      // setting state for rerender
+      setAnnotatedTraceGroups(traceGroups);
+
+      setSelectedBox(undefined);
     }
   };
 
   const handlePointPress = (traceIndex: number) => {
-    if (currentWord !== undefined) {
+    if (currentWord) {
       const traceGroups = currentWord.tracegroups;
+      const defaultTracesCopy = cloneDeep(defaultTraces);
 
-      if (traceGroups.length === 0) {
-        console.error('AnnotationArea: handlePressHitBox --  error box empty');
+      let idxTraceGroup;
+
+      if (selectedBox === undefined) {
+        idxTraceGroup = traceGroups.length;
+
+        // Add a new traceGroup when clicking on the trace
+        dispatch(pushTraceGroup());
+
+        // Adding all traces drawn before to the traceGroup
+        for (let i = 0; i < traceIndex; i++) {
+          if (defaultTracesCopy[i].dots.length > 0) {
+            const traceToAdd = [...defaultTracesCopy[i].dots];
+            dispatch(
+              pushDots({
+                leftTrace: traceToAdd,
+                idxOldTrace: i,
+                idxTraceGroup: idxTraceGroup,
+              }),
+            );
+            defaultTracesCopy[i].dots = [];
+          }
+        }
       } else {
-        const defaultTracesCopy = cloneDeep(defaultTraces);
-        const leftTrace = [...defaultTracesCopy[traceIndex].dots];
-        defaultTracesCopy[traceIndex].dots = [];
-
-        dispatch(pushDots({ leftTrace, idxTrace: traceIndex }));
-
-        //setting state for rerender
-        setAnnotatedTraceGroups(traceGroups);
-
-        //setting defaultTraces
-        dispatch(setDefaultTraceGroup(defaultTracesCopy));
+        idxTraceGroup = selectedBox;
       }
+
+      const leftTrace = [...defaultTracesCopy[traceIndex].dots];
+      defaultTracesCopy[traceIndex].dots = [];
+
+      dispatch(
+        pushDots({
+          leftTrace,
+          idxOldTrace: traceIndex,
+          idxTraceGroup: idxTraceGroup,
+        }),
+      );
+
+      //setting state for rerender
+      setAnnotatedTraceGroups(traceGroups);
+
+      //setting defaultTraces
+      dispatch(setDefaultTraceGroup(defaultTracesCopy));
+
+      setSelectedBox(undefined);
     } else {
       throw new Error('AnnotationArea: handlePress -- currentWord undefined');
     }

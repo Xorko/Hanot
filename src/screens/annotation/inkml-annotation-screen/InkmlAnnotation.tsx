@@ -75,22 +75,22 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
       <Header type="inkml" onValidate={validate} onGoBack={onGoBack} />
       <SelectedBoxProvider initialSelectedBox={undefined}>
         <AnnotationsContainer />
+        <AnnotationArea>
+          <View
+            onLayout={(event: LayoutChangeEvent) =>
+              setAreaSize(event.nativeEvent.layout)
+            }
+            style={styles.area}>
+            <SvgContainer>
+              {inkmlTransform && (
+                <PolylineTransformProvider initialTransform={inkmlTransform}>
+                  <Workspace />
+                </PolylineTransformProvider>
+              )}
+            </SvgContainer>
+          </View>
+        </AnnotationArea>
       </SelectedBoxProvider>
-      <AnnotationArea>
-        <View
-          onLayout={(event: LayoutChangeEvent) =>
-            setAreaSize(event.nativeEvent.layout)
-          }
-          style={styles.area}>
-          <SvgContainer>
-            {inkmlTransform && (
-              <PolylineTransformProvider initialTransform={inkmlTransform}>
-                <Workspace />
-              </PolylineTransformProvider>
-            )}
-          </SvgContainer>
-        </View>
-      </AnnotationArea>
     </View>
   );
 }

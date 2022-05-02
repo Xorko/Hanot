@@ -2,7 +2,6 @@ import { cloneDeep } from 'lodash';
 import { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import SvgContainer from '../../../../components/SvgContainer';
-import { createEmptyTraceGroup } from '../../../../core/input';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
@@ -12,7 +11,6 @@ import { Size } from '../../types/coordinates-types';
 import {
   annotateTraceGroup,
   deleteTraceGroups,
-  initWord,
   setFinalTraceGroups,
 } from '../current-word-slice';
 import LetterPolyline from './LetterPolyline';
@@ -24,15 +22,6 @@ function AnnotationsContainer() {
   const { selectedBox, setSelectedBox } = useSelectedBox();
 
   const [containerSize, setContainerSize] = useState<Size>();
-
-  // TODO: remove when changing the annotation
-  const handleAddBox = () => {
-    if (currentWord) {
-      const wordCopy = cloneDeep(currentWord);
-      wordCopy.tracegroups.push(createEmptyTraceGroup());
-      dispatch(initWord(wordCopy));
-    }
-  };
 
   const getContainerSize = (event: LayoutChangeEvent) => {
     setContainerSize(event.nativeEvent.layout);
@@ -73,10 +62,7 @@ function AnnotationsContainer() {
   };
 
   return (
-    <Annotations
-      type="inkml"
-      onAddDiacritic={handleAddBox}
-      onDeleteAnnotation={deleteBox}>
+    <Annotations type="inkml" onDeleteAnnotation={deleteBox}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
         <Annotation
           key={index}

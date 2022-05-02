@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Char from '../../../core/char';
 import * as Dot from '../../../core/dot';
+import { createEmptyTraceGroup } from '../../../core/input';
 import * as Trace from '../../../core/trace';
 import * as TraceGroup from '../../../core/tracegroup';
 import * as Word from '../../../core/word';
@@ -75,6 +76,10 @@ export const currentWordSlice = createSlice({
       });
     },
 
+    pushTraceGroup: state => {
+      state.tracegroups.push(createEmptyTraceGroup());
+    },
+
     /**
      *
      * @param action The dots to be added at the end of the current word tracegroups
@@ -82,11 +87,15 @@ export const currentWordSlice = createSlice({
      */
     pushDots: (
       state,
-      action: PayloadAction<{ leftTrace: Dot.Type[]; idxTrace: number }>,
+      action: PayloadAction<{
+        leftTrace: Dot.Type[];
+        idxOldTrace: number;
+        idxTraceGroup: number;
+      }>,
     ) => {
-      state.tracegroups[state.tracegroups.length - 1].traces.push({
+      state.tracegroups[action.payload.idxTraceGroup].traces.push({
         dots: action.payload.leftTrace,
-        oldTrace: action.payload.idxTrace,
+        oldTrace: action.payload.idxOldTrace,
       });
       return state;
     },
@@ -111,6 +120,7 @@ export const {
   initWord,
   pushTraces,
   pushDots,
+  pushTraceGroup,
   annotateTraceGroup,
   setDefaultTraceGroup,
   deleteTraceGroup,
