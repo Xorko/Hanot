@@ -32,7 +32,7 @@ function Header({ type, onValidate, onGoBack }: HeaderProps) {
     navigation.getParent()?.navigate('FileSelectionScreen'); // The parent of this navigator is the RootStack
     onGoBack?.();
     return true;
-  }, [navigation, onGoBack]);
+  }, [navigation, onGoBack, setOpenedFiles]);
 
   useEffect(() => {
     if (onGoBack) {
