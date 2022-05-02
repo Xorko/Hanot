@@ -2,12 +2,14 @@ import { cloneDeep } from 'lodash';
 import { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import SvgContainer from '../../../../components/SvgContainer';
+import { useFileType } from '../../../../context/FileTypeContext';
 import * as Char from '../../../../core/char';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
+import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../../image-annotation-screen/current-annotated-image';
 import { Size } from '../../types/coordinates-types';
 import {
   annotateTraceGroup,
@@ -19,9 +21,8 @@ import LetterPolyline from './LetterPolyline';
 function AnnotationsContainer() {
   const dispatch = useAppDispatch();
   const currentWord = useAppSelector(state => state.currentWord);
-
+  const { fileType } = useFileType();
   const { selectedBox, setSelectedBox } = useSelectedBox();
-
   const [containerSize, setContainerSize] = useState<Size>();
 
   const getContainerSize = (event: LayoutChangeEvent) => {
@@ -72,7 +73,16 @@ function AnnotationsContainer() {
    * @param index the number corresponding to the traceGroup index in the currentWord
    */
   const editAnnotationLabel = (annotation: string, index: number): void => {
-    dispatch(annotateTraceGroup({ index, annotation }));
+    switch (fileType) {
+      case 'inkml':
+        dispatch(annotateTraceGroup({ index, annotation }));
+        break;
+      case 'image':
+        dispatch(
+          setCurrentAnnotatedImageCropAnnotationAtIndex({ annotation, index }),
+        );
+        break;
+    }
   };
 
   return (

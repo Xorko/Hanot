@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useFileType } from '../../../context/FileTypeContext';
 import * as Char from '../../../core/char';
 import { useAppSelector } from '../../../stores/hooks';
 import colors from '../../../style/colors';
@@ -51,16 +52,17 @@ function AnnotationInput({
   index,
   isNoise,
 }: AnnotationInputProps) {
+  const { fileType } = useFileType();
   const _char = useAppSelector(state => {
-    // This checks if we are annotating an InkML file
-    // TODO: use FileType context
-    if (state.currentWord) {
-      return state.currentWord.tracegroups[index].label;
+    switch (fileType) {
+      case 'inkml':
+        return state.currentWord.tracegroups[index].label;
+      case 'image':
+        return (
+          state.currentAnnotatedImage.annotatedImage.imageCrops[index]
+            .cropAnnotation || ''
+        );
     }
-    return (
-      state.currentAnnotatedImage.annotatedImage.imageCrops[index]
-        .cropAnnotation || ''
-    );
   });
 
   /**
