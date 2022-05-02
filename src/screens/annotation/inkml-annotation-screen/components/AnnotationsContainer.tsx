@@ -2,6 +2,7 @@ import { cloneDeep } from 'lodash';
 import { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import SvgContainer from '../../../../components/SvgContainer';
+import * as Char from '../../../../core/char';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/Annotation';
@@ -52,6 +53,19 @@ function AnnotationsContainer() {
     }
   };
 
+  const markAsNoise = () => {
+    if (currentWord && selectedBox !== undefined) {
+      const finalTraceGroups: TraceGroup.Type[] = cloneDeep(
+        currentWord.tracegroups,
+      );
+
+      finalTraceGroups[selectedBox].label = Char.noise;
+
+      dispatch(setFinalTraceGroups(finalTraceGroups));
+      setSelectedBox(undefined);
+    }
+  };
+
   /**
    * Modify the annotation of the traceGroup indicated by index
    * @param annotation the character captured from the keyboard
@@ -62,12 +76,17 @@ function AnnotationsContainer() {
   };
 
   return (
-    <Annotations type="inkml" onDeleteAnnotation={deleteBox}>
+    <Annotations
+      type="inkml"
+      onDeleteAnnotation={deleteBox}
+      onMarkAsNoise={markAsNoise}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
         <Annotation
           key={index}
+          index={index}
           onPress={() => selectBox(index)}
-          selected={index === selectedBox}
+          isSelected={index === selectedBox}
+          isNoise={tracegroup.label === Char.noise}
           onInputChange={(annotation: string) =>
             editAnnotationLabel(annotation, index)
           }>

@@ -1,47 +1,64 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import * as Char from '../../../core/char';
+import { useAppSelector } from '../../../stores/hooks';
 import colors from '../../../style/colors';
 
 type AnnotationProps = {
   children?: React.ReactNode;
+  index: number;
   onPress?: (...args: any[]) => void;
   onInputChange?: (text: string) => void;
-  selected?: boolean;
+  isSelected?: boolean;
+  isNoise?: boolean;
   backgroundColor?: string;
 };
 
 type AnnotationInputProps = {
   onInputChange?: (text: string) => void;
+  index: number;
+  isNoise?: boolean;
 };
 
 function Annotation({
   children,
+  index,
   onInputChange,
   onPress,
-  selected = false,
+  isSelected = false,
+  isNoise = false,
   backgroundColor = colors.light,
 }: AnnotationProps) {
   return (
     <Pressable
       onPress={onPress}
-      style={
-        selected
-          ? [
-              annotationStyle.container,
-              annotationStyle.selectedColor,
-              { backgroundColor: backgroundColor },
-            ]
-          : [annotationStyle.container, { backgroundColor: backgroundColor }]
-      }>
+      style={[
+        { ...annotationStyle.container, backgroundColor },
+        isNoise && { ...styles.noise, backgroundColor },
+        isSelected && { ...annotationStyle.selectedColor, backgroundColor },
+      ]}>
       <View style={annotationStyle.preview}>{children}</View>
-      <AnnotationInput onInputChange={onInputChange} />
+      <AnnotationInput
+        onInputChange={onInputChange}
+        index={index}
+        isNoise={isNoise}
+      />
     </Pressable>
   );
 }
 
-function AnnotationInput({ onInputChange }: AnnotationInputProps) {
+function AnnotationInput({
+  onInputChange,
+  index,
+  isNoise,
+}: AnnotationInputProps) {
+  const charValue = useAppSelector(
+    state => state.currentWord.tracegroups[index].label,
+  );
+
   return (
-    <View style={inputStyles.container}>
+    <View style={[inputStyles.container, isNoise && styles.noise]}>
       <TextInput
+        value={Char.getChar(charValue) || ''}
         maxLength={1}
         autoCorrect={false}
         autoCapitalize="none"
@@ -51,11 +68,18 @@ function AnnotationInput({ onInputChange }: AnnotationInputProps) {
         textAlign="center"
         multiline
         style={inputStyles.input}
-        placeholderTextColor={'#BFBFBF'}
+        placeholderTextColor={isNoise ? colors.light : '#BFBFBF'}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  noise: {
+    backgroundColor: colors.warning,
+    borderColor: colors.warning,
+  },
+});
 
 const annotationStyle = StyleSheet.create({
   container: {

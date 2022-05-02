@@ -17,7 +17,12 @@ type AnnotationsButtonsProps = {
   onMarkAsNoise?: () => void;
 };
 
-function Annotations({ type, children, onDeleteAnnotation }: AnnotationsProps) {
+function Annotations({
+  type,
+  children,
+  onDeleteAnnotation,
+  onMarkAsNoise,
+}: AnnotationsProps) {
   const scrollviewRef = useRef<ScrollView>(null);
 
   const scrollToEnd = () => {
@@ -38,6 +43,7 @@ function Annotations({ type, children, onDeleteAnnotation }: AnnotationsProps) {
         scrollToEnd={scrollToEnd}
         type={type}
         onDeleteAnnotation={onDeleteAnnotation}
+        onMarkAsNoise={onMarkAsNoise}
       />
     </View>
   );
