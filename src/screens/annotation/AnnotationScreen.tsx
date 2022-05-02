@@ -15,7 +15,11 @@ function DrawerNavigation({ route }: AnnotationScreenPropsType) {
 
   return (
     <Drawer.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        swipeEnabled: false,
+        drawerType: 'front',
+      }}
       drawerContent={props => (
         <CustomDrawerContent fileType={type} {...props} />
       )}>
