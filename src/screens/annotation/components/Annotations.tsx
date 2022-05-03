@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { useSelectedBox } from '../context/SelectedBoxContext';
 
 type AnnotationsProps = {
   children?: React.ReactNode;
@@ -48,6 +49,8 @@ function AnnotationsButtons({
   onDeleteAnnotation,
   onMarkAsNoise,
 }: AnnotationsButtonsProps) {
+  const { selectedBox } = useSelectedBox();
+
   return (
     <View style={buttonsStyle.container}>
       <IconButton
@@ -56,6 +59,7 @@ function AnnotationsButtons({
         onPress={onDeleteAnnotation}
         iconSize={70}
         color="danger"
+        pressable={selectedBox !== undefined}
       />
       <IconButton
         library="material"
@@ -63,6 +67,7 @@ function AnnotationsButtons({
         onPress={onMarkAsNoise}
         iconSize={70}
         color="warning"
+        pressable={selectedBox !== undefined}
       />
     </View>
   );
