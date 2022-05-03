@@ -108,7 +108,7 @@ test('it is selected on long press in block mode', () => {
   fireEvent(getByTestId('file-block'), 'onLongPress');
 
   expect(getByTestId('file-block')).toHaveStyle({
-    borderColor: colors.secondary,
+    opacity: 0.5,
   });
 });
 
@@ -126,7 +126,7 @@ test('it is selected on long press in list mode', () => {
   fireEvent(getByTestId('file-list'), 'onLongPress');
 
   expect(getByTestId('file-list')).toHaveStyle({
-    borderColor: colors.secondary,
+    opacity: 0.5,
   });
 });
 
@@ -144,7 +144,7 @@ test('it is selected on press when in multiple selection mode', () => {
   fireEvent(getByText(/test.inkml/i), 'press');
 
   expect(getByTestId('file-block')).toHaveStyle({
-    borderColor: colors.secondary,
+    opacity: 0.5,
   });
 });
 
