@@ -117,7 +117,9 @@ const annotationStyle = StyleSheet.create({
     backgroundColor: colors.light,
   },
   selectedColor: {
-    borderColor: colors.secondary,
+    //borderColor: colors.danger,
+    //borderColor: '#00E5FF',
+    opacity: 0.5,
   },
   preview: {
     flex: 0.9,
