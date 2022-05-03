@@ -7,7 +7,7 @@ import {
   setCurrentAnnotatedImageCropAnnotationAtIndex,
 } from '../current-annotated-image';
 import type { Crop } from '../types/image-annotation-types';
-import AnnotationContainer from './AnnotationContainer';
+import AnnotationContainer from './AnnotationCardContainer';
 function AnnotationsContainer() {
   //===========================================================================
   // Redux
