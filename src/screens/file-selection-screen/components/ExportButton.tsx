@@ -45,7 +45,7 @@ function ExportButton() {
     fileName: string,
     multipleFiles: boolean,
   ) => {
-    const inkmlIndex = selectedFiles.findIndex(file => file.id === id);
+    const inkmlIndex = annotatedInkml.findIndex(file => file.id === id);
 
     if (inkmlIndex !== -1) {
       const inkmlToExport = annotatedInkml[inkmlIndex];
