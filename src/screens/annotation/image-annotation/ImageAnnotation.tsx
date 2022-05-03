@@ -201,7 +201,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
           )}
         </View>
       )}
-      <Header type="image" onGoBack={onGoBack} onValidate={annotateImage} />
+      <Header onGoBack={onGoBack} onValidate={annotateImage} />
       <DisplayedImageSizeContextProvider>
         <SelectedBoxProvider initialSelectedBox={undefined}>
           {trueImageSize && (

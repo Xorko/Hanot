@@ -72,7 +72,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   return (
     <View style={styles.container}>
-      <Header type="inkml" onValidate={validate} onGoBack={onGoBack} />
+      <Header onValidate={validate} onGoBack={onGoBack} />
       <SelectedBoxProvider initialSelectedBox={undefined}>
         <AnnotationsContainer />
         <AnnotationArea>

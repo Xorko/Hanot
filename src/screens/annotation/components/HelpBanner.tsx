@@ -2,13 +2,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../../../style/colors';
-import { FileType } from '../../../types/file-types';
 
-type HelpBannerProps = {
-  type: FileType;
-};
-
-function HelpBanner({ type }: HelpBannerProps) {
+function HelpBanner() {
   return (
     <Animated.View
       entering={FadeIn.duration(250)}
@@ -18,13 +13,10 @@ function HelpBanner({ type }: HelpBannerProps) {
         <Icon name="close-circle" size={30} color={colors.danger} />
         <Text style={bannerStyle.ml}>Supprimer la lettre</Text>
       </View>
-
-      {type === 'inkml' && (
-        <View style={bannerStyle.iconDescription}>
-          <Icon name="alert-circle" size={30} color={colors.warning} />
-          <Text style={bannerStyle.ml}>Spécifier la lettre comme bruit</Text>
-        </View>
-      )}
+      <View style={bannerStyle.iconDescription}>
+        <Icon name="alert-circle" size={30} color={colors.warning} />
+        <Text style={bannerStyle.ml}>Spécifier la lettre comme bruit</Text>
+      </View>
     </Animated.View>
   );
 }

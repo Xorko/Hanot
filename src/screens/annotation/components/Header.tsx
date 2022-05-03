@@ -3,12 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
-import type { FileType } from '../../../types/file-types';
 import { NavigationProp } from '../../../types/navigation-types';
 import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
-  type: FileType;
   onValidate?: () => void;
   onGoBack?: () => void;
 };
@@ -17,7 +15,7 @@ type HeaderButtonProps = {
   toggleHelp: () => void;
 };
 
-function Header({ type, onValidate, onGoBack }: HeaderProps) {
+function Header({ onValidate, onGoBack }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
 
   const [showHelp, setShowHelp] = useState<boolean>(false);
@@ -57,7 +55,7 @@ function Header({ type, onValidate, onGoBack }: HeaderProps) {
           <HelpButton toggleHelp={toggleHelp} />
         </View>
       </View>
-      {showHelp && <HelpBanner type={type} />}
+      {showHelp && <HelpBanner />}
       <View style={headerStyles.row}>
         <IconButton
           library="material"
