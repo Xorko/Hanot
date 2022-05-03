@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppDispatch } from '../../../../stores/hooks';
-import Annotation from '../../components/Annotation';
+import Annotation from '../../components/AnnotationCard';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import type { Coordinates, Size } from '../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';

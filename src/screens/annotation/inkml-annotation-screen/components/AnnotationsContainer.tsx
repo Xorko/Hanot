@@ -6,7 +6,7 @@ import { useFileType } from '../../../../context/FileTypeContext';
 import * as Char from '../../../../core/char';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import Annotation from '../../components/Annotation';
+import Annotation from '../../components/AnnotationCard';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../../image-annotation-screen/current-annotated-image';
