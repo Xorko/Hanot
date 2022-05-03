@@ -3,6 +3,7 @@ import * as Char from './char';
 import * as Data from './data';
 import * as InkML from './inkml';
 import * as Word from './word';
+import * as Trace from './trace';
 import { TraceData } from './data';
 
 /**
@@ -48,6 +49,17 @@ export const exportInk = (ink?: InkML.Type): Data.Type | undefined => {
   }
 };
 
+const buildTraces = (traces: Trace.Type[]): (string | TraceData)[] => {
+  return traces.map(e =>
+    e.oldTrace > -1
+      ? {
+          attr: { oldTrace: '' + e.oldTrace },
+          '#text': e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
+        }
+      : e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
+  );
+};
+
 const exportWord = (tg: Word.Type): Data.TraceGroupData => {
   const uncommented = [
     ...tg.tracegroups
@@ -69,16 +81,7 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
   const traces: Data.TraceGroupData[] = tg.tracegroups
     .filter(a => Char.isLetter(a.label) || Char.isNoise(a.label))
     .map((a, i) => {
-      const tx: (string | TraceData)[] = a.traces.map(e =>
-        e.oldTrace > -1
-          ? {
-              attr: { oldTrace: '' + e.oldTrace },
-              '#text': e.dots
-                .map(d => `${d.x} ${d.y} ${d.f} ${d.t}`)
-                .join(' ,'),
-            }
-          : e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
-      );
+      const tx: (string | TraceData)[] = buildTraces(a.traces);
       let r: Data.TraceGroupData = {};
       if (tx.length === 0) {
         throw new Error('exportTraceGroup Error: empty trace group, no trace');
@@ -171,9 +174,7 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
     annotationXML: annotationXMLAttr,
     annotation: annotationAttr,
     traceGroup: traces,
-    trace: uncommented.map(e =>
-      e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
-    ),
+    trace: buildTraces(uncommented),
   };
 
   Object.entries(tg.attributes).forEach(
