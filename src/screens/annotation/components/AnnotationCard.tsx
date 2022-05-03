@@ -77,7 +77,14 @@ function AnnotationInput({
       }
       return char;
     }
-    return Char.getChar(char) || '';
+
+    const value = Char.getChar(char);
+    if (value) {
+      if (value === '#noise') {
+        return '#';
+      }
+      return value || '';
+    }
   };
 
   return (
