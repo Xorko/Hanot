@@ -393,7 +393,7 @@ PODS:
     - React-Core
   - RNPermissions (3.3.1):
     - React-Core
-  - RNReanimated (2.2.4):
+  - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -401,7 +401,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -419,7 +418,6 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
-    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.10.0):
@@ -739,7 +737,7 @@ SPEC CHECKSUMS:
   RNFS: fc610f78fdf8bfc89a9e5cc2f898519f4dba1002
   RNGestureHandler: 4f4986408310a43f1606c391f38f76e0d6e790d5
   RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
-  RNReanimated: 65583befd5706cc9c86ae9a081786181ced37b93
+  RNReanimated: 58b57be69a237fb02ec8099d25171057638cf41a
   RNScreens: 03ba504f8c98607ad1f07808e71040e0afa335ec
   RNShare: 807d6f8231b8ebcf6dd839294b877342eb93d4e5
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
