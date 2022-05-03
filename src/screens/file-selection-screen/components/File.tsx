@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   selected: {
-    borderColor: colors.secondary,
+    //borderColor: colors.secondary,
+    opacity: 0.5,
   },
   annotated: {
     backgroundColor: colors.success,
