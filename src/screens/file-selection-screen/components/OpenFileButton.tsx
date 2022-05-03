@@ -12,7 +12,7 @@ import { LoadedFilesState } from '../loaded-files-slice';
 
 const OpenFileButton = () => {
   const navigation = useNavigation<NavigationProp>();
-  const { setFileSelectionMode } = useFileSelectionMode();
+  const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { setOpenedFiles } = useDrawerFilesContext();
   const { fileType } = useFileType();
@@ -24,6 +24,9 @@ const OpenFileButton = () => {
   );
 
   const handlePress = () => {
+    if (!(fileSelectionMode === 'multiple')) {
+      return;
+    }
     if (selectedFiles) {
       setOpenedFiles(selectedFiles.map(file => file.id));
       setSelectedFiles([]);
@@ -57,12 +60,14 @@ const OpenFileButton = () => {
     }
   };
 
+  console.log(fileSelectionMode === 'multiple');
   return (
     <IconButton
       library="material"
       iconName="pencil-circle"
-      color="dark"
+      color="warning"
       onPress={handlePress}
+      pressable={fileSelectionMode === 'multiple'}
     />
   );
 };
