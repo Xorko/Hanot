@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { FileType } from '../../../types/file-types';
 import { NavigationProp } from '../../../types/navigation-types';
-import { BlockFile } from '../../file-selection-screen/components/File';
+import { BlockFile } from '../../file-selection-screen/components/FileCard';
 import { LoadedFilesState } from '../../file-selection-screen/loaded-files-slice';
 import { resetCurrentAnnotatedImage } from '../image-annotation-screen/current-annotated-image';
 

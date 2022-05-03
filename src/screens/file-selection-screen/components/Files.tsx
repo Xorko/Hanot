@@ -4,7 +4,7 @@ import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { LoadedFilesState } from '../loaded-files-slice';
-import File from './File';
+import File from './FileCard';
 
 function Files() {
   const { displayMode } = useDisplayMode();

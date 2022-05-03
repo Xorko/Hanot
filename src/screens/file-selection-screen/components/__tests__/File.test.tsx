@@ -6,7 +6,7 @@ import { InkMLFile } from '../../../../types/file-import-types';
 import { fireEvent, render } from '../../../../utils/test-utils';
 import { FileSelectionModeProvider } from '../../context/FileSelectionModeContext';
 import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
-import File from '../File';
+import File from '../FileCard';
 
 const mockedNavigate = jest.fn();
 const id = nanoid();
