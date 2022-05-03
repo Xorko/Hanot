@@ -52,7 +52,7 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
     ...tg.tracegroups
       .filter(a => Char.isPending(a.label))
       .flatMap(e => e.traces),
-    ...tg.defaultTraceGroup,
+    ...tg.defaultTraceGroup.filter(a => a.dots.length > 0),
   ].sort((a, b) => {
     if (a.dots.length !== 0 && b.dots.length !== 0) {
       if (a.dots[0].t < b.dots[0].t) {
@@ -167,6 +167,7 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
       e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
     ),
   };
+
   Object.entries(tg.attributes).forEach(
     ([key, value]) => (r.attr![key] = value),
   );
