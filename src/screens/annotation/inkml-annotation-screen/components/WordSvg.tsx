@@ -95,14 +95,10 @@ function WordSvg({ traces }: WordSvgProps) {
         }),
       );
 
-      // setting defaultTraces
       currentDefaultTraces[idx].dots = rightTrace;
 
       dispatch(setDefaultTraceGroup(currentDefaultTraces));
-
-      // setting state for rerender
       setAnnotatedTraceGroups(traceGroups);
-
       setSelectedBox(undefined);
     }
   };
@@ -149,15 +145,9 @@ function WordSvg({ traces }: WordSvgProps) {
         }),
       );
 
-      //setting state for rerender
       setAnnotatedTraceGroups(traceGroups);
-
-      //setting defaultTraces
       dispatch(setDefaultTraceGroup(defaultTracesCopy));
-
       setSelectedBox(undefined);
-    } else {
-      throw new Error('AnnotationArea: handlePress -- currentWord undefined');
     }
   };
 
