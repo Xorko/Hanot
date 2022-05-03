@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
 import { useEffect, useState } from 'react';
 import { GestureResponderEvent, Platform } from 'react-native';
 import PolylineRenderer from '../../../../components/PolylineRenderer';
@@ -6,6 +7,7 @@ import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import colors from '../../../../style/colors';
+import { useScrollViewRef } from '../../context/ScrollViewRefContext';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { usePolylineTransformContext } from '../context/PolylineTransformContext';
 import {
@@ -26,16 +28,23 @@ type WordSvgProps = {
 function WordSvg({ traces }: WordSvgProps) {
   const currentWord = useAppSelector(state => state.currentWord);
   const dispatch = useAppDispatch();
-
   const { transform } = usePolylineTransformContext();
-
   const { selectedBox, setSelectedBox } = useSelectedBox();
-
   const [defaultTraces, setDefaultTraces] = useState<Trace.Type[]>([]);
-
   const [annotatedTraceGroups, setAnnotatedTraceGroups] = useState<
     TraceGroup.Type[]
   >([]);
+  const { scrollViewRef } = useScrollViewRef();
+
+  /**
+   * Scroll to the end of the annotations scrollview
+   *
+   * It needs to be debounced because of Redux
+   */
+  const debouncedScrollToEnd = debounce(
+    () => scrollViewRef?.current?.scrollToEnd({ animated: true }),
+    100,
+  );
 
   const handlePress = (e: any, idx: number) => {
     if (currentWord) {
@@ -79,6 +88,8 @@ function WordSvg({ traces }: WordSvgProps) {
             currentDefaultTraces[i].dots = [];
           }
         }
+
+        debouncedScrollToEnd();
       } else {
         idxTraceGroup = selectedBox;
       }
@@ -130,6 +141,8 @@ function WordSvg({ traces }: WordSvgProps) {
             defaultTracesCopy[i].dots = [];
           }
         }
+
+        debouncedScrollToEnd();
       } else {
         idxTraceGroup = selectedBox;
       }

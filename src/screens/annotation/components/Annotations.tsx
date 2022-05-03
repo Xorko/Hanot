@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import { useScrollViewRef } from '../context/ScrollViewRefContext';
 import { useSelectedBox } from '../context/SelectedBoxContext';
 
 type AnnotationsProps = {
@@ -10,7 +11,6 @@ type AnnotationsProps = {
 };
 
 type AnnotationsButtonsProps = {
-  scrollToEnd?: () => void;
   onDeleteAnnotation?: () => void;
   onMarkAsNoise?: () => void;
 };
@@ -21,10 +21,11 @@ function Annotations({
   onMarkAsNoise,
 }: AnnotationsProps) {
   const scrollviewRef = useRef<ScrollView>(null);
+  const { setScrollViewRef } = useScrollViewRef();
 
-  const scrollToEnd = () => {
-    scrollviewRef.current?.scrollToEnd({ animated: true });
-  };
+  useEffect(() => {
+    setScrollViewRef(scrollviewRef);
+  }, [scrollviewRef, setScrollViewRef]);
 
   return (
     <View style={annotationStyle.container}>
@@ -37,7 +38,6 @@ function Annotations({
         </ScrollView>
       </View>
       <AnnotationsButtons
-        scrollToEnd={scrollToEnd}
         onDeleteAnnotation={onDeleteAnnotation}
         onMarkAsNoise={onMarkAsNoise}
       />

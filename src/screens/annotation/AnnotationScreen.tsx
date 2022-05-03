@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { ImageFile, InkMLFile } from '../../types/file-import-types';
 import { NavigationProp } from '../../types/navigation-types';
 import CustomDrawerContent from './components/DrawerContent';
+import ScrollViewRefProvider from './context/ScrollViewRefContext';
 import ImageAnnotation from './image-annotation-screen/ImageAnnotation';
 import InkmlAnnotation from './inkml-annotation-screen/InkmlAnnotation';
 
@@ -35,8 +36,10 @@ function AnnotationScreen({ route }: AnnotationScreenPropsType) {
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          {type === 'inkml' && <InkmlAnnotation file={file as InkMLFile} />}
-          {type === 'image' && <ImageAnnotation file={file as ImageFile} />}
+          <ScrollViewRefProvider>
+            {type === 'inkml' && <InkmlAnnotation file={file as InkMLFile} />}
+            {type === 'image' && <ImageAnnotation file={file as ImageFile} />}
+          </ScrollViewRefProvider>
         </View>
       </View>
     </SafeAreaView>
