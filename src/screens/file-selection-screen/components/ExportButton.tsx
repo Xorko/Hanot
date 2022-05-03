@@ -18,7 +18,7 @@ function ExportButton() {
   const { annotatedImages } = useAppSelector(state => state.annotatedImages);
   const { annotatedInkml } = useAppSelector(state => state.annotatedInkml);
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
-  const { setFileSelectionMode } = useFileSelectionMode();
+  const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
 
   const exportImage = (
     id: string,
@@ -104,6 +104,7 @@ function ExportButton() {
       iconName="file-export"
       color="dark"
       onPress={handlePress}
+      pressable={fileSelectionMode === 'multiple'}
     />
   );
 }
