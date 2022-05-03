@@ -86,10 +86,7 @@ function AnnotationsContainer() {
   };
 
   return (
-    <Annotations
-      type="inkml"
-      onDeleteAnnotation={deleteBox}
-      onMarkAsNoise={markAsNoise}>
+    <Annotations onDeleteAnnotation={deleteBox} onMarkAsNoise={markAsNoise}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
         <Annotation
           key={index}
