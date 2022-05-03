@@ -93,7 +93,7 @@ function AnnotationsContainer() {
           index={index}
           onPress={() => selectBox(index)}
           isSelected={index === selectedBox}
-          isNoise={tracegroup.label === Char.noise}
+          isNoise={tracegroup.label.type === Char.noise.type}
           onInputChange={(annotation: string) =>
             editAnnotationLabel(annotation, index)
           }>
