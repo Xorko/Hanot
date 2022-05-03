@@ -42,7 +42,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
     Toast.show({
       type: 'success',
-      text1: 'Inkml successfully annotated',
+      text1: 'Annotation validée',
       visibilityTime: 1000,
     });
   };

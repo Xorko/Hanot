@@ -138,14 +138,14 @@ export const exportFile = async (
     if (!mutiple) {
       Toast.show({
         type: 'success',
-        text1: fileName + ' annotation has been exported',
-        text2: 'location: ' + outputPath,
+        text1: `${fileName} a été exporté`,
+        text2: `emplacement: ${outputPath}`,
       });
     }
   } catch (err) {
     Toast.show({
       type: 'error',
-      text1: fileName + ' export failed',
+      text1: `Export de ${fileName} échoué`,
       text2: err as string,
     });
   }
@@ -153,8 +153,8 @@ export const exportFile = async (
   if (mutiple) {
     Toast.show({
       type: 'success',
-      text1: 'Export Finished',
-      text2: 'location: ' + outputPath,
+      text1: 'Export terminé',
+      text2: `emplacement: ${outputPath}`,
     });
   }
 
