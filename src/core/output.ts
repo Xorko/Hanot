@@ -3,6 +3,7 @@ import * as Char from './char';
 import * as Data from './data';
 import * as InkML from './inkml';
 import * as Word from './word';
+import { TraceData } from './data';
 
 /**
  * Generate a json object of Data to reflect inkml, that's compatible with xml-parser, to be used to convert it back to
@@ -68,8 +69,15 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
   const traces: Data.TraceGroupData[] = tg.tracegroups
     .filter(a => Char.isLetter(a.label) || Char.isNoise(a.label))
     .map((a, i) => {
-      const tx = a.traces.map(e =>
-        e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
+      const tx: (string | TraceData)[] = a.traces.map(e =>
+        e.oldTrace > -1
+          ? {
+              attr: { oldTrace: '' + e.oldTrace },
+              '#text': e.dots
+                .map(d => `${d.x} ${d.y} ${d.f} ${d.t}`)
+                .join(' ,'),
+            }
+          : e.dots.map(d => `${d.x} ${d.y} ${d.f} ${d.t}`).join(' ,'),
       );
       let r: Data.TraceGroupData = {};
       if (tx.length === 0) {

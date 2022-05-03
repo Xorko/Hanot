@@ -15,6 +15,11 @@ export interface AnnoData {
   attr: { type: string };
 }
 
+export interface TraceData {
+  '#text': string;
+  attr: { oldTrace: string };
+}
+
 export interface TraceGroupData {
   attr?: {
     'xml:id'?: string;
@@ -28,7 +33,7 @@ export interface TraceGroupData {
   };
   annotation?: AnnoData[];
   traceGroup?: TraceGroupData | TraceGroupData[];
-  trace?: string | string[];
+  trace?: string | TraceData | (string | TraceData)[];
 }
 
 export interface InkData {
