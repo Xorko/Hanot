@@ -57,6 +57,8 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
   // Indicates if the image pixels have been retrieved
   const [pixelRetrieved, setPixelRetrieved] = useState(false);
 
+  const [isAnnotated, setIsAnnotated] = useState<boolean>(false);
+
   //===========================================================================
   // Functions
   //===========================================================================
@@ -136,6 +138,8 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
         // Updates the pixels of the image in the redux store
         dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
 
+        setIsAnnotated(true);
+
         // Shows a toast message to inform the user that the image has been annotated
         Toast.show({
           type: 'success',
@@ -147,7 +151,9 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
   };
 
   const onGoBack = () => {
-    dispatch(addAnnotatedImage(currentImage));
+    if (isAnnotated) {
+      dispatch(addAnnotatedImage(currentImage));
+    }
     dispatch(setCurrentAnnotatedImage(initialState.annotatedImage));
   };
 
