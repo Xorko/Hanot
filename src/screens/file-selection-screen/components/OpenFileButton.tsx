@@ -60,7 +60,6 @@ const OpenFileButton = () => {
     }
   };
 
-  console.log(fileSelectionMode === 'multiple');
   return (
     <IconButton
       library="material"

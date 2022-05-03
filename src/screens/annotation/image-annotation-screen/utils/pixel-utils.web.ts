@@ -4,7 +4,6 @@ export const getImagePixels = (
   imageSrc: string,
   callback: (err: Error | null, pixels: Pixel[]) => void,
 ) => {
-  console.log('getImagePixels');
   const image = new Image();
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');

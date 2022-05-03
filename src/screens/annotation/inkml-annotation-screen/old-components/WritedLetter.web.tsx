@@ -8,7 +8,6 @@ type WrittedLetterProps = {
 };
 
 function WritedLetter({ traces, sizeComponent }: WrittedLetterProps) {
-  console.log('traces', traces);
   /**
    * Computing size of current letter
    */
