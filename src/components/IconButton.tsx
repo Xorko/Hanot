@@ -12,6 +12,7 @@ type IconButtonProps = {
   onPress?: () => void;
   library: IconLibrary;
   color?: keyof typeof colors;
+  pressable?: boolean;
 };
 
 function IconButton({
@@ -20,15 +21,16 @@ function IconButton({
   onPress,
   library,
   color,
+  pressable = true,
 }: IconButtonProps) {
   const iconColor = color ? colors[color] : undefined;
-
   return (
     <Pressable
+      disabled={!pressable}
       onPress={onPress}
       testID="icon-btn"
       style={({ pressed }) => ({
-        opacity: pressed ? 0.5 : 1,
+        opacity: pressed && pressable ? 0.5 : 1,
       })}>
       <View>
         {library === 'fa5' && (
@@ -39,7 +41,7 @@ function IconButton({
         )}
         {library === 'material' && (
           <IconMaterial
-            color={iconColor}
+            color={pressable ? iconColor : colors.secondary}
             name={iconName}
             size={iconSize || 40}
           />
