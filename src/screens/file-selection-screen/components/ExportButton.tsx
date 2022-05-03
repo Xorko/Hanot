@@ -4,6 +4,7 @@ import { useFileType } from '../../../context/FileTypeContext';
 import { exportInk } from '../../../core/output';
 import { builder } from '../../../lib/fast-xml-parser';
 import { useAppSelector } from '../../../stores/hooks';
+import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import {
   callFunctionWithPermission,
@@ -17,6 +18,7 @@ function ExportButton() {
   const { annotatedImages } = useAppSelector(state => state.annotatedImages);
   const { annotatedInkml } = useAppSelector(state => state.annotatedInkml);
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
+  const { setFileSelectionMode } = useFileSelectionMode();
 
   const exportImage = (
     id: string,
@@ -74,6 +76,7 @@ function ExportButton() {
       }
     });
     setSelectedFiles([]);
+    setFileSelectionMode('single');
 
     // It is necessary to ask the user where to save the files so he can access
     // it in the Files app (at least since iOS 15).
