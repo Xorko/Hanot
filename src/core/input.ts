@@ -7,6 +7,7 @@ import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
 import * as Word from './word';
+import { TraceData } from './data';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
@@ -161,19 +162,30 @@ const constructTraceGroupFromTraceGroup = (
   }
 };
 
-const constructTrace = (tr: string): Trace.Type => {
-  return {
-    dots: tr
-      .split(',')
-      .map(xxs =>
-        xxs
-          .split(' ')
-          .filter(e => e !== '')
-          .map(e => parseFloat(e)),
-      )
-      .map(constructDot),
-    oldTrace: 0, // FIXME: to be changed by the user
-  };
+const constructTrace = (tr: string | TraceData): Trace.Type => {
+  if (typeof tr === 'string') {
+    return {
+      dots: constructTraceFromString(tr),
+      oldTrace: -1, // FIXME: to be changed by the user and undefined will be better than -1
+    };
+  } else {
+    return {
+      dots: constructTraceFromString(tr['#text']),
+      oldTrace: parseInt(tr.attr.oldTrace, 10),
+    };
+  }
+};
+
+const constructTraceFromString = (s: string) => {
+  return s
+    .split(',')
+    .map(xxs =>
+      xxs
+        .split(' ')
+        .filter(e => e !== '')
+        .map(e => parseFloat(e)),
+    )
+    .map(constructDot);
 };
 
 const constructDot = (nx: number[]): Dot.Type => {
