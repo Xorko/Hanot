@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotation from '../../components/AnnotationCard';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
-import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../../image-annotation-screen/current-annotated-image';
+import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../../image-annotation/current-annotated-image';
 import { Size } from '../../types/coordinates-types';
 import {
   annotateTraceGroup,

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { Platform } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { Pixel } from '../../annotation/image-annotation-screen/types/image-annotation-types';
+import { Pixel } from '../../annotation/image-annotation/types/image-annotation-types';
 
 // RNFS can't be imported on web so we can't use `import`
 const RNFS = Platform.OS !== 'web' && require('react-native-fs');

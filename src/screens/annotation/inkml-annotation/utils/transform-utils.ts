@@ -1,4 +1,4 @@
-import { getExtremePointsOfPath } from '../../image-annotation-screen/utils/crop-utils';
+import { getExtremePointsOfPath } from '../../image-annotation/utils/crop-utils';
 import { Coordinates, Size } from '../../types/coordinates-types';
 import { Transform } from '../types/annotation-types';
 

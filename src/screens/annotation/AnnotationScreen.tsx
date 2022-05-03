@@ -4,8 +4,8 @@ import { ImageFile, InkMLFile } from '../../types/file-import-types';
 import { NavigationProp } from '../../types/navigation-types';
 import CustomDrawerContent from './components/DrawerContent';
 import ScrollViewRefProvider from './context/ScrollViewRefContext';
-import ImageAnnotation from './image-annotation-screen/ImageAnnotation';
-import InkmlAnnotation from './inkml-annotation-screen/InkmlAnnotation';
+import ImageAnnotation from './image-annotation/ImageAnnotation';
+import InkmlAnnotation from './inkml-annotation/InkmlAnnotation';
 
 type AnnotationScreenPropsType = NavigationProp;
 

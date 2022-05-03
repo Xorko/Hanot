@@ -1,5 +1,5 @@
 import { Polyline } from 'react-native-svg';
-import { Transform } from '../screens/annotation/inkml-annotation-screen/types/annotation-types';
+import { Transform } from '../screens/annotation/inkml-annotation/types/annotation-types';
 import colors from '../style/colors';
 
 type PolylineRendererProps = {

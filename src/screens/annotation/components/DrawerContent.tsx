@@ -8,7 +8,7 @@ import { FileType } from '../../../types/file-types';
 import { NavigationProp } from '../../../types/navigation-types';
 import { BlockFile } from '../../file-selection-screen/components/FileCard';
 import { LoadedFilesState } from '../../file-selection-screen/loaded-files-slice';
-import { resetCurrentAnnotatedImage } from '../image-annotation-screen/current-annotated-image';
+import { resetCurrentAnnotatedImage } from '../image-annotation/current-annotated-image';
 
 type CustomDrawerContentProps = {
   fileType: FileType;

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import currentAnnotatedImageReducer from '../screens/annotation/image-annotation-screen/current-annotated-image';
-import currentWordReducer from '../screens/annotation/inkml-annotation-screen/current-word-slice';
+import currentAnnotatedImageReducer from '../screens/annotation/image-annotation/current-annotated-image';
+import currentWordReducer from '../screens/annotation/inkml-annotation/current-word-slice';
 import loadedFilesReducer from '../screens/file-selection-screen/loaded-files-slice';
 import annotatedImagesReducer from '../shared/annotated-image-files-slice';
 import annotatedInkmlReducer from '../shared/annotated-inkml-files-slice';
