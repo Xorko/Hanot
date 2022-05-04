@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GestureResponderEvent } from 'react-native';
 import { Polyline } from 'react-native-svg';
-import type { Coordinates, Size } from '../../../types/coordinates-types';
+import type { Coordinates, Size } from '../../../../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,

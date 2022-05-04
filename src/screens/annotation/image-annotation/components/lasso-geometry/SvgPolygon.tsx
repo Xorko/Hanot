@@ -1,6 +1,5 @@
-import React from 'react';
 import { Polygon } from 'react-native-svg';
-import type { Coordinates } from '../../../types/coordinates-types';
+import type { Coordinates } from '../../../../../types/coordinates-types';
 
 type SvgPolygonPropsType = {
   path: Coordinates[];

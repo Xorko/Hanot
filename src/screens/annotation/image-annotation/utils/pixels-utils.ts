@@ -1,4 +1,4 @@
-import { Coordinates, Size } from '../../types/coordinates-types';
+import { Coordinates, Size } from '../../../../types/coordinates-types';
 import { getExtremePointsOfPath } from './crop-utils';
 /**
  * The webview script to get the pixels of the image.

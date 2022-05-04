@@ -1,6 +1,6 @@
-import React, { MouseEvent, useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import type { Coordinates, Size } from '../../../../../types/coordinates-types';
 import { useLassoModifiedContext } from '../../context/LassoModifiedContext';
-import type { Coordinates, Size } from '../../../types/coordinates-types';
 import {
   getExtremePointsOfPath,
   roundPointCoordinates,

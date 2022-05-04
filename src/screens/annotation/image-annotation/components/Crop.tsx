@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 import { useAppSelector } from '../../../../stores/hooks';
+import { Coordinates, Size } from '../../../../types/coordinates-types';
 import type { CurrentAnnotatedImageState } from '../current-annotated-image';
-import { Size, Coordinates } from '../../types/coordinates-types';
 import { getScript } from '../utils/crop-utils';
 
 type CropPropsType = {

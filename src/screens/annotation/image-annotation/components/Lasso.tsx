@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Platform, Pressable } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { Coordinates } from '../../types/coordinates-types';
+import { Coordinates } from '../../../../types/coordinates-types';
+import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { useLassoModifiedContext } from '../context/LassoModifiedContext';
-import { useSelectedBox } from '../../context/SelectedBoxContext';
 import {
   currentAnnotatedImageAddCrop,
   setCurrentAnnotatedImageCropAtIndex,

@@ -1,4 +1,4 @@
-import { Coordinates, Size } from '../../types/coordinates-types';
+import { Coordinates, Size } from '../../../../types/coordinates-types';
 
 /**
  * Calculates the paths adjusted to the real image size

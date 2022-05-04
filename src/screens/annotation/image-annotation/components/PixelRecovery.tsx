@@ -1,5 +1,5 @@
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import type { Size } from '../../types/coordinates-types';
+import type { Size } from '../../../../types/coordinates-types';
 import { getScript } from '../utils/pixels-utils';
 
 type PixelRecoveryPropsType = {

@@ -1,4 +1,4 @@
-import { Coordinates, Size } from '../../types/coordinates-types';
+import { Coordinates, Size } from '../../../../types/coordinates-types';
 export const getScript = (
   path: Coordinates[],
   size: Size,

@@ -1,4 +1,4 @@
-import { Coordinates } from '../../types/coordinates-types';
+import { Coordinates } from '../../../../types/coordinates-types';
 
 export type Pixel = {
   color: string;

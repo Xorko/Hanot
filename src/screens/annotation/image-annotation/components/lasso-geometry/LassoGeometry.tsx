@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Svg from 'react-native-svg';
-import type { Coordinates, Size } from '../../../types/coordinates-types';
+import type { Coordinates, Size } from '../../../../../types/coordinates-types';
 import { getPolygonPoints, getPolylinePoints } from '../../utils/crop-utils';
 import SvgPoint from './SvgPoint';
 import SvgPolygon from './SvgPolygon';

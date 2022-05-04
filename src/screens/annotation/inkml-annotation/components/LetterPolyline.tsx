@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PolylineRenderer from '../../../../components/PolylineRenderer';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
-import { Size } from '../../types/coordinates-types';
+import { Size } from '../../../../types/coordinates-types';
 import { Transform } from '../types/annotation-types';
 import { getTransform } from '../utils/transform-utils';
 

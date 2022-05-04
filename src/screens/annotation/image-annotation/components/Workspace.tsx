@@ -1,6 +1,6 @@
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
-import { Size } from '../../types/coordinates-types';
+import { Size } from '../../../../types/coordinates-types';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { LassoModifiedContextProvider } from '../context/LassoModifiedContext';
 import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';

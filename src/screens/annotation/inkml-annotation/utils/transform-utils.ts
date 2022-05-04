@@ -1,5 +1,5 @@
+import { Coordinates, Size } from '../../../../types/coordinates-types';
 import { getExtremePointsOfPath } from '../../image-annotation/utils/crop-utils';
-import { Coordinates, Size } from '../../types/coordinates-types';
 import { Transform } from '../types/annotation-types';
 
 export const getTransform = (coordinates: Coordinates[], areaSize: Size) => {
