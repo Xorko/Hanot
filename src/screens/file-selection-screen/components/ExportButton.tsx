@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useFileType } from '../../../context/FileTypeContext';
 import { exportInk } from '../../../core/output';
@@ -99,14 +99,24 @@ function ExportButton() {
   };
 
   return (
-    <IconButton
-      library="material"
-      iconName="file-export"
-      color="dark"
-      onPress={handlePress}
-      pressable={fileSelectionMode === 'multiple'}
-    />
+    <View style={styles.container}>
+      <IconButton
+        library="material"
+        iconName="file-export"
+        iconSize={60}
+        color="primary"
+        onPress={handlePress}
+        pressable={fileSelectionMode === 'multiple'}
+      />
+      <Text>Exporter</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});
 
 export default ExportButton;

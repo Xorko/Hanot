@@ -1,3 +1,4 @@
+import { StyleSheet, Text, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
@@ -28,14 +29,24 @@ const RemoveFileButton = () => {
   };
 
   return (
-    <IconButton
-      library="material"
-      iconName="close-circle"
-      color="danger"
-      onPress={handlePress}
-      pressable={fileSelectionMode === 'multiple'}
-    />
+    <View style={styles.container}>
+      <IconButton
+        library="material"
+        iconName="close-circle"
+        iconSize={60}
+        color="danger"
+        onPress={handlePress}
+        pressable={fileSelectionMode === 'multiple'}
+      />
+      <Text>Supprimer</Text>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});
 
 export default RemoveFileButton;

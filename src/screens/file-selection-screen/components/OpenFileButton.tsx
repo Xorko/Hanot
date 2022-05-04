@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
@@ -61,14 +62,24 @@ const OpenFileButton = () => {
   };
 
   return (
-    <IconButton
-      library="material"
-      iconName="pencil-circle"
-      color="warning"
-      onPress={handlePress}
-      pressable={fileSelectionMode === 'multiple'}
-    />
+    <View style={styles.container}>
+      <IconButton
+        library="material"
+        iconName="pencil-circle"
+        iconSize={60}
+        color="warning"
+        onPress={handlePress}
+        pressable={fileSelectionMode === 'multiple'}
+      />
+      <Text>Ouvrir</Text>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});
 
 export default OpenFileButton;

@@ -41,6 +41,7 @@ const ImportButton = () => {
     <IconButton
       library="material"
       iconName="file-import"
+      iconSize={50}
       color="dark"
       onPress={handlePress}
     />
