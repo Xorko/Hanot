@@ -26,6 +26,7 @@ function Files() {
       )}
       numColumns={displayMode === 'block' ? 4 : 1}
       key={displayMode}
+      keyExtractor={item => item.id}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={displayMode === 'block' ? undefined : undefined}
       ListEmptyComponent={

@@ -229,8 +229,12 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
           <SvgContainer>
             {tracegroupsCoordinates &&
               transform &&
-              tracegroupsCoordinates.map(points => (
-                <PolylineRenderer points={points} transform={transform} />
+              tracegroupsCoordinates.map((points, idx) => (
+                <PolylineRenderer
+                  key={idx}
+                  points={points}
+                  transform={transform}
+                />
               ))}
           </SvgContainer>
         )}
