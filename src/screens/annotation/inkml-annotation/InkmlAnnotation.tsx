@@ -22,6 +22,7 @@ type InkmlAnnotationProps = {
 function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   const dispatch = useAppDispatch();
   const currentWord = useAppSelector(state => state.currentWord);
+  const currentAnnotatedWords = useAppSelector(state => state.annotatedInkml);
 
   const [inkmlTransform, setInkmlTransform] = useState<Transform>();
 
@@ -53,7 +54,17 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   useEffect(() => {
     if (file.content && areaSize) {
-      dispatch(initWord(file.content.words[0]));
+      var isAlreadyAnnotated = false;
+      currentAnnotatedWords.annotatedInkml.map(fileAnnotated => {
+        if (fileAnnotated.id === file.id) {
+          isAlreadyAnnotated = true;
+          dispatch(initWord(fileAnnotated.content.words[0]));
+        }
+      });
+      if (!isAlreadyAnnotated) {
+        dispatch(initWord(file.content.words[0]));
+      }
+
       const defaultTraceGroups = file.content.words[0].defaultTraceGroup;
       const traceGroups = file.content.words[0].tracegroups.map(
         traceGroup => traceGroup.traces,
@@ -68,7 +79,13 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
         .flat();
       setInkmlTransform(getTransform(dots, areaSize));
     }
-  }, [file.content, dispatch, areaSize]);
+  }, [
+    dispatch,
+    areaSize,
+    currentAnnotatedWords.annotatedInkml,
+    file.id,
+    file.content,
+  ]);
 
   return (
     <View style={styles.container}>
