@@ -292,5 +292,5 @@ const blockStyles = StyleSheet.create({
   },
 });
 
-export { BlockItem as BlockFile };
+export { BlockItem as BlockFileCard };
 export default FileCard;

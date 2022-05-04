@@ -1,7 +1,7 @@
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet } from 'react-native';
-import { BlockFile } from '../../../components/FileCard';
+import { BlockFileCard } from '../../../components/FileCard';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
@@ -56,7 +56,7 @@ function CustomDrawerContent({ fileType, ...props }: CustomDrawerContentProps) {
     <DrawerContentScrollView style={styles.container} {...props}>
       {files.map(file => (
         <Pressable key={file.id} onPress={() => handlePress(file)}>
-          <BlockFile file={file} />
+          <BlockFileCard file={file} />
         </Pressable>
       ))}
     </DrawerContentScrollView>
