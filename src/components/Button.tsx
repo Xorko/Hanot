@@ -53,6 +53,12 @@ const colorStyles = StyleSheet.create({
   dark: {
     backgroundColor: colors.dark,
   },
+  inkml: {
+    backgroundColor: colors.inkml,
+  },
+  image: {
+    backgroundColor: colors.image,
+  },
 });
 
 export default Button;

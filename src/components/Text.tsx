@@ -46,6 +46,12 @@ const styles = StyleSheet.create({
   dark: {
     color: colors.dark,
   },
+  inkml: {
+    color: colors.inkml,
+  },
+  image: {
+    color: colors.image,
+  },
 });
 
 export default Text;
