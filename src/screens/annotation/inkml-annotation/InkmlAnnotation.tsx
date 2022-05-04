@@ -56,10 +56,10 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   useEffect(() => {
     if (file.content && areaSize) {
       let isAlreadyAnnotated = false;
-      currentAnnotatedWords.annotatedInkml.map(fileAnnotated => {
-        if (fileAnnotated.id === file.id) {
+      currentAnnotatedWords.annotatedInkml.map(annotatedFile => {
+        if (annotatedFile.id === file.id) {
           isAlreadyAnnotated = true;
-          dispatch(initWord(fileAnnotated.content.words[0]));
+          dispatch(initWord(annotatedFile.content.words[0]));
         }
       });
 
