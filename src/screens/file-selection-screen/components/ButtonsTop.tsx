@@ -81,7 +81,7 @@ function ButtonsTop() {
         </View>
         <View style={styles.px}>
           <FileTypeChangeButton />
-          <Text>InKml / Image</Text>
+          <Text>Inkml / Image</Text>
         </View>
         <View style={styles.px}>
           <ChangeModeButton />

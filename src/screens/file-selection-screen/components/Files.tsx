@@ -24,7 +24,7 @@ function Files() {
           <FileCard file={item} />
         </View>
       )}
-      numColumns={displayMode === 'block' ? 3 : 1}
+      numColumns={displayMode === 'block' ? 4 : 1}
       key={displayMode}
       contentContainerStyle={styles.contentContainer}
       columnWrapperStyle={displayMode === 'block' ? undefined : undefined}

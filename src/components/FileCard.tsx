@@ -245,7 +245,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   selected: {
-    //borderColor: colors.secondary,
     opacity: 0.5,
   },
   annotated: {
