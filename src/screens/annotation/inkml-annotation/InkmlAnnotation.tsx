@@ -5,6 +5,7 @@ import SvgContainer from '../../../components/SvgContainer';
 import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { InkMLFile } from '../../../types/file-import-types';
+import { getPointsFromInkML } from '../../../utils/word-utils';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
 import { SelectedBoxProvider } from '../context/SelectedBoxContext';
@@ -54,30 +55,21 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   useEffect(() => {
     if (file.content && areaSize) {
-      var isAlreadyAnnotated = false;
+      let isAlreadyAnnotated = false;
       currentAnnotatedWords.annotatedInkml.map(fileAnnotated => {
         if (fileAnnotated.id === file.id) {
           isAlreadyAnnotated = true;
           dispatch(initWord(fileAnnotated.content.words[0]));
         }
       });
+
       if (!isAlreadyAnnotated) {
         dispatch(initWord(file.content.words[0]));
       }
 
-      const defaultTraceGroups = file.content.words[0].defaultTraceGroup;
-      const traceGroups = file.content.words[0].tracegroups.map(
-        traceGroup => traceGroup.traces,
+      setInkmlTransform(
+        getTransform(getPointsFromInkML(file.content), areaSize),
       );
-      const traces = defaultTraceGroups.concat(...traceGroups);
-      const dots = traces
-        .map(trace =>
-          trace.dots.map(({ x, y }) => {
-            return { x, y };
-          }),
-        )
-        .flat();
-      setInkmlTransform(getTransform(dots, areaSize));
     }
   }, [
     dispatch,

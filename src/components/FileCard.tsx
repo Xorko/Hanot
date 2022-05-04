@@ -1,9 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import {
+  LayoutChangeEvent,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useDrawerFilesContext } from '../context/DrawerFilesContext';
 import { useFileType } from '../context/FileTypeContext';
+import { Transform } from '../screens/annotation/inkml-annotation/types/annotation-types';
+import { getTransform } from '../screens/annotation/inkml-annotation/utils/transform-utils';
 import { useDisplayMode } from '../screens/file-selection-screen/context/DisplayModeContext';
 import { useFileSelectionMode } from '../screens/file-selection-screen/context/FileSelectionModeContext';
 import { useSelectedFiles } from '../screens/file-selection-screen/context/SelectedFilesContext';
@@ -14,8 +21,12 @@ import type {
   AnnotatedImage,
   AnnotatedInkml,
 } from '../types/annotated-files-types';
+import { Coordinates, Size } from '../types/coordinates-types';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
 import { RootStackParamList } from '../types/navigation-types';
+import { getPointsFromInkML, getPointsFromTrace } from '../utils/word-utils';
+import PolylineRenderer from './PolylineRenderer';
+import SvgContainer from './SvgContainer';
 import Text from './Text';
 
 type FileProps = {
@@ -27,7 +38,7 @@ type FileItemProps = FileProps & {
   isAnnotated?: boolean;
 };
 
-function File({ file }: FileProps) {
+function FileCard({ file }: FileProps) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const { displayMode } = useDisplayMode();
   const { fileType } = useFileType();
@@ -173,6 +184,36 @@ function ListItem({ file, isSelected, isAnnotated }: FileItemProps) {
 }
 
 function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
+  const [areaSize, setAreaSize] = useState<Size>();
+  const [transform, setTransform] = useState<Transform>();
+  const [tracegroupsCoordinates, setTracegroupsCoordinates] =
+    useState<Coordinates[][]>();
+  const { fileType } = useFileType();
+
+  const handleLayoutChange = (event: LayoutChangeEvent) => {
+    setAreaSize(event.nativeEvent.layout);
+  };
+
+  useLayoutEffect(() => {
+    if (areaSize) {
+      switch (fileType) {
+        case 'inkml':
+          const content = (file as InkMLFile).content;
+          if (content) {
+            // TODO: Adapt this to support multiple words in a single file
+            const tracegroupsTraces = content.words[0].tracegroups
+              .map(tracegroup => tracegroup.traces)
+              .flat();
+            const traces = content.words[0].defaultTraceGroup.concat(
+              ...tracegroupsTraces,
+            );
+            setTracegroupsCoordinates(traces.map(getPointsFromTrace));
+            setTransform(getTransform(getPointsFromInkML(content), areaSize));
+          }
+      }
+    }
+  }, [areaSize, fileType, file]);
+
   return (
     <View
       style={[
@@ -181,8 +222,14 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
         isSelected && styles.selected,
       ]}
       testID="file-block">
-      <View style={blockStyles.preview}>
-        <Text variant="secondary">Preview</Text>
+      <View style={blockStyles.preview} onLayout={handleLayoutChange}>
+        <SvgContainer>
+          {tracegroupsCoordinates &&
+            transform &&
+            tracegroupsCoordinates.map(points => (
+              <PolylineRenderer points={points} transform={transform} />
+            ))}
+        </SvgContainer>
       </View>
       <View style={blockStyles.filenameContainer}>
         <Text variant="light" style={styles.filename}>
@@ -246,4 +293,4 @@ const blockStyles = StyleSheet.create({
 });
 
 export { BlockItem as BlockFile };
-export default File;
+export default FileCard;

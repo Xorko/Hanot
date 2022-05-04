@@ -1,9 +1,10 @@
 import { Polyline } from 'react-native-svg';
 import { Transform } from '../screens/annotation/inkml-annotation/types/annotation-types';
 import colors from '../style/colors';
+import { Coordinates } from '../types/coordinates-types';
 
 type PolylineRendererProps = {
-  points: { x: number; y: number }[];
+  points: Coordinates[];
   strokeWidth?: number;
   strokeColor?: string;
   onPress?: (...args: any[]) => void;
