@@ -63,6 +63,7 @@ function ButtonsTop() {
         <View style={styles.selectionButton}>
           {fileSelectionMode === 'multiple' && (
             <Button
+              outline
               variant="dark"
               title="Annuler la sélection"
               onPress={handleCancelSelectionButtonPress}
