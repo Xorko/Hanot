@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../style/colors';
 import Text from './Text';
@@ -21,13 +22,13 @@ function Button({
    * Gets the variant of color to use
    * @returns the variant of color to use for the text
    */
-  const getTextVariant = (): keyof typeof colors => {
+  const getTextVariant = useCallback((): keyof typeof colors => {
     if (outline) {
       return variant;
     }
 
     return variant === 'light' ? 'dark' : 'light';
-  };
+  }, [outline, variant]);
 
   return (
     <TouchableOpacity
