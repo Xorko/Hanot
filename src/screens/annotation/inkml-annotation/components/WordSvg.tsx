@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 import { useEffect, useState } from 'react';
 import { GestureResponderEvent, Platform } from 'react-native';
 import PolylineRenderer from '../../../../components/PolylineRenderer';
+import * as Char from '../../../../core/char';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -181,15 +182,29 @@ function WordSvg({ traces }: WordSvgProps) {
         />
       ))}
       {annotatedTraceGroups.map(traceGroup =>
-        traceGroup.traces.map((trace, idx) => (
-          <PolylineRenderer
-            key={idx}
-            points={trace.dots}
-            onPress={() => {}}
-            strokeColor={colors.success}
-            transform={transform}
-          />
-        )),
+        traceGroup.traces.map((trace, idx) => {
+          if (Char.isNoise(traceGroup.label)) {
+            return (
+              <PolylineRenderer
+                key={idx}
+                points={trace.dots}
+                onPress={() => {}}
+                strokeColor={colors.warning}
+                transform={transform}
+              />
+            );
+          } else {
+            return (
+              <PolylineRenderer
+                key={idx}
+                points={trace.dots}
+                onPress={() => {}}
+                strokeColor={colors.success}
+                transform={transform}
+              />
+            );
+          }
+        }),
       )}
       {defaultTraces.map((trace, idx) => {
         if (trace.dots.length > 0) {
