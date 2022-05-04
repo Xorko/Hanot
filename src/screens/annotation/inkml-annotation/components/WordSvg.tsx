@@ -182,29 +182,23 @@ function WordSvg({ traces }: WordSvgProps) {
         />
       ))}
       {annotatedTraceGroups.map(traceGroup =>
-        traceGroup.traces.map((trace, idx) => {
-          if (Char.isNoise(traceGroup.label)) {
-            return (
-              <PolylineRenderer
-                key={idx}
-                points={trace.dots}
-                onPress={() => {}}
-                strokeColor={colors.warning}
-                transform={transform}
-              />
-            );
-          } else {
-            return (
-              <PolylineRenderer
-                key={idx}
-                points={trace.dots}
-                onPress={() => {}}
-                strokeColor={colors.success}
-                transform={transform}
-              />
-            );
-          }
-        }),
+        traceGroup.traces.map((trace, idx) =>
+          Char.isNoise(traceGroup.label) ? (
+            <PolylineRenderer
+              key={idx}
+              points={trace.dots}
+              strokeColor={colors.warning}
+              transform={transform}
+            />
+          ) : (
+            <PolylineRenderer
+              key={idx}
+              points={trace.dots}
+              strokeColor={colors.success}
+              transform={transform}
+            />
+          ),
+        ),
       )}
       {defaultTraces.map((trace, idx) => {
         if (trace.dots.length > 0) {
