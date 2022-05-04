@@ -1,11 +1,11 @@
 import { nanoid } from 'nanoid';
-import { FileTypeProvider } from '../../../../context/FileTypeContext';
-import { DisplayModeProvider } from '../../../../screens/file-selection-screen/context/DisplayModeContext';
-import colors from '../../../../style/colors';
-import { InkMLFile } from '../../../../types/file-import-types';
-import { fireEvent, render } from '../../../../utils/test-utils';
-import { FileSelectionModeProvider } from '../../context/FileSelectionModeContext';
-import { SelectedFilesProvider } from '../../context/SelectedFilesContext';
+import { FileTypeProvider } from '../../context/FileTypeContext';
+import { DisplayModeProvider } from '../../screens/file-selection-screen/context/DisplayModeContext';
+import { FileSelectionModeProvider } from '../../screens/file-selection-screen/context/FileSelectionModeContext';
+import { SelectedFilesProvider } from '../../screens/file-selection-screen/context/SelectedFilesContext';
+import colors from '../../style/colors';
+import { InkMLFile } from '../../types/file-import-types';
+import { fireEvent, render } from '../../utils/test-utils';
 import File from '../FileCard';
 
 const mockedNavigate = jest.fn();

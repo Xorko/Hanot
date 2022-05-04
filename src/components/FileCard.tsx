@@ -2,21 +2,21 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import Text from '../../../components/Text';
-import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
-import { useFileType } from '../../../context/FileTypeContext';
-import { useAppSelector } from '../../../stores/hooks';
-import colors from '../../../style/colors';
+import { useDrawerFilesContext } from '../context/DrawerFilesContext';
+import { useFileType } from '../context/FileTypeContext';
+import { useDisplayMode } from '../screens/file-selection-screen/context/DisplayModeContext';
+import { useFileSelectionMode } from '../screens/file-selection-screen/context/FileSelectionModeContext';
+import { useSelectedFiles } from '../screens/file-selection-screen/context/SelectedFilesContext';
+import { limitStringLength } from '../screens/file-selection-screen/utils/string-utils';
+import { useAppSelector } from '../stores/hooks';
+import colors from '../style/colors';
 import type {
   AnnotatedImage,
   AnnotatedInkml,
-} from '../../../types/annotated-files-types';
-import { ImageFile, InkMLFile } from '../../../types/file-import-types';
-import { RootStackParamList } from '../../../types/navigation-types';
-import { useDisplayMode } from '../context/DisplayModeContext';
-import { useFileSelectionMode } from '../context/FileSelectionModeContext';
-import { useSelectedFiles } from '../context/SelectedFilesContext';
-import { limitStringLength } from '../utils/string-utils';
+} from '../types/annotated-files-types';
+import { ImageFile, InkMLFile } from '../types/file-import-types';
+import { RootStackParamList } from '../types/navigation-types';
+import Text from './Text';
 
 type FileProps = {
   file: InkMLFile | ImageFile;

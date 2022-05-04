@@ -1,10 +1,10 @@
 import { FlatList, StyleSheet, View } from 'react-native';
+import FileCard from '../../../components/FileCard';
 import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { useDisplayMode } from '../context/DisplayModeContext';
 import { LoadedFilesState } from '../loaded-files-slice';
-import File from './FileCard';
 
 function Files() {
   const { displayMode } = useDisplayMode();
@@ -21,7 +21,7 @@ function Files() {
       data={files}
       renderItem={({ item }) => (
         <View style={displayMode === 'list' && styles.mb}>
-          <File file={item} />
+          <FileCard file={item} />
         </View>
       )}
       numColumns={displayMode === 'block' ? 3 : 1}

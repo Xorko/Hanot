@@ -1,12 +1,12 @@
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet } from 'react-native';
+import { BlockFile } from '../../../components/FileCard';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { FileType } from '../../../types/file-types';
 import { NavigationProp } from '../../../types/navigation-types';
-import { BlockFile } from '../../file-selection-screen/components/FileCard';
 import { LoadedFilesState } from '../../file-selection-screen/loaded-files-slice';
 import { resetCurrentAnnotatedImage } from '../image-annotation/current-annotated-image';
 
