@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import {
+  Image,
   LayoutChangeEvent,
   StyleSheet,
   TouchableOpacity,
@@ -210,6 +211,7 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
             setTracegroupsCoordinates(traces.map(getPointsFromTrace));
             setTransform(getTransform(getPointsFromInkML(content), areaSize));
           }
+          break;
       }
     }
   }, [areaSize, fileType, file]);
@@ -223,13 +225,21 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
       ]}
       testID="file-block">
       <View style={blockStyles.preview} onLayout={handleLayoutChange}>
-        <SvgContainer>
-          {tracegroupsCoordinates &&
-            transform &&
-            tracegroupsCoordinates.map(points => (
-              <PolylineRenderer points={points} transform={transform} />
-            ))}
-        </SvgContainer>
+        {fileType === 'inkml' && (
+          <SvgContainer>
+            {tracegroupsCoordinates &&
+              transform &&
+              tracegroupsCoordinates.map(points => (
+                <PolylineRenderer points={points} transform={transform} />
+              ))}
+          </SvgContainer>
+        )}
+        {fileType === 'image' && (
+          <Image
+            source={{ uri: (file as ImageFile).image }}
+            style={blockStyles.imagePreview}
+          />
+        )}
       </View>
       <View style={blockStyles.filenameContainer}>
         <Text variant="light" style={styles.filename}>
@@ -285,6 +295,10 @@ const blockStyles = StyleSheet.create({
     backgroundColor: colors.light,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  imagePreview: {
+    width: '100%',
+    height: '100%',
   },
   filenameContainer: {
     marginTop: 10,
