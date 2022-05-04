@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
@@ -17,13 +17,8 @@ type HeaderButtonProps = {
 
 function Header({ onValidate, onGoBack }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
-
-  const [showHelp, setShowHelp] = useState<boolean>(false);
+  const [showHelp, toggleHelp] = useReducer((show: boolean) => !show, false);
   const { setOpenedFiles } = useDrawerFilesContext();
-
-  const toggleHelp = () => {
-    setShowHelp(!showHelp);
-  };
 
   const handleHomePress = useCallback(() => {
     setOpenedFiles([]);
