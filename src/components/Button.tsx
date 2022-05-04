@@ -6,17 +6,40 @@ type IconButtonProps = {
   title: string;
   activeOpacity?: number;
   onPress?: () => void;
+  outline?: boolean;
   variant: keyof typeof colors;
 };
 
-function Button({ title, activeOpacity, onPress, variant }: IconButtonProps) {
+function Button({
+  title,
+  activeOpacity,
+  onPress,
+  variant,
+  outline,
+}: IconButtonProps) {
+  /**
+   * Gets the variant of color to use
+   * @returns the variant of color to use for the text
+   */
+  const getTextVariant = (): keyof typeof colors => {
+    if (outline) {
+      return variant;
+    }
+
+    return variant === 'light' ? 'dark' : 'light';
+  };
+
   return (
     <TouchableOpacity
-      style={[colorStyles[variant], [styles.buttonContainer]]}
+      style={[
+        !outline && colorStyles[variant],
+        styles.buttonContainer,
+        { borderColor: colors[variant] },
+      ]}
       onPress={onPress}
       activeOpacity={activeOpacity || 0.8}
       testID="btn">
-      <Text variant="light">{title}</Text>
+      <Text variant={getTextVariant()}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -25,6 +48,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 10,
     borderRadius: 3,
+    borderWidth: 1,
   },
 });
 
