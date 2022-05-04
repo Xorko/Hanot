@@ -1,4 +1,5 @@
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
@@ -38,13 +39,16 @@ const ImportButton = () => {
   };
 
   return (
-    <IconButton
-      library="material"
-      iconName="file-import"
-      iconSize={50}
-      color="dark"
-      onPress={handlePress}
-    />
+    <>
+      <IconButton
+        library="material"
+        iconName="file-import"
+        iconSize={50}
+        color="dark"
+        onPress={handlePress}
+      />
+      <Text variant="dark">Importer</Text>
+    </>
   );
 };
 

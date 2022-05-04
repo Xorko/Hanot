@@ -1,4 +1,5 @@
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useDisplayMode } from '../context/DisplayModeContext';
 
 function ChangeModeButton() {
@@ -9,13 +10,16 @@ function ChangeModeButton() {
   };
 
   return (
-    <IconButton
-      library="material"
-      iconSize={50}
-      color="dark"
-      iconName={displayMode === 'list' ? 'view-grid' : 'format-list-bulleted'}
-      onPress={handlePress}
-    />
+    <>
+      <IconButton
+        library="material"
+        iconSize={50}
+        color="dark"
+        iconName={displayMode === 'list' ? 'view-grid' : 'format-list-bulleted'}
+        onPress={handlePress}
+      />
+      <Text variant="dark">Mode d'affichage</Text>
+    </>
   );
 }
 

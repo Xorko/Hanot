@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../../../components/Button';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
@@ -58,7 +58,6 @@ function ButtonsTop() {
     <View style={styles.container}>
       <View style={styles.px}>
         <ImportButton />
-        <Text>Importer</Text>
       </View>
       <View style={styles.mode}>
         <View style={styles.selectionButton}>
@@ -81,11 +80,9 @@ function ButtonsTop() {
         </View>
         <View style={styles.px}>
           <FileTypeChangeButton />
-          <Text>Inkml / Image</Text>
         </View>
         <View style={styles.px}>
           <ChangeModeButton />
-          <Text>Mode d'affichage</Text>
         </View>
       </View>
     </View>

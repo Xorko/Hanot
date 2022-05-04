@@ -1,5 +1,6 @@
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
 import { exportInk } from '../../../core/output';
 import { builder } from '../../../lib/fast-xml-parser';
@@ -108,7 +109,7 @@ function ExportButton() {
         onPress={handlePress}
         pressable={fileSelectionMode === 'multiple'}
       />
-      <Text>Exporter</Text>
+      <Text variant="dark">Exporter</Text>
     </View>
   );
 }

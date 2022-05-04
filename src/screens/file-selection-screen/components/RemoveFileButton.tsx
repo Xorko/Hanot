@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
@@ -38,7 +39,7 @@ const RemoveFileButton = () => {
         onPress={handlePress}
         pressable={fileSelectionMode === 'multiple'}
       />
-      <Text>Supprimer</Text>
+      <Text variant="dark">Supprimer</Text>
     </View>
   );
 };

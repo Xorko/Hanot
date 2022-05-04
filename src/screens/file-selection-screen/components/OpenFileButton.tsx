@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
@@ -71,7 +72,7 @@ const OpenFileButton = () => {
         onPress={handlePress}
         pressable={fileSelectionMode === 'multiple'}
       />
-      <Text>Ouvrir</Text>
+      <Text variant="dark">Ouvrir</Text>
     </View>
   );
 };
