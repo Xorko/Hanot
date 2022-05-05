@@ -3,7 +3,7 @@ import {
   CompositeNavigationProp,
   NavigatorScreenParams,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { ImageFile, InkMLFile } from './file-import-types';
 import type { FileType } from './file-types';
 
@@ -21,5 +21,5 @@ export type DrawerParamList = {
 
 export type NavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'Annotation'>,
-  StackNavigationProp<RootStackParamList>
+  NativeStackNavigationProp<RootStackParamList>
 >;

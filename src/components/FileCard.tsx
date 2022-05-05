@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import {
   Image,
@@ -46,7 +46,8 @@ function FileCard({ file }: FileProps) {
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { setOpenedFiles } = useDrawerFilesContext();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const isAnnotated = useAppSelector(state => {
     let annotatedFiles: (AnnotatedInkml | AnnotatedImage)[];
 
