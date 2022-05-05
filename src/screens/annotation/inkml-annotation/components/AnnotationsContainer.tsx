@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
-import { useState } from 'react';
-import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { LayoutChangeEvent, StyleSheet, TextInput, View } from 'react-native';
 import SvgContainer from '../../../../components/SvgContainer';
 import { useFileType } from '../../../../context/FileTypeContext';
 import * as Char from '../../../../core/char';
@@ -24,9 +24,14 @@ function AnnotationsContainer() {
   const { fileType } = useFileType();
   const { selectedBox, setSelectedBox } = useSelectedBox();
   const [containerSize, setContainerSize] = useState<Size>();
+  const inputRefs = useRef<TextInput[]>([]);
 
   const getContainerSize = (event: LayoutChangeEvent) => {
     setContainerSize(event.nativeEvent.layout);
+  };
+
+  const insertIntoInputRefs = (ref: TextInput, index: number) => {
+    inputRefs.current[index] = ref;
   };
 
   const selectBox = (idx: number) => {
@@ -48,9 +53,10 @@ function AnnotationsContainer() {
         .reverse();
 
       dispatch(deleteTraceGroups(deletedTraceGroups));
-
       dispatch(setFinalTraceGroups(finalTraceGroups));
       setSelectedBox(undefined);
+
+      inputRefs.current.splice(0, selectedBox);
     }
   };
 
@@ -83,6 +89,14 @@ function AnnotationsContainer() {
         );
         break;
     }
+
+    if (
+      inputRefs.current &&
+      inputRefs.current[index + 1] &&
+      annotation !== ''
+    ) {
+      inputRefs.current[index + 1].focus();
+    }
   };
 
   return (
@@ -96,7 +110,8 @@ function AnnotationsContainer() {
           isNoise={tracegroup.label.type === Char.noise.type}
           onInputChange={(annotation: string) =>
             editAnnotationLabel(annotation, index)
-          }>
+          }
+          insertIntoInputRefs={insertIntoInputRefs}>
           <View style={styles.polylineContainer} onLayout={getContainerSize}>
             <SvgContainer>
               {containerSize &&
