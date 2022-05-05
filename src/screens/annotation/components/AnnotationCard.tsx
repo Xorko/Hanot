@@ -30,8 +30,7 @@ function Annotation({
   backgroundColor = colors.light,
 }: AnnotationProps) {
   return (
-    <Pressable
-      onPress={onPress}
+    <View
       style={[
         Platform.OS === 'web'
           ? annotationStyle.webContainer
@@ -40,13 +39,15 @@ function Annotation({
         isSelected && annotationStyle.selectedColor,
         { backgroundColor },
       ]}>
-      <View style={annotationStyle.preview}>{children}</View>
+      <Pressable onPress={onPress} style={annotationStyle.preview}>
+        {children}
+      </Pressable>
       <AnnotationInput
         onInputChange={onInputChange}
         index={index}
         isNoise={isNoise}
       />
-    </Pressable>
+    </View>
   );
 }
 
