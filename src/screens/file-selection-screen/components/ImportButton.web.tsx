@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { View } from 'react-native';
 import IconButton from '../../../components/IconButton';
+import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppDispatch } from '../../../stores/hooks';
 import { addImageFile, addTextFile } from '../loaded-files-slice';
@@ -57,6 +58,7 @@ const ImportButton = () => {
         style={inputStyle}
         onChange={event => handlePress(event)}
       />
+      <Text variant="dark">Ouvrir</Text>
     </View>
   );
 };
