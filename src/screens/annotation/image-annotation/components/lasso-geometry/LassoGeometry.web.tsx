@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import type { Coordinates, Size } from '../../../../../types/coordinates-types';
 import { getPolygonPoints, getPolylinePoints } from '../../utils/crop-utils';
 import SvgPoint from './SvgPoint';
@@ -29,7 +28,6 @@ function LassoGeometry({
   return (
     <svg
       style={{
-        ...styles.pressableArea,
         width: displayedImageSize.width,
         height: displayedImageSize.height,
       }}>
@@ -64,11 +62,5 @@ function LassoGeometry({
     </svg>
   );
 }
-
-const styles = StyleSheet.create({
-  pressableArea: {
-    borderWidth: 1,
-  },
-});
 
 export default LassoGeometry;

@@ -64,7 +64,7 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
     <View style={styles.container} onLayout={handleContainerLayout}>
       {displayedImageSize && currentAnnotatedImage.imageSource.length > 0 && (
         <>
-          <View style={styles.image}>
+          <View style={[styles.image, styles.shadow]}>
             <Image
               source={{ uri: currentAnnotatedImage.imageSource }}
               style={{
@@ -90,6 +90,17 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
 });
 
