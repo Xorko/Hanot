@@ -100,6 +100,24 @@ const createDirectory = (path: string) => {
   RNFS.mkdir(path);
 };
 
+const getNewFileName = (fileName: string) => {
+  let newFileName = fileName;
+  if (!fileName) {
+    newFileName = 'output';
+  } else {
+    if (!newFileName.endsWith('inkml')) {
+      const fileSubString = newFileName.substring(
+        0,
+        newFileName.lastIndexOf('.'),
+      );
+      newFileName = `${fileSubString ? fileSubString : newFileName}.csv`;
+    }
+    newFileName = `output_${newFileName}`;
+  }
+
+  return newFileName;
+};
+
 /**
  * Exports a file
  * @param fileName name of the file
@@ -116,21 +134,8 @@ export const exportFile = async (
       ? `${RNFS.TemporaryDirectoryPath}/annotated`
       : `${RNFS.ExternalDirectoryPath}/Documents/Hanot`;
   createDirectory(outputPath);
-  let newFileName = fileName;
 
-  if (!newFileName) {
-    newFileName = 'output';
-  } else {
-    if (!newFileName.endsWith('inkml')) {
-      const fileSubString = newFileName.substring(
-        0,
-        newFileName.lastIndexOf('.'),
-      );
-      newFileName = `${fileSubString ? fileSubString : newFileName}.csv`;
-    }
-    newFileName = `output_${newFileName}`;
-  }
-  const pathToWrite = `${outputPath}/${newFileName}`;
+  const pathToWrite = `${outputPath}/${getNewFileName(fileName)}`;
 
   try {
     await RNFS.writeFile(pathToWrite, fileContent, 'utf8');
@@ -159,4 +164,20 @@ export const exportFile = async (
   }
 
   return outputPath;
+};
+
+export const exportFileWeb = (
+  fileContent: string,
+  fileName: string,
+  type: string,
+) => {
+  const blob = new Blob([fileContent], {
+    type: type,
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = getNewFileName(fileName);
+  a.click();
+  a.remove();
 };

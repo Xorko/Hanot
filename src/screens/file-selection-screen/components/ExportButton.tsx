@@ -11,6 +11,7 @@ import {
   callFunctionWithPermission,
   createImageExport,
   exportFile,
+  exportFileWeb,
   shareToFiles,
 } from '../utils/export-utils';
 
@@ -33,9 +34,14 @@ function ExportButton() {
         imageToExport.imagePixels,
         imageToExport.imageWidth,
       );
-      callFunctionWithPermission(() =>
-        exportFile(fileContent, fileName, multipleFiles),
-      );
+
+      if (Platform.OS === 'web') {
+        exportFileWeb(fileContent, fileName, 'text/csv;charset=utf-8;');
+      } else {
+        callFunctionWithPermission(() =>
+          exportFile(fileContent, fileName, multipleFiles),
+        );
+      }
     } else {
       console.error('Image has not been annotated');
     }
@@ -54,9 +60,13 @@ function ExportButton() {
         const dataToExport = exportInk(inkmlToExport.content);
         if (dataToExport) {
           const fileContent = builder.build(dataToExport);
-          callFunctionWithPermission(() =>
-            exportFile(fileContent, fileName, multipleFiles),
-          );
+          if (Platform.OS === 'web') {
+            exportFileWeb(fileContent, fileName, 'text/inkML;charset=utf-8;');
+          } else {
+            callFunctionWithPermission(() =>
+              exportFile(fileContent, fileName, multipleFiles),
+            );
+          }
         }
       }
     }
