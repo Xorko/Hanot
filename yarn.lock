@@ -11060,6 +11060,11 @@ react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-modern-drawer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-modern-drawer/-/react-modern-drawer-1.1.1.tgz#928bf03337c72294f89eceb39743127863e99f51"
+  integrity sha512-LU79xfQ6f+bINXOie6rUFfU8tFWYjv5zkF03gDVTA9nkECgZZVtTvkata+R0aIbEBI6c/UFdlc/6XLWDOiD1tA==
+
 react-native-codegen@^0.0.7:
   version "0.0.7"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.7.tgz"

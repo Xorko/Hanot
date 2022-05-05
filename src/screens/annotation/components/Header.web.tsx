@@ -4,6 +4,7 @@ import { BackHandler, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { NavigationProp } from '../../../types/navigation-types';
+import { useWebDrawer } from '../context/WebDrawerContext';
 import HelpBanner from './HelpBanner';
 
 type HeaderProps = {
@@ -19,6 +20,7 @@ function Header({ onValidate, onGoBack }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
   const [showHelp, toggleHelp] = useReducer((show: boolean) => !show, false);
   const { setOpenedFiles } = useDrawerFilesContext();
+  const { openWebDrawer } = useWebDrawer();
 
   const handleHomePress = useCallback(() => {
     setOpenedFiles([]);
@@ -42,7 +44,7 @@ function Header({ onValidate, onGoBack }: HeaderProps) {
         <IconButton
           library="material"
           iconName="menu"
-          onPress={navigation.openDrawer}
+          onPress={openWebDrawer}
           iconSize={50}
           color="dark"
         />
