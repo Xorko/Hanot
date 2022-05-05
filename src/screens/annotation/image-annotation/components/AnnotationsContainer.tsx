@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { cloneDeep } from 'lodash';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
@@ -8,6 +9,7 @@ import {
 } from '../current-annotated-image';
 import type { Crop } from '../types/image-annotation-types';
 import AnnotationContainer from './AnnotationCardContainer';
+
 function AnnotationsContainer() {
   //===========================================================================
   // Redux
@@ -78,6 +80,18 @@ function AnnotationsContainer() {
   const paths = currentImage.imageCrops
     ? currentImage.imageCrops.map((crop: Crop) => crop.cropPath)
     : [];
+
+  //===========================================================================
+  // Render
+  //===========================================================================
+
+  useEffect(() => {
+    setNoiseList(
+      cloneDeep(currentImage.imageCrops)
+        .map((crop, index) => crop.cropAnnotation === 'noise' && index)
+        .filter(e => e !== false) as number[],
+    );
+  }, [currentImage.imageCrops]);
 
   return (
     <Annotations onDeleteAnnotation={deleteCrop} onMarkAsNoise={markAsNoise}>

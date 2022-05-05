@@ -44,6 +44,10 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
     state => state.currentAnnotatedImage.annotatedImage,
   );
 
+  const annotatedImage = useAppSelector(state =>
+    state.annotatedImages.annotatedImages.find(image => image.id === file.id),
+  );
+
   //===========================================================================
   // State
   //===========================================================================
@@ -163,30 +167,40 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
 
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
-    if (file.image && file.id) {
-      // Sets the image source in the store
-      dispatch(setCurrentAnnotatedImageSrc(file.image));
-      dispatch(setCurrentAnnotatedImageFilePath(file.id));
-
+    if (annotatedImage) {
       // Retrieves the image size and sets it in the state
       Image.getSize(file.image, (width, height) => {
         const size = { width, height };
         setTrueImageSize(size);
-        dispatch(setCurrentAnnotatedImageWidth(size.width));
       });
+      dispatch(setCurrentAnnotatedImage(annotatedImage));
+      setPixelRetrieved(true);
+    } else {
+      if (file.image && file.id) {
+        // Sets the image source in the store
+        dispatch(setCurrentAnnotatedImageSrc(file.image));
+        dispatch(setCurrentAnnotatedImageFilePath(file.id));
 
-      Platform.OS === 'web' &&
-        getImagePixels(file.image, (err, pixels) => {
-          if (err) {
-            console.error(err);
-          } else {
-            dispatch(setCurrentAnnotatedImagePixels(pixels));
-
-            setPixelRetrieved(true);
-          }
+        // Retrieves the image size and sets it in the state
+        Image.getSize(file.image, (width, height) => {
+          const size = { width, height };
+          setTrueImageSize(size);
+          dispatch(setCurrentAnnotatedImageWidth(size.width));
         });
+
+        Platform.OS === 'web' &&
+          getImagePixels(file.image, (err, pixels) => {
+            if (err) {
+              console.error(err);
+            } else {
+              dispatch(setCurrentAnnotatedImagePixels(pixels));
+
+              setPixelRetrieved(true);
+            }
+          });
+      }
     }
-  }, [dispatch, file.id, file.image]);
+  }, [annotatedImage, dispatch, file.id, file.image]);
 
   return (
     <View style={styles.container}>

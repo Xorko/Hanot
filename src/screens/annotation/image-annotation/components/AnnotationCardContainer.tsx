@@ -37,7 +37,7 @@ function AnnotationContainer({
 
   const { displayedImageSize } = useDisplayedImageSizeContext();
 
-  const { selectedBox } = useSelectedBox();
+  const { selectedBox, setSelectedBox } = useSelectedBox();
 
   //===========================================================================
   // State
@@ -62,6 +62,7 @@ function AnnotationContainer({
         annotation: text,
       }),
     );
+    setSelectedBox(undefined);
   };
 
   const getContainerSize = (event: LayoutChangeEvent) => {
