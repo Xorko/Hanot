@@ -114,6 +114,7 @@ function AnnotationInput({
             : inputStyles.input
         }
         placeholderTextColor={isNoise ? colors.light : '#BFBFBF'}
+        selectionColor={'rgba(0,0,0,0.5)'}
       />
     </View>
   );
