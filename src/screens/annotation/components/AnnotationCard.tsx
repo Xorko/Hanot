@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useFileType } from '../../../context/FileTypeContext';
 import * as Char from '../../../core/char';
 import { useAppSelector } from '../../../stores/hooks';
@@ -33,9 +33,12 @@ function Annotation({
     <Pressable
       onPress={onPress}
       style={[
-        { ...annotationStyle.container, backgroundColor },
-        isNoise && { ...styles.noise, backgroundColor },
-        isSelected && { ...annotationStyle.selectedColor, backgroundColor },
+        Platform.OS === 'web'
+          ? annotationStyle.webContainer
+          : annotationStyle.container,
+        isNoise && styles.noise,
+        isSelected && annotationStyle.selectedColor,
+        { backgroundColor },
       ]}>
       <View style={annotationStyle.preview}>{children}</View>
       <AnnotationInput
@@ -117,6 +120,15 @@ const annotationStyle = StyleSheet.create({
   container: {
     width: 185,
     flex: 0.2,
+    margin: 10,
+    borderRadius: 25,
+    borderWidth: 5,
+    borderColor: colors.primary,
+    backgroundColor: colors.light,
+  },
+  webContainer: {
+    width: 200,
+    flex: 1,
     margin: 10,
     borderRadius: 25,
     borderWidth: 5,
