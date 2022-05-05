@@ -79,6 +79,14 @@ function AnnotationsContainer() {
    * @param index the number corresponding to the traceGroup index in the currentWord
    */
   const editAnnotationLabel = (annotation: string, index: number): void => {
+    if (
+      inputRefs.current &&
+      inputRefs.current[index + 1] &&
+      annotation !== ''
+    ) {
+      inputRefs.current[index + 1].focus();
+    }
+
     switch (fileType) {
       case 'inkml':
         dispatch(annotateTraceGroup({ index, annotation }));
@@ -88,14 +96,6 @@ function AnnotationsContainer() {
           setCurrentAnnotatedImageCropAnnotationAtIndex({ annotation, index }),
         );
         break;
-    }
-
-    if (
-      inputRefs.current &&
-      inputRefs.current[index + 1] &&
-      annotation !== ''
-    ) {
-      inputRefs.current[index + 1].focus();
     }
   };
 
