@@ -91,7 +91,13 @@ function AnnotationInput({
   };
 
   return (
-    <View style={[inputStyles.container, isNoise && styles.noise]}>
+    <View
+      style={
+        Platform.OS !== 'web' && [
+          inputStyles.container,
+          isNoise && styles.noise,
+        ]
+      }>
       <TextInput
         value={getCharacterValue(_char)}
         maxLength={1}
@@ -102,7 +108,11 @@ function AnnotationInput({
         placeholder="Aa"
         textAlign="center"
         multiline
-        style={inputStyles.input}
+        style={
+          Platform.OS === 'web'
+            ? [inputStyles.inputWeb, isNoise && styles.noise]
+            : inputStyles.input
+        }
         placeholderTextColor={isNoise ? colors.light : '#BFBFBF'}
       />
     </View>
@@ -154,6 +164,17 @@ const inputStyles = StyleSheet.create({
   },
   input: {
     fontSize: 20,
+    color: colors.light,
+  },
+  inputWeb: {
+    flex: 1,
+    padding: 4,
+    marginTop: 5,
+    marginHorizontal: 50,
+    fontSize: 18,
+    borderRadius: 100,
+    backgroundColor: colors.primary,
+    textAlign: 'center',
     color: colors.light,
   },
 });
