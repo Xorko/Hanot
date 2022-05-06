@@ -2,6 +2,10 @@
   "name": "hanot",
   "version": "0.0.2",
   "private": true,
+  "authors": "Hanot team",
+  "description": "Hanot",
+  "homepage": "./",
+  "main": "./public/electron.js",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -20,7 +24,10 @@
     "lint:prettier:fix": "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json|css|md)\"",
     "lint:types": "tsc",
     "postinstall": "patch-package",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "electron:package:mac": "yarn build-web && electron-builder -m -c.extraMetadata.main=build/electron.js",
+    "electron:package:win": "yarn build-web && electron-builder -w -c.extraMetadata.main=build/electron.js",
+    "electron:package:linux": "yarn build-web && electron-builder -l -c.extraMetadata.main=build/electron.js"
   },
   "dependencies": {
     "@react-navigation/drawer": "^6.4.1",
@@ -71,6 +78,8 @@
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "electron": "^18.2.0",
+    "electron-builder": "^23.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.0",
@@ -119,18 +128,34 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
     "*.js": "eslint --cache --fix"
+  },
+  "build": {
+    "appId": "com.hanot.hanotapp",
+    "productName": "Hanot",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
+    }
   }
 }
