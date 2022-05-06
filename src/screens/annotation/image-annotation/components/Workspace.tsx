@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
 import { Size } from '../../../../types/coordinates-types';
@@ -39,12 +39,29 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
   const [containerSize, setContainerSize] = useState<Size>();
 
   //===========================================================================
+  // Variables
+  //===========================================================================
+
+  // Indicates if this is the first render of the component
+  const firstRender = useRef<boolean>(true);
+
+  //===========================================================================
   // Render
   //===========================================================================
 
   useEffect(() => {
     if (trueImageSize && containerSize) {
-      setDisplayedImageSize(getAdaptedImageSize(containerSize, trueImageSize));
+      const displayedSize = getAdaptedImageSize(containerSize, trueImageSize);
+
+      // Update the displayed image size context
+      setDisplayedImageSize(displayedSize);
+
+      // The displayed image size is needed in the parent component so it must be pulled up
+      // This is only done on the first render because the parent component will re-render and the displayed image size will be updated again causing an infinite loop
+      if (firstRender.current) {
+        pullUpDisplayedImageSize(displayedSize);
+        firstRender.current = false;
+      }
     }
   }, [
     containerSize,
