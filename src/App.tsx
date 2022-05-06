@@ -17,10 +17,12 @@ function App() {
         <Stack.Screen
           name="AnnotationScreen"
           component={AnnotationScreenNavigator}
+          options={{ title: 'Hanot' }}
         />
         <Stack.Screen
           name="FileSelectionScreen"
           component={FileSelectionScreen}
+          options={{ title: 'Hanot' }}
         />
       </Stack.Navigator>
       <Toast />
