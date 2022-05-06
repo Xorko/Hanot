@@ -60,6 +60,9 @@ buck-out/
 /ios/Pods/
 
 # Misc
-build/
 coverage/
 .eslintcache
+
+# production
+build/
+dist/
