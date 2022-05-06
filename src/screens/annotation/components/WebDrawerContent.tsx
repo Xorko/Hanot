@@ -26,6 +26,13 @@ function WebDrawerContent({ fileType }: WebDrawerContentProps) {
         : state.loadedFiles.imageFileInfo) as (InkMLFile | ImageFile)[],
   ).filter(file => openedFilesIds?.some(id => id === file.id));
 
+  const annotatedOpenedFiles = useAppSelector(
+    state =>
+      (fileType === 'inkml'
+        ? state.annotatedInkml.annotatedInkml
+        : state.annotatedImages.annotatedImages) as (InkMLFile | ImageFile)[],
+  );
+
   const handlePress = (file: InkMLFile | ImageFile) => {
     closeWebDrawer();
 
@@ -52,6 +59,12 @@ function WebDrawerContent({ fileType }: WebDrawerContentProps) {
     }
   };
 
+  const fileIsAnnotated = (file: InkMLFile | ImageFile) => {
+    return annotatedOpenedFiles.some(
+      annotatedFile => annotatedFile.id === file.id,
+    );
+  };
+
   /*
    * The scrollview below doesn't do any scrolling (probably because of the drawer base style).
    * The scrolling is working with the patch of react-modern-drawer
@@ -60,7 +73,7 @@ function WebDrawerContent({ fileType }: WebDrawerContentProps) {
     <ScrollView style={styles.container}>
       {files.map(file => (
         <Pressable key={file.id} onPress={() => handlePress(file)}>
-          <BlockFileCard file={file} />
+          <BlockFileCard file={file} isAnnotated={fileIsAnnotated(file)} />
         </Pressable>
       ))}
     </ScrollView>
