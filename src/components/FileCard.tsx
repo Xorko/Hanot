@@ -25,6 +25,7 @@ import type {
 import { Coordinates, Size } from '../types/coordinates-types';
 import { ImageFile, InkMLFile } from '../types/file-import-types';
 import { RootStackParamList } from '../types/navigation-types';
+import { getAdaptedImageSize } from '../utils/image-size-utils';
 import { getPointsFromInkML, getPointsFromTrace } from '../utils/word-utils';
 import PolylineRenderer from './PolylineRenderer';
 import SvgContainer from './SvgContainer';
@@ -188,6 +189,7 @@ function ListItem({ file, isSelected, isAnnotated }: FileItemProps) {
 function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
   const [areaSize, setAreaSize] = useState<Size>();
   const [transform, setTransform] = useState<Transform>();
+  const [imageSize, setImageSize] = useState<Size>();
   const [tracegroupsCoordinates, setTracegroupsCoordinates] =
     useState<Coordinates[][]>();
   const { fileType } = useFileType();
@@ -213,6 +215,10 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
             setTransform(getTransform(getPointsFromInkML(content), areaSize));
           }
           break;
+        case 'image':
+          Image.getSize((file as ImageFile).image, (width, height) => {
+            setImageSize(getAdaptedImageSize(areaSize, { width, height }));
+          });
       }
     }
   }, [areaSize, fileType, file]);
@@ -239,10 +245,10 @@ function BlockItem({ file, isSelected, isAnnotated }: FileItemProps) {
               ))}
           </SvgContainer>
         )}
-        {fileType === 'image' && (
+        {fileType === 'image' && imageSize && (
           <Image
             source={{ uri: (file as ImageFile).image }}
-            style={blockStyles.imagePreview}
+            style={{ width: imageSize.width, height: imageSize.height }}
           />
         )}
       </View>
@@ -300,10 +306,6 @@ const blockStyles = StyleSheet.create({
     backgroundColor: colors.light,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  imagePreview: {
-    width: '100%',
-    height: '100%',
   },
   filenameContainer: {
     marginTop: 10,
