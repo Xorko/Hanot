@@ -22,7 +22,11 @@ function AnnotationScreenNavigator({
       drawerContent={props => (
         <CustomDrawerContent fileType={type} {...props} />
       )}>
-      <NavigationDrawer.Screen name="Annotation" component={AnnotationScreen} />
+      <NavigationDrawer.Screen
+        name="Annotation"
+        component={AnnotationScreen}
+        options={{ title: 'Hanot' }}
+      />
     </NavigationDrawer.Navigator>
   );
 }
