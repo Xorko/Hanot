@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import { LayoutChangeEvent, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../../../stores/hooks';
 import type { Coordinates, Size } from '../../../../types/coordinates-types';
 import Annotation from '../../components/AnnotationCard';
@@ -17,6 +17,8 @@ type AnnotationContainerProps = {
   selectCrop: () => void;
   index: number;
   isNoise: boolean;
+  inputRefs: React.MutableRefObject<TextInput[]>;
+  insertIntoInputRefs: (ref: TextInput, index: number) => void;
 };
 
 function AnnotationContainer({
@@ -24,6 +26,8 @@ function AnnotationContainer({
   index,
   selectCrop,
   isNoise,
+  insertIntoInputRefs,
+  inputRefs,
 }: AnnotationContainerProps) {
   //===========================================================================
   // Redux
@@ -49,6 +53,7 @@ function AnnotationContainer({
   // The size of the crop adjusted to the size of the container
   const [cropSize, setCropSize] = useState<Size>();
 
+  // The size of the container
   const [containerSize, setContainerSize] = useState<Size>();
 
   //===========================================================================
@@ -56,6 +61,10 @@ function AnnotationContainer({
   //===========================================================================
 
   const handleInputChange = (text: string) => {
+    if (inputRefs.current && inputRefs.current[index + 1] && text !== '') {
+      inputRefs.current[index + 1].focus();
+    }
+
     dispatch(
       setCurrentAnnotatedImageCropAnnotationAtIndex({
         index,
@@ -115,7 +124,8 @@ function AnnotationContainer({
         onPress={selectCrop}
         isSelected={index === selectedBox}
         backgroundColor="#C5CAE9"
-        isNoise={isNoise}>
+        isNoise={isNoise}
+        insertIntoInputRefs={insertIntoInputRefs}>
         <View style={styles.container} onLayout={getContainerSize}>
           {pathToDisplay && cropSize && (
             <Crop path={pathToDisplay} size={cropSize} />

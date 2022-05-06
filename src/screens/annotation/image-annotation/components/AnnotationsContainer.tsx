@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { TextInput } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
@@ -34,8 +35,19 @@ function AnnotationsContainer() {
   const [noiseList, setNoiseList] = useState<number[]>([]);
 
   //===========================================================================
+  // Variables
+  //===========================================================================
+
+  // Reference array to text inputs
+  const inputRefs = useRef<TextInput[]>([]);
+
+  //===========================================================================
   // Functions
   //===========================================================================
+
+  const insertIntoInputRefs = (ref: TextInput, index: number) => {
+    inputRefs.current[index] = ref;
+  };
 
   /**
    * Changes the current selected crop index with the new index
@@ -67,6 +79,7 @@ function AnnotationsContainer() {
    */
   const deleteCrop = () => {
     if (selectedBox !== undefined) {
+      inputRefs.current.splice(0, selectedBox);
       dispatch(currentAnnotatedImageRemoveCrop(selectedBox));
       setSelectedBox(undefined);
     }
@@ -102,6 +115,8 @@ function AnnotationsContainer() {
           index={index}
           selectCrop={() => selectCrop(index)}
           isNoise={noiseList.includes(index)}
+          inputRefs={inputRefs}
+          insertIntoInputRefs={insertIntoInputRefs}
         />
       ))}
     </Annotations>
