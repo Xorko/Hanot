@@ -27,6 +27,7 @@ export const currentWordSlice = createSlice({
       state.defaultTraceGroup = word.payload.defaultTraceGroup;
       state.attributes = word.payload.attributes;
       state.annotations = word.payload.annotations;
+      state.predicted = word.payload.predicted;
       return state;
     },
     /**
