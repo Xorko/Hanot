@@ -4,8 +4,8 @@ import Toast from 'react-native-toast-message';
 import SvgContainer from '../../../components/SvgContainer';
 import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { Size } from '../../../types/coordinates-types';
 import { InkMLFile } from '../../../types/file-import-types';
-import { getPointsFromInkML } from '../../../utils/word-utils';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
 import { SelectedBoxProvider } from '../context/SelectedBoxContext';
@@ -13,8 +13,6 @@ import AnnotationsContainer from './components/AnnotationsContainer';
 import Workspace from './components/Workspace';
 import { PolylineTransformProvider } from './context/PolylineTransformContext';
 import { initialState, initWord } from './current-word-slice';
-import { Transform } from './types/annotation-types';
-import { getTransform } from './utils/transform-utils';
 
 type InkmlAnnotationProps = {
   file: InkMLFile;
@@ -25,9 +23,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   const currentWord = useAppSelector(state => state.currentWord);
   const currentAnnotatedWords = useAppSelector(state => state.annotatedInkml);
 
-  const [inkmlTransform, setInkmlTransform] = useState<Transform>();
-
-  const [areaSize, setAreaSize] = useState<{ width: number; height: number }>();
+  const [areaSize, setAreaSize] = useState<Size>();
 
   const validate = () => {
     const word = {
@@ -54,7 +50,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   };
 
   useEffect(() => {
-    if (file.content && areaSize) {
+    if (file.content) {
       const annotatedFile = currentAnnotatedWords.annotatedInkml.find(_file => {
         return _file.id === file.id;
       });
@@ -64,18 +60,8 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
       } else {
         dispatch(initWord(file.content.words[0]));
       }
-
-      setInkmlTransform(
-        getTransform(getPointsFromInkML(file.content), areaSize),
-      );
     }
-  }, [
-    dispatch,
-    areaSize,
-    currentAnnotatedWords.annotatedInkml,
-    file.id,
-    file.content,
-  ]);
+  }, [dispatch, currentAnnotatedWords.annotatedInkml, file.id, file.content]);
 
   return (
     <View style={styles.container}>
@@ -84,16 +70,14 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
         <AnnotationsContainer />
         <AnnotationArea>
           <View
+            style={styles.area}
             onLayout={(event: LayoutChangeEvent) =>
               setAreaSize(event.nativeEvent.layout)
-            }
-            style={styles.area}>
+            }>
             <SvgContainer>
-              {inkmlTransform && (
-                <PolylineTransformProvider initialTransform={inkmlTransform}>
-                  <Workspace />
-                </PolylineTransformProvider>
-              )}
+              <PolylineTransformProvider>
+                {areaSize && <Workspace areaSize={areaSize} />}
+              </PolylineTransformProvider>
             </SvgContainer>
           </View>
         </AnnotationArea>
