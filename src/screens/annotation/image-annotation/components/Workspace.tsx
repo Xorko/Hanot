@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
 import { Size } from '../../../../types/coordinates-types';
+import { getAdaptedImageSize } from '../../../../utils/image-size-utils';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { LassoModifiedContextProvider } from '../context/LassoModifiedContext';
-import { useTrueImageSizeContext } from '../context/TrueImageSizeContext';
 import Lasso from './Lasso';
 
 type WorkspacePropsType = {
@@ -20,6 +21,10 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
     state => state.currentAnnotatedImage.annotatedImage,
   );
 
+  const trueImageSize = useAppSelector(
+    state => state.currentAnnotatedImage.annotatedImage.imageSize,
+  );
+
   //===========================================================================
   // Contexts
   //===========================================================================
@@ -27,41 +32,33 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
   const { displayedImageSize, setDisplayedImageSize } =
     useDisplayedImageSizeContext();
 
-  const { trueImageSize } = useTrueImageSizeContext();
-
   //===========================================================================
-  // Functions
+  // State
   //===========================================================================
 
-  /**
-   * When the component is mounted, adjust the size of the image to the size of the container
-   * @param event The event that triggered the function
-   */
-  const handleContainerLayout = (event: LayoutChangeEvent) => {
-    if (trueImageSize) {
-      // Retrieves the size of the container
-      const { width, height } = event.nativeEvent.layout;
+  const [containerSize, setContainerSize] = useState<Size>();
 
-      // The size scale between the container and the image
-      const scale = Math.min(
-        width / trueImageSize.width,
-        height / trueImageSize.height,
-      );
+  //===========================================================================
+  // Render
+  //===========================================================================
 
-      /*
-        If the image is smaller than the container, the displayed size is the true size
-        Else the displayed size is the size scaled to the container
-      */
-      const newSize = {
-        width: trueImageSize.width * (scale < 1 ? scale : 1),
-        height: trueImageSize.height * (scale < 1 ? scale : 1),
-      };
-      setDisplayedImageSize(newSize);
-      pullUpDisplayedImageSize(newSize);
+  useEffect(() => {
+    if (trueImageSize && containerSize) {
+      setDisplayedImageSize(getAdaptedImageSize(containerSize, trueImageSize));
     }
-  };
+  }, [
+    containerSize,
+    pullUpDisplayedImageSize,
+    setDisplayedImageSize,
+    trueImageSize,
+  ]);
+
   return (
-    <View style={styles.container} onLayout={handleContainerLayout}>
+    <View
+      style={styles.container}
+      onLayout={(event: LayoutChangeEvent) =>
+        setContainerSize(event.nativeEvent.layout)
+      }>
       {displayedImageSize && currentAnnotatedImage.imageSource.length > 0 && (
         <>
           <View style={[styles.image, styles.shadow]}>

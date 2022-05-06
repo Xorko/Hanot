@@ -15,7 +15,6 @@ import PixelRecovery from './components/PixelRecovery';
 import ProgressCircle from './components/ProgressCircle';
 import Workspace from './components/Workspace';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
-import { TrueImageSizeContextProvider } from './context/TrueImageSizeContext';
 import {
   initialState,
   setCurrentAnnotatedImage,
@@ -48,12 +47,13 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
     state.annotatedImages.annotatedImages.find(image => image.id === file.id),
   );
 
+  const trueImageSize = useAppSelector(
+    state => state.currentAnnotatedImage.annotatedImage.imageSize,
+  );
+
   //===========================================================================
   // State
   //===========================================================================
-
-  // The current image real size
-  const [trueImageSize, setTrueImageSize] = useState<Size>();
 
   // The current image displayed size
   const [displayedImageSize, setDisplayedImageSize] = useState<Size>();
@@ -168,11 +168,6 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
   /* Setting the image source in the store and the true image size. */
   useEffect(() => {
     if (annotatedImage) {
-      // Retrieves the image size and sets it in the state
-      Image.getSize(file.image, (width, height) => {
-        const size = { width, height };
-        setTrueImageSize(size);
-      });
       dispatch(setCurrentAnnotatedImage(annotatedImage));
       setPixelRetrieved(true);
     } else {
@@ -184,8 +179,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
         // Retrieves the image size and sets it in the state
         Image.getSize(file.image, (width, height) => {
           const size = { width, height };
-          setTrueImageSize(size);
-          dispatch(setCurrentAnnotatedImageWidth(size.width));
+          dispatch(setCurrentAnnotatedImageWidth(size));
         });
 
         Platform.OS === 'web' &&
@@ -219,7 +213,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
       <DisplayedImageSizeContextProvider>
         <SelectedBoxProvider initialSelectedBox={undefined}>
           {trueImageSize && (
-            <TrueImageSizeContextProvider initialTrueImageSize={trueImageSize}>
+            <>
               {pixelRetrieved ? (
                 <>
                   <AnnotationsContainer />
@@ -234,7 +228,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
               ) : (
                 <ProgressCircle />
               )}
-            </TrueImageSizeContextProvider>
+            </>
           )}
         </SelectedBoxProvider>
       </DisplayedImageSizeContextProvider>

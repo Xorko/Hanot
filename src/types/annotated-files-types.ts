@@ -3,13 +3,14 @@ import type {
   Crop,
   Pixel,
 } from '../screens/annotation/image-annotation/types/image-annotation-types';
+import { Size } from './coordinates-types';
 
 export type AnnotatedImage = {
   id: string;
   imageSource: string;
   imagePixels: Pixel[];
   imageCrops: Crop[];
-  imageWidth: number;
+  imageSize?: Size;
 };
 
 export type AnnotatedInkml = {

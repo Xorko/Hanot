@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AnnotatedImage } from '../../../types/annotated-files-types';
+import { Size } from '../../../types/coordinates-types';
 import { Crop, Pixel } from './types/image-annotation-types';
 
 export interface CurrentAnnotatedImageState {
@@ -12,7 +13,6 @@ export const initialState: CurrentAnnotatedImageState = {
     imageSource: '',
     imagePixels: [],
     imageCrops: [],
-    imageWidth: 0,
   },
 };
 
@@ -41,8 +41,8 @@ const currentAnnotatedImageSlice = createSlice({
     setCurrentAnnotatedImageCrops: (state, action: PayloadAction<Crop[]>) => {
       state.annotatedImage.imageCrops = action.payload;
     },
-    setCurrentAnnotatedImageWidth: (state, action: PayloadAction<number>) => {
-      state.annotatedImage.imageWidth = action.payload;
+    setCurrentAnnotatedImageWidth: (state, action: PayloadAction<Size>) => {
+      state.annotatedImage.imageSize = action.payload;
     },
     currentAnnotatedImageAddCrop: (state, action: PayloadAction<Crop>) => {
       state.annotatedImage.imageCrops.push(action.payload);
