@@ -30,17 +30,19 @@ function ExportButton() {
     const imageIndex = annotatedImages.findIndex(image => image.id === id);
     if (imageIndex !== -1) {
       const imageToExport = annotatedImages[imageIndex];
-      const fileContent = createImageExport(
-        imageToExport.imagePixels,
-        imageToExport.imageWidth,
-      );
-
-      if (Platform.OS === 'web') {
-        exportFileWeb(fileContent, fileName, 'text/csv;charset=utf-8;');
-      } else {
-        callFunctionWithPermission(() =>
-          exportFile(fileContent, fileName, multipleFiles),
+      if (imageToExport.imageSize) {
+        const fileContent = createImageExport(
+          imageToExport.imagePixels,
+          imageToExport.imageSize.width,
         );
+
+        if (Platform.OS === 'web') {
+          exportFileWeb(fileContent, fileName, 'text/csv;charset=utf-8;');
+        } else {
+          callFunctionWithPermission(() =>
+            exportFile(fileContent, fileName, multipleFiles),
+          );
+        }
       }
     } else {
       console.error('Image has not been annotated');
