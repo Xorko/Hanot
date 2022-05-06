@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-modern-drawer/dist/index.css b/node_modules/react-modern-drawer/dist/index.css
+index aa3e0b0..c040635 100644
+--- a/node_modules/react-modern-drawer/dist/index.css
++++ b/node_modules/react-modern-drawer/dist/index.css
+@@ -5,7 +5,9 @@
+     opacity: 1; }
+   .EZDrawer .EZDrawer__checkbox:checked ~ .EZDrawer__container {
+     visibility: visible;
+-    transform: translate3d(0, 0, 0) !important; }
++    transform: translate3d(0, 0, 0) !important;
++    overflow-y: scroll;
++   }
+ 
+ .EZDrawer .EZDrawer__overlay {
+   display: none;
