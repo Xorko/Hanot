@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   files: {
+    flex: 1,
     alignItems: 'center',
   },
 });
