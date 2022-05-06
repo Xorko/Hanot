@@ -13,8 +13,8 @@ export const getTransform = (coordinates: Coordinates[], areaSize: Size) => {
     areaSize.height / (wordHeight + 5),
   );
 
-  const widthDiff = (areaSize.width - wordWidth * scale) / 6;
-  const heightDiff = (areaSize.height - wordHeight * scale) / 6;
+  const widthDiff = (areaSize.width - wordWidth * scale) / (scale * 2);
+  const heightDiff = (areaSize.height - wordHeight * scale) / (scale * 2);
 
   return {
     translateX: widthDiff > 0 ? minX - widthDiff : minX,
