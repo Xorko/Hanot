@@ -1,6 +1,5 @@
-import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { BlockFileCard } from '../../../components/FileCard';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -11,12 +10,11 @@ import { LoadedFilesState } from '../../file-selection-screen/loaded-files-slice
 import { useWebDrawer } from '../context/WebDrawerContext';
 import { resetCurrentAnnotatedImage } from '../image-annotation/current-annotated-image';
 
-type CustomDrawerContentProps = {
+type WebDrawerContentProps = {
   fileType: FileType;
-  [key: string]: any;
 };
 
-function CustomDrawerContent({ fileType, ...props }: CustomDrawerContentProps) {
+function WebDrawerContent({ fileType }: WebDrawerContentProps) {
   const navigation = useNavigation<NavigationProp>();
   const { closeWebDrawer } = useWebDrawer();
   const { openedFiles: openedFilesIds } = useDrawerFilesContext();
@@ -54,14 +52,18 @@ function CustomDrawerContent({ fileType, ...props }: CustomDrawerContentProps) {
     }
   };
 
+  /*
+   * The scrollview below doesn't do any scrolling (probably because of the drawer base style).
+   * The scrolling is working with the patch of react-modern-drawer
+   */
   return (
-    <DrawerContentScrollView style={styles.container} {...props}>
+    <ScrollView style={styles.container}>
       {files.map(file => (
         <Pressable key={file.id} onPress={() => handlePress(file)}>
           <BlockFileCard file={file} />
         </Pressable>
       ))}
-    </DrawerContentScrollView>
+    </ScrollView>
   );
 }
 
@@ -71,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomDrawerContent;
+export default WebDrawerContent;
