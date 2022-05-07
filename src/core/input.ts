@@ -167,7 +167,7 @@ const constructTrace = (tr: string | TraceData): Trace.Type => {
   if (typeof tr === 'string') {
     return {
       dots: constructTraceFromString(tr),
-      oldTrace: -1, // FIXME: to be changed by the user and undefined will be better than -1
+      oldTrace: -1,
     };
   } else {
     return {
@@ -178,6 +178,10 @@ const constructTrace = (tr: string | TraceData): Trace.Type => {
 };
 
 const constructTraceFromString = (s: string) => {
+  if (!s) {
+    return [];
+  }
+
   return s
     .split(',')
     .map(xxs =>
