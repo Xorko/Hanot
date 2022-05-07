@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as InkML from '../core/inkml';
-
-type AnnotatedInkml = {
-  id: string;
-  content: InkML.Type;
-};
+import { AnnotatedInkml } from '../types/annotated-files-types';
 
 type AnnotatedInkmlState = {
   annotatedInkml: AnnotatedInkml[];
