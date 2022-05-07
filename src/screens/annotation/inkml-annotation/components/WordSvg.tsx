@@ -77,6 +77,13 @@ function WordSvg({ traces }: WordSvgProps) {
 
         // Adding all traces drawn before to the traceGroup
         for (let i = 0; i < idx; i++) {
+          if (!currentDefaultTraces[i]) {
+            currentDefaultTraces[i] = {
+              dots: [],
+              oldTrace: -1,
+            };
+          }
+
           if (
             currentDefaultTraces[i] &&
             currentDefaultTraces[i].dots.length > 0
