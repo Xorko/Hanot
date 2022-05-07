@@ -59,6 +59,7 @@ const factoryCustomWord1 = createFactory(customWord1);
 
 test('Test initWord', () => {
   const expectedWord = factoryInitialWord();
+
   expect(currentWordReducer(undefined, initWord(initialWord))).toEqual(
     expectedWord,
   );
@@ -66,12 +67,10 @@ test('Test initWord', () => {
 
 test('Test pushTraces with empty array and a currentWord with no traceGroup in traceGroups', () => {
   const traces: Trace.Type[] = [];
-  const expectedWord = factoryInitialWord({
-    tracegroups: [createEmptyTraceGroup()],
-  });
-  expect(currentWordReducer(initialWord, pushTraces(traces))).toEqual(
-    expectedWord,
-  );
+
+  expect(() =>
+    currentWordReducer(initialWord, pushTraces(traces)),
+  ).toThrowErrorMatchingSnapshot();
 });
 
 test('Test pushTraces with one element array and a currentWord with no traceGroup in traceGroups', () => {
@@ -81,12 +80,10 @@ test('Test pushTraces with one element array and a currentWord with no traceGrou
       oldTrace: 0,
     },
   ];
-  const expectedWord = factoryInitialWord({
-    tracegroups: [createEmptyTraceGroup()],
-  });
-  expect(currentWordReducer(initialWord, pushTraces(traces))).toEqual(
-    expectedWord,
-  );
+
+  expect(() =>
+    currentWordReducer(initialWord, pushTraces(traces)),
+  ).toThrowErrorMatchingSnapshot();
 });
 
 test('Test pushTraces with one element array and a currentWord with a traceGroup in traceGroups', () => {

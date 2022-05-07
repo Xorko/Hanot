@@ -3,3 +3,7 @@
 exports[`Test annotateTraceGroup with incorrect index parameter 1`] = `"Index out of range"`;
 
 exports[`Test pushDots with incorrect idxTraceGroup parameter 1`] = `"Index out of range (idxTraceGroup)"`;
+
+exports[`Test pushTraces with empty array and a currentWord with no traceGroup in traceGroups 1`] = `"Index out of range (state.tracegroups.length - 1]"`;
+
+exports[`Test pushTraces with one element array and a currentWord with no traceGroup in traceGroups 1`] = `"Index out of range (state.tracegroups.length - 1]"`;

@@ -43,7 +43,7 @@ export const currentWordSlice = createSlice({
           traces.payload[0],
         );
       } else {
-        state.tracegroups.push(createEmptyTraceGroup());
+        throw new Error('Index out of range (state.tracegroups.length - 1]');
       }
       return state;
     },
