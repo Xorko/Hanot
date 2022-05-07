@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test annotateTraceGroup with incorrect index parameter 1`] = `"Index out of range"`;
+
+exports[`Test pushDots with incorrect idxTraceGroup parameter 1`] = `"Index out of range (idxTraceGroup)"`;

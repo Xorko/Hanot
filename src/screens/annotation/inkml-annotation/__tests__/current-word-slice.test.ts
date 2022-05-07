@@ -179,6 +179,11 @@ test('Test deleteTraceGroups if oldTrace is out of bound of defaultTraceGroup', 
     label: constructLetter('a'),
   };
   const expectedWord = factoryCustomWord1();
+  expectedWord.defaultTraceGroup[traceGroup.traces[0].oldTrace] = {
+    dots: traceGroup.traces[0].dots,
+    oldTrace: -1,
+  };
+
   expect(
     currentWordReducer(customWord1, deleteTraceGroups([traceGroup])),
   ).toEqual(expectedWord);
@@ -217,17 +222,16 @@ test('Test pushTraceGroup', () => {
   );
 });
 
-test('Test pushDots with parameter idxTraceGroup incorrect', () => {
+test('Test pushDots with incorrect idxTraceGroup parameter', () => {
   const leftTrace: Dot.Type[] = [{ x: 5, y: 5, f: 3, t: 2 }];
   const idxOldTrace: number = 6;
   const idxTraceGroup: number = -1;
-  const expectedWord = factoryCustomWord1();
-  expect(
+  expect(() =>
     currentWordReducer(
       customWord1,
       pushDots({ leftTrace, idxOldTrace, idxTraceGroup }),
     ),
-  ).toEqual(expectedWord);
+  ).toThrowErrorMatchingSnapshot();
 });
 
 test('Test pushDots', () => {
@@ -247,13 +251,13 @@ test('Test pushDots', () => {
   ).toEqual(expectedWord);
 });
 
-test('Test annotateTraceGroup with parameter index incorrect', () => {
+test('Test annotateTraceGroup with incorrect index parameter', () => {
   const index: number = -1;
   const annotation: string = 'a';
-  const expectedWord = factoryCustomWord1();
-  expect(
+
+  expect(() =>
     currentWordReducer(customWord1, annotateTraceGroup({ index, annotation })),
-  ).toEqual(expectedWord);
+  ).toThrowErrorMatchingSnapshot();
 });
 
 test('Test annotateTraceGroup', () => {
