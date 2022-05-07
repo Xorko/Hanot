@@ -77,7 +77,10 @@ function WordSvg({ traces }: WordSvgProps) {
 
         // Adding all traces drawn before to the traceGroup
         for (let i = 0; i < idx; i++) {
-          if (currentDefaultTraces[i].dots.length > 0) {
+          if (
+            currentDefaultTraces[i] &&
+            currentDefaultTraces[i].dots.length > 0
+          ) {
             const traceToAdd = [...currentDefaultTraces[i].dots];
             dispatch(
               pushDots({
@@ -130,6 +133,10 @@ function WordSvg({ traces }: WordSvgProps) {
 
         // Adding all traces drawn before to the traceGroup
         for (let i = 0; i < traceIndex; i++) {
+          if (!defaultTracesCopy[i]) {
+            defaultTracesCopy[i] = { dots: [], oldTrace: -1 };
+          }
+
           if (defaultTracesCopy[i].dots.length > 0) {
             const traceToAdd = [...defaultTracesCopy[i].dots];
             dispatch(

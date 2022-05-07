@@ -69,10 +69,17 @@ export const currentWordSlice = createSlice({
     ) => {
       traceGroups.payload.map(traceGroup => {
         traceGroup.traces.reverse().map(trace => {
-          state.defaultTraceGroup[trace.oldTrace].dots = [
-            ...trace.dots,
-            ...state.defaultTraceGroup[trace.oldTrace].dots,
-          ];
+          if (state.defaultTraceGroup[trace.oldTrace]) {
+            state.defaultTraceGroup[trace.oldTrace].dots = [
+              ...trace.dots,
+              ...state.defaultTraceGroup[trace.oldTrace].dots,
+            ];
+          } else {
+            state.defaultTraceGroup[trace.oldTrace] = {
+              dots: trace.dots,
+              oldTrace: -1,
+            };
+          }
         });
       });
     },
