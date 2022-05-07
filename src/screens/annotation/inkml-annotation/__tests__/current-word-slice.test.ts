@@ -1,9 +1,9 @@
 import { merge } from 'lodash';
 import { constructLetter } from '../../../../core/char';
 import * as Dot from '../../../../core/dot';
-import { createEmptyTraceGroup } from '../../../../core/input';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
+import { createEmptyTraceGroup } from '../../../../core/tracegroup';
 import * as Word from '../../../../core/word';
 import currentWordReducer, {
   annotateTraceGroup,

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Char from '../../../core/char';
 import * as Dot from '../../../core/dot';
-import { createEmptyTraceGroup } from '../../../core/input';
 import * as Trace from '../../../core/trace';
 import * as TraceGroup from '../../../core/tracegroup';
+import { createEmptyTraceGroup } from '../../../core/tracegroup';
 import * as Word from '../../../core/word';
 
 export const initialState: Word.Type = {

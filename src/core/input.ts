@@ -2,12 +2,13 @@ import isEmpty from 'lodash/isEmpty';
 import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
+import { TraceData } from './data';
 import * as Dot from './dot';
 import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as TraceGroup from './tracegroup';
+import { createEmptyTraceGroup } from './tracegroup';
 import * as Word from './word';
-import { TraceData } from './data';
 
 /**
  * Construct an InkML type from the raw json data converted from an inkml file.
@@ -219,19 +220,6 @@ const reconstructTracesInOrder = (
     }
   }
   return orderedTraceGroups;
-};
-
-/**
- * Creates an empty trace group with possibly a given list of traces, set to pending char label.
- * @param traces list of traces to be added in the new generated trace group, if omitted then an empty list will be supplied.
- */
-export const createEmptyTraceGroup = (
-  traces?: Trace.Type[],
-): TraceGroup.Type => {
-  return {
-    traces: traces ?? [],
-    label: Char.pendingChar,
-  };
 };
 
 const max = (a: number[]): number | undefined => {
