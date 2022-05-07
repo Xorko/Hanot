@@ -8,4 +8,9 @@ interface Trace {
   oldTrace: number;
 }
 
+export const createEmptyTrace = (): Trace => ({
+  dots: [],
+  oldTrace: -1,
+});
+
 export type Type = Trace;

@@ -39,7 +39,7 @@ function WordSvg({ traces }: WordSvgProps) {
   const { scrollViewRef } = useScrollViewRef();
 
   /**
-   * Scroll to the end of the annotations scrollview
+   * Scrolls to the end of the annotations scrollview
    *
    * It needs to be debounced because of Redux
    */
@@ -48,7 +48,7 @@ function WordSvg({ traces }: WordSvgProps) {
     100,
   );
 
-  const annotatingAllPreviousTraces = (
+  const annotateAllPreviousTraces = (
     idx: number,
     traceGroups: TraceGroup.Type[],
     currentDefaultTraces: Trace.Type[],
@@ -60,16 +60,10 @@ function WordSvg({ traces }: WordSvgProps) {
       // Adding all traces drawn before to the traceGroup
       for (let i = 0; i < idx; i++) {
         if (!currentDefaultTraces[i]) {
-          currentDefaultTraces[i] = {
-            dots: [],
-            oldTrace: -1,
-          };
+          currentDefaultTraces[i] = Trace.createEmptyTrace();
         }
 
-        if (
-          currentDefaultTraces[i] &&
-          currentDefaultTraces[i].dots.length > 0
-        ) {
+        if (currentDefaultTraces[i].dots.length > 0) {
           const traceToAdd = [...currentDefaultTraces[i].dots];
           dispatch(
             pushDots({
@@ -89,7 +83,7 @@ function WordSvg({ traces }: WordSvgProps) {
     }
   };
 
-  const dispatchingData = (
+  const dispatchData = (
     oldTrace: number,
     idxTraceGroup: number,
     leftTrace: Dot.Type[],
@@ -132,7 +126,7 @@ function WordSvg({ traces }: WordSvgProps) {
       );
 
       const currentDefaultTraces = cloneDeep(defaultTraces);
-      let idxTraceGroup = annotatingAllPreviousTraces(
+      let idxTraceGroup = annotateAllPreviousTraces(
         idx,
         traceGroups,
         currentDefaultTraces,
@@ -142,7 +136,7 @@ function WordSvg({ traces }: WordSvgProps) {
       const rightTrace = currentDefaultTraces[idx].dots.splice(index);
       const leftTrace = currentDefaultTraces[idx].dots;
 
-      dispatchingData(
+      dispatchData(
         idx,
         idxTraceGroup,
         leftTrace,
@@ -158,7 +152,7 @@ function WordSvg({ traces }: WordSvgProps) {
       const traceGroups = currentWord.tracegroups;
       const defaultTracesCopy = cloneDeep(defaultTraces);
 
-      let idxTraceGroup = annotatingAllPreviousTraces(
+      let idxTraceGroup = annotateAllPreviousTraces(
         traceIndex,
         traceGroups,
         defaultTracesCopy,
@@ -167,7 +161,7 @@ function WordSvg({ traces }: WordSvgProps) {
       const leftTrace = [...defaultTracesCopy[traceIndex].dots];
       defaultTracesCopy[traceIndex].dots = [];
 
-      dispatchingData(
+      dispatchData(
         traceIndex,
         idxTraceGroup,
         leftTrace,
