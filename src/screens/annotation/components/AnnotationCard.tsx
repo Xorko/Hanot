@@ -113,7 +113,7 @@ function AnnotationInput({
         onChangeText={onInputChange}
         placeholder="Aa"
         textAlign="center"
-        multiline
+        multiline={Platform.OS !== 'web'}
         style={
           Platform.OS === 'web'
             ? [inputStyles.inputWeb, isNoise && styles.noise]
