@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { GestureResponderEvent, Platform } from 'react-native';
 import PolylineRenderer from '../../../../components/PolylineRenderer';
 import * as Char from '../../../../core/char';
+import * as Dot from '../../../../core/dot';
 import * as Trace from '../../../../core/trace';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -47,6 +48,70 @@ function WordSvg({ traces }: WordSvgProps) {
     100,
   );
 
+  const annotatingAllPreviousTraces = (
+    idx: number,
+    traceGroups: TraceGroup.Type[],
+    currentDefaultTraces: Trace.Type[],
+  ) => {
+    if (selectedBox === undefined) {
+      // Add a new traceGroup when clicking on the trace
+      dispatch(pushTraceGroup());
+
+      // Adding all traces drawn before to the traceGroup
+      for (let i = 0; i < idx; i++) {
+        if (!currentDefaultTraces[i]) {
+          currentDefaultTraces[i] = {
+            dots: [],
+            oldTrace: -1,
+          };
+        }
+
+        if (
+          currentDefaultTraces[i] &&
+          currentDefaultTraces[i].dots.length > 0
+        ) {
+          const traceToAdd = [...currentDefaultTraces[i].dots];
+          dispatch(
+            pushDots({
+              leftTrace: traceToAdd,
+              idxOldTrace: i,
+              idxTraceGroup: traceGroups.length,
+            }),
+          );
+          currentDefaultTraces[i].dots = [];
+        }
+      }
+
+      debouncedScrollToEnd();
+      return traceGroups.length;
+    } else {
+      return selectedBox;
+    }
+  };
+
+  const dispatchingData = (
+    oldTrace: number,
+    idxTraceGroup: number,
+    leftTrace: Dot.Type[],
+    rightTrace: Dot.Type[],
+    traceGroups: TraceGroup.Type[],
+    currentDefaultTraces: Trace.Type[],
+  ) => {
+    dispatch(
+      pushDots({
+        leftTrace,
+        idxOldTrace: oldTrace,
+        idxTraceGroup: idxTraceGroup,
+      }),
+    );
+
+    currentDefaultTraces[oldTrace].dots = rightTrace;
+
+    dispatch(setDefaultTraceGroup(currentDefaultTraces));
+    setAnnotatedTraceGroups(traceGroups);
+    setSelectedBox(undefined);
+  };
+
   const handlePress = (e: any, idx: number) => {
     if (currentWord) {
       const traceGroups = currentWord.tracegroups;
@@ -67,61 +132,24 @@ function WordSvg({ traces }: WordSvgProps) {
       );
 
       const currentDefaultTraces = cloneDeep(defaultTraces);
-      let idxTraceGroup;
-
-      if (selectedBox === undefined) {
-        idxTraceGroup = traceGroups.length;
-
-        // Add a new traceGroup when clicking on the trace
-        dispatch(pushTraceGroup());
-
-        // Adding all traces drawn before to the traceGroup
-        for (let i = 0; i < idx; i++) {
-          if (!currentDefaultTraces[i]) {
-            currentDefaultTraces[i] = {
-              dots: [],
-              oldTrace: -1,
-            };
-          }
-
-          if (
-            currentDefaultTraces[i] &&
-            currentDefaultTraces[i].dots.length > 0
-          ) {
-            const traceToAdd = [...currentDefaultTraces[i].dots];
-            dispatch(
-              pushDots({
-                leftTrace: traceToAdd,
-                idxOldTrace: i,
-                idxTraceGroup: idxTraceGroup,
-              }),
-            );
-            currentDefaultTraces[i].dots = [];
-          }
-        }
-
-        debouncedScrollToEnd();
-      } else {
-        idxTraceGroup = selectedBox;
-      }
+      let idxTraceGroup = annotatingAllPreviousTraces(
+        idx,
+        traceGroups,
+        currentDefaultTraces,
+      );
 
       // Adding the dots to the left of the trace clicked to the traceGroup
       const rightTrace = currentDefaultTraces[idx].dots.splice(index);
       const leftTrace = currentDefaultTraces[idx].dots;
 
-      dispatch(
-        pushDots({
-          leftTrace,
-          idxOldTrace: idx,
-          idxTraceGroup: idxTraceGroup,
-        }),
+      dispatchingData(
+        idx,
+        idxTraceGroup,
+        leftTrace,
+        rightTrace,
+        traceGroups,
+        currentDefaultTraces,
       );
-
-      currentDefaultTraces[idx].dots = rightTrace;
-
-      dispatch(setDefaultTraceGroup(currentDefaultTraces));
-      setAnnotatedTraceGroups(traceGroups);
-      setSelectedBox(undefined);
     }
   };
 
@@ -130,52 +158,23 @@ function WordSvg({ traces }: WordSvgProps) {
       const traceGroups = currentWord.tracegroups;
       const defaultTracesCopy = cloneDeep(defaultTraces);
 
-      let idxTraceGroup;
-
-      if (selectedBox === undefined) {
-        idxTraceGroup = traceGroups.length;
-
-        // Add a new traceGroup when clicking on the trace
-        dispatch(pushTraceGroup());
-
-        // Adding all traces drawn before to the traceGroup
-        for (let i = 0; i < traceIndex; i++) {
-          if (!defaultTracesCopy[i]) {
-            defaultTracesCopy[i] = { dots: [], oldTrace: -1 };
-          }
-
-          if (defaultTracesCopy[i].dots.length > 0) {
-            const traceToAdd = defaultTracesCopy[i].dots;
-            dispatch(
-              pushDots({
-                leftTrace: traceToAdd,
-                idxOldTrace: i,
-                idxTraceGroup: idxTraceGroup,
-              }),
-            );
-            defaultTracesCopy[i].dots = [];
-          }
-        }
-
-        debouncedScrollToEnd();
-      } else {
-        idxTraceGroup = selectedBox;
-      }
+      let idxTraceGroup = annotatingAllPreviousTraces(
+        traceIndex,
+        traceGroups,
+        defaultTracesCopy,
+      );
 
       const leftTrace = [...defaultTracesCopy[traceIndex].dots];
       defaultTracesCopy[traceIndex].dots = [];
 
-      dispatch(
-        pushDots({
-          leftTrace,
-          idxOldTrace: traceIndex,
-          idxTraceGroup: idxTraceGroup,
-        }),
+      dispatchingData(
+        traceIndex,
+        idxTraceGroup,
+        leftTrace,
+        [],
+        traceGroups,
+        defaultTracesCopy,
       );
-
-      setAnnotatedTraceGroups(traceGroups);
-      dispatch(setDefaultTraceGroup(defaultTracesCopy));
-      setSelectedBox(undefined);
     }
   };
 
