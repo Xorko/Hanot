@@ -10,7 +10,7 @@ it('an inkml with only one trace but no tracegroups', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_tr1.inkml',
     'utf-8',
@@ -24,7 +24,7 @@ it('an inkml with only some traces but no tracegroups', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_trn.inkml',
     'utf-8',
@@ -38,7 +38,7 @@ it('an inkml with only one tracegroup but no traces', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_tg1.inkml',
     'utf-8',
@@ -52,7 +52,7 @@ it('an inkml with some tracegroups but no traces', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_tgn.inkml',
     'utf-8',
@@ -66,7 +66,7 @@ it('an inkml with some tracegroups and some traces', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_tgtrn.inkml',
     'utf-8',
@@ -80,7 +80,7 @@ it('an inkml with some labelled tracegroups and some traces', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group1/out_tg_with_pos.inkml',
     'utf-8',

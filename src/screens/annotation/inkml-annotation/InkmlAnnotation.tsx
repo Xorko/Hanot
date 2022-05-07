@@ -36,7 +36,9 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
     const inkml = {
       words: [word],
     };
-    dispatch(addAnnotatedInkml({ id: file.id, content: inkml }));
+    dispatch(
+      addAnnotatedInkml({ id: file.id, content: inkml, '?xml': file['?xml'] }),
+    );
 
     Toast.show({
       type: 'success',

@@ -10,7 +10,7 @@ test('input example with pre segmentation', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/inputExampleWithPreSeg_V1.inkml',
     'utf-8',
@@ -24,7 +24,7 @@ test('output example v1', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/outputExample_V1.inkml',
     'utf-8',
@@ -38,7 +38,7 @@ test('abeille', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/strokes_abeille_V1.inkml',
     'utf-8',
@@ -52,7 +52,7 @@ test('fenetre', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/strokes_fenetre_V1.inkml',
     'utf-8',
@@ -66,7 +66,7 @@ test('gateau', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/strokes_gateau_V1.inkml',
     'utf-8',
@@ -80,7 +80,7 @@ test('longtemps', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/strokes_longtemps_V1.inkml',
     'utf-8',
@@ -94,7 +94,7 @@ test('riviere', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group2/strokes_riviere_V1.inkml',
     'utf-8',

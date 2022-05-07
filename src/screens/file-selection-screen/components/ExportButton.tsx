@@ -2,7 +2,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import IconButton from '../../../components/IconButton';
 import Text from '../../../components/Text';
 import { useFileType } from '../../../context/FileTypeContext';
-import { exportInk } from '../../../core/output';
+import { exportInkML } from '../../../core/output';
 import { builder } from '../../../lib/fast-xml-parser';
 import { useAppSelector } from '../../../stores/hooks';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
@@ -59,7 +59,7 @@ function ExportButton() {
     if (inkmlIndex !== -1) {
       const inkmlToExport = annotatedInkml[inkmlIndex];
       if (inkmlToExport) {
-        const dataToExport = exportInk(inkmlToExport.content);
+        const dataToExport = exportInkML(inkmlToExport);
         if (dataToExport) {
           const fileContent = builder.build(dataToExport);
           if (Platform.OS === 'web') {

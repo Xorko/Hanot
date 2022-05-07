@@ -198,11 +198,13 @@ const parseInkML = (
   fileContent: string,
   index: number,
 ): InkMLFile => {
-  const parsed = constructData(parseXML(fileContent).ink);
+  const parsed = parseXML(fileContent);
+  const data = constructData(parsed.ink);
   return {
     id: nanoid(),
-    content: parsed,
+    content: data,
     fileName: pickedFiles![index].name,
+    ['?xml']: parsed['?xml'],
   };
 };
 

@@ -1,3 +1,4 @@
+import * as Data from '../core/data';
 import * as InkML from '../core/inkml';
 import type {
   Crop,
@@ -16,4 +17,5 @@ export type AnnotatedImage = {
 export type AnnotatedInkml = {
   id: string;
   content: InkML.Type;
+  '?xml'?: Data.XML;
 };

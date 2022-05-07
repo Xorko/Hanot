@@ -10,7 +10,7 @@ test('noise', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group3/noise.inkml',
     'utf-8',
@@ -24,7 +24,7 @@ test('pending', async () => {
     'utf-8',
   );
   const inkdata = parser.parse(src) as Data.Type;
-  const gen = builder.build(exportInk(constructData(inkdata?.ink)));
+  const gen = builder.build({ ink: exportInk(constructData(inkdata?.ink)) });
   const result = readFileSync(
     'src/core/__tests__/resources/group3/pending.inkml',
     'utf-8',

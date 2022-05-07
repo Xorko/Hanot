@@ -1,17 +1,35 @@
+import { AnnotatedInkml } from '../types/annotated-files-types';
 import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
-import * as InkML from './inkml';
-import * as Word from './word';
-import * as Trace from './trace';
 import { TraceData } from './data';
+import * as InkML from './inkml';
+import * as Trace from './trace';
+import * as Word from './word';
 
 /**
- * Generate a json object of Data to reflect inkml, that's compatible with xml-parser, to be used to convert it back to
- * xml.
- * @param ink the InkML type to be converted.
+ *
+ * @param annotatedInkML the annotated InkML to be converted.
+ * @returns A Data structure (the main structure of the InkML)
  */
-export const exportInk = (ink?: InkML.Type): Data.Type | undefined => {
+export const exportInkML = (
+  annotatedInkML: AnnotatedInkml,
+): Data.Type | undefined => {
+  const exportedInk = exportInk(annotatedInkML.content);
+
+  if (exportedInk) {
+    return {
+      ['?xml']: annotatedInkML['?xml'],
+      ink: exportedInk,
+    };
+  }
+};
+/**
+ * Generates a InkData object that is a structure used to export InkML
+ * @param ink the InkML structure to be converted.
+ * @returns A InkData structure
+ */
+export const exportInk = (ink?: InkML.Type): Data.InkData | undefined => {
   if (ink !== undefined) {
     const t = ink.words.map(exportWord);
     let r: Data.TraceGroupData | Data.TraceGroupData[];
@@ -43,7 +61,7 @@ export const exportInk = (ink?: InkML.Type): Data.Type | undefined => {
     if (an === undefined) {
       delete i.annotation;
     }
-    return { ink: i };
+    return i;
   } else {
     return undefined;
   }
