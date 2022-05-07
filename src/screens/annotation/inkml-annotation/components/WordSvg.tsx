@@ -138,7 +138,7 @@ function WordSvg({ traces }: WordSvgProps) {
           }
 
           if (defaultTracesCopy[i].dots.length > 0) {
-            const traceToAdd = [...defaultTracesCopy[i].dots];
+            const traceToAdd = defaultTracesCopy[i].dots;
             dispatch(
               pushDots({
                 leftTrace: traceToAdd,
