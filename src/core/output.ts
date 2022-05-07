@@ -2,7 +2,6 @@ import { AnnotatedInkml } from '../types/annotated-files-types';
 import { SerializableMap } from '../types/core-types';
 import * as Char from './char';
 import * as Data from './data';
-import { TraceData } from './data';
 import * as InkML from './inkml';
 import * as Trace from './trace';
 import * as Word from './word';
@@ -67,7 +66,7 @@ export const exportInk = (ink?: InkML.Type): Data.InkData | undefined => {
   }
 };
 
-const buildTraces = (traces: Trace.Type[]): (string | TraceData)[] => {
+const buildTraces = (traces: Trace.Type[]): (string | Data.TraceData)[] => {
   return traces.map(e =>
     e.oldTrace > -1
       ? {
@@ -99,7 +98,7 @@ const exportWord = (tg: Word.Type): Data.TraceGroupData => {
   const traces: Data.TraceGroupData[] = tg.tracegroups
     .filter(a => Char.isLetter(a.label) || Char.isNoise(a.label))
     .map((a, i) => {
-      const tx: (string | TraceData)[] = buildTraces(a.traces);
+      const tx: (string | Data.TraceData)[] = buildTraces(a.traces);
       let r: Data.TraceGroupData = {};
       if (tx.length === 0) {
         throw new Error('exportTraceGroup Error: empty trace group, no trace');
