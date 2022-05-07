@@ -1,11 +1,10 @@
-import { cloneDeep } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Image, Platform, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { WebViewMessageEvent } from 'react-native-webview';
 import { addAnnotatedImage } from '../../../shared/annotated-image-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { Coordinates, Size } from '../../../types/coordinates-types';
+import { Size } from '../../../types/coordinates-types';
 import type { ImageFile } from '../../../types/file-import-types';
 import AnnotationArea from '../components/AnnotationArea';
 import Header from '../components/Header';
@@ -23,10 +22,9 @@ import {
   setCurrentAnnotatedImageSrc,
   setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
-import { Crop, Pixel } from './types/image-annotation-types';
-import { getAdjustedPaths } from './utils/annotation-utils';
+import { Crop } from './types/image-annotation-types';
+import { getAdjustedPaths, makeAnnotation } from './utils/annotation-utils';
 import { getImagePixels } from './utils/pixel-utils.web';
-import { getAllPointsInPath } from './utils/pixels-utils';
 
 type ImageAnnotationProps = {
   file: ImageFile;
@@ -99,48 +97,13 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
         paths,
       );
 
-      // Copies the pixels to a new array to be able to modify it
-      const pixelsCopy: Pixel[] = cloneDeep(currentImage.imagePixels);
-
       if (truePaths && trueImageSize) {
-        // Map that counts the letters occurences
-        const lettersMap: Map<string, number> = new Map();
-
-        truePaths.forEach((path: Coordinates[], idx: number) => {
-          // For every crop, gets the crop annotation
-          const annotation = currentImage.imageCrops[idx].cropAnnotation;
-
-          // Updates the letters map with the crop annotation
-          if (annotation) {
-            const letterOccurences = lettersMap.get(annotation);
-            lettersMap.set(
-              annotation,
-              letterOccurences ? letterOccurences + 1 : 1,
-            );
-          }
-
-          // Then gets all points that are on and in the path
-          getAllPointsInPath(path, trueImageSize.width).forEach(
-            (index: number) => {
-              // For every point, sets the annotation of the corresponding pixel to the one of the crop, if the pixel is not white (background)
-              const pixel: Pixel = pixelsCopy[index];
-              // If the pixel is not white (background)
-              if (pixel.color !== '#FFFFFF') {
-                if (annotation) {
-                  // If the crop has an annotation, annotates the pixel with the annotation and the occurence of the annotation
-                  const occ = lettersMap.get(annotation);
-                  pixel.annotation = `${annotation}-${occ}`;
-                } else {
-                  // If the crop has no annotation, the annotation will be considered to be undefined
-                  pixel.annotation = 'undefined';
-                }
-              }
-            },
-          );
-        });
-
         // Updates the pixels of the image in the redux store
-        dispatch(setCurrentAnnotatedImagePixels(pixelsCopy));
+        dispatch(
+          setCurrentAnnotatedImagePixels(
+            makeAnnotation(currentImage, truePaths, trueImageSize.width),
+          ),
+        );
 
         setIsAnnotated(true);
 

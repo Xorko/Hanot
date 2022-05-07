@@ -96,11 +96,13 @@ function AnnotationContainer({
         containerSize.height / cropHeight,
       );
 
+      const isScaled = scale < 1 ? scale : 1;
+
       // For all points in the path if the crop is larger than the container (scale < 1), the points needs to be scaled
       const newPath = path.map((point: Coordinates) => {
         return roundPointCoordinates({
-          x: point.x * (scale < 1 ? scale : 1),
-          y: point.y * (scale < 1 ? scale : 1),
+          x: point.x * isScaled,
+          y: point.y * isScaled,
         });
       });
       setPathToDisplay(newPath);
@@ -108,8 +110,8 @@ function AnnotationContainer({
       // Same for the size of the crop, if the crop is larger than the container (scale < 1), the size needs to be scaled
       if (displayedImageSize) {
         const newSize = {
-          width: displayedImageSize.width * (scale < 1 ? scale : 1),
-          height: displayedImageSize.height * (scale < 1 ? scale : 1),
+          width: displayedImageSize.width * isScaled,
+          height: displayedImageSize.height * isScaled,
         };
         setCropSize(newSize);
       }
