@@ -31,7 +31,7 @@ const jsToXmlOptions = {
   cdataTagName: '__cdata', //default is false
   cdataPositionChar: '\\c',
   format: true,
-  indentBy: '    ',
+  indentBy: '  ',
   suppressEmptyNode: true,
   rootNodeName: 'element',
 };
