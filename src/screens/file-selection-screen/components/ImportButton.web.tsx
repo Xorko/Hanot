@@ -52,6 +52,7 @@ const ImportButton = () => {
       </label>
       <input
         type="file"
+        accept={fileType === 'image' ? 'image/*' : '.inkml'}
         multiple
         id="file-input"
         ref={inputRef}

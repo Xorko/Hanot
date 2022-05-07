@@ -89,6 +89,9 @@ const selectFiles = async (files?: FileList, type?: FileType) => {
   if (type === 'inkml' && pickedFiles) {
     // Files must have the .inkml extension to avoid loading any files
     pickedFiles = pickedFiles.filter(file => file.name.endsWith('.inkml'));
+  } else if (type === 'image' && pickedFiles) {
+    // Files must have the .png extension to avoid loading any files
+    pickedFiles = pickedFiles.filter(file => file.name.endsWith('.png'));
   }
 
   return pickedFiles;
