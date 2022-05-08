@@ -2,8 +2,44 @@
   "name": "hanot",
   "version": "1.0.1",
   "private": true,
-  "authors": "Hanot team",
-  "description": "Hanot",
+  "author": "Hanot team <44211215+Xorko@users.noreply.github.com>",
+  "contributors": [
+    {
+      "name": "Thibault LE GOFF"
+    },
+    {
+      "name": "Benoît AGOGUÉ"
+    },
+    {
+      "name": "Damien MERANTHE"
+    },
+    {
+      "name": "Marion GRASSI"
+    },
+    {
+      "name": "Emile LE MOIGNE"
+    },
+    {
+      "name": "Brett BECKER"
+    },
+    {
+      "name": "Sindbad LOUIS"
+    },
+    {
+      "name": "Inès TOUATI"
+    },
+    {
+      "name": "Heming WANG"
+    },
+    {
+      "name": "Ammar KAZEM"
+    }
+  ],
+  "description": "Handwriting Annotation Tool",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xorko/Hanot"
+  },
   "homepage": "./",
   "main": "./public/electron.js",
   "scripts": {
