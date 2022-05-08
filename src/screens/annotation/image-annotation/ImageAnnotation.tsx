@@ -16,11 +16,11 @@ import Workspace from './components/Workspace';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import {
   resetCurrentAnnotatedImage,
+  setCurrentAnnotatedId,
   setCurrentAnnotatedImage,
-  setCurrentAnnotatedImageFilePath,
   setCurrentAnnotatedImagePixels,
+  setCurrentAnnotatedImageSize,
   setCurrentAnnotatedImageSrc,
-  setCurrentAnnotatedImageWidth,
 } from './current-annotated-image';
 import { Crop } from './types/image-annotation-types';
 import { getAdjustedPaths, makeAnnotation } from './utils/annotation-utils';
@@ -135,12 +135,12 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
       if (file.image && file.id) {
         // Sets the image source in the store
         dispatch(setCurrentAnnotatedImageSrc(file.image));
-        dispatch(setCurrentAnnotatedImageFilePath(file.id));
+        dispatch(setCurrentAnnotatedId(file.id));
 
         // Retrieves the image size and sets it in the state
         Image.getSize(file.image, (width, height) => {
           const size = { width, height };
-          dispatch(setCurrentAnnotatedImageWidth(size));
+          dispatch(setCurrentAnnotatedImageSize(size));
         });
 
         Platform.OS === 'web' &&

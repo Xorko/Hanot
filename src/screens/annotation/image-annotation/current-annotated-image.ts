@@ -24,10 +24,7 @@ const currentAnnotatedImageSlice = createSlice({
     setCurrentAnnotatedImageSrc: (state, action: PayloadAction<string>) => {
       state.imageSource = action.payload;
     },
-    setCurrentAnnotatedImageFilePath: (
-      state,
-      action: PayloadAction<string>,
-    ) => {
+    setCurrentAnnotatedId: (state, action: PayloadAction<string>) => {
       state.id = action.payload;
     },
     setCurrentAnnotatedImagePixels: (state, action: PayloadAction<Pixel[]>) => {
@@ -36,7 +33,7 @@ const currentAnnotatedImageSlice = createSlice({
     setCurrentAnnotatedImageCrops: (state, action: PayloadAction<Crop[]>) => {
       state.imageCrops = action.payload;
     },
-    setCurrentAnnotatedImageWidth: (state, action: PayloadAction<Size>) => {
+    setCurrentAnnotatedImageSize: (state, action: PayloadAction<Size>) => {
       state.imageSize = action.payload;
     },
     currentAnnotatedImageAddCrop: (state, action: PayloadAction<Crop>) => {
@@ -52,7 +49,10 @@ const currentAnnotatedImageSlice = createSlice({
         crop: Crop;
       }>,
     ) => {
-      state.imageCrops[action.payload.index] = action.payload.crop;
+      if (state.imageCrops.length > action.payload.index) {
+        state.imageCrops[action.payload.index] = action.payload.crop;
+      }
+      return state;
     },
     setCurrentAnnotatedImageCropAnnotationAtIndex: (
       state,
@@ -61,8 +61,11 @@ const currentAnnotatedImageSlice = createSlice({
         annotation: string;
       }>,
     ) => {
-      state.imageCrops[action.payload.index].cropAnnotation =
-        action.payload.annotation;
+      if (state.imageCrops.length > action.payload.index) {
+        state.imageCrops[action.payload.index].cropAnnotation =
+          action.payload.annotation;
+      }
+      return state;
     },
     resetCurrentAnnotatedImage: state => {
       state = initialState;
@@ -74,10 +77,10 @@ const currentAnnotatedImageSlice = createSlice({
 export const {
   setCurrentAnnotatedImage,
   setCurrentAnnotatedImageSrc,
-  setCurrentAnnotatedImageFilePath,
+  setCurrentAnnotatedId,
   setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageCrops,
-  setCurrentAnnotatedImageWidth,
+  setCurrentAnnotatedImageSize,
   currentAnnotatedImageAddCrop,
   currentAnnotatedImageRemoveCrop,
   setCurrentAnnotatedImageCropAtIndex,
