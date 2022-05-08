@@ -6,14 +6,33 @@ Hanot is a multiplatform tool, written in React Native, that is used to annotate
 
 It has been developped for [IntuiDoc](https://www-intuidoc.irisa.fr/) and [Lacodam](https://team.inria.fr/lacodam/fr/) teams of [IRISA](https://www.irisa.fr/) during our first year of software engineering master's degree at [Université de Rennes 1](https://www.univ-rennes1.fr/).
 
+## Features
+
+### InkML annotation
+
+#### Preview
+
 <figure>
   <p align="center">
-    <img src="https://s8.gifyu.com/images/hanot.gif" alt="InkML annotation example" />
-  </p>
-  <p align="center">
-    <i>InkML annotation example</i>
+    <img src="https://s8.gifyu.com/images/hanot-inkml-800px.gif" alt="InkML annotation example" />
   </p>
 </figure>
+
+#### Output
+
+The output file will be the same InkML file as the input one but with traces assigned in different tracegroups that are annotated with their assigned letter (`noise` if it is noise).
+
+### Image annotation
+
+<figure>
+  <p align="center">
+    <img src="https://s8.gifyu.com/images/hanot-image-800px.gif" alt="Image annotation example" />
+  </p>
+</figure>
+
+#### Output
+
+The output file will be a CSV file where each pixel, in order, will be represented as `#hex,annotation;` where `#hex` is the hexadecimal color code and `annotation` is the annotation of the pixel. It can be `background` if the pixel is white, undefined if the pixel is not white but not annotated, or the assigned letter (including `noise`) suffixed by its number of occurences (e.g. `f-1`).
 
 ## Running the app
 
