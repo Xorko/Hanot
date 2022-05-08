@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { AnnotatedImage } from '../../../../types/annotated-files-types';
 import { Coordinates, Size } from '../../../../types/coordinates-types';
 import { Pixel } from '../types/image-annotation-types';
@@ -32,7 +33,7 @@ export const makeAnnotation = (
   cropPaths: Coordinates[][],
   imageWidth: number,
 ) => {
-  const pixels = image.imagePixels;
+  const pixels = cloneDeep(image.imagePixels);
 
   // Map that counts the letters occurences
   const lettersMap: Map<string, number> = new Map();
