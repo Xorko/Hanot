@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 import { useAppSelector } from '../../../../stores/hooks';
 import { Coordinates, Size } from '../../../../types/coordinates-types';
-import type { CurrentAnnotatedImageState } from '../current-annotated-image';
 import { getScript } from '../utils/crop-utils';
 
 type CropPropsType = {
@@ -19,8 +18,7 @@ function Crop({ path, size }: CropPropsType) {
 
   // Retrieves the image source from the redux store
   const imageSrc = useAppSelector(
-    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
-      state.currentAnnotatedImage.annotatedImage.imageSource,
+    state => state.currentAnnotatedImage.imageSource,
   );
 
   //===========================================================================

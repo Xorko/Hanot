@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
-import { CurrentAnnotatedImageState } from '../current-annotated-image';
 import { Coordinates, Size } from '../../../../types/coordinates-types';
 import { getExtremePointsOfPath } from '../utils/crop-utils';
 
@@ -16,8 +15,7 @@ function Crop({ path, size }: CropPropsType) {
 
   // Retrieves the image source from the redux store
   const imageSrc = useAppSelector(
-    (state: { currentAnnotatedImage: CurrentAnnotatedImageState }) =>
-      state.currentAnnotatedImage.annotatedImage.imageSource,
+    state => state.currentAnnotatedImage.imageSource,
   );
 
   const [croppedImageSource, setCroppedImageSource] = useState<string>('');

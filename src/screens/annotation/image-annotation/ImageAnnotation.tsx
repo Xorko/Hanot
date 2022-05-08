@@ -15,7 +15,7 @@ import ProgressCircle from './components/ProgressCircle';
 import Workspace from './components/Workspace';
 import { DisplayedImageSizeContextProvider } from './context/DisplayedImageSizeContext';
 import {
-  initialState,
+  resetCurrentAnnotatedImage,
   setCurrentAnnotatedImage,
   setCurrentAnnotatedImageFilePath,
   setCurrentAnnotatedImagePixels,
@@ -37,16 +37,14 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
 
   const dispatch = useAppDispatch();
 
-  const currentImage = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage,
-  );
+  const currentImage = useAppSelector(state => state.currentAnnotatedImage);
 
   const annotatedImage = useAppSelector(state =>
     state.annotatedImages.annotatedImages.find(image => image.id === file.id),
   );
 
   const trueImageSize = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage.imageSize,
+    state => state.currentAnnotatedImage.imageSize,
   );
 
   //===========================================================================
@@ -121,14 +119,14 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
     if (isAnnotated) {
       dispatch(addAnnotatedImage(currentImage));
     }
-    dispatch(setCurrentAnnotatedImage(initialState.annotatedImage));
+
+    dispatch(resetCurrentAnnotatedImage());
   };
 
   //===========================================================================
   // Render
   //===========================================================================
 
-  /* Setting the image source in the store and the true image size. */
   useEffect(() => {
     if (annotatedImage) {
       dispatch(setCurrentAnnotatedImage(annotatedImage));

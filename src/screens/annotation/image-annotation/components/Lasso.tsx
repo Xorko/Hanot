@@ -21,7 +21,7 @@ function Lasso() {
 
   // The image object that is currently being annotated
   const currentAnnotatedImageCrops = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage.imageCrops,
+    state => state.currentAnnotatedImage.imageCrops,
   );
 
   //===========================================================================

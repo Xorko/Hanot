@@ -1,13 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import IconButton from '../../../components/IconButton';
 import Text from '../../../components/Text';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
 import { useFileType } from '../../../context/FileTypeContext';
 import { useAppSelector } from '../../../stores/hooks';
 import { NavigationProp } from '../../../types/navigation-types';
-import { resetCurrentAnnotatedImage } from '../../annotation/image-annotation/current-annotated-image';
 import { useFileSelectionMode } from '../context/FileSelectionModeContext';
 import { useSelectedFiles } from '../context/SelectedFilesContext';
 import { LoadedFilesState } from '../loaded-files-slice';
@@ -18,7 +16,6 @@ const OpenFileButton = () => {
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { setOpenedFiles } = useDrawerFilesContext();
   const { fileType } = useFileType();
-  const dispatch = useDispatch();
   const files = useAppSelector((state: { loadedFiles: LoadedFilesState }) =>
     fileType === 'inkml'
       ? state.loadedFiles.textFileInfo
@@ -40,7 +37,6 @@ const OpenFileButton = () => {
 
       switch (fileType) {
         case 'image':
-          dispatch(resetCurrentAnnotatedImage());
           navigation.navigate('AnnotationScreen', {
             screen: 'Annotation',
             params: {

@@ -16,9 +16,7 @@ function AnnotationsContainer() {
   // Redux
   //===========================================================================
 
-  const currentImage = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage,
-  );
+  const currentImage = useAppSelector(state => state.currentAnnotatedImage);
 
   const dispatch = useAppDispatch();
 

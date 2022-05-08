@@ -3,17 +3,11 @@ import type { AnnotatedImage } from '../../../types/annotated-files-types';
 import { Size } from '../../../types/coordinates-types';
 import { Crop, Pixel } from './types/image-annotation-types';
 
-export interface CurrentAnnotatedImageState {
-  annotatedImage: AnnotatedImage;
-}
-
-export const initialState: CurrentAnnotatedImageState = {
-  annotatedImage: {
-    id: '',
-    imageSource: '',
-    imagePixels: [],
-    imageCrops: [],
-  },
+export const initialState: AnnotatedImage = {
+  id: '',
+  imageSource: '',
+  imagePixels: [],
+  imageCrops: [],
 };
 
 const currentAnnotatedImageSlice = createSlice({
@@ -24,31 +18,32 @@ const currentAnnotatedImageSlice = createSlice({
       state,
       action: PayloadAction<AnnotatedImage>,
     ) => {
-      state.annotatedImage = action.payload;
+      state = action.payload;
+      return state;
     },
     setCurrentAnnotatedImageSrc: (state, action: PayloadAction<string>) => {
-      state.annotatedImage.imageSource = action.payload;
+      state.imageSource = action.payload;
     },
     setCurrentAnnotatedImageFilePath: (
       state,
       action: PayloadAction<string>,
     ) => {
-      state.annotatedImage.id = action.payload;
+      state.id = action.payload;
     },
     setCurrentAnnotatedImagePixels: (state, action: PayloadAction<Pixel[]>) => {
-      state.annotatedImage.imagePixels = action.payload;
+      state.imagePixels = action.payload;
     },
     setCurrentAnnotatedImageCrops: (state, action: PayloadAction<Crop[]>) => {
-      state.annotatedImage.imageCrops = action.payload;
+      state.imageCrops = action.payload;
     },
     setCurrentAnnotatedImageWidth: (state, action: PayloadAction<Size>) => {
-      state.annotatedImage.imageSize = action.payload;
+      state.imageSize = action.payload;
     },
     currentAnnotatedImageAddCrop: (state, action: PayloadAction<Crop>) => {
-      state.annotatedImage.imageCrops.push(action.payload);
+      state.imageCrops.push(action.payload);
     },
     currentAnnotatedImageRemoveCrop: (state, action: PayloadAction<number>) => {
-      state.annotatedImage.imageCrops.splice(action.payload, 1);
+      state.imageCrops.splice(action.payload, 1);
     },
     setCurrentAnnotatedImageCropAtIndex: (
       state,
@@ -57,8 +52,7 @@ const currentAnnotatedImageSlice = createSlice({
         crop: Crop;
       }>,
     ) => {
-      state.annotatedImage.imageCrops[action.payload.index] =
-        action.payload.crop;
+      state.imageCrops[action.payload.index] = action.payload.crop;
     },
     setCurrentAnnotatedImageCropAnnotationAtIndex: (
       state,
@@ -67,13 +61,13 @@ const currentAnnotatedImageSlice = createSlice({
         annotation: string;
       }>,
     ) => {
-      state.annotatedImage.imageCrops[action.payload.index].cropAnnotation =
+      state.imageCrops[action.payload.index].cropAnnotation =
         action.payload.annotation;
     },
     resetCurrentAnnotatedImage: state => {
-      state.annotatedImage = initialState.annotatedImage;
+      state = initialState;
+      return state;
     },
-    // TODO: Add reducers for modifying the pixels of the image ?
   },
 });
 

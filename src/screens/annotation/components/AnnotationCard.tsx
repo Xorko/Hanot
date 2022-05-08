@@ -68,8 +68,7 @@ function AnnotationInput({
         return state.currentWord.tracegroups[index].label;
       case 'image':
         return (
-          state.currentAnnotatedImage.annotatedImage.imageCrops[index]
-            .cropAnnotation || ''
+          state.currentAnnotatedImage.imageCrops[index].cropAnnotation || ''
         );
     }
   });

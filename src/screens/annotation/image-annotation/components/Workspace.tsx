@@ -18,11 +18,11 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
 
   // The image object that is currently being annotated
   const currentAnnotatedImage = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage,
+    state => state.currentAnnotatedImage,
   );
 
   const trueImageSize = useAppSelector(
-    state => state.currentAnnotatedImage.annotatedImage.imageSize,
+    state => state.currentAnnotatedImage.imageSize,
   );
 
   //===========================================================================

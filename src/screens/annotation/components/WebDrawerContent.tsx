@@ -2,13 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { BlockFileCard } from '../../../components/FileCard';
 import { useDrawerFilesContext } from '../../../context/DrawerFilesContext';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { useAppSelector } from '../../../stores/hooks';
 import { ImageFile, InkMLFile } from '../../../types/file-import-types';
 import { FileType } from '../../../types/file-types';
 import { NavigationProp } from '../../../types/navigation-types';
 import { LoadedFilesState } from '../../file-selection-screen/loaded-files-slice';
 import { useWebDrawer } from '../context/WebDrawerContext';
-import { resetCurrentAnnotatedImage } from '../image-annotation/current-annotated-image';
 
 type WebDrawerContentProps = {
   fileType: FileType;
@@ -18,7 +17,6 @@ function WebDrawerContent({ fileType }: WebDrawerContentProps) {
   const navigation = useNavigation<NavigationProp>();
   const { closeWebDrawer } = useWebDrawer();
   const { openedFiles: openedFilesIds } = useDrawerFilesContext();
-  const dispatch = useAppDispatch();
   const files = useAppSelector(
     (state: { loadedFiles: LoadedFilesState }) =>
       (fileType === 'inkml'
@@ -38,7 +36,6 @@ function WebDrawerContent({ fileType }: WebDrawerContentProps) {
 
     switch (fileType) {
       case 'image':
-        dispatch(resetCurrentAnnotatedImage());
         navigation.navigate('AnnotationScreen', {
           screen: 'Annotation',
           params: {
