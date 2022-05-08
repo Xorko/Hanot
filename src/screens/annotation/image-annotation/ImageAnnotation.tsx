@@ -110,7 +110,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
         // Shows a toast message to inform the user that the image has been annotated
         Toast.show({
           type: 'success',
-          text1: 'Image successfully annotated',
+          text1: 'Annotation validée',
           visibilityTime: 1000,
         });
       }
