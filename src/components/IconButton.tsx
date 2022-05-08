@@ -44,6 +44,7 @@ function IconButton({
             color={pressable ? iconColor : colors.secondary}
             name={iconName}
             size={iconSize || 40}
+            selectable={false}
           />
         )}
       </View>

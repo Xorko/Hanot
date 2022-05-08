@@ -40,7 +40,9 @@ function Button({
       onPress={onPress}
       activeOpacity={activeOpacity || 0.8}
       testID="btn">
-      <Text variant={getTextVariant()}>{title}</Text>
+      <Text variant={getTextVariant()} selectable={false}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 }
