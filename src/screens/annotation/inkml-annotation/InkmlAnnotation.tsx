@@ -57,11 +57,13 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
         return _file.id === file.id;
       });
 
-      if (annotatedFile) {
-        dispatch(initWord(annotatedFile.content.words[0]));
-      } else {
-        dispatch(initWord(file.content.words[0]));
-      }
+      dispatch(
+        initWord(
+          annotatedFile
+            ? annotatedFile.content.words[0]
+            : file.content.words[0],
+        ),
+      );
     }
   }, [dispatch, currentAnnotatedWords.annotatedInkml, file.id, file.content]);
 
