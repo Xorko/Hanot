@@ -18,6 +18,7 @@ import {
   resetCurrentAnnotatedImage,
   setCurrentAnnotatedId,
   setCurrentAnnotatedImage,
+  setCurrentAnnotatedImageCrops,
   setCurrentAnnotatedImagePixels,
   setCurrentAnnotatedImageSize,
   setCurrentAnnotatedImageSrc,
@@ -123,12 +124,19 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
     dispatch(resetCurrentAnnotatedImage());
   };
 
+  const onDrawerOpen = () => {
+    if (isAnnotated) {
+      dispatch(addAnnotatedImage(currentImage));
+    }
+  };
+
   //===========================================================================
   // Render
   //===========================================================================
 
   useEffect(() => {
-    if (annotatedImage) {
+    setIsAnnotated(false);
+    if (annotatedImage !== undefined) {
       dispatch(setCurrentAnnotatedImage(annotatedImage));
       setPixelRetrieved(true);
     } else {
@@ -136,6 +144,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
         // Sets the image source in the store
         dispatch(setCurrentAnnotatedImageSrc(file.image));
         dispatch(setCurrentAnnotatedId(file.id));
+        dispatch(setCurrentAnnotatedImageCrops([]));
 
         // Retrieves the image size and sets it in the state
         Image.getSize(file.image, (width, height) => {
@@ -170,7 +179,11 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
           )}
         </View>
       )}
-      <Header onGoBack={onGoBack} onValidate={annotateImage} />
+      <Header
+        onGoBack={onGoBack}
+        onValidate={annotateImage}
+        onDrawerOpen={onDrawerOpen}
+      />
       <DisplayedImageSizeContextProvider>
         <SelectedBoxProvider initialSelectedBox={undefined}>
           {trueImageSize && (

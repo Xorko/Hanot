@@ -9,13 +9,14 @@ import HelpBanner from './HelpBanner';
 type HeaderProps = {
   onValidate?: () => void;
   onGoBack?: () => void;
+  onDrawerOpen?: () => void;
 };
 
 type HeaderButtonProps = {
   toggleHelp: () => void;
 };
 
-function Header({ onValidate, onGoBack }: HeaderProps) {
+function Header({ onValidate, onGoBack, onDrawerOpen }: HeaderProps) {
   const navigation = useNavigation<NavigationProp>();
   const [showHelp, toggleHelp] = useReducer((show: boolean) => !show, false);
   const { setOpenedFiles } = useDrawerFilesContext();
@@ -26,6 +27,11 @@ function Header({ onValidate, onGoBack }: HeaderProps) {
     onGoBack?.();
     return true;
   }, [navigation, onGoBack, setOpenedFiles]);
+
+  const handleOpenDrawer = useCallback(() => {
+    onDrawerOpen?.();
+    navigation.openDrawer();
+  }, [navigation, onDrawerOpen]);
 
   useEffect(() => {
     if (onGoBack) {
@@ -42,7 +48,7 @@ function Header({ onValidate, onGoBack }: HeaderProps) {
         <IconButton
           library="material"
           iconName="menu"
-          onPress={navigation.openDrawer}
+          onPress={handleOpenDrawer}
           iconSize={50}
           color="dark"
         />
