@@ -3,7 +3,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Buttons from './components/Buttons';
 import ButtonsTop from './components/ButtonsTop';
 import Files from './components/Files';
-import Footer from './components/Footer';
 import { DisplayModeProvider } from './context/DisplayModeContext';
 import { FileSelectionModeProvider } from './context/FileSelectionModeContext';
 import { SelectedFilesProvider } from './context/SelectedFilesContext';
@@ -20,9 +19,6 @@ function FileSelectionScreen() {
             </View>
             <View style={styles.files}>
               <Files />
-            </View>
-            <View style={styles.footer}>
-              <Footer />
             </View>
           </SelectedFilesProvider>
         </FileSelectionModeProvider>
@@ -41,9 +37,6 @@ const styles = StyleSheet.create({
   files: {
     flex: 1,
     alignItems: 'center',
-  },
-  footer: {
-    margin: 10,
   },
 });
 
