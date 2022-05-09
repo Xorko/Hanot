@@ -15,7 +15,7 @@ function ChangeModeButton() {
         library="material"
         iconSize={50}
         color="dark"
-        iconName={displayMode === 'list' ? 'view-grid' : 'format-list-bulleted'}
+        iconName={displayMode === 'list' ? 'format-list-bulleted' : 'view-grid'}
         onPress={handlePress}
       />
       <Text variant="dark">Mode d'affichage</Text>

@@ -11,10 +11,10 @@ const FileTypeChangeButton = () => {
         library="material"
         iconSize={50}
         color={fileType === 'image' ? 'image' : 'inkml'}
-        iconName={fileType === 'image' ? 'file-code' : 'file-image'}
-        onPress={() => setFileType(fileType === 'inkml' ? 'image' : 'inkml')}
+        iconName={fileType === 'image' ? 'file-image' : 'file-code'}
+        onPress={() => setFileType(fileType === 'image' ? 'inkml' : 'image')}
       />
-      <Text variant="dark">InkML / Image</Text>
+      <Text variant="dark">{fileType === 'image' ? 'Image' : 'InkML'}</Text>
     </>
   );
 };
