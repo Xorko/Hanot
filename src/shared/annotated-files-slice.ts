@@ -9,7 +9,7 @@ type AnnotatedFilesState = {
   annotatedInkml: AnnotatedInkml[];
 };
 
-const initialState: AnnotatedFilesState = {
+export const initialState: AnnotatedFilesState = {
   annotatedImages: [],
   annotatedInkml: [],
 };
