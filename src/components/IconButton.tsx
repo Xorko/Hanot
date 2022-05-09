@@ -34,10 +34,20 @@ function IconButton({
       })}>
       <View>
         {library === 'fa5' && (
-          <IconFA5 color={iconColor} name={iconName} size={iconSize || 40} />
+          <IconFA5
+            color={iconColor}
+            name={iconName}
+            size={iconSize || 40}
+            selectable={false}
+          />
         )}
         {library === 'antdesign' && (
-          <IconAnt color={iconColor} name={iconName} size={iconSize || 40} />
+          <IconAnt
+            color={iconColor}
+            name={iconName}
+            size={iconSize || 40}
+            selectable={false}
+          />
         )}
         {library === 'material' && (
           <IconMaterial
