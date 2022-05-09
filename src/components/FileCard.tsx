@@ -54,10 +54,10 @@ function FileCard({ file }: FileProps) {
 
     switch (fileType) {
       case 'inkml':
-        annotatedFiles = state.annotatedInkml.annotatedInkml;
+        annotatedFiles = state.annotatedFiles.annotatedInkml;
         break;
       case 'image':
-        annotatedFiles = state.annotatedImages.annotatedImages;
+        annotatedFiles = state.annotatedFiles.annotatedImages;
         break;
     }
 

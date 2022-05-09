@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image, Platform, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { WebViewMessageEvent } from 'react-native-webview';
-import { addAnnotatedImage } from '../../../shared/annotated-image-files-slice';
+import { addAnnotatedImage } from '../../../shared/annotated-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { Size } from '../../../types/coordinates-types';
 import type { ImageFile } from '../../../types/file-import-types';
@@ -41,7 +41,7 @@ function ImageAnnotation({ file }: ImageAnnotationProps) {
   const currentImage = useAppSelector(state => state.currentAnnotatedImage);
 
   const annotatedImage = useAppSelector(state =>
-    state.annotatedImages.annotatedImages.find(image => image.id === file.id),
+    state.annotatedFiles.annotatedImages.find(image => image.id === file.id),
   );
 
   const trueImageSize = useAppSelector(

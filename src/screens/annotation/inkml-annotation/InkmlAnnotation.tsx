@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import SvgContainer from '../../../components/SvgContainer';
-import { addAnnotatedInkml } from '../../../shared/annotated-inkml-files-slice';
+import { addAnnotatedInkml } from '../../../shared/annotated-files-slice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { Size } from '../../../types/coordinates-types';
 import { InkMLFile } from '../../../types/file-import-types';
@@ -21,7 +21,9 @@ type InkmlAnnotationProps = {
 function InkmlAnnotation({ file }: InkmlAnnotationProps) {
   const dispatch = useAppDispatch();
   const currentWord = useAppSelector(state => state.currentWord);
-  const currentAnnotatedWords = useAppSelector(state => state.annotatedInkml);
+  const currentAnnotatedWords = useAppSelector(
+    state => state.annotatedFiles.annotatedInkml,
+  );
 
   const [areaSize, setAreaSize] = useState<Size>();
 
@@ -53,7 +55,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
 
   useEffect(() => {
     if (file.content) {
-      const annotatedFile = currentAnnotatedWords.annotatedInkml.find(_file => {
+      const annotatedFile = currentAnnotatedWords.find(_file => {
         return _file.id === file.id;
       });
 
@@ -65,7 +67,7 @@ function InkmlAnnotation({ file }: InkmlAnnotationProps) {
         ),
       );
     }
-  }, [dispatch, currentAnnotatedWords.annotatedInkml, file.id, file.content]);
+  }, [dispatch, file.id, file.content, currentAnnotatedWords]);
 
   return (
     <View style={styles.container}>

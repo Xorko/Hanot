@@ -17,8 +17,8 @@ import {
 
 function ExportButton() {
   const { fileType } = useFileType();
-  const { annotatedImages } = useAppSelector(state => state.annotatedImages);
-  const { annotatedInkml } = useAppSelector(state => state.annotatedInkml);
+  const { annotatedImages } = useAppSelector(state => state.annotatedFiles);
+  const { annotatedInkml } = useAppSelector(state => state.annotatedFiles);
   const { selectedFiles, setSelectedFiles } = useSelectedFiles();
   const { fileSelectionMode, setFileSelectionMode } = useFileSelectionMode();
 

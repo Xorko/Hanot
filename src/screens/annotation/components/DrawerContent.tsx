@@ -27,8 +27,8 @@ function CustomDrawerContent({ fileType, ...props }: CustomDrawerContentProps) {
   const annotatedOpenedFiles = useAppSelector(
     state =>
       (fileType === 'inkml'
-        ? state.annotatedInkml.annotatedInkml
-        : state.annotatedImages.annotatedImages) as (InkMLFile | ImageFile)[],
+        ? state.annotatedFiles.annotatedInkml
+        : state.annotatedFiles.annotatedImages) as (InkMLFile | ImageFile)[],
   );
 
   const handlePress = (file: InkMLFile | ImageFile) => {
