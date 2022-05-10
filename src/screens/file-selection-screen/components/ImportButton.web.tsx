@@ -59,7 +59,7 @@ const ImportButton = () => {
         style={inputStyle}
         onChange={event => handlePress(event)}
       />
-      <Text variant="dark">Ouvrir</Text>
+      <Text variant="dark">Importer</Text>
     </View>
   );
 };
