@@ -29,7 +29,7 @@ function Annotation({
   onPress,
   isSelected = false,
   isNoise = false,
-  insertIntoInputRefs: subscribeToInputRefs,
+  insertIntoInputRefs,
   backgroundColor = colors.light,
 }: AnnotationProps) {
   return (
@@ -49,7 +49,7 @@ function Annotation({
         onInputChange={onInputChange}
         index={index}
         isNoise={isNoise}
-        insertIntoInputRefs={subscribeToInputRefs}
+        insertIntoInputRefs={insertIntoInputRefs}
       />
     </View>
   );
@@ -59,7 +59,7 @@ function AnnotationInput({
   onInputChange,
   index,
   isNoise,
-  insertIntoInputRefs: subscribeToInputRefs,
+  insertIntoInputRefs,
 }: AnnotationInputProps) {
   const { fileType } = useFileType();
   const _char = useAppSelector(state => {
@@ -121,8 +121,8 @@ function AnnotationInput({
         placeholderTextColor={isNoise ? colors.light : '#BFBFBF'}
         selectionColor={'rgba(0,0,0,0.5)'}
         ref={ref => {
-          if (subscribeToInputRefs && ref) {
-            subscribeToInputRefs(ref, index);
+          if (insertIntoInputRefs && ref) {
+            insertIntoInputRefs(ref, index);
           }
         }}
       />
