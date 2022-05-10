@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Image, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { useAppSelector } from '../../../../stores/hooks';
+import colors from '../../../../style/colors';
 import { Size } from '../../../../types/coordinates-types';
 import { getAdaptedImageSize } from '../../../../utils/image-size-utils';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
@@ -78,18 +79,21 @@ function Workspace({ pullUpDisplayedImageSize }: WorkspacePropsType) {
       }>
       {displayedImageSize && currentAnnotatedImage.imageSource.length > 0 && (
         <>
-          <View style={[styles.image, styles.shadow]}>
-            <Image
-              source={{ uri: currentAnnotatedImage.imageSource }}
-              style={{
+          <Image
+            source={{ uri: currentAnnotatedImage.imageSource }}
+            style={[
+              {
                 width: displayedImageSize.width,
                 height: displayedImageSize.height,
-              }}
-            />
+              },
+              styles.image,
+            ]}
+          />
+          <View>
+            <LassoModifiedContextProvider>
+              <Lasso />
+            </LassoModifiedContextProvider>
           </View>
-          <LassoModifiedContextProvider>
-            <Lasso />
-          </LassoModifiedContextProvider>
         </>
       )}
     </View>
@@ -104,17 +108,8 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-  },
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: colors.dark,
   },
 });
 
