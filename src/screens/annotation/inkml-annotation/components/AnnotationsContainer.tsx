@@ -56,7 +56,7 @@ function AnnotationsContainer() {
       dispatch(setFinalTraceGroups(finalTraceGroups));
       setSelectedBox(undefined);
 
-      inputRefs.current.splice(0, selectedBox);
+      inputRefs.current.splice(selectedBox, inputRefs.current.length);
     }
   };
 
