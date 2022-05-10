@@ -82,10 +82,10 @@ function SvgPoint({
       };
 
       if (
-        newX < 0 ||
-        newY < 0 ||
-        newX > containerSize.width ||
-        newY > containerSize.height
+        newX - width < 0 ||
+        newY - height < 0 ||
+        newX + width > containerSize.width ||
+        newY + height > containerSize.height
       ) {
         // If the point is dragged outside the container, it is not dragged
         return;
