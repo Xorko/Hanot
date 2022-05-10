@@ -17,8 +17,8 @@ type AnnotationContainerProps = {
   selectCrop: () => void;
   index: number;
   isNoise: boolean;
-  inputRefs: React.MutableRefObject<TextInput[]>;
   insertIntoInputRefs: (ref: TextInput, index: number) => void;
+  focusNextInput: () => void;
 };
 
 function AnnotationCardContainer({
@@ -27,7 +27,7 @@ function AnnotationCardContainer({
   selectCrop,
   isNoise,
   insertIntoInputRefs,
-  inputRefs,
+  focusNextInput,
 }: AnnotationContainerProps) {
   //===========================================================================
   // Redux
@@ -61,9 +61,7 @@ function AnnotationCardContainer({
   //===========================================================================
 
   const handleInputChange = (text: string) => {
-    if (inputRefs.current && inputRefs.current[index + 1] && text !== '') {
-      inputRefs.current[index + 1].focus();
-    }
+    focusNextInput();
 
     dispatch(
       setCurrentAnnotatedImageCropAnnotationAtIndex({

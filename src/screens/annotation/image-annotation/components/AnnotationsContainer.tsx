@@ -47,6 +47,12 @@ function AnnotationsContainer() {
     inputRefs.current[index] = ref;
   };
 
+  const focusNextInput = (index: number) => {
+    if (inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
   /**
    * Changes the current selected crop index with the new index
    * @param index The index of the crop that is selected
@@ -113,8 +119,8 @@ function AnnotationsContainer() {
           index={index}
           selectCrop={() => selectCrop(index)}
           isNoise={noiseList.includes(index)}
-          inputRefs={inputRefs}
           insertIntoInputRefs={insertIntoInputRefs}
+          focusNextInput={() => focusNextInput(index)}
         />
       ))}
     </Annotations>
