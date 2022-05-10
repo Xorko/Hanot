@@ -21,7 +21,7 @@ type AnnotationContainerProps = {
   insertIntoInputRefs: (ref: TextInput, index: number) => void;
 };
 
-function AnnotationContainer({
+function AnnotationCardContainer({
   path,
   index,
   selectCrop,
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnnotationContainer;
+export default AnnotationCardContainer;

@@ -9,7 +9,7 @@ import {
   setCurrentAnnotatedImageCropAnnotationAtIndex,
 } from '../current-annotated-image';
 import type { Crop } from '../types/image-annotation-types';
-import AnnotationContainer from './AnnotationCardContainer';
+import AnnotationCardContainer from './AnnotationCardContainer';
 
 function AnnotationsContainer() {
   //===========================================================================
@@ -107,7 +107,7 @@ function AnnotationsContainer() {
   return (
     <Annotations onDeleteAnnotation={deleteCrop} onMarkAsNoise={markAsNoise}>
       {paths.map((path, index) => (
-        <AnnotationContainer
+        <AnnotationCardContainer
           key={index}
           path={path}
           index={index}
