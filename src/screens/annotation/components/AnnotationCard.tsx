@@ -22,7 +22,7 @@ type AnnotationInputProps = {
   insertIntoInputRefs?: (ref: TextInput, index: number) => void;
 };
 
-function Annotation({
+function AnnotationCard({
   children,
   index,
   onInputChange,
@@ -190,4 +190,4 @@ const inputStyles = StyleSheet.create({
   },
 });
 
-export default Annotation;
+export default AnnotationCard;

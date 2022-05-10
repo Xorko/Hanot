@@ -7,7 +7,7 @@ import * as Char from '../../../../core/char';
 import * as TraceGroup from '../../../../core/tracegroup';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { Size } from '../../../../types/coordinates-types';
-import Annotation from '../../components/AnnotationCard';
+import AnnotationCard from '../../components/AnnotationCard';
 import Annotations from '../../components/Annotations';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../../image-annotation/current-annotated-image';
@@ -102,7 +102,7 @@ function AnnotationsContainer() {
   return (
     <Annotations onDeleteAnnotation={deleteBox} onMarkAsNoise={markAsNoise}>
       {currentWord?.tracegroups.map((tracegroup, index) => (
-        <Annotation
+        <AnnotationCard
           key={index}
           index={index}
           onPress={() => selectBox(index)}
@@ -125,7 +125,7 @@ function AnnotationsContainer() {
                 ))}
             </SvgContainer>
           </View>
-        </Annotation>
+        </AnnotationCard>
       ))}
     </Annotations>
   );

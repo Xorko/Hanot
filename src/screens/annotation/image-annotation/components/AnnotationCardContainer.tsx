@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, TextInput, View } from 'react-native';
 import { useAppDispatch } from '../../../../stores/hooks';
 import type { Coordinates, Size } from '../../../../types/coordinates-types';
-import Annotation from '../../components/AnnotationCard';
+import AnnotationCard from '../../components/AnnotationCard';
 import { useSelectedBox } from '../../context/SelectedBoxContext';
 import { useDisplayedImageSizeContext } from '../context/DisplayedImageSizeContext';
 import { setCurrentAnnotatedImageCropAnnotationAtIndex } from '../current-annotated-image';
@@ -120,7 +120,7 @@ function AnnotationContainer({
 
   return (
     <>
-      <Annotation
+      <AnnotationCard
         index={index}
         onInputChange={handleInputChange}
         onPress={selectCrop}
@@ -133,7 +133,7 @@ function AnnotationContainer({
             <Crop path={pathToDisplay} size={cropSize} />
           )}
         </View>
-      </Annotation>
+      </AnnotationCard>
     </>
   );
 }
