@@ -93,3 +93,4 @@ Run the app in the `dist` directory
 - [Inès TOUATI](https://github.com/InesTouati)
 - [Heming WANG](https://github.com/nep-nep327)
 - [Ammar KAZEM](https://github.com/Ammar96399)
+- [Dylan DUPOND] (https://github.com/DylanDupond)
