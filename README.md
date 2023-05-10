@@ -14,7 +14,7 @@ It has been developped for [IntuiDoc](https://www-intuidoc.irisa.fr/) and [Lacod
 
 <figure>
   <p align="center">
-    <img src="https://s8.gifyu.com/images/hanot-inkml-800px.gif" alt="InkML annotation example" />
+    <img src="https://github.com/Xorko/Hanot/assets/44211215/9c841f48-f0de-4f3b-9c78-fad654c17702" alt="InkML annotation example" />
   </p>
 </figure>
 
@@ -26,7 +26,7 @@ The output file will be the same InkML file as the input one but with traces ass
 
 <figure>
   <p align="center">
-    <img src="https://s8.gifyu.com/images/hanot-image-800px.gif" alt="Image annotation example" />
+    <img src="https://github.com/Xorko/Hanot/assets/44211215/c1c1bea7-dce9-4088-8308-afa11da4d6f2" alt="Image annotation example" />
   </p>
 </figure>
 
